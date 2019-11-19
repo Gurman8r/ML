@@ -33,7 +33,7 @@ namespace ml
 
 		template <
 			class ... Args
-		> explicit ScopedBinder(const T & value, Args && ... args)
+		> explicit ScopedBinder(T const & value, Args && ... args)
 			: ScopedBinder { (value ? &value : nullptr), std::forward<Args>(args)... }
 		{
 		}

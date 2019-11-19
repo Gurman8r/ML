@@ -6,7 +6,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ShaderParser::parseShader(const String & src, SStream & v, SStream & g, SStream & f)
+	bool ShaderParser::parseShader(String const & src, SStream & v, SStream & g, SStream & f)
 	{
 		SStream * dst = nullptr;
 		size_t	count = 0;
@@ -42,7 +42,7 @@ namespace ml
 		return count;
 	}
 
-	String ShaderParser::parseShader(const String & src)
+	String ShaderParser::parseShader(String const & src)
 	{
 		if ((src.find("#shader") == String::npos) &&
 			(src.find("#include") == String::npos))
@@ -63,9 +63,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	String ShaderParser::parseIncludes(const String & src)
+	String ShaderParser::parseIncludes(String const & src)
 	{
-		auto clbk = ([](const String & name) {
+		auto clbk = ([](String const & name) {
 			if (String file { ML_FS.getFileContents(ML_FS.pathTo(name)) })
 			{
 				return file;

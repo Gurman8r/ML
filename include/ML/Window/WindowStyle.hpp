@@ -87,7 +87,7 @@ namespace ml
 		{
 		}
 
-		constexpr WindowStyle(const WindowStyle & copy) 
+		constexpr WindowStyle(WindowStyle const & copy) 
 			: resizable		{ copy.resizable }
 			, visible		{ copy.visible }
 			, decorated		{ copy.decorated }
@@ -111,7 +111,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool operator==(const WindowStyle & other) const
+		constexpr bool operator==(WindowStyle const & other) const
 		{
 			return
 				resizable	== other.resizable &&
@@ -123,7 +123,7 @@ namespace ml
 				maximized	== other.maximized;
 		}
 
-		constexpr bool operator!=(const WindowStyle & other) const
+		constexpr bool operator!=(WindowStyle const & other) const
 		{
 			return !((*this) == other);
 		}

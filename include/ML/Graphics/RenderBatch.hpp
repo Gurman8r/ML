@@ -26,7 +26,7 @@ namespace ml
 		{
 		}
 
-		constexpr RenderBatch(const RenderBatch & copy) noexcept
+		constexpr RenderBatch(RenderBatch const & copy) noexcept
 			: RenderBatch { copy.vao, copy.vbo, copy.mat }
 		{
 		}

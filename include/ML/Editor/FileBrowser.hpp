@@ -34,7 +34,7 @@ namespace ml
 
 		void update();
 		void render();
-		void render(const String & label, const vec2 & size = { 0 }, bool border = true, int32_t flags = 0);
+		void render(String const & label, vec2 const & size = { 0 }, bool border = true, int32_t flags = 0);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -46,7 +46,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline String pathTo(const String & value) const
+		inline String pathTo(String const & value) const
 		{ 
 			return (m_path + ML_PATH_DELIM + value);
 		}
@@ -57,7 +57,7 @@ namespace ml
 			return ((it != m_dir.end()) ? &it->second : nullptr);
 		}
 
-		inline const String * get_selected() const
+		inline String const * get_selected() const
 		{
 			const List<String> * list { get_list() };
 			return ((list && (m_index < list->size())) ? (&(*list).at(m_index)) : nullptr);

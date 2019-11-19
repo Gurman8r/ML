@@ -31,19 +31,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const String & root() const
+		inline String const & root() const
 		{ 
 			return m_root;
 		}
 
-		inline String pathTo(const String & value) const
+		inline String pathTo(String const & value) const
 		{
 			return (m_root + ML_PATH_DELIM + value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool setPath(const String & value)
+		inline bool setPath(String const & value)
 		{
 			if (dirExists(value))
 			{
@@ -60,7 +60,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool getDirContents(const String & dirName, List<char> & value) const
+		inline bool getDirContents(String const & dirName, List<char> & value) const
 		{
 			static String temp;
 			if (getDirContents(dirName, temp))
@@ -72,7 +72,7 @@ namespace ml
 			return false;
 		}
 
-		inline bool getDirContents(const String & dirName, String & value) const
+		inline bool getDirContents(String const & dirName, String & value) const
 		{
 			static SStream temp;
 			if (getDirContents(dirName, temp))
@@ -84,7 +84,7 @@ namespace ml
 			return false;
 		}
 
-		inline bool getDirContents(const String & dirName, SStream & value) const
+		inline bool getDirContents(String const & dirName, SStream & value) const
 		{
 			value.str(String());
 			if(DIR * dir = opendir(dirName.c_str()))
@@ -103,7 +103,7 @@ namespace ml
 			return false;
 		}
 
-		inline bool getDirContents(const String & dirName, Directory & value) const
+		inline bool getDirContents(String const & dirName, Directory & value) const
 		{
 			value.clear();
 			if (DIR * dir = opendir(dirName.c_str()))
@@ -128,7 +128,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool getFileContents(const String & filename, List<char> & value) const
+		inline bool getFileContents(String const & filename, List<char> & value) const
 		{
 			File file;
 			file.loadFromFile(filename);
@@ -136,7 +136,7 @@ namespace ml
 			return file;
 		}
 
-		inline bool getFileContents(const String & filename, String & value) const
+		inline bool getFileContents(String const & filename, String & value) const
 		{
 			File file;
 			file.loadFromFile(filename);
@@ -144,14 +144,14 @@ namespace ml
 			return file;
 		}
 
-		inline String getFileContents(const String & filename) const
+		inline String getFileContents(String const & filename) const
 		{
 			String temp;
 			getFileContents(filename, temp);
 			return temp;
 		}
 
-		inline bool getFileContents(const String & filename, SStream & value) const
+		inline bool getFileContents(String const & filename, SStream & value) const
 		{
 			File file;
 			file.loadFromFile(filename);
@@ -161,7 +161,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dirExists(const String & name) const
+		inline bool dirExists(String const & name) const
 		{
 			struct stat info;
 			return 
@@ -169,14 +169,14 @@ namespace ml
 				(info.st_mode & S_IFDIR);
 		}
 
-		inline bool fileExists(const String & filename) const
+		inline bool fileExists(String const & filename) const
 		{
 			return (bool)(std::ifstream(filename));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-		inline String getFileType(const String & value) const
+		inline String getFileType(String const & value) const
 		{
 			size_t i;
 			return
@@ -187,7 +187,7 @@ namespace ml
 				: value;
 		}
 
-		inline String getFileName(const String & value) const
+		inline String getFileName(String const & value) const
 		{
 			size_t i;
 			return
@@ -197,7 +197,7 @@ namespace ml
 				: value;
 		}
 
-		inline String getFilePath(const String & value) const
+		inline String getFilePath(String const & value) const
 		{
 			size_t i;
 			return (
@@ -208,7 +208,7 @@ namespace ml
 			);
 		}
 
-		inline size_t getFileSize(const String & value) const
+		inline size_t getFileSize(String const & value) const
 		{
 			std::ifstream stream;
 			return (stream = std::ifstream(value, std::ifstream::ate | std::ifstream::binary))

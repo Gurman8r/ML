@@ -17,13 +17,13 @@ namespace ml
 		virtual ~RenderWindow();
 
 		virtual bool create(
-			const String & title,
-			const VideoMode & videoMode,
-			const WindowStyle & style,
-			const ContextSettings & context
+			String const & title,
+			VideoMode const & videoMode,
+			WindowStyle const & style,
+			ContextSettings const & context
 		) override;
 
-		virtual void onEvent(const Event & value) override;
+		virtual void onEvent(Event const & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

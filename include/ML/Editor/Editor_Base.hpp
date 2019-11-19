@@ -6,7 +6,7 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/EventListener.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 
@@ -27,7 +27,7 @@ namespace ml
 
 		virtual ~Editor_Base() {}
 
-		virtual void onEvent(const Event & value) override;
+		virtual void onEvent(Event const & value) override;
 		virtual bool beginDraw(int32_t flags);
 		virtual bool draw() = 0;
 		virtual bool endDraw();

@@ -4,7 +4,7 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Graphics/Vertex.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
@@ -16,7 +16,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		IndexBufferObject();
-		IndexBufferObject(const IndexBufferObject & copy);
+		IndexBufferObject(IndexBufferObject const & copy);
 		~IndexBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,15 +27,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const IndexBufferObject & bind() const;
+		IndexBufferObject const & bind() const;
 
-		const IndexBufferObject & unbind() const;
+		IndexBufferObject const & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const IndexBufferObject & bufferData(uint32_t const * data, uint32_t count) const;
+		IndexBufferObject const & bufferData(uint32_t const * data, uint32_t count) const;
 
-		const IndexBufferObject & bufferData(const List<uint32_t> & data) const;
+		IndexBufferObject const & bufferData(const List<uint32_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

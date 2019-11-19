@@ -13,7 +13,7 @@ namespace ml
 	{
 	}
 
-	Light::Light(const Light & copy)
+	Light::Light(Light const & copy)
 		: m_enabled		{ copy.m_enabled }
 		, m_color		{ copy.m_color }
 		, m_intensity	{ copy.m_intensity }
@@ -31,7 +31,7 @@ namespace ml
 		return (*this);
 	}
 
-	Light & Light::setColor(const Color & value)
+	Light & Light::setColor(Color const & value)
 	{
 		m_color = value;
 		return (*this);

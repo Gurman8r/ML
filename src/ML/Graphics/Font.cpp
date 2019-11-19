@@ -25,7 +25,7 @@ namespace ml
 	{
 	}
 
-	Font::Font(const String & filename)
+	Font::Font(String const & filename)
 		: Font {}
 	{
 		loadFromFile(filename);
@@ -54,7 +54,7 @@ namespace ml
 		return true;
 	}
 
-	bool Font::loadFromFile(const String & filename)
+	bool Font::loadFromFile(String const & filename)
 	{
 		if (m_library) return false;
 
@@ -113,7 +113,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const Glyph & Font::getGlyph(uint32_t c, uint32_t characterSize) const
+	Glyph const & Font::getGlyph(uint32_t c, uint32_t characterSize) const
 	{
 		Page & page { getPage(characterSize) };
 		auto it { page.find(c) };

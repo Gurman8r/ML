@@ -16,8 +16,8 @@ namespace ml
 		using self_type			= typename Handle<value_type>;
 		using pointer			= typename value_type * ;
 		using reference			= typename value_type & ;
-		using const_pointer		= typename const value_type * ;
-		using const_reference	= typename const value_type & ;
+		using const_pointer		= typename value_type const * ;
+		using const_reference	= typename value_type const & ;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -14,7 +14,7 @@ namespace ml
 	// Strings
 	namespace alg
 	{
-		template <class Ch> static constexpr size_t strlen(const Ch * value)
+		template <class Ch> static constexpr size_t strlen(Ch const * value)
 		{
 			return ((*value) ? (1 + alg::strlen(value + 1)) : 0);
 		}
@@ -27,7 +27,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> static constexpr int32_t sign(const T & value)
+		template <class T> static constexpr int32_t sign(T const & value)
 		{
 			return ((value == (T)0)
 				? (T)0
@@ -37,7 +37,7 @@ namespace ml
 			));
 		}
 
-		template <class T> static constexpr T abs(const T & value)
+		template <class T> static constexpr T abs(T const & value)
 		{
 			return ((_ML alg::sign(value) < (T)0)
 				? (value * (T)-1)
@@ -45,14 +45,14 @@ namespace ml
 			);
 		}
 
-		template <class T> static constexpr T fact(const T & value)
+		template <class T> static constexpr T fact(T const & value)
 		{
 			return ((value > (T)1) ? value * _ML alg::fact(value - (T)1) : (T)1);
 		}
 
 		template <
 			class Base, class Exp
-		> static constexpr Base pow(const Base & base, const Exp & exp)
+		> static constexpr Base pow(Base const & base, Exp const & exp)
 		{
 			using B = cast<Base>;
 			using E = cast<Exp>;
@@ -70,21 +70,21 @@ namespace ml
 
 		template <
 			class Tx, class Ty
-		> static constexpr const auto & min(const Tx & lhs, const Ty & rhs)
+		> static constexpr auto const & min(Tx const & lhs, Ty const & rhs)
 		{
 			return (lhs <= rhs) ? lhs : rhs;
 		}
 
 		template <
 			class Tx, class Ty
-		> static constexpr const auto & max(const Tx lhs, const Ty & rhs)
+		> static constexpr auto const & max(const Tx lhs, Ty const & rhs)
 		{
 			return (lhs >= rhs) ? lhs : rhs;
 		}
 
 		template <
 			class T, class Tx, class Ty
-		> static constexpr auto clamp(const T & value, const Tx & lower, const Ty & upper)
+		> static constexpr auto clamp(T const & value, Tx const & lower, Ty const & upper)
 		{
 			return _ML alg::min(_ML alg::max(value, lower), upper);
 		}
@@ -93,15 +93,15 @@ namespace ml
 
 		template <
 			class T, class C
-		> static constexpr T lerp(const T & a, const T & b, const C & coeff)
+		> static constexpr T lerp(T const & a, T const & b, C const & coeff)
 		{
 			return (a * coeff + b * ((C)1 - coeff));
 		}
 
 		template <class T> static constexpr T map(
-			const T & value, 
-			const T & a0, const T & a1,
-			const T & b0, const T & b1
+			T const & value, 
+			T const & a0, T const & a1,
+			T const & b0, T const & b1
 		)
 		{
 			return (b0 + (value - a0) * (b1 - b0) / (a1 - a0));
@@ -201,7 +201,7 @@ namespace ml
 
 		template <
 			template <class, size_t ...> class A, class T, size_t ... N
-		> static constexpr A<T, N...> & fill(A<T, N...> & arr, const T & value)
+		> static constexpr A<T, N...> & fill(A<T, N...> & arr, T const & value)
 		{
 			_ML alg::fill(_ML alg::begin(arr), _ML alg::end(arr), value);
 			return arr;
@@ -218,7 +218,7 @@ namespace ml
 
 		template <
 			class T, size_t N
-		> static constexpr int32_t index_of(const T & value, const T(&arr)[N])
+		> static constexpr int32_t index_of(T const & value, const T(&arr)[N])
 		{
 			for (int32_t i = 0; (&arr[i]) != (&arr[N]); i++)
 			{
@@ -229,7 +229,7 @@ namespace ml
 
 		template <
 			class T, size_t N
-		> static constexpr const T & value_at(int32_t index, const T(&arr)[N])
+		> static constexpr T const & value_at(int32_t index, const T(&arr)[N])
 		{
 			return arr[index];
 		}
@@ -290,7 +290,7 @@ namespace ml
 		> static constexpr T sqr_magnitude(const A<T, N...> & value)
 		{
 			T temp { (T)0 };
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 			{
 				temp += (elem * elem);
 			}

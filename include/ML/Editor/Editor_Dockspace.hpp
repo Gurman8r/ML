@@ -15,7 +15,7 @@ namespace ml
 		
 		Editor_Dockspace();
 
-		void onEvent(const Event & value) override;
+		void onEvent(Event const & value) override;
 
 		bool beginDraw(int32_t flags) override;
 		

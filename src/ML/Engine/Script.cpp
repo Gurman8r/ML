@@ -18,21 +18,21 @@ namespace ml
 	{
 	}
 
-	Script::Script(Language language, const String & text)
+	Script::Script(Language language, String const & text)
 		: m_lang { language }
 		, m_path { }
 		, m_text { text }
 	{
 	}
 
-	Script::Script(const String & filename)
+	Script::Script(String const & filename)
 		: Script {}
 
 	{
 		loadFromFile(filename);
 	}
 
-	Script::Script(const Script & copy)
+	Script::Script(Script const & copy)
 		: m_lang(copy.m_lang)
 		, m_path(copy.m_path)
 		, m_text(copy.m_text)
@@ -43,7 +43,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Script::loadFromFile(const String & filename)
+	bool Script::loadFromFile(String const & filename)
 	{
 		if (m_text = ML_FS.getFileContents(m_path = filename))
 		{
@@ -74,7 +74,7 @@ namespace ml
 		return (*this);
 	}
 
-	Script & Script::setText(const String & value)
+	Script & Script::setText(String const & value)
 	{
 		m_text = value;
 		return (*this);

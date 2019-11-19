@@ -3,7 +3,7 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 #define ML_Registry ::ml::Registry<>::getInstance()
@@ -52,7 +52,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * generate(const Name & name) const
+		inline void * generate(Name const & name) const
 		{
 			const Func func { get_func(name) };
 			return (func ? func() : nullptr);
@@ -71,7 +71,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool registrate(const Name & name, const Info & info, Code code, Func func)
+		inline bool registrate(Name const & name, Info const & info, Code code, Func func)
 		{
 			if (m_funcs.find(name) == m_funcs.end())
 			{
@@ -84,20 +84,20 @@ namespace ml
 			return false;
 		}
 
-		template <class T, class F> inline bool registrate(const Info & info, F && func)
+		template <class T, class F> inline bool registrate(Info const & info, F && func)
 		{
 			return registrate(typeof<T>::name, info, typeof<T>::hash, (Func)func);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const Code * get_code(const Name & name) const
+		inline Code const * get_code(Name const & name) const
 		{
 			auto it { m_codes.find(name) };
 			return ((it != m_codes.end()) ? &it->second : nullptr);
 		}
 
-		inline const Func get_func(const Name & name) const
+		inline const Func get_func(Name const & name) const
 		{
 			auto it { m_funcs.find(name) };
 			return ((it != m_funcs.end()) ? it->second : nullptr);
@@ -109,19 +109,19 @@ namespace ml
 			return ((it != m_names.end()) ? get_func(it->second) : nullptr);
 		}
 
-		inline const String *	get_info(const Name & name) const
+		inline String const *	get_info(Name const & name) const
 		{
 			auto it { m_infos.find(name) };
 			return ((it != m_infos.end()) ? &it->second : nullptr);
 		}
 
-		inline const String * get_info(Code code) const
+		inline String const * get_info(Code code) const
 		{
 			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? get_info(it->second) : nullptr);
 		}
 
-		inline const String * get_name(Code code) const
+		inline String const * get_name(Code code) const
 		{
 			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? &it->second : nullptr);

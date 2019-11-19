@@ -29,11 +29,11 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool	init(const String & name, const String & home);
+		bool	init(String const & name, String const & home);
 		bool	restart();
 		bool	dispose() override;
-		int32_t doString(const String & value) const;
-		int32_t doFile(const String & filename) const;
+		int32_t doString(String const & value) const;
+		int32_t doFile(String const & filename) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

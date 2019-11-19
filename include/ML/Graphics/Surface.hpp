@@ -20,20 +20,20 @@ namespace ml
 
 		Surface();
 		Surface(Model const * model, Material const * material, Shader const * shader);
-		Surface(const Surface & copy);
+		Surface(Surface const & copy);
 		~Surface();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool create();
-		bool update(const vec2i & size);
-		void draw(const RenderTarget & target, RenderBatch & batch) const override;
+		bool update(vec2i const & size);
+		void draw(RenderTarget const & target, RenderBatch & batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		const Surface & bind() const;
-		const Surface & unbind() const;
+		Surface const & bind() const;
+		Surface const & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -42,22 +42,22 @@ namespace ml
 		Surface & setModel(Model const * value);
 		Surface & setMaterial(Material const * value);
 		Surface & setShader(Shader const * value);
-		Surface & setSize(const vec2i & value);
+		Surface & setSize(vec2i const & value);
 		Surface & setStorage(GL::Format value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto colorID()	const -> GL::ColorID			{ return m_colorID; }
 		inline auto frameID()	const -> GL::FrameID			{ return m_frameID; }
-		inline auto fbo()		const -> const FBO & 			{ return m_fbo; }
+		inline auto fbo()		const -> FBO const & 			{ return m_fbo; }
 		inline auto height()	const -> int32_t				{ return m_size[1]; }
 		inline auto material()	const -> Material const *	{ return m_material; }
 		inline auto model()		const -> Model const *		{ return m_model; }
-		inline auto rbo()		const -> const RBO &			{ return m_rbo; }
+		inline auto rbo()		const -> RBO const &			{ return m_rbo; }
 		inline auto shader()	const -> Shader const *	{ return m_shader; }
 		inline auto size()		const -> const vec2i  &			{ return m_size; }
 		inline auto storage()	const -> GL::Format				{ return m_storage; }
-		inline auto texture()	const -> const Texture &		{ return m_texture; }
+		inline auto texture()	const -> Texture const &		{ return m_texture; }
 		inline auto width()		const -> int32_t				{ return m_size[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

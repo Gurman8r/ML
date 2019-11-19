@@ -20,7 +20,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Manual::onEvent(const Event & value)
+	void Editor_Manual::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 

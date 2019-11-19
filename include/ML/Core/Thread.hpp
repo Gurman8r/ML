@@ -44,7 +44,7 @@ namespace ml
 			return !(m_thr);
 		}
 
-		inline Thread & sleep(const Duration & value)
+		inline Thread & sleep(Duration const & value)
 		{
 			if (joinable())
 			{

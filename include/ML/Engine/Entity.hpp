@@ -81,7 +81,7 @@ namespace ml
 			return false;
 		}
 
-		inline bool remove(const String & name)
+		inline bool remove(String const & name)
 		{
 			return remove(name.hash());
 		}
@@ -99,7 +99,7 @@ namespace ml
 				: nullptr;
 		}
 
-		inline void * addByName(const String & name, void * value)
+		inline void * addByName(String const & name, void * value)
 		{
 			return ((m_data.find(name.hash()) == m_data.end())
 				? addByCode(name.hash(), value)
@@ -107,7 +107,7 @@ namespace ml
 				);
 		}
 
-		inline void * addByName(const String & name)
+		inline void * addByName(String const & name)
 		{
 			return ((m_data.find(name.hash()) == m_data.end())
 				? addByCode(name.hash(), ML_Registry.generate(name))
@@ -131,12 +131,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Trackable * getByName(const String & value)
+		inline Trackable * getByName(String const & value)
 		{
 			return getByCode(value.hash());
 		}
 
-		inline Trackable const * getByName(const String & value) const
+		inline Trackable const * getByName(String const & value) const
 		{
 			return getByCode(value.hash());
 		}

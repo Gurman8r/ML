@@ -23,8 +23,8 @@ namespace ml
 		using array_type		= typename Array<bool, Size>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
+		using const_pointer		= typename value_type const *;
+		using const_reference	= typename value_type const &;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -38,7 +38,7 @@ namespace ml
 		{
 		}
 
-		constexpr BitMask(const array_type & value) noexcept
+		constexpr BitMask(array_type const & value) noexcept
 			: m_value { from_bits<array_type, T, value.size()>(value) }
 		{
 		}
@@ -50,14 +50,14 @@ namespace ml
 		{
 		}
 
-		constexpr BitMask(const self_type & copy) noexcept
+		constexpr BitMask(self_type const & copy) noexcept
 			: m_value { copy.m_value }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto bits() const -> const array_type &	{ return to_bits(*this); }
+		constexpr auto bits() const -> array_type const &	{ return to_bits(*this); }
 		constexpr auto size() const							{ return Size; }
 		inline	  auto data()		-> reference			{ return m_value; }
 		constexpr auto data() const -> const_reference		{ return m_value; }
@@ -70,7 +70,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr const self_type & read(size_t i) const
+		constexpr self_type const & read(size_t i) const
 		{
 			ML_BITREAD(m_value, i);
 			return (*this);
@@ -98,7 +98,7 @@ namespace ml
 
 		template <
 			class In, class U, size_t N
-		> static constexpr value_type from_bits(const In & value)
+		> static constexpr value_type from_bits(In const & value)
 		{
 			value_type temp { 0 };
 			for (size_t i = 0; i < N; i++)
@@ -108,7 +108,7 @@ namespace ml
 			return temp;
 		}
 
-		static constexpr array_type to_bits(const self_type & value)
+		static constexpr array_type to_bits(self_type const & value)
 		{
 			array_type temp { 0 };
 			for (size_t i = 0; i < Size; i++)

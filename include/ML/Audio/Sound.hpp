@@ -2,7 +2,7 @@
 #define _ML_SOUND_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
@@ -17,13 +17,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Sound();
-		explicit Sound(const String & filename);
+		explicit Sound(String const & filename);
 		~Sound();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

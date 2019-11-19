@@ -9,7 +9,7 @@ namespace ml
 	{
 	}
 
-	Sound::Sound(const String & filename)
+	Sound::Sound(String const & filename)
 		: Sound()
 	{
 		loadFromFile(filename);
@@ -27,7 +27,7 @@ namespace ml
 		return false;
 	}
 
-	bool Sound::loadFromFile(const String & filename)
+	bool Sound::loadFromFile(String const & filename)
 	{
 		return false;
 	}

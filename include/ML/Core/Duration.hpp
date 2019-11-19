@@ -30,7 +30,7 @@ namespace ml
 
 		constexpr Duration(float64_t value) : m_base { value } {}
 
-		constexpr Duration(const Duration & copy) : m_base { copy.m_base } {}
+		constexpr Duration(Duration const & copy) : m_base { copy.m_base } {}
 
 		template <
 			class R, class P = typename R::period
@@ -86,7 +86,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const Duration & dur)
+	inline ML_SERIALIZE(std::ostream & out, Duration const & dur)
 	{
 		const auto hr { (intmax_t)dur.hours().count() };
 		const auto m { (intmax_t)dur.minutes().count() };

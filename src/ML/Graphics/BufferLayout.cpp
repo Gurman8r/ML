@@ -6,7 +6,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const BufferLayout::Element & BufferLayout::Element::operator()() const
+	BufferLayout::Element const & BufferLayout::Element::operator()() const
 	{
 		ML_GL.vertexAttribPointer(index, size, type, normalize, stride, offset, width);
 		ML_GL.enableVertexAttribArray(index);
@@ -30,7 +30,7 @@ namespace ml
 	{
 	}
 
-	BufferLayout::BufferLayout(const BufferLayout & copy)
+	BufferLayout::BufferLayout(BufferLayout const & copy)
 		: m_elements { copy.m_elements }
 	{
 	}
@@ -39,7 +39,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const BufferLayout & BufferLayout::get_default()
+	BufferLayout const & BufferLayout::get_default()
 	{
 		static BufferLayout temp {
 			{ 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
@@ -49,16 +49,16 @@ namespace ml
 		return temp;
 	}
 
-	const BufferLayout & BufferLayout::bind() const
+	BufferLayout const & BufferLayout::bind() const
 	{
-		for (const auto & elem : this->elements()) 
+		for (auto const & elem : this->elements()) 
 		{ 
 			elem();
 		}
 		return (*this);
 	}
 
-	BufferLayout & BufferLayout::push_back(const Element & value)
+	BufferLayout & BufferLayout::push_back(Element const & value)
 	{
 		m_elements.push_back(value);
 		return (*this);

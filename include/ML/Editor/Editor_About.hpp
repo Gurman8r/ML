@@ -17,7 +17,7 @@ namespace ml
 
 		~Editor_About() {}
 
-		void onEvent(const Event & value) override;
+		void onEvent(Event const & value) override;
 
 		bool draw() override;
 

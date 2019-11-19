@@ -70,7 +70,7 @@ namespace ml
 			{
 				constexpr sqrt() noexcept = default;
 				
-				template <class U> constexpr To operator()(const U & value) const
+				template <class U> constexpr To operator()(U const & value) const
 				{
 					return static_cast<To>(sqrt<From>{}(static_cast<From>(value)));
 				}

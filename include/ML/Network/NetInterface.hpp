@@ -35,25 +35,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		uint32_t send(const GUID & guid, const String & data, const SendSettings & settings);
+		uint32_t send(GUID const & guid, String const & data, SendSettings const & settings);
 		
-		uint32_t send(const Host & host, const String & data, const SendSettings & settings);
+		uint32_t send(Host const & host, String const & data, SendSettings const & settings);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual void onEvent(const Event & value) override = 0;
+		virtual void onEvent(Event const & value) override = 0;
 		
-		virtual void onPacket(const Packet & value) = 0;
+		virtual void onPacket(Packet const & value) = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		GUID getMyGUID() const;
 		
-		GUID getGUIDFromAddress(const Host & value) const;
+		GUID getGUIDFromAddress(Host const & value) const;
 		
 		Host getMyAddress() const;
 		
-		Host getAddressFromGUID(const GUID & value) const;
+		Host getAddressFromGUID(GUID const & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -19,7 +19,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool RenderWindow::create(const String & title, const VideoMode & videoMode, const WindowStyle & style, const ContextSettings & context)
+	bool RenderWindow::create(String const & title, VideoMode const & videoMode, WindowStyle const & style, ContextSettings const & context)
 	{
 		if (Window::create(title, videoMode, style, context))
 		{
@@ -43,7 +43,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void RenderWindow::onEvent(const Event & value)
+	void RenderWindow::onEvent(Event const & value)
 	{
 		Window::onEvent(value);
 

@@ -17,7 +17,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_MainMenuBar::onEvent(const Event & value)
+	void Editor_MainMenuBar::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 

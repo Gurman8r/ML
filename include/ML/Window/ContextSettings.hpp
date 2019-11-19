@@ -50,7 +50,7 @@ namespace ml
 		{
 		};
 
-		constexpr ContextSettings(const ContextSettings & copy)
+		constexpr ContextSettings(ContextSettings const & copy)
 			: major			{ copy.major }
 			, minor			{ copy.minor }
 			, profile		{ copy.profile }
@@ -63,7 +63,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool operator==(const ContextSettings & other)
+		constexpr bool operator==(ContextSettings const & other)
 		{			    
 			return
 				this->major			== other.major &&
@@ -75,7 +75,7 @@ namespace ml
 				this->srgbCapable	== other.srgbCapable;
 		}
 
-		constexpr bool operator!=(const ContextSettings & other)
+		constexpr bool operator!=(ContextSettings const & other)
 		{
 			return !((*this) == other);
 		}
@@ -85,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const ContextSettings & value)
+	inline ML_SERIALIZE(std::ostream & out, ContextSettings const & value)
 	{
 		return out
 			<< value.major << " "

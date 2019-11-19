@@ -21,13 +21,13 @@ namespace ml
 	{
 	}
 
-	Model::Model(const String & filename)
+	Model::Model(String const & filename)
 		: Model {}
 	{
 		loadFromFile(filename);
 	}
 
-	Model::Model(const Model & copy)
+	Model::Model(Model const & copy)
 		: Model {}
 	{
 		m_meshes.reserve(copy.meshes().size());
@@ -49,11 +49,11 @@ namespace ml
 		return m_meshes.empty();
 	}
 
-	bool Model::loadFromFile(const String & filename)
+	bool Model::loadFromFile(String const & filename)
 	{
 		Assimp::Importer ai;
 		
-		const aiScene * scene { ai.ReadFile(filename.c_str(),
+		aiScene const * scene { ai.ReadFile(filename.c_str(),
 			aiProcess_CalcTangentSpace |
 			aiProcess_Triangulate |
 			aiProcess_JoinIdenticalVertices |
@@ -116,9 +116,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Model::draw(const RenderTarget & target, RenderBatch & batch) const
+	void Model::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
-		for (const auto & elem : m_meshes)
+		for (auto const & elem : m_meshes)
 		{
 			target.draw(elem, batch);
 		}

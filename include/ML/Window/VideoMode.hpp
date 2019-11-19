@@ -17,7 +17,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr VideoMode(const vec2u & size, uint32_t depth)
+		constexpr VideoMode(vec2u const & size, uint32_t depth)
 			: size { size }
 			, depth { depth }
 		{
@@ -28,7 +28,7 @@ namespace ml
 		{
 		}
 		
-		constexpr VideoMode(const VideoMode & copy)
+		constexpr VideoMode(VideoMode const & copy)
 			: VideoMode { copy.size, copy.depth }
 		{
 		}
@@ -40,8 +40,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		constexpr auto width()  const -> const uint32_t & { return size[0]; }
-		constexpr auto height() const -> const uint32_t & { return size[1]; }
+		constexpr auto width()  const -> uint32_t const & { return size[0]; }
+		constexpr auto height() const -> uint32_t const & { return size[1]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -50,32 +50,32 @@ namespace ml
 			return (this->size[0] > 0) && (this->size[1] > 0) && (this->depth > 0);
 		}
 
-		constexpr bool operator==(const VideoMode & other)
+		constexpr bool operator==(VideoMode const & other)
 		{
 			return (this->size == other.size) && (this->depth == other.depth);
 		}
 
-		constexpr bool operator!=(const VideoMode & other)
+		constexpr bool operator!=(VideoMode const & other)
 		{
 			return !((*this) == other);
 		}
 
-		constexpr bool operator<(const VideoMode & other)
+		constexpr bool operator<(VideoMode const & other)
 		{
 			return (this->size < other.size) || (this->depth < other.depth);
 		}
 
-		constexpr bool operator>(const VideoMode & other)
+		constexpr bool operator>(VideoMode const & other)
 		{
 			return !((*this) < other);
 		}
 
-		constexpr bool operator<=(const VideoMode & other)
+		constexpr bool operator<=(VideoMode const & other)
 		{
 			return ((*this) == other) || ((*this) < other);
 		}
 
-		constexpr bool operator>=(const VideoMode & other)
+		constexpr bool operator>=(VideoMode const & other)
 		{
 			return ((*this) == other) || ((*this) > other);
 		}
@@ -85,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const VideoMode & value)
+	inline ML_SERIALIZE(std::ostream & out, VideoMode const & value)
 	{
 		return out << value.size << " " << value.depth << " ";
 	}

@@ -29,7 +29,7 @@ namespace ml
 		return retval;
 	}
 
-	bool ImGuiExt::Combo(C_String label, int32_t * index, const C_String * arr, int32_t max_height)
+	bool ImGuiExt::Combo(C_String label, int32_t * index, C_String const * arr, int32_t max_height)
 	{
 		ImGui::PushID(label);
 		const bool retval { ImGui::Combo(label, index, arr, max_height) };
@@ -73,7 +73,7 @@ namespace ml
 		return retval;
 	}
 
-	int32_t ImGuiExt::Confirm(const String & label, bool trigger, const String & message)
+	int32_t ImGuiExt::Confirm(String const & label, bool trigger, String const & message)
 	{
 		return Confirm(
 			trigger, 
@@ -84,13 +84,13 @@ namespace ml
 		);
 	}
 
-	void ImGuiExt::HelpMarker(const String & message)
+	void ImGuiExt::HelpMarker(String const & message)
 	{
 		ImGui::TextDisabled("(?)");
 		ImGuiExt::Tooltip(message);
 	}
 
-	int32_t ImGuiExt::OpenFile(const String & label, String & path, const vec2 & size)
+	int32_t ImGuiExt::OpenFile(String const & label, String & path, vec2 const & size)
 	{
 		int32_t retval{ 0 };
 		ImGui::PushID(label.c_str());
@@ -129,7 +129,7 @@ namespace ml
 		return retval;
 	}
 
-	void ImGuiExt::Tooltip(const String & message)
+	void ImGuiExt::Tooltip(String const & message)
 	{
 		if (ImGui::IsItemHovered())
 		{

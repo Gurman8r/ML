@@ -51,12 +51,12 @@ namespace ml
 			return (*this)(value, (N - 1));
 		}
 
-		constexpr const hash_t & operator()() const noexcept
+		constexpr hash_t const & operator()() const noexcept
 		{
 			return m_value;
 		}
 
-		constexpr operator const hash_t &() const noexcept
+		constexpr operator hash_t const &() const noexcept
 		{
 			return (*this)();
 		}

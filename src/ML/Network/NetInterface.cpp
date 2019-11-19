@@ -53,7 +53,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t NetInterface::send(const GUID & guid, const String & data, const SendSettings & settings)
+	uint32_t NetInterface::send(GUID const & guid, String const & data, SendSettings const & settings)
 	{
 		RakNet::BitStream bitStream{};
 		bitStream.Write(data.c_str());
@@ -68,7 +68,7 @@ namespace ml
 		);
 	}
 
-	uint32_t NetInterface::send(const Host & host, const String & data, const SendSettings & settings)
+	uint32_t NetInterface::send(Host const & host, String const & data, SendSettings const & settings)
 	{
 		RakNet::BitStream bitStream{};
 		bitStream.Write(data.c_str());
@@ -90,7 +90,7 @@ namespace ml
 		return { ML_PEER(m_peer)->GetMyGUID().g };
 	}
 
-	GUID NetInterface::getGUIDFromAddress(const Host & value) const
+	GUID NetInterface::getGUIDFromAddress(Host const & value) const
 	{
 		return { ML_PEER(m_peer)->GetGuidFromSystemAddress(
 			RakNet::SystemAddress { value.addr.str().c_str(), value.port }
@@ -102,7 +102,7 @@ namespace ml
 		return getAddressFromGUID(getMyGUID());
 	}
 
-	Host NetInterface::getAddressFromGUID(const GUID & value) const
+	Host NetInterface::getAddressFromGUID(GUID const & value) const
 	{
 		const RakNet::SystemAddress addr { 
 			ML_PEER(m_peer)->GetSystemAddressFromGuid(RakNet::RakNetGUID(value)) 

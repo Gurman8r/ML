@@ -107,7 +107,7 @@ namespace ml
 		const int32_t key, scan, action;
 		const Mods mods;
 
-		constexpr KeyEvent(int32_t key, int32_t scan, int32_t action, const Mods & mods)
+		constexpr KeyEvent(int32_t key, int32_t scan, int32_t action, Mods const & mods)
 			: key	(key)
 			, scan	(scan)
 			, action(action)
@@ -124,9 +124,9 @@ namespace ml
 		constexpr bool getDown	(int32_t k) const { return getKeyAction(k, ML_KEY_REPEAT); }
 		constexpr bool getUp	(int32_t k)	const { return getKeyAction(k, ML_KEY_RELEASE); }
 
-		constexpr bool getPress	(int32_t k, const Mods & m)	const { return getPress(k) && (mods == m); }
-		constexpr bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mods == m); }
-		constexpr bool getUp	(int32_t k, const Mods & m)	const { return getUp(k) && (mods == m); }
+		constexpr bool getPress	(int32_t k, Mods const & m)	const { return getPress(k) && (mods == m); }
+		constexpr bool getDown	(int32_t k, Mods const & m) const { return getDown(k) && (mods == m); }
+		constexpr bool getUp	(int32_t k, Mods const & m)	const { return getUp(k) && (mods == m); }
 
 		constexpr bool isShift	(int32_t k)	const { return getPress(k, { { 1, 0, 0, 0 } }); }
 		constexpr bool isCtrl	(int32_t k)	const { return getPress(k, { { 0, 1, 0, 0 } }); }

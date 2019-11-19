@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
@@ -19,7 +19,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		FrameBufferObject();
-		FrameBufferObject(const FrameBufferObject & copy);
+		FrameBufferObject(FrameBufferObject const & copy);
 		~FrameBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -30,15 +30,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const FrameBufferObject & bind() const;
+		FrameBufferObject const & bind() const;
 
-		const FrameBufferObject & unbind() const;
+		FrameBufferObject const & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const FrameBufferObject & setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
+		FrameBufferObject const & setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
 
-		const FrameBufferObject & setTexture(uint32_t attachment, const Texture & value) const;
+		FrameBufferObject const & setTexture(uint32_t attachment, Texture const & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

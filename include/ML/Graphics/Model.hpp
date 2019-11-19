@@ -17,14 +17,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Model();
-		explicit Model(const String & filename);
-		Model(const Model & copy);
+		explicit Model(String const & filename);
+		Model(Model const & copy);
 		~Model();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 		bool loadFromMemory(const List<Vertex> & vertices);
 		bool loadFromMemory(const List<Vertex> & vertices, const List<uint32_t> & indices);
 
@@ -49,7 +49,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void draw(const RenderTarget & target, RenderBatch & batch) const override;
+		void draw(RenderTarget const & target, RenderBatch & batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

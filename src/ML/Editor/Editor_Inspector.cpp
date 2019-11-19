@@ -27,7 +27,7 @@ namespace ml
 	struct Editor_Inspector::Layout
 	{
 		template <class T>
-		inline static void draw_item(void * ptr, const String & name)
+		inline static void draw_item(void * ptr, String const & name)
 		{
 			if (!ptr) return;
 			ImGui::PushID(typeof<T>::name.data());
@@ -55,7 +55,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Inspector::onEvent(const Event & value)
+	void Editor_Inspector::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 

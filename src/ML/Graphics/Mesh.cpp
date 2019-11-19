@@ -30,7 +30,7 @@ namespace ml
 		create();
 	}
 
-	Mesh::Mesh(const Mesh & copy)
+	Mesh::Mesh(Mesh const & copy)
 		: m_vertices{ copy.m_vertices }
 		, m_indices	{ copy.m_indices }
 		, m_textures{ copy.m_textures }
@@ -79,7 +79,7 @@ namespace ml
 		return (*this);
 	}
 
-	Mesh & Mesh::addVertex(const Vertex & value)
+	Mesh & Mesh::addVertex(Vertex const & value)
 	{
 		m_vertices.push_back(value);
 		return (*this);
@@ -91,7 +91,7 @@ namespace ml
 		return (*this);
 	}
 
-	Mesh & Mesh::setLayout(const BufferLayout & value)
+	Mesh & Mesh::setLayout(BufferLayout const & value)
 	{
 		m_layout = value;
 		return (*this);
@@ -99,7 +99,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Mesh::draw(const RenderTarget & target, RenderBatch & batch) const
+	void Mesh::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
 		if (m_vao && m_vbo)
 		{

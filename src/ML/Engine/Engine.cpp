@@ -60,7 +60,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Engine::onEvent(const Event & value)
+	void Engine::onEvent(Event const & value)
 	{
 		switch (*value)
 		{

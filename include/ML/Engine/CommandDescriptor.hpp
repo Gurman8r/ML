@@ -2,7 +2,7 @@
 #define _ML_COMMAND_DESCRIPTOR_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Input.hpp>
 
 namespace ml
@@ -18,9 +18,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		CommandDescriptor();
-		CommandDescriptor(const String & name);
-		CommandDescriptor(const String & name, const String & desc, const String & usage);
-		CommandDescriptor(const CommandDescriptor & copy);
+		CommandDescriptor(String const & name);
+		CommandDescriptor(String const & name, String const & desc, String const & usage);
+		CommandDescriptor(CommandDescriptor const & copy);
 		virtual ~CommandDescriptor();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -34,16 +34,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		CommandDescriptor & setDesc(const String & value);
-		CommandDescriptor & setName(const String & value);
-		CommandDescriptor & setUsage(const String & value);
+		CommandDescriptor & setDesc(String const & value);
+		CommandDescriptor & setName(String const & value);
+		CommandDescriptor & setUsage(String const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getDesc()		const -> const String & { return m_desc; }
-		inline auto getName()		const -> const String & { return m_name; }
-		inline auto getUsage()		const -> const String & { return m_usage; }
-		inline auto isRegistered()	const -> const bool &	{ return m_isRegistered; }
+		inline auto getDesc()		const -> String const & { return m_desc; }
+		inline auto getName()		const -> String const & { return m_name; }
+		inline auto getUsage()		const -> String const & { return m_usage; }
+		inline auto isRegistered()	const -> bool const &	{ return m_isRegistered; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const CommandDescriptor & value)
+	inline ML_SERIALIZE(std::ostream & out, CommandDescriptor const & value)
 	{
 		return out
 			<< value.getName() << ": " << value.getUsage() << std::endl

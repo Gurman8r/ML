@@ -33,7 +33,7 @@ namespace ml
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename value_type const *;
-		using const_reference	= typename const value_type &;
+		using const_reference	= typename value_type const &;
 		using Layout			= typename PropertyDrawer<>::Layout;
 
 		struct Info final
@@ -52,63 +52,63 @@ namespace ml
 	template <
 	> struct ML_EDITOR_API PropertyDrawer<Entity> final : public BasePropertyDrawer<Entity>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 	struct Camera; template <
 	> struct ML_EDITOR_API PropertyDrawer<Camera> final : public BasePropertyDrawer<Camera>
 	{
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 	struct Light; template <
 	> struct ML_EDITOR_API PropertyDrawer<Light> final : public BasePropertyDrawer<Light>
 	{
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 	struct Renderer; template <
 	> struct ML_EDITOR_API PropertyDrawer<Renderer> final : public BasePropertyDrawer<Renderer>
 	{
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 	struct Transform; template <
 	> struct ML_EDITOR_API PropertyDrawer<Transform> final : public BasePropertyDrawer<Transform>
 	{
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 	//struct AlphaState; template <
 	//> struct ML_EDITOR_API PropertyDrawer<AlphaState> final : public BasePropertyDrawer<AlphaState>
 	//{
-	//	bool operator()(const String & label, reference value) const;
+	//	bool operator()(String const & label, reference value) const;
 	//};
 	//
 	//struct BlendState; template <
 	//> struct ML_EDITOR_API PropertyDrawer<BlendState> final : public BasePropertyDrawer<BlendState>
 	//{
-	//	bool operator()(const String & label, reference value) const;
+	//	bool operator()(String const & label, reference value) const;
 	//};
 	//
 	//struct CullState; template <
 	//> struct ML_EDITOR_API PropertyDrawer<CullState> final : public BasePropertyDrawer<CullState>
 	//{
-	//	bool operator()(const String & label, reference value) const;
+	//	bool operator()(String const & label, reference value) const;
 	//};
 	//
 	//struct DepthState; template <
 	//> struct ML_EDITOR_API PropertyDrawer<DepthState> final : public BasePropertyDrawer<DepthState>
 	//{
-	//	bool operator()(const String & label, reference value) const;
+	//	bool operator()(String const & label, reference value) const;
 	//};
 	//
 	//struct RenderStates; template <
 	//> struct ML_EDITOR_API PropertyDrawer<RenderStates> final : public BasePropertyDrawer<RenderStates>
 	//{
-	//	bool operator()(const String & label, reference value) const;
+	//	bool operator()(String const & label, reference value) const;
 	//};
 
 
@@ -117,9 +117,9 @@ namespace ml
 	struct Font; template <
 	> struct ML_EDITOR_API PropertyDrawer<Font> final : public BasePropertyDrawer<Font>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -128,9 +128,9 @@ namespace ml
 	struct Image; template <
 	> struct ML_EDITOR_API PropertyDrawer<Image> final : public BasePropertyDrawer<Image>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -139,9 +139,9 @@ namespace ml
 	struct Material; template <
 	> struct ML_EDITOR_API PropertyDrawer<Material> final : public BasePropertyDrawer<Material>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -150,9 +150,9 @@ namespace ml
 	struct Model; template <
 	> struct ML_EDITOR_API PropertyDrawer<Model> final : public BasePropertyDrawer<Model>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -161,9 +161,9 @@ namespace ml
 	struct Script; template <
 	> struct ML_EDITOR_API PropertyDrawer<Script> final : public BasePropertyDrawer<Script>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -172,9 +172,9 @@ namespace ml
 	struct Shader; template <
 	> struct ML_EDITOR_API PropertyDrawer<Shader> final : public BasePropertyDrawer<Shader>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -183,9 +183,9 @@ namespace ml
 	struct Sound; template <
 	> struct ML_EDITOR_API PropertyDrawer<Sound> final : public BasePropertyDrawer<Sound>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -194,9 +194,9 @@ namespace ml
 	struct Sprite; template <
 	> struct ML_EDITOR_API PropertyDrawer<Sprite> final : public BasePropertyDrawer<Sprite>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -205,9 +205,9 @@ namespace ml
 	struct Surface; template <
 	> struct ML_EDITOR_API PropertyDrawer<Surface> final : public BasePropertyDrawer<Surface>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -216,9 +216,9 @@ namespace ml
 	struct Texture; template <
 	> struct ML_EDITOR_API PropertyDrawer<Texture> final : public BasePropertyDrawer<Texture>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 
 
@@ -227,9 +227,9 @@ namespace ml
 	struct Uniform; template <
 	> struct ML_EDITOR_API PropertyDrawer<Uniform> final : public BasePropertyDrawer<Uniform>
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
 	};
 }
 

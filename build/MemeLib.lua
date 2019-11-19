@@ -23,6 +23,8 @@ project "MemeLib"
 		"ML_NETWORK_EXPORTS", 
 		"ML_WINDOW_EXPORTS", 
 		"ML_INI_FILENAME=\"../../../ML.ini\"",
+		"ML_IMPL_NEW=std::malloc",
+		"ML_IMPL_DELETE=std::free",
 		"ML_IMPL_PLATFORM_GLFW",
 		"ML_IMPL_RENDERER_OPENGL",
 		"ML_IMPL_OPENGL_LOADER_GLEW",

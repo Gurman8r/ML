@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	CommandDescriptor::CommandDescriptor(const String & name)
+	CommandDescriptor::CommandDescriptor(String const & name)
 		: m_desc	()
 		, m_name	(name)
 		, m_usage	()
@@ -22,7 +22,7 @@ namespace ml
 	{
 	}
 
-	CommandDescriptor::CommandDescriptor(const String & name, const String & desc, const String & usage)
+	CommandDescriptor::CommandDescriptor(String const & name, String const & desc, String const & usage)
 		: m_desc	(desc)
 		, m_name	(name)
 		, m_usage	(usage)
@@ -30,7 +30,7 @@ namespace ml
 	{
 	}
 
-	CommandDescriptor::CommandDescriptor(const CommandDescriptor & copy)
+	CommandDescriptor::CommandDescriptor(CommandDescriptor const & copy)
 		: m_desc	(copy.m_desc)
 		, m_name	(copy.m_name)
 		, m_usage	(copy.m_usage)
@@ -76,17 +76,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	CommandDescriptor & CommandDescriptor::setDesc(const String & value)
+	CommandDescriptor & CommandDescriptor::setDesc(String const & value)
 	{
 		m_desc = value; return (*this);
 	}
 
-	CommandDescriptor & CommandDescriptor::setName(const String & value)
+	CommandDescriptor & CommandDescriptor::setName(String const & value)
 	{
 		m_name = value; return (*this);
 	}
 
-	CommandDescriptor & CommandDescriptor::setUsage(const String & value)
+	CommandDescriptor & CommandDescriptor::setUsage(String const & value)
 	{
 		m_usage = value; return (*this);
 	}

@@ -1,7 +1,7 @@
 #ifndef _ML_FILE_HPP_
 #define _ML_FILE_HPP_
 
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
@@ -36,19 +36,19 @@ namespace ml
 		{
 		}
 
-		BasicFile(const string_type & data)
+		BasicFile(string_type const & data)
 			: m_data(data.begin(), data.end())
 			, m_path() 
 		{
 		}
 
-		BasicFile(const list_type & data) 
+		BasicFile(list_type const & data) 
 			: m_data(data)
 			, m_path() 
 		{
 		}
 
-		BasicFile(const self_type & copy)
+		BasicFile(self_type const & copy)
 			: m_data(copy.m_data)
 			, m_path(copy.m_path)
 		{
@@ -64,7 +64,7 @@ namespace ml
 			return empty();
 		}
 
-		inline bool loadFromFile(const String & filename)
+		inline bool loadFromFile(String const & filename)
 		{
 			if (ifstream_type file { (m_path = filename), std::ios_base::binary })
 			{
@@ -85,7 +85,7 @@ namespace ml
 			return !dispose();
 		}
 
-		inline bool saveToFile(const String & filename) const
+		inline bool saveToFile(String const & filename) const
 		{
 			if (ofstream_type file { filename, std::ios_base::binary })
 			{
@@ -103,7 +103,7 @@ namespace ml
 			return !this->empty(); 
 		}
 
-		inline self_type & operator=(const string_type & value)
+		inline self_type & operator=(string_type const & value)
 		{
 			return ((*this) = self_type(value));
 		}
@@ -123,10 +123,10 @@ namespace ml
 		inline auto at(size_t i) const	-> const_reference		{ return m_data[i]; }
 		inline auto at(size_t i)		-> value_type &			{ return m_data[i]; }
 		inline auto c_str()	const		-> const_pointer		{ return str().c_str(); }
-		inline auto data() const		-> const list_type &	{ return m_data; }
+		inline auto data() const		-> list_type const &	{ return m_data; }
 		inline auto data()				-> list_type &			{ return m_data; }
 		inline auto empty() const		-> bool					{ return m_data.empty(); }
-		inline auto path() const		-> const String &		{ return m_path; }
+		inline auto path() const		-> String const &		{ return m_path; }
 		inline auto str() const			-> string_type			{ return string_type(begin(), end()); }
 		inline auto sstr() const		-> sstream_type			{ return sstream_type(str()); }
 

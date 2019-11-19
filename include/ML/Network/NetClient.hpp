@@ -2,7 +2,7 @@
 #define _ML_CLIENT_HPP_
 
 #include <ML/Core/Singleton.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Network/NetInterface.hpp>
 
 namespace ml
@@ -22,11 +22,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void onEvent(const Event & value) override;
+		void onEvent(Event const & value) override;
 		
-		void onPacket(const Packet & value) override;
+		void onPacket(Packet const & value) override;
 
-		bool connect(const Host & host, const String & pass = String());
+		bool connect(Host const & host, String const & pass = String());
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

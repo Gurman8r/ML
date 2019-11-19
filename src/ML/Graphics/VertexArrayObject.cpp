@@ -11,7 +11,7 @@ namespace ml
 	{
 	}
 
-	VertexArrayObject::VertexArrayObject(const VertexArrayObject & copy)
+	VertexArrayObject::VertexArrayObject(VertexArrayObject const & copy)
 		: Handle(copy)
 	{
 	}
@@ -45,13 +45,13 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const VertexArrayObject & VertexArrayObject::bind() const
+	VertexArrayObject const & VertexArrayObject::bind() const
 	{
 		ML_GL.bindVertexArray((*this));
 		return (*this);
 	}
 
-	const VertexArrayObject & VertexArrayObject::unbind() const
+	VertexArrayObject const & VertexArrayObject::unbind() const
 	{
 		ML_GL.bindVertexArray(NULL);
 		return (*this);

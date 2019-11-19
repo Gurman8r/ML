@@ -35,7 +35,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static const GLFWimage & map_glfw_image(uint32_t w, uint32_t h, byte_t const * pixels)
+	static GLFWimage const & map_glfw_image(uint32_t w, uint32_t h, byte_t const * pixels)
 	{
 		static HashMap<byte_t const *, GLFWimage> cache {};
 		auto it { cache.find(pixels) };
@@ -91,7 +91,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Window::create(const String & title, const VideoMode & videoMode, const WindowStyle & style, const ContextSettings & context)
+	bool Window::create(String const & title, VideoMode const & videoMode, WindowStyle const & style, ContextSettings const & context)
 	{
 		if (m_window)
 		{
@@ -240,7 +240,7 @@ namespace ml
 		});
 	}
 
-	void Window::onEvent(const Event & value)
+	void Window::onEvent(Event const & value)
 	{
 		switch (*value)
 		{
@@ -364,7 +364,7 @@ namespace ml
 		return setPosition((vec2i)(Window::getDesktopMode().size - this->getSize()) / 2);
 	}
 
-	Window & Window::setClipboardString(const String & value)
+	Window & Window::setClipboardString(String const & value)
 	{
 		if (m_window)
 		{
@@ -391,7 +391,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setCursorPos(const vec2i & value)
+	Window & Window::setCursorPos(vec2i const & value)
 	{
 		if (m_window)
 		{
@@ -414,7 +414,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setPosition(const vec2i & value)
+	Window & Window::setPosition(vec2i const & value)
 	{
 		if (m_window)
 		{
@@ -452,7 +452,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setSize(const vec2u & value)
+	Window & Window::setSize(vec2u const & value)
 	{
 		m_videoMode.size = value;
 		if (m_window)
@@ -462,7 +462,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setTitle(const String & value)
+	Window & Window::setTitle(String const & value)
 	{
 		m_title = value;
 		if (m_window)
@@ -588,7 +588,7 @@ namespace ml
 		return glfwGetCurrentContext();
 	}
 
-	const VideoMode & Window::getDesktopMode()
+	VideoMode const & Window::getDesktopMode()
 	{
 		static VideoMode temp {};
 		static bool once { true };

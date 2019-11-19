@@ -15,7 +15,7 @@ namespace ml
 
 		Renderer();
 		Renderer(Model const * model, Material const * material, Shader const * shader);
-		Renderer(Model const * model, Material const * material, Shader const * shader, const RenderStates & states);
+		Renderer(Model const * model, Material const * material, Shader const * shader, RenderStates const & states);
 		~Renderer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -24,11 +24,11 @@ namespace ml
 		Renderer & setMaterial(Material const * value);
 		Renderer & setModel(Model const * value);
 		Renderer & setShader(Shader const * value);
-		Renderer & setStates(const RenderStates & value);
+		Renderer & setStates(RenderStates const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto enabled()	const	-> const bool &			{ return m_enabled; }
+		inline auto enabled()	const	-> bool const &			{ return m_enabled; }
 		inline auto material()			-> Material *		{ return std::remove_cv_t<Material *>(m_material); }
 		inline auto material()	const	-> Material const *{ return m_material; }
 		inline auto model()				-> Model *			{ return std::remove_cv_t<Model *>(m_model); }
@@ -36,11 +36,11 @@ namespace ml
 		inline auto shader()			-> Shader *		{ return std::remove_cv_t<Shader *>(m_shader); }
 		inline auto shader()	const	-> Shader const *	{ return m_shader; }
 		inline auto states()			-> RenderStates &		{ return m_states; }
-		inline auto states()	const	-> const RenderStates & { return m_states; }
+		inline auto states()	const	-> RenderStates const & { return m_states; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void draw(const RenderTarget & target, RenderBatch & batch) const override;
+		void draw(RenderTarget const & target, RenderBatch & batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

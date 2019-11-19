@@ -16,9 +16,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static bool		parseShader(const String & src, SStream & v, SStream & g, SStream & f);
-		static String	parseShader(const String & src);
-		static String	parseIncludes(const String & src);
+		static bool		parseShader(String const & src, SStream & v, SStream & g, SStream & f);
+		static String	parseShader(String const & src);
+		static String	parseIncludes(String const & src);
 		static String	parseIncludes(String line, char lhs, char rhs, IncludeCallback callback);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

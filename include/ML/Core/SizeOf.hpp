@@ -20,7 +20,7 @@ namespace ml
 		{
 		}
 
-		constexpr size_of(const size_of & copy)
+		constexpr size_of(size_of const & copy)
 			: m_size(copy.m_size)
 			, m_name(copy.m_name)
 			, m_real(copy.m_real)
@@ -84,7 +84,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const size_of & value)
+	inline ML_SERIALIZE(std::ostream & out, size_of const & value)
 	{
 		return out << value.str();
 	}

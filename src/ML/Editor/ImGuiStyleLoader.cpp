@@ -62,7 +62,7 @@ namespace ml
 
 namespace ml
 {
-	static inline bool readValue(const String & src, char lhs, char rhs, String & out)
+	static inline bool readValue(String const & src, char lhs, char rhs, String & out)
 	{
 		size_t a;
 		if ((a = src.find_first_of(lhs)) != String::npos)
@@ -82,7 +82,7 @@ namespace ml
 		return (bool)(out = String());
 	}
 
-	static inline auto readBool(const String & line)
+	static inline auto readBool(String const & line)
 	{
 		bool out = false;
 		String temp;
@@ -94,7 +94,7 @@ namespace ml
 		return out;
 	}
 
-	static inline auto readFloat(const String & line)
+	static inline auto readFloat(String const & line)
 	{
 		float_t out = 0.0f;
 		String temp;
@@ -106,7 +106,7 @@ namespace ml
 		return out;
 	}
 
-	static inline auto readVec2(const String & line)
+	static inline auto readVec2(String const & line)
 	{
 		ImVec2 out { };
 		String temp;
@@ -118,7 +118,7 @@ namespace ml
 		return out;
 	}
 
-	static inline auto readVec4(const String & line)
+	static inline auto readVec4(String const & line)
 	{
 		ImVec4 out { };
 		String temp;
@@ -140,7 +140,7 @@ namespace ml
 	{
 	}
 
-	ImGuiStyleLoader::ImGuiStyleLoader(const String & filename)
+	ImGuiStyleLoader::ImGuiStyleLoader(String const & filename)
 		: ImGuiStyleLoader()
 	{
 		loadFromFile(filename);
@@ -156,7 +156,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGuiStyleLoader::loadFromFile(const String & filename)
+	bool ImGuiStyleLoader::loadFromFile(String const & filename)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

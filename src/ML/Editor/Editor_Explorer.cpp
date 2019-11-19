@@ -26,7 +26,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Explorer::onEvent(const Event & value)
+	void Editor_Explorer::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 

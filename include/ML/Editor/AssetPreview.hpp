@@ -25,12 +25,12 @@ namespace ml
 			return getPreview(typeof<T>(), value);
 		}
 
-		template <class T> inline Texture const * getPreview(const T * value) const
+		template <class T> inline Texture const * getPreview(T const * value) const
 		{
 			return getPreview<T>((void *)value);
 		}
 
-		template <class T> inline Texture const * getPreview(const T & value) const
+		template <class T> inline Texture const * getPreview(T const & value) const
 		{
 			return getPreview<T>(&value);
 		}
@@ -39,18 +39,18 @@ namespace ml
 
 		using Clbk = std::function<void()>;
 
-		void drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk fun) const;
+		void drawPreview(const typeof<> & type, void * value, vec2 const & size, Clbk fun) const;
 
 		template <
 			class T, class F
-		> inline void drawPreview(T const * value, const vec2 & size, F && fun) const
+		> inline void drawPreview(T const * value, vec2 const & size, F && fun) const
 		{
 			return drawPreview(typeof<T>(), (void *)value, size, fun);
 		}
 
 		template <
 			class T, class F
-		> inline void drawPreview(const T & value, const vec2 & size, F && fun) const
+		> inline void drawPreview(T const & value, vec2 const & size, F && fun) const
 		{
 			return drawPreview<T>(&value, size, fun);
 		}

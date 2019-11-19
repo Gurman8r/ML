@@ -15,7 +15,7 @@ namespace ml
 
 		Editor_Terminal();
 
-		void onEvent(const Event & value) override;
+		void onEvent(Event const & value) override;
 
 		bool draw() override;
 
@@ -28,7 +28,7 @@ namespace ml
 		
 		void printf(C_String value, ...);
 		
-		void printl(const String & value);
+		void printl(String const & value);
 		
 		void printss(SStream & value);
 		
@@ -41,7 +41,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const std::ostream *m_coutPtr; // stream redirect reference
+		std::ostream const *m_coutPtr; // stream redirect reference
 		std::streambuf *	m_coutBuf; // stream redirect buffer
 		SStream				m_coutStr; // stream redirect stream
 		Array<char, 256>	m_inputBuf;

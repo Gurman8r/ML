@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	IndexBufferObject::IndexBufferObject(const IndexBufferObject & copy)
+	IndexBufferObject::IndexBufferObject(IndexBufferObject const & copy)
 		: Handle	(copy)
 		, m_data	(copy.m_data)
 		, m_count	(copy.m_count)
@@ -53,13 +53,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBufferObject & IndexBufferObject::bind() const
+	IndexBufferObject const & IndexBufferObject::bind() const
 	{
 		ML_GL.bindBuffer(GL::ElementArrayBuffer, (*this));
 		return (*this);
 	}
 
-	const IndexBufferObject & IndexBufferObject::unbind() const
+	IndexBufferObject const & IndexBufferObject::unbind() const
 	{
 		ML_GL.bindBuffer(GL::ElementArrayBuffer, NULL);
 		return (*this);
@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBufferObject & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count) const
+	IndexBufferObject const & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count) const
 	{
 		if (*this)
 		{
@@ -83,7 +83,7 @@ namespace ml
 		return (*this);
 	}
 
-	const IndexBufferObject & IndexBufferObject::bufferData(const List<uint32_t> & data) const
+	IndexBufferObject const & IndexBufferObject::bufferData(const List<uint32_t> & data) const
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}

@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	Transform::Transform(const Transform & copy)
+	Transform::Transform(Transform const & copy)
 		: Transform {}
 	{
 	}
@@ -27,19 +27,19 @@ namespace ml
 		return (*this);
 	}
 
-	Transform & Transform::setPosition(const vec3 & value)
+	Transform & Transform::setPosition(vec3 const & value)
 	{
 		m_pos = value;
 		return (*this);
 	}
 
-	Transform & Transform::setRotation(const vec4 & value)
+	Transform & Transform::setRotation(vec4 const & value)
 	{
 		m_rot = value;
 		return (*this);
 	}
 
-	Transform & Transform::setScale(const vec3 & value)
+	Transform & Transform::setScale(vec3 const & value)
 	{
 		m_scl = value;
 		return (*this);

@@ -21,8 +21,8 @@ namespace ml
 		using self_type			= typename Array<value_type, Size>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
+		using const_pointer		= typename value_type const *;
+		using const_reference	= typename value_type const &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
 
@@ -85,8 +85,8 @@ namespace ml
 		using self_type			= typename Array<value_type, 0>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
+		using const_pointer		= typename value_type const *;
+		using const_reference	= typename value_type const &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
 		
@@ -128,7 +128,7 @@ namespace ml
 		class T, size_t N
 	> inline ML_SERIALIZE(std::ostream & out, const Array<T, N> & value)
 	{
-		for (const auto & elem : value)
+		for (auto const & elem : value)
 		{
 			out << elem << " ";
 		}

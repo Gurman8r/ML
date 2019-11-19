@@ -38,7 +38,7 @@ namespace ml
 		{
 		}
 
-		explicit BasicString(const allocator_type & alloc) noexcept
+		explicit BasicString(allocator_type const & alloc) noexcept
 			: base_type(alloc)
 		{
 		}
@@ -48,42 +48,42 @@ namespace ml
 		{
 		}
 
-		BasicString(base_type && value, const allocator_type & alloc)
+		BasicString(base_type && value, allocator_type const & alloc)
 			: base_type(value, alloc)
 		{
 		}
 		
-		BasicString(const base_type & value)
+		BasicString(base_type const & value)
 			: base_type(value)
 		{
 		}
 		
-		BasicString(const base_type & value, const allocator_type & alloc)
+		BasicString(base_type const & value, allocator_type const & alloc)
 			: base_type(value, alloc)
 		{
 		}
 		
-		BasicString(const base_type & value, const size_type off, const allocator_type & alloc = allocator_type())
+		BasicString(base_type const & value, const size_type off, allocator_type const & alloc = allocator_type())
 			: base_type(value, off, alloc)
 		{
 		}
 		
-		BasicString(const base_type & value, const size_type off, const size_type count, const allocator_type & alloc = allocator_type())
+		BasicString(base_type const & value, const size_type off, const size_type count, allocator_type const & alloc = allocator_type())
 			: base_type(value, off, count, alloc)
 		{
 		}
 		
-		BasicString(const Ch * const value)
+		BasicString(Ch const * const value)
 			: base_type(value)
 		{
 		}
 		
-		BasicString(const Ch * const value, const size_type count)
+		BasicString(Ch const * const value, const size_type count)
 			: base_type(value, count)
 		{
 		}
 		
-		BasicString(const Ch * const value, const size_type count, const allocator_type & alloc)
+		BasicString(Ch const * const value, const size_type count, allocator_type const & alloc)
 			: base_type(value, count, alloc)
 		{
 		}
@@ -93,7 +93,7 @@ namespace ml
 		{
 		}
 		
-		BasicString(const size_type count, const Ch value, const allocator_type & alloc)
+		BasicString(const size_type count, const Ch value, allocator_type const & alloc)
 			: base_type(count, value, alloc)
 		{
 		}
@@ -114,7 +114,7 @@ namespace ml
 		
 		template <
 			class Iter
-		> BasicString(Iter begin, Iter end, const allocator_type & alloc = allocator_type())
+		> BasicString(Iter begin, Iter end, allocator_type const & alloc = allocator_type())
 			: base_type(begin, end, alloc)
 		{
 		}
@@ -124,7 +124,7 @@ namespace ml
 		{
 		}
 
-		BasicString(const StringView & copy)
+		BasicString(StringView const & copy)
 			: base_type(copy.str())
 		{
 		}
@@ -141,9 +141,9 @@ namespace ml
 			return static_cast<base_type &>(*this);
 		}
 
-		inline operator const base_type &() const
+		inline operator base_type const &() const
 		{
-			return static_cast<const base_type &>(*this);
+			return static_cast<base_type const &>(*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -157,7 +157,7 @@ namespace ml
 
 		template <
 			class Arg0, class ... Args
-		> inline self_type & format(const Arg0 & arg0, Args && ... args)
+		> inline self_type & format(Arg0 const & arg0, Args && ... args)
 		{
 			sstream_type ss {}; ss << arg0 << std::endl;
 			
@@ -181,14 +181,14 @@ namespace ml
 
 		template <
 			class Arg0, class ... Args
-		> inline self_type format(const Arg0 & arg0, Args && ... args) const
+		> inline self_type format(Arg0 const & arg0, Args && ... args) const
 		{
 			return self_type{ *this }.format(arg0, _STD forward<Args>(args)...);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline self_type & replace_all(const self_type & to_replace, const self_type & value)
+		inline self_type & replace_all(self_type const & to_replace, self_type const & value)
 		{
 			if (!this->empty() && !to_replace.empty())
 			{
@@ -201,19 +201,19 @@ namespace ml
 			return (*this);
 		}
 
-		inline self_type replace_all(const self_type & f, const self_type & r) const
+		inline self_type replace_all(self_type const & f, self_type const & r) const
 		{
 			return self_type{ *this }.replace_all(f, r);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline self_type & remove_all(const self_type & to_remove)
+		inline self_type & remove_all(self_type const & to_remove)
 		{
 			return this->replace_all(to_remove, self_type {});
 		}
 
-		inline self_type remove_all(const self_type & to_remove) const
+		inline self_type remove_all(self_type const & to_remove) const
 		{
 			return self_type{ *this }.remove_all(to_remove);
 		}

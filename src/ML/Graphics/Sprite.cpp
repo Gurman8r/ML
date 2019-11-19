@@ -14,13 +14,13 @@ namespace ml
 	{
 	}
 
-	Sprite::Sprite(const String & filename)
+	Sprite::Sprite(String const & filename)
 		: Sprite{}
 	{
 		loadFromFile(filename);
 	}
 
-	Sprite::Sprite(const Sprite & copy)
+	Sprite::Sprite(Sprite const & copy)
 		: m_color	{ copy.m_color }
 		, m_texture	{ copy.m_texture }
 		, m_tf		{ copy.m_tf }
@@ -31,7 +31,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Sprite::loadFromFile(const String & filename)
+	bool Sprite::loadFromFile(String const & filename)
 	{
 		return true;
 	}
@@ -48,19 +48,19 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Sprite & Sprite::setColor(const vec4 & value)
+	Sprite & Sprite::setColor(vec4 const & value)
 	{
 		m_color = value;
 		return (*this);
 	}
 	
-	Sprite & Sprite::setOrigin(const vec2 & value)
+	Sprite & Sprite::setOrigin(vec2 const & value)
 	{
 		m_tf.setOrigin(value);
 		return (*this);
 	}
 
-	Sprite & Sprite::setPosition(const vec2 & value)
+	Sprite & Sprite::setPosition(vec2 const & value)
 	{
 		m_tf.setPosition(value);
 		return (*this);
@@ -72,7 +72,7 @@ namespace ml
 		return (*this);
 	}
 
-	Sprite & Sprite::setScale(const vec2 & value)
+	Sprite & Sprite::setScale(vec2 const & value)
 	{
 		m_tf.setScale(value);
 		return (*this);
@@ -86,7 +86,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Sprite::draw(const RenderTarget & target, RenderBatch & batch) const
+	void Sprite::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
 		if (m_texture && batch.mat)
 		{

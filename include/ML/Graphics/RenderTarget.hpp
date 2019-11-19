@@ -20,31 +20,31 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		const RenderTarget & draw(Drawable const * value) const;
+		RenderTarget const & draw(Drawable const * value) const;
 		
-		const RenderTarget & draw(Drawable const * value, RenderBatch & batch) const;
+		RenderTarget const & draw(Drawable const * value, RenderBatch & batch) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const RenderTarget & draw(const Drawable & value) const;
+		RenderTarget const & draw(Drawable const & value) const;
 		
-		const RenderTarget & draw(const Drawable & value, RenderBatch & batch) const;
-		
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		const RenderTarget & draw(const List<Vertex> & verts, RenderBatch & batch) const;
-		
-		const RenderTarget & draw(const List<float_t> & verts, RenderBatch & batch) const;
-		
-		const RenderTarget & draw(float_t const * verts, size_t count, RenderBatch & batch) const;
-		
-		const RenderTarget & draw(float_t const * verts, size_t count, VAO const * vao, VBO const * vbo) const;
+		RenderTarget const & draw(Drawable const & value, RenderBatch & batch) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const RenderTarget & draw(const VAO & vao, const VBO & vbo, const IBO & ibo) const;
+		RenderTarget const & draw(const List<Vertex> & verts, RenderBatch & batch) const;
 		
-		const RenderTarget & draw(const VAO & vao, const VBO & vbo) const;
+		RenderTarget const & draw(const List<float_t> & verts, RenderBatch & batch) const;
+		
+		RenderTarget const & draw(float_t const * verts, size_t count, RenderBatch & batch) const;
+		
+		RenderTarget const & draw(float_t const * verts, size_t count, VAO const * vao, VBO const * vbo) const;
+		
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		RenderTarget const & draw(VAO const & vao, VBO const & vbo, IBO const & ibo) const;
+		
+		RenderTarget const & draw(VAO const & vao, VBO const & vbo) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

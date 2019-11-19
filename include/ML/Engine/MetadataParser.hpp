@@ -21,13 +21,13 @@ namespace ml
 
 		bool dispose() override;
 
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		static const List<Metadata *> & loadLists(List<Metadata *> & data, const List<Map<String, String>> & value);
 		
-		static bool readFile(const String & filename, List<Metadata *> & list);
+		static bool readFile(String const & filename, List<Metadata *> & list);
 		
 		static bool readLists(List<Metadata *> & list, std::istream & file, String & line);
 		

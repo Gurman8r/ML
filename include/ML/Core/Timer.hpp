@@ -2,7 +2,7 @@
 #define _ML_TIMER_HPP_
 
 #include <ML/Core/Duration.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 
 namespace ml
 {
@@ -30,7 +30,7 @@ namespace ml
 			if (startMe) { this->start(); }
 		}
 
-		Timer(const Timer & copy)
+		Timer(Timer const & copy)
 			: m_paused	{ copy.m_paused }
 			, m_prev	{ copy.m_prev }
 			, m_next	{ copy.m_next }
@@ -42,12 +42,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const bool & paused() const
+		inline bool const & paused() const
 		{
 			return m_paused;
 		}
 
-		inline const Duration & elapsed() const
+		inline Duration const & elapsed() const
 		{
 			return (m_paused ? (m_elapsed) : (m_elapsed = (Clock::now() - m_prev)));
 		}

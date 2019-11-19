@@ -1,7 +1,7 @@
 #ifndef _ML_META_VALUE_HPP_
 #define _ML_META_VALUE_HPP_
 
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 namespace ml
@@ -43,12 +43,12 @@ namespace ml
 		{
 		}
 
-		explicit MetadataValue(const String & value)
+		explicit MetadataValue(String const & value)
 			: m_data { value }
 		{
 		}
 
-		MetadataValue(const MetadataValue & copy)
+		MetadataValue(MetadataValue const & copy)
 			: m_data{ copy.m_data }
 		{
 		}
@@ -80,7 +80,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const MetadataValue & value)
+	inline ML_SERIALIZE(std::ostream & out, MetadataValue const & value)
 	{
 		return out << value.asString();
 	}

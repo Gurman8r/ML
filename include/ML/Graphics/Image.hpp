@@ -4,7 +4,7 @@
 #include <ML/Graphics/Color.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 
@@ -29,34 +29,34 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Image();
-		Image(const vec2u & size);
-		Image(const vec2u & size, uint32_t channels);
-		Image(const vec2u & size, const Pixels & pixels);
-		Image(const vec2u & size, const Pixels & pixels, uint32_t channels);
-		explicit Image(const String & filename);
-		explicit Image(const String & filename, bool flip_v);
-		explicit Image(const String & filename, bool flip_v, uint32_t req_comp);
-		Image(const Image & copy);
+		Image(vec2u const & size);
+		Image(vec2u const & size, uint32_t channels);
+		Image(vec2u const & size, Pixels const & pixels);
+		Image(vec2u const & size, Pixels const & pixels, uint32_t channels);
+		explicit Image(String const & filename);
+		explicit Image(String const & filename, bool flip_v);
+		explicit Image(String const & filename, bool flip_v, uint32_t req_comp);
+		Image(Image const & copy);
 		~Image();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
-		bool loadFromFile(const String & filename, bool flip_v);
-		bool loadFromFile(const String & filename, bool flip_v, uint32_t req_comp);
+		bool loadFromFile(String const & filename);
+		bool loadFromFile(String const & filename, bool flip_v);
+		bool loadFromFile(String const & filename, bool flip_v, uint32_t req_comp);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Image & update(const vec2u & size, const Color32 & color);
-		Image & update(const Color32 & color);
-		Image & update(const vec2u & size, uint32_t channels, const Color32 & color);
+		Image & update(vec2u const & size, Color32 const & color);
+		Image & update(Color32 const & color);
+		Image & update(vec2u const & size, uint32_t channels, Color32 const & color);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Image & update(const vec2u & size, const Pixels & pixels);
-		Image & update(const Pixels & pixels);
-		Image & update(const vec2u & size, uint32_t channels, const Pixels & pixels);
+		Image & update(vec2u const & size, Pixels const & pixels);
+		Image & update(Pixels const & pixels);
+		Image & update(vec2u const & size, uint32_t channels, Pixels const & pixels);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -66,19 +66,19 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Color32 getPixel(uint32_t x, uint32_t y) const;
-		Image & setPixel(uint32_t x, uint32_t y, const Color32 & color);
+		Image & setPixel(uint32_t x, uint32_t y, Color32 const & color);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto bounds()	const -> UintRect			{ return UintRect { { 0, 0 }, size() }; }
 		inline auto capacity()	const -> uint32_t			{ return width() * height() * channels(); }
-		inline auto channels()	const -> const uint32_t	&	{ return m_channels; }
+		inline auto channels()	const -> uint32_t const	&	{ return m_channels; }
 		inline auto data()		const -> byte_t const *{ return m_pixels.data(); }
 		inline auto empty()		const -> bool				{ return m_pixels.empty(); }
-		inline auto height()	const -> const uint32_t &	{ return m_size[1]; }
-		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
-		inline auto size()		const -> const vec2u &		{ return m_size; }
-		inline auto width()		const -> const uint32_t &	{ return m_size[0]; }
+		inline auto height()	const -> uint32_t const &	{ return m_size[1]; }
+		inline auto pixels()	const -> Pixels const &		{ return m_pixels; }
+		inline auto size()		const -> vec2u const &		{ return m_size; }
+		inline auto width()		const -> uint32_t const &	{ return m_size[0]; }
 
 		inline GL::Format getFormat() const
 		{
@@ -98,7 +98,7 @@ namespace ml
 			return !this->empty();
 		}
 
-		inline const byte_t & operator[](size_t i) const
+		inline byte_t const & operator[](size_t i) const
 		{
 			return m_pixels[i];
 		}

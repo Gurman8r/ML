@@ -15,7 +15,7 @@ namespace ml
 	{
 		virtual ~EventListener();
 
-		virtual void onEvent(const Event & value) = 0;
+		virtual void onEvent(Event const & value) = 0;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

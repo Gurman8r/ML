@@ -10,7 +10,7 @@ using self_type			= typename _ML ContentImporter<value_type>;	\
 using pointer			= typename value_type *;				\
 using reference			= typename value_type &;					\
 using const_pointer		= typename value_type const *;			\
-using const_reference	= typename const value_type &;				\
+using const_reference	= typename value_type const &;				\
 static constexpr typeof<> info() { return typeof<T>{}; }			\
 ContentImporter() = default;
 
@@ -32,7 +32,7 @@ namespace ml
 	{
 		ContentImporter() = delete;
 
-		static bool loadMetadata(const Metadata & value);
+		static bool loadMetadata(Metadata const & value);
 
 		static int32_t loadMetadata(const List<Metadata> & value);
 
@@ -41,7 +41,7 @@ namespace ml
 		{
 			List<Metadata> md{};
 			md.reserve(value.size());
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 			{
 				md.push_back(Metadata{ elem });
 			}
@@ -56,7 +56,7 @@ namespace ml
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename value_type const *;
-		using const_reference	= typename const value_type &;
+		using const_reference	= typename value_type const &;
 
 		struct Info final
 		{
@@ -72,7 +72,7 @@ namespace ml
 	struct Entity; template <
 	> struct ML_ENGINE_API ContentImporter<Entity> final : public BaseContentImporter<Entity>
 	{
-		Entity * operator()(const Metadata & md) const;
+		Entity * operator()(Metadata const & md) const;
 	};
 
 	// Font Importer
@@ -80,7 +80,7 @@ namespace ml
 	struct Font; template <
 	> struct ML_ENGINE_API ContentImporter<Font> final : public BaseContentImporter<Font>
 	{
-		Font * operator()(const Metadata & md) const;
+		Font * operator()(Metadata const & md) const;
 	};
 
 
@@ -89,7 +89,7 @@ namespace ml
 	struct Image; template <
 	> struct ML_ENGINE_API ContentImporter<Image> final : public BaseContentImporter<Image>
 	{
-		Image * operator()(const Metadata & md) const;
+		Image * operator()(Metadata const & md) const;
 	};
 
 
@@ -98,7 +98,7 @@ namespace ml
 	struct Material; template <
 	> struct ML_ENGINE_API ContentImporter<Material> final : public BaseContentImporter<Material>
 	{
-		Material * operator()(const Metadata & md) const;
+		Material * operator()(Metadata const & md) const;
 	};
 
 
@@ -107,7 +107,7 @@ namespace ml
 	struct Model; template <
 	> struct ML_ENGINE_API ContentImporter<Model> final : public BaseContentImporter<Model>
 	{
-		Model * operator()(const Metadata & md) const;
+		Model * operator()(Metadata const & md) const;
 	};
 
 
@@ -116,7 +116,7 @@ namespace ml
 	struct Script; template <
 	> struct ML_ENGINE_API ContentImporter<Script> final : public BaseContentImporter<Script>
 	{
-		Script * operator()(const Metadata & md) const;
+		Script * operator()(Metadata const & md) const;
 	};
 
 
@@ -125,7 +125,7 @@ namespace ml
 	struct Shader; template <
 	> struct ML_ENGINE_API ContentImporter<Shader> final : public BaseContentImporter<Shader>
 	{
-		Shader * operator()(const Metadata & md) const;
+		Shader * operator()(Metadata const & md) const;
 	};
 
 
@@ -134,7 +134,7 @@ namespace ml
 	struct Sound; template <
 	> struct ML_ENGINE_API ContentImporter<Sound> final : public BaseContentImporter<Sound>
 	{
-		Sound * operator()(const Metadata & md) const;
+		Sound * operator()(Metadata const & md) const;
 	};
 
 
@@ -143,7 +143,7 @@ namespace ml
 	struct Sprite; template <
 	> struct ML_ENGINE_API ContentImporter<Sprite> final : public BaseContentImporter<Sprite>
 	{
-		Sprite * operator()(const Metadata & md) const;
+		Sprite * operator()(Metadata const & md) const;
 	};
 
 
@@ -152,7 +152,7 @@ namespace ml
 	struct Surface; template <
 	> struct ML_ENGINE_API ContentImporter<Surface> final : public BaseContentImporter<Surface>
 	{
-		Surface * operator()(const Metadata & md) const;
+		Surface * operator()(Metadata const & md) const;
 	};
 
 
@@ -161,7 +161,7 @@ namespace ml
 	struct Texture; template <
 	> struct ML_ENGINE_API ContentImporter<Texture> final : public BaseContentImporter<Texture>
 	{
-		Texture * operator()(const Metadata & md) const;
+		Texture * operator()(Metadata const & md) const;
 	};
 }
 

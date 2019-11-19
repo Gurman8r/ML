@@ -11,31 +11,31 @@ namespace ml
 	{
 	}
 
-	CommandImpl::CommandImpl(const String & name)
+	CommandImpl::CommandImpl(String const & name)
 		: CommandDescriptor(name)
 		, m_executor(nullptr)
 	{
 	}
 
-	CommandImpl::CommandImpl(const String & name, CommandExecutor * executor)
+	CommandImpl::CommandImpl(String const & name, CommandExecutor * executor)
 		: CommandDescriptor(name)
 		, m_executor(executor)
 	{
 	}
 
-	CommandImpl::CommandImpl(const String & name, const String & desc, const String & usage)
+	CommandImpl::CommandImpl(String const & name, String const & desc, String const & usage)
 		: CommandDescriptor(name, desc, usage)
 		, m_executor(nullptr)
 	{
 	}
 
-	CommandImpl::CommandImpl(const String & name, const String & desc, const String & usage, CommandExecutor * executor)
+	CommandImpl::CommandImpl(String const & name, String const & desc, String const & usage, CommandExecutor * executor)
 		: CommandDescriptor(name, desc, usage)
 		, m_executor(executor)
 	{
 	}
 
-	CommandImpl::CommandImpl(const CommandImpl & copy)
+	CommandImpl::CommandImpl(CommandImpl const & copy)
 		: CommandDescriptor(copy)
 		, m_executor(copy.m_executor)
 	{

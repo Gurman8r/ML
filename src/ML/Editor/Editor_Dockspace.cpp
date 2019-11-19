@@ -22,7 +22,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Dockspace::onEvent(const Event & value)
+	void Editor_Dockspace::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 	}
@@ -32,7 +32,7 @@ namespace ml
 		if (m_good = (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))
 		{
 			// Bounds
-			const ImGuiViewport * viewport = ImGui::GetMainViewport();
+			ImGuiViewport const * viewport = ImGui::GetMainViewport();
 			ImGui::SetNextWindowPos(viewport->Pos);
 			ImGui::SetNextWindowSize(viewport->Size);
 			ImGui::SetNextWindowViewport(viewport->ID);

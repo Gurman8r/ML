@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	AudioSource::AudioSource(const AudioSource & copy)
+	AudioSource::AudioSource(AudioSource const & copy)
 		: Handle(copy)
 		, m_count(copy.m_count)
 	{

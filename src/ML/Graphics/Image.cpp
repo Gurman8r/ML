@@ -39,22 +39,22 @@ namespace ml
 	{
 	}
 
-	Image::Image(const vec2u & size)
+	Image::Image(vec2u const & size)
 		: Image { size, 4 }
 	{
 	}
 
-	Image::Image(const vec2u & size, uint32_t channels) 
+	Image::Image(vec2u const & size, uint32_t channels) 
 		: Image { size, Pixels(), channels }
 	{
 	}
 
-	Image::Image(const vec2u & size, const Pixels & pixels)
+	Image::Image(vec2u const & size, Pixels const & pixels)
 		: Image { size, pixels, 4 }
 	{
 	}
 
-	Image::Image(const vec2u & size, const Pixels & pixels, uint32_t channels)
+	Image::Image(vec2u const & size, Pixels const & pixels, uint32_t channels)
 		: m_size { size }
 		, m_pixels { pixels }
 		, m_channels { channels }
@@ -68,23 +68,23 @@ namespace ml
 		}
 	}
 
-	Image::Image(const String & filename)
+	Image::Image(String const & filename)
 		: Image { filename, false }
 	{
 	}
 
-	Image::Image(const String & filename, bool flip_v)
+	Image::Image(String const & filename, bool flip_v)
 		: Image { filename, flip_v, 0 }
 	{
 	}
 
-	Image::Image(const String & filename, bool flip_v, uint32_t req_comp)
+	Image::Image(String const & filename, bool flip_v, uint32_t req_comp)
 		: Image {}
 	{
 		this->loadFromFile(filename, flip_v, req_comp);
 	}
 
-	Image::Image(const Image & copy)
+	Image::Image(Image const & copy)
 		: Image {}
 	{
 		this->update(copy.m_size, copy.m_channels, copy.m_pixels);
@@ -105,17 +105,17 @@ namespace ml
 		return !(*this);
 	}
 	
-	bool Image::loadFromFile(const String & filename)
+	bool Image::loadFromFile(String const & filename)
 	{
 		return loadFromFile(filename, true);
 	}
 
-	bool Image::loadFromFile(const String & filename, bool flip_v)
+	bool Image::loadFromFile(String const & filename, bool flip_v)
 	{
 		return loadFromFile(filename, flip_v, 0);
 	}
 
-	bool Image::loadFromFile(const String & filename, bool flip_v, uint32_t req_comp)
+	bool Image::loadFromFile(String const & filename, bool flip_v, uint32_t req_comp)
 	{
 		stbi_set_flip_vertically_on_load(flip_v);
 
@@ -136,17 +136,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Image & Image::update(const vec2u & size, const Color32 & color)
+	Image & Image::update(vec2u const & size, Color32 const & color)
 	{
 		return update(size, channels(), color);
 	}
 
-	Image & Image::update(const Color32 & color)
+	Image & Image::update(Color32 const & color)
 	{
 		return update(size(), channels(), color);
 	}
 	
-	Image & Image::update(const vec2u & size, uint32_t channels, const Color32 & color)
+	Image & Image::update(vec2u const & size, uint32_t channels, Color32 const & color)
 	{
 		if (size[0] && size[1] && channels)
 		{
@@ -170,17 +170,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	Image & Image::update(const vec2u & size, const Pixels & pixels)
+	Image & Image::update(vec2u const & size, Pixels const & pixels)
 	{
 		return update(size, m_channels, pixels);
 	}
 
-	Image & Image::update(const Pixels & pixels)
+	Image & Image::update(Pixels const & pixels)
 	{
 		return update(m_size, m_channels, pixels);
 	}
 	
-	Image & Image::update(const vec2u & size, uint32_t channels, const Pixels & pixels)
+	Image & Image::update(vec2u const & size, uint32_t channels, Pixels const & pixels)
 	{
 		if (!pixels.empty() && (pixels.size() == (size[0] * size[1] * channels)))
 		{
@@ -249,7 +249,7 @@ namespace ml
 		return temp;
 	}
 
-	Image & Image::setPixel(uint32_t x, uint32_t y, const Color32 & color)
+	Image & Image::setPixel(uint32_t x, uint32_t y, Color32 const & color)
 	{
 		const size_t i { (x + y * m_size[0]) * m_channels };
 		if (i < capacity())

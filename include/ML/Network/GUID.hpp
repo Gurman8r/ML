@@ -16,13 +16,13 @@ namespace ml
 
 		constexpr GUID(uint64_t id) : id { id } {}
 
-		constexpr GUID(const GUID & copy) : GUID { copy.id } {}
+		constexpr GUID(GUID const & copy) : GUID { copy.id } {}
 
 		constexpr GUID() : GUID { 0 } {}
 
 		constexpr operator uint64_t() const { return this->id; }
 
-		inline friend ML_SERIALIZE(std::ostream & out, const GUID & value)
+		inline friend ML_SERIALIZE(std::ostream & out, GUID const & value)
 		{
 			return out << value.id;
 		}

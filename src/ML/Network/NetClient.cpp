@@ -20,7 +20,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	void NetClient::onEvent(const Event & value)
+	void NetClient::onEvent(Event const & value)
 	{
 		switch (*value)
 		{
@@ -35,7 +35,7 @@ namespace ml
 		}
 	}
 
-	void NetClient::onPacket(const Packet & value)
+	void NetClient::onPacket(Packet const & value)
 	{
 		switch (value.data[0])
 		{
@@ -67,7 +67,7 @@ namespace ml
 		}
 	}
 
-	bool NetClient::connect(const Host & host, const String & pass)
+	bool NetClient::connect(Host const & host, String const & pass)
 	{
 		if (m_peer)
 		{

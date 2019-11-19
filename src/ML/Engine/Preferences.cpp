@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	Preferences::Preferences(const String & filename)
+	Preferences::Preferences(String const & filename)
 		: Preferences()
 	{
 		if (!loadFromFile(filename))
@@ -33,7 +33,7 @@ namespace ml
 		return !(m_ini);
 	}
 	
-	bool Preferences::loadFromFile(const String & filename)
+	bool Preferences::loadFromFile(String const & filename)
 	{
 		if ((!m_ini) && (m_ini = new INIReader(m_filename = filename)))
 		{
@@ -45,11 +45,11 @@ namespace ml
 		return false;
 	}
 
-	bool Preferences::saveToFile(const String & filename) const
+	bool Preferences::saveToFile(String const & filename) const
 	{
 		if (std::ofstream file { filename })
 		{
-			for (const String & elem : sections())
+			for (String const & elem : sections())
 			{
 				// WIP
 			}
@@ -83,7 +83,7 @@ namespace ml
 		return Map<String, String>();
 	}
 
-	bool Preferences::set_string(const String & section, const String & name, const String & value)
+	bool Preferences::set_string(String const & section, String const & name, String const & value)
 	{
 		if (auto ini { static_cast<INIReader *>(m_ini) })
 		{
@@ -94,7 +94,7 @@ namespace ml
 		return false;
 	}
 
-	bool Preferences::get_bool(const String & section, const String & name, bool dv) const
+	bool Preferences::get_bool(String const & section, String const & name, bool dv) const
 	{
 		return ((m_ini)
 			? static_cast<INIReader *>(m_ini)->GetBoolean(section, name, dv)
@@ -102,7 +102,7 @@ namespace ml
 		);
 	}
 
-	float64_t Preferences::get_double(const String & section, const String & name, float64_t dv) const
+	float64_t Preferences::get_double(String const & section, String const & name, float64_t dv) const
 	{
 		return ((m_ini)
 			? static_cast<INIReader *>(m_ini)->GetReal(section, name, dv)
@@ -110,12 +110,12 @@ namespace ml
 		);
 	}
 
-	float_t Preferences::get_float(const String & section, const String & name, float_t dv) const
+	float_t Preferences::get_float(String const & section, String const & name, float_t dv) const
 	{
 		return (float_t)get_double(section, name, (float64_t)dv);
 	}
 
-	int32_t Preferences::get_int(const String & section, const String & name, int32_t dv) const
+	int32_t Preferences::get_int(String const & section, String const & name, int32_t dv) const
 	{
 		return ((m_ini) 
 			? static_cast<INIReader *>(m_ini)->GetInteger(section, name, dv)
@@ -123,12 +123,12 @@ namespace ml
 		);
 	}
 
-	uint32_t Preferences::get_uint(const String & section, const String & name, uint32_t dv) const
+	uint32_t Preferences::get_uint(String const & section, String const & name, uint32_t dv) const
 	{
 		return (uint32_t)get_int(section, name, (int32_t)dv);
 	}
 
-	String Preferences::get_string(const String & section, const String & name, const String & dv) const
+	String Preferences::get_string(String const & section, String const & name, String const & dv) const
 	{
 		return ((m_ini)
 			? (String)static_cast<INIReader *>(m_ini)->Get(section, name, dv)

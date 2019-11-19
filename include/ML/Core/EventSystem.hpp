@@ -20,11 +20,11 @@ namespace ml
 		
 		EventListener * addListener(const int32_t type, EventListener * listener);
 		
-		bool fireEvent(const Event & value);
+		bool fireEvent(Event const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool removeListener(const int32_t & type, EventListener * listener);
+		bool removeListener(int32_t const & type, EventListener * listener);
 		
 		bool removeListenerFromAllEvents(EventListener * listener);
 

@@ -25,7 +25,7 @@ namespace ml
 	{
 	}
 
-	Renderer::Renderer(Model const * model, Material const * material, Shader const * shader, const RenderStates & states)
+	Renderer::Renderer(Model const * model, Material const * material, Shader const * shader, RenderStates const & states)
 		: m_enabled	{ true }
 		, m_model	{ model }
 		, m_material{ material }
@@ -62,7 +62,7 @@ namespace ml
 		return (*this);
 	}
 
-	Renderer & Renderer::setStates(const RenderStates & value)
+	Renderer & Renderer::setStates(RenderStates const & value)
 	{
 		m_states = value;
 		return (*this);
@@ -70,7 +70,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Renderer::draw(const RenderTarget & target, RenderBatch & batch) const
+	void Renderer::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
 		if (m_enabled && m_model && m_material && m_shader)
 		{
@@ -78,7 +78,7 @@ namespace ml
 
 			if (const ScopedBinder<Shader> binder{ m_shader, false })
 			{
-				for (const auto & u : (*m_material))
+				for (auto const & u : (*m_material))
 				{
 					binder->setUniform(u);
 				}

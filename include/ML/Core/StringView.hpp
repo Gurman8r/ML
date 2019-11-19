@@ -14,8 +14,8 @@ namespace ml
 		using self_type			= typename StringView;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
+		using const_pointer		= typename value_type const *;
+		using const_reference	= typename value_type const &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
 
@@ -128,9 +128,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const StringView & value)
+	inline ML_SERIALIZE(std::ostream & out, StringView const & value)
 	{
-		for (const auto & elem : value)
+		for (auto const & elem : value)
 		{
 			out << elem;
 		}
@@ -139,64 +139,64 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	constexpr bool operator==(const StringView & lhs, const StringView & rhs)
+	constexpr bool operator==(StringView const & lhs, StringView const & rhs)
 	{
 		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator!=(const StringView & lhs, const StringView & rhs)
+	constexpr bool operator!=(StringView const & lhs, StringView const & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	constexpr bool operator<(const StringView & lhs, const StringView & rhs)
+	constexpr bool operator<(StringView const & lhs, StringView const & rhs)
 	{
 		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator>(const StringView & lhs, const StringView & rhs)
+	constexpr bool operator>(StringView const & lhs, StringView const & rhs)
 	{
 		return !(lhs > rhs);
 	}
 
-	constexpr bool operator<=(const StringView & lhs, const StringView & rhs)
+	constexpr bool operator<=(StringView const & lhs, StringView const & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
-	constexpr bool operator>=(const StringView & lhs, const StringView & rhs)
+	constexpr bool operator>=(StringView const & lhs, StringView const & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	constexpr bool operator==(const StringView & lhs, C_String rhs)
+	constexpr bool operator==(StringView const & lhs, C_String rhs)
 	{
 		return (lhs == StringView { rhs });
 	}
 
-	constexpr bool operator!=(const StringView & lhs, C_String rhs)
+	constexpr bool operator!=(StringView const & lhs, C_String rhs)
 	{
 		return (lhs != StringView { rhs });
 	}
 
-	constexpr bool operator<(const StringView & lhs, C_String rhs)
+	constexpr bool operator<(StringView const & lhs, C_String rhs)
 	{
 		return (lhs < StringView { rhs });
 	}
 
-	constexpr bool operator>(const StringView & lhs, C_String rhs)
+	constexpr bool operator>(StringView const & lhs, C_String rhs)
 	{
 		return (lhs < StringView { rhs });
 	}
 
-	constexpr bool operator<=(const StringView & lhs, C_String rhs)
+	constexpr bool operator<=(StringView const & lhs, C_String rhs)
 	{
 		return (lhs <= StringView { rhs });
 	}
 
-	constexpr bool operator>=(const StringView & lhs, C_String rhs)
+	constexpr bool operator>=(StringView const & lhs, C_String rhs)
 	{
 		return (lhs >= StringView { rhs });
 	}

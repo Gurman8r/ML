@@ -760,13 +760,13 @@ namespace ml
 		return getProgramParameter(obj, GL::ObjectCompileStatus);
 	}
 
-	auto OpenGL::compileShader(uint32_t & obj, uint32_t type, int32_t count, const C_String * source) -> int32_t
+	auto OpenGL::compileShader(uint32_t & obj, uint32_t type, int32_t count, C_String const * source) -> int32_t
 	{
 		C_String log { nullptr };
 		return compileShader(obj, type, count, source, log);
 	}
 
-	auto OpenGL::compileShader(uint32_t & obj, uint32_t type, int32_t count, const C_String * source, C_String & log) -> int32_t
+	auto OpenGL::compileShader(uint32_t & obj, uint32_t type, int32_t count, C_String const * source, C_String & log) -> int32_t
 	{
 		log = nullptr;
 		if ((count < 1) || !source || !(*source))

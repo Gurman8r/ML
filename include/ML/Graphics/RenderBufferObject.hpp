@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Handle.hpp>
 #include <ML/Core/Matrix.hpp>
 
@@ -16,32 +16,32 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RenderBufferObject();
-		RenderBufferObject(const RenderBufferObject & copy);
+		RenderBufferObject(RenderBufferObject const & copy);
 		~RenderBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RenderBufferObject & clean();
 
-		RenderBufferObject & create(const vec2i & size);
+		RenderBufferObject & create(vec2i const & size);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const RenderBufferObject & bind() const;
+		RenderBufferObject const & bind() const;
 
-		const RenderBufferObject & unbind() const;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		const RenderBufferObject & bufferStorage(GL::Format internalFormat) const;
-
-		const RenderBufferObject & setFramebuffer(GL::FrameID attachment) const;
+		RenderBufferObject const & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto size()		const -> const vec2i &		{ return m_size; }
-		inline auto width()		const -> const int32_t &	{ return m_size[0]; }
-		inline auto height()	const -> const int32_t &	{ return m_size[1]; }
+		RenderBufferObject const & bufferStorage(GL::Format internalFormat) const;
+
+		RenderBufferObject const & setFramebuffer(GL::FrameID attachment) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto size()		const -> vec2i const &		{ return m_size; }
+		inline auto width()		const -> int32_t const &	{ return m_size[0]; }
+		inline auto height()	const -> int32_t const &	{ return m_size[1]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -18,7 +18,7 @@ namespace ml
 			return (tvec4<To>)value;
 		}
 
-		static constexpr vec4b color_cast(const vec4f & value)
+		static constexpr vec4b color_cast(vec4f const & value)
 		{
 			return {
 				(byte_t)(value[0] * 255.f),
@@ -28,7 +28,7 @@ namespace ml
 			};
 		}
 
-		static constexpr vec4f color_cast(const vec4b & value)
+		static constexpr vec4f color_cast(vec4b const & value)
 		{
 			return {
 				(float_t)value[0] / 255.f,
@@ -51,12 +51,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr BasicColor(const rgba_t & value)
+		constexpr BasicColor(rgba_t const & value)
 			: m_value { value }
 		{
 		}
 
-		constexpr BasicColor(const rgb_t & rgb, type a)
+		constexpr BasicColor(rgb_t const & rgb, type a)
 			: m_value { rgb[0], rgb[1], rgb[2], a }
 		{
 		}
@@ -95,22 +95,22 @@ namespace ml
 
 		inline operator rgba_t &() { return m_value; }
 
-		constexpr operator const rgba_t &() const { return m_value; }
+		constexpr operator rgba_t const &() const { return m_value; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline type & operator[](size_t i) { return m_value[i]; }
 
-		constexpr const type & operator[](size_t i) const { return m_value[i]; }
+		constexpr type const & operator[](size_t i) const { return m_value[i]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto r()		const -> const type &	{ return m_value[0]; }
-		constexpr auto g()		const -> const type &	{ return m_value[1]; }
-		constexpr auto b()		const -> const type &	{ return m_value[2]; }
-		constexpr auto a()		const -> const type &	{ return m_value[3]; }
+		constexpr auto r()		const -> type const &	{ return m_value[0]; }
+		constexpr auto g()		const -> type const &	{ return m_value[1]; }
+		constexpr auto b()		const -> type const &	{ return m_value[2]; }
+		constexpr auto a()		const -> type const &	{ return m_value[3]; }
 		constexpr auto rgb()	const -> const rgb_t	{ return (rgb_t)m_value; }
-		constexpr auto rgba()	const -> const rgba_t & { return m_value; }
+		constexpr auto rgba()	const -> rgba_t const & { return m_value; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

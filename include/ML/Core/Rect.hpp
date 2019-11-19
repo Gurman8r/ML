@@ -39,7 +39,7 @@ namespace ml
 		{
 		}
 
-		constexpr Rect(const self_type & copy)
+		constexpr Rect(self_type const & copy)
 			: base_type(copy)
 		{
 		}
@@ -49,12 +49,12 @@ namespace ml
 		{
 		}
 		
-		constexpr Rect(const coord_type & pos, const coord_type & size)
+		constexpr Rect(coord_type const & pos, coord_type const & size)
 			: base_type({ pos[0], pos[1], size[0], size[1] })
 		{
 		}
 		
-		constexpr Rect(const coord_type & size)
+		constexpr Rect(coord_type const & size)
 			: base_type({ 0, 0, size[0], size[1] })
 		{
 		}
@@ -79,9 +79,9 @@ namespace ml
 		constexpr auto height	(value_type value)			-> self_type & { return set(3, value); }
 		constexpr auto bot		(value_type value)			-> self_type & { return height(value - top()); }
 		constexpr auto right	(value_type value)			-> self_type & { return width(value - left()); }
-		constexpr auto position	(const coord_type & value)	-> self_type & { return left(value[0]).top(value[1]); }
-		constexpr auto size		(const coord_type & value)	-> self_type & { return width(value[0]).height(value[1]); }
-		constexpr auto center	(const coord_type & value)	-> self_type & { return position(value - (size() / (T)2)); }
+		constexpr auto position	(coord_type const & value)	-> self_type & { return left(value[0]).top(value[1]); }
+		constexpr auto size		(coord_type const & value)	-> self_type & { return width(value[0]).height(value[1]); }
+		constexpr auto center	(coord_type const & value)	-> self_type & { return position(value - (size() / (T)2)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

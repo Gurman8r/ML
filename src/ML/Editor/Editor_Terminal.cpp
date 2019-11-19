@@ -36,7 +36,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Terminal::onEvent(const Event & value)
+	void Editor_Terminal::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 
@@ -153,7 +153,7 @@ namespace ml
 				String("# "),
 			};
 
-			auto check_label = [](const Mode mode, const String & str)
+			auto check_label = [](const Mode mode, String const & str)
 			{
 				return 
 					(mode < Mode::MAX_MODE) &&
@@ -162,9 +162,9 @@ namespace ml
 					(str.substr(0, labels[mode].size()) == labels[mode]);
 			};
 			
-			const ImVec4 & col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+			ImVec4 const & col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
 
-			for (const String & item : m_lines)
+			for (String const & item : m_lines)
 			{
 				ImVec4 col = col_default_text;
 
@@ -271,7 +271,7 @@ namespace ml
 		this->printl(buf);
 	}
 
-	void Editor_Terminal::printl(const String & value)
+	void Editor_Terminal::printl(String const & value)
 	{
 		if (m_paused) return;
 		m_lines.push_back(value);
@@ -280,7 +280,7 @@ namespace ml
 
 	void Editor_Terminal::printss(SStream & value)
 	{
-		if (const String & text = value.str())
+		if (String const & text = value.str())
 		{
 			SStream sink(text);
 			String	line;

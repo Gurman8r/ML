@@ -5,7 +5,7 @@
 
 namespace ml
 {
-	static inline mat4 look_at(const vec3 & eye, const vec3 & center, const vec3 & up)
+	static inline mat4 look_at(vec3 const & eye, vec3 const & center, vec3 const & up)
 	{
 		const vec3 f = alg::normalize(center - eye);
 		const vec3 s = alg::normalize(alg::cross(f, up));
@@ -65,7 +65,7 @@ namespace ml
 		}
 	}
 
-	Camera::Camera(const Camera & copy)
+	Camera::Camera(Camera const & copy)
 		: m_enabled		{ copy.m_enabled }
 		, m_clearFlags	{ copy.m_clearFlags	}
 		, m_background	{ copy.m_background	}
@@ -87,7 +87,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const Camera & Camera::applyClear() const
+	Camera const & Camera::applyClear() const
 	{
 		switch (m_clearFlags)
 		{
@@ -112,7 +112,7 @@ namespace ml
 		return (*this);
 	}
 
-	const Camera & Camera::applyViewport() const
+	Camera const & Camera::applyViewport() const
 	{
 		ML_GL.viewport(
 			m_viewport.position()[0],
@@ -137,7 +137,7 @@ namespace ml
 		return (*this);
 	}
 
-	Camera & Camera::setBackground(const vec4 & value)
+	Camera & Camera::setBackground(vec4 const & value)
 	{
 		m_background = value;
 		return (*this);
@@ -155,13 +155,13 @@ namespace ml
 		return (*this);
 	}
 
-	Camera & Camera::setPosition(const vec3 & value)
+	Camera & Camera::setPosition(vec3 const & value)
 	{
 		m_position = value;
 		return (*this);
 	}
 
-	Camera & Camera::setDirection(const vec3 & value)
+	Camera & Camera::setDirection(vec3 const & value)
 	{
 		m_direction = value;
 		return (*this);
@@ -184,17 +184,17 @@ namespace ml
 		return (*this);
 	}
 
-	Camera & Camera::setViewport(const vec2i & pos, const vec2i & size)
+	Camera & Camera::setViewport(vec2i const & pos, vec2i const & size)
 	{
 		return setViewport({ pos, size });
 	}
 
-	Camera & Camera::setViewport(const vec2i & value)
+	Camera & Camera::setViewport(vec2i const & value)
 	{
 		return setViewport({ { 0, 0 }, value });
 	}
 
-	Camera & Camera::setViewport(const IntRect & value)
+	Camera & Camera::setViewport(IntRect const & value)
 	{
 		m_viewport = value;
 		return (*this);

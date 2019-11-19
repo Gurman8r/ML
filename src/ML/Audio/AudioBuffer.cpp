@@ -11,7 +11,7 @@ namespace ml
 		, m_count(0)
 	{
 	}
-	AudioBuffer::AudioBuffer(const AudioBuffer & copy)
+	AudioBuffer::AudioBuffer(AudioBuffer const & copy)
 		: Handle(copy)
 		, m_count(copy.m_count)
 	{

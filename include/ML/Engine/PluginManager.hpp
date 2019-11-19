@@ -26,19 +26,19 @@ namespace ml
 
 		bool dispose() override;
 
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 		
 		size_t loadLibraries();
 
 		size_t loadPlugins();
 
-		bool loadOneShot(const String & filename);
+		bool loadOneShot(String const & filename);
 
 		size_t loadList(const std::vector<std::string> & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto path()		const -> const String & { return m_path; }
+		inline auto path()		const -> String const & { return m_path; }
 		inline auto files()		const -> const List<String> & { return m_files; }
 		inline auto libraries()	const -> const List<SharedLibrary *> &	{ return m_libraries; }
 		inline auto plugins()	const -> const List<Plugin *> & { return m_plugins; }

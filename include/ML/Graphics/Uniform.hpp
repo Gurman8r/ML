@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/Color.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/BitMask.hpp>
 
 
@@ -58,7 +58,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit Uniform(const String & name) : m_name { name } {}
+		explicit Uniform(String const & name) : m_name { name } {}
 
 		virtual ~Uniform() {}
 
@@ -74,28 +74,28 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getName() const -> const String & { return m_name; }
+		inline auto getName() const -> String const & { return m_name; }
 
-		inline auto setName(const String & value) -> const String & { return (m_name = value); }
+		inline auto setName(String const & value) -> String const & { return (m_name = value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(std::ostream & out, const Uniform & value)
+		inline friend ML_SERIALIZE(std::ostream & out, Uniform const & value)
 		{
 			return out << Uniform::Type_names[value.getID()];
 		}
 
-		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool operator<(Uniform const & lhs, Uniform const & rhs)
 		{
 			return ((lhs.getID() < rhs.getID()) || (lhs.getName() < rhs.getName()));
 		}
 
-		inline friend bool operator==(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool operator==(Uniform const & lhs, Uniform const & rhs)
 		{
 			return !(lhs < rhs) && !(rhs < lhs);
 		}
 
-		inline friend bool operator!=(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool operator!=(Uniform const & lhs, Uniform const & rhs)
 		{
 			return !(lhs == rhs);
 		}
@@ -126,7 +126,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit UniformImpl(const String & name, value_type data)
+		explicit UniformImpl(String const & name, value_type data)
 			: Uniform { name }, m_data { data }
 		{
 		}
@@ -155,9 +155,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const value_type & getData() const { return m_data; }
+		inline value_type const & getData() const { return m_data; }
 
-		inline const value_type & setData(value_type value) { return (m_data = value); }
+		inline value_type const & setData(value_type value) { return (m_data = value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -48,7 +48,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr SendSettings(const SendSettings & copy) : SendSettings(
+		constexpr SendSettings(SendSettings const & copy) : SendSettings(
 			copy.priority,
 			copy.reliability,
 			copy.ordering,
@@ -68,7 +68,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(std::ostream & out, const SendSettings & value)
+		inline friend ML_SERIALIZE(std::ostream & out, SendSettings const & value)
 		{
 			return out
 				<< value.priority << " "
@@ -80,7 +80,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool operator==(const SendSettings & other)
+		constexpr bool operator==(SendSettings const & other)
 		{
 			return
 				this->priority == other.priority &&
@@ -90,12 +90,12 @@ namespace ml
 				this->receiptNumber == other.receiptNumber;
 		}
 
-		constexpr bool operator!=(const SendSettings & other)
+		constexpr bool operator!=(SendSettings const & other)
 		{
 			return !((*this) == other);
 		}
 
-		constexpr bool operator<(const SendSettings & other)
+		constexpr bool operator<(SendSettings const & other)
 		{
 			return
 				this->priority < other.priority &&
@@ -105,17 +105,17 @@ namespace ml
 				this->receiptNumber < other.receiptNumber;
 		}
 
-		constexpr bool operator>(const SendSettings & other)
+		constexpr bool operator>(SendSettings const & other)
 		{
 			return !((*this) < other);
 		}
 
-		constexpr bool operator<=(const SendSettings & other)
+		constexpr bool operator<=(SendSettings const & other)
 		{
 			return ((*this) == other) || ((*this) < other);
 		}
 
-		constexpr bool operator>=(const SendSettings & other)
+		constexpr bool operator>=(SendSettings const & other)
 		{
 			return ((*this) == other) || ((*this) > other);
 		}

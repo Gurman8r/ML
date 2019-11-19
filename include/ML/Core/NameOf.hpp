@@ -37,7 +37,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr StringView trim_front(const StringView & value) noexcept
+		static constexpr StringView trim_front(StringView const & value) noexcept
 		{
 			return ((!value.empty() && (value.front() == ' ' || value.front() == '\t'))
 				? trim_front(value.substr(1))
@@ -45,7 +45,7 @@ namespace ml
 			);
 		}
 
-		static constexpr StringView trim_back(const StringView & value) noexcept
+		static constexpr StringView trim_back(StringView const & value) noexcept
 		{
 			return ((value.size() && (value.back() == ' ' || value.back() == '\t'))
 				? trim_back(value.substr(0, value.size() - 1))
@@ -53,12 +53,12 @@ namespace ml
 			);
 		}
 
-		static constexpr StringView trim(const StringView & value) noexcept
+		static constexpr StringView trim(StringView const & value) noexcept
 		{
 			return trim_front(trim_back(value));
 		}
 
-		static constexpr StringView filter_prefix(const StringView & value, const StringView & pre) noexcept
+		static constexpr StringView filter_prefix(StringView const & value, StringView const & pre) noexcept
 		{
 			return ((value.size() >= pre.size() && (value.substr(0, pre.size()) == pre))
 				? value.substr(pre.size())
@@ -66,7 +66,7 @@ namespace ml
 			);
 		}
 
-		static constexpr StringView filter_suffix(const StringView & value, const StringView & suf) noexcept
+		static constexpr StringView filter_suffix(StringView const & value, StringView const & suf) noexcept
 		{
 			return ((value.size() >= suf.size()) && ((value.substr(value.size() - suf.size(), suf.size()) == suf))
 				? value.substr(0, (value.size() - suf.size()))
@@ -74,7 +74,7 @@ namespace ml
 			);
 		}
 
-		static constexpr StringView filter_signature_type(const StringView & value) noexcept
+		static constexpr StringView filter_signature_type(StringView const & value) noexcept
 		{
 #if defined(ML_HAS_CONSTEXPR_17)
 			return filter_suffix(filter_prefix(value, 
@@ -98,38 +98,38 @@ namespace ml
 #endif
 		}
 
-		static constexpr StringView filter_namespace(const StringView & value) noexcept
+		static constexpr StringView filter_namespace(StringView const & value) noexcept
 		{
 			return value.substr(value.find_first_of(':') + 2);
 		}
 
-		static constexpr StringView filter_struct(const StringView & value) noexcept
+		static constexpr StringView filter_struct(StringView const & value) noexcept
 		{
 			return filter_prefix(value, "struct ");
 		}
 
-		static constexpr StringView filter_class(const StringView & value) noexcept
+		static constexpr StringView filter_class(StringView const & value) noexcept
 		{
 			return filter_prefix(value, "class ");
 		}
 
-		static constexpr StringView filter_constexpr(const StringView & value) noexcept
+		static constexpr StringView filter_constexpr(StringView const & value) noexcept
 		{
 			return filter_prefix(value, "constexpr ");
 		}
 
-		static constexpr StringView filter_template(const StringView & value) noexcept
+		static constexpr StringView filter_template(StringView const & value) noexcept
 		{
 			const auto i { value.find_first_of('<') };
 			return (i != StringView::npos) ? value.substr(0, i) : value;
 		}
 
-		static constexpr StringView filter_const(const StringView & value) noexcept
+		static constexpr StringView filter_const(StringView const & value) noexcept
 		{
 			return filter_prefix(value, "const ");
 		}
 
-		static constexpr StringView filter(const StringView & value) noexcept
+		static constexpr StringView filter(StringView const & value) noexcept
 		{
 			return 
 				filter_constexpr(

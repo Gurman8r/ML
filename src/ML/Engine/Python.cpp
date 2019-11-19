@@ -27,7 +27,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Py::init(const String & name, const String & home)
+	bool Py::init(String const & name, String const & home)
 	{
 		if (!m_init && name && ML_FS.dirExists(home))
 		{
@@ -56,12 +56,12 @@ namespace ml
 		return false;
 	}
 
-	int32_t Py::doString(const String & value) const
+	int32_t Py::doString(String const & value) const
 	{
 		return ((value && m_init) ? PyRun_SimpleString(value.c_str()) : 0);
 	}
 
-	int32_t Py::doFile(const String & filename) const
+	int32_t Py::doFile(String const & filename) const
 	{
 		return doString(ML_FS.getFileContents(filename));
 	}
@@ -108,8 +108,8 @@ namespace ml
 			.def_static("create", [](str_t t, str_t n) { return (bool)ML_Engine.content().generate(t, n); })
 			.def_static("destroy", [](str_t t, str_t n) { return ML_Engine.content().destroy(String(t).hash(), n); })
 			.def_static("exists", [](str_t t, str_t n) { return ML_Engine.content().exists(String(t).hash(), n); })
-			.def_static("load", [](const dict_t & d) { return ContentImporter<>::loadMetadata(Metadata{ d }); })
-			.def_static("load_all", [](const table_t & t) { return ContentImporter<>::loadMetadata(t); })
+			.def_static("load", [](dict_t const & d) { return ContentImporter<>::loadMetadata(Metadata{ d }); })
+			.def_static("load_all", [](table_t const & t) { return ContentImporter<>::loadMetadata(t); })
 			;
 
 		// IO
@@ -120,7 +120,7 @@ namespace ml
 			.def_static("exit", []() { Debug::exit(0); })
 			.def_static("pause", []() { Debug::pause(0); })
 			.def_static("print", [](str_t s) { std::cout << s; })
-			.def_static("printf", [](str_t s, const list_t & l) { std::cout << util::format(s, l); })
+			.def_static("printf", [](str_t s, list_t const & l) { std::cout << util::format(s, l); })
 			.def_static("printl", [](str_t s) { std::cout << s << std::endl; })
 			.def_static("log", [](str_t s) { Debug::logInfo(s); })
 			.def_static("warning", [](str_t s) { Debug::logWarning(s); })
@@ -132,7 +132,7 @@ namespace ml
 		struct ml_py_plugins {};
 		pybind11::class_<ml_py_plugins>(m, "plugins")
 			.def_static("load", [](str_t s) { return ML_Engine.plugins().loadOneShot(s); })
-			.def_static("load_all", [](const list_t & l) { return ML_Engine.plugins().loadList(l); })
+			.def_static("load_all", [](list_t const & l) { return ML_Engine.plugins().loadList(l); })
 			;
 
 		// Prefs
@@ -166,8 +166,8 @@ namespace ml
 			.def_static("set_clipboard", [](str_t s) { ML_Engine.window().setClipboardString(s); })
 			.def_static("set_cursor", [](int32_t i) { ML_Engine.window().setCursorMode(((Cursor::Mode)i)); })
 			.def_static("set_fullscreen", [](bool b) { ML_Engine.window().setFullscreen(b); })
-			.def_static("set_position", [](const coord_t & c) { ML_Engine.window().setPosition({ (int32_t)c[0], (int32_t)c[1] }); })
-			.def_static("set_size", [](const coord_t & c) { ML_Engine.window().setSize({ (uint32_t)c[0], (uint32_t)c[1] }); })
+			.def_static("set_position", [](coord_t const & c) { ML_Engine.window().setPosition({ (int32_t)c[0], (int32_t)c[1] }); })
+			.def_static("set_size", [](coord_t const & c) { ML_Engine.window().setSize({ (uint32_t)c[0], (uint32_t)c[1] }); })
 			.def_static("set_title", [](str_t s) { ML_Engine.window().setTitle(s); })
 			;
 

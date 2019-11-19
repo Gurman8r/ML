@@ -33,10 +33,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		lua_State * init();
-		lua_State * init(bool openLibs, const luaL_Reg * userLib);
+		lua_State * init(bool openLibs, luaL_Reg const * userLib);
 		bool		dispose() override;
-		int32_t		doString(const String & value) const;
-		int32_t		doFile(const String & filename) const;
+		int32_t		doString(String const & value) const;
+		int32_t		doFile(String const & filename) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

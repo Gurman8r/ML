@@ -16,7 +16,7 @@ namespace ml
 	{
 	}
 	
-	Text::Text(const Text & copy)
+	Text::Text(Text const & copy)
 		: m_font	{ copy.m_font }
 		, m_fontSize{ copy.m_fontSize }
 		, m_position{ copy.m_position }
@@ -30,7 +30,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Text & Text::setPosition(const vec2 & value)
+	Text & Text::setPosition(vec2 const & value)
 	{
 		if (m_position != value)
 		{
@@ -40,7 +40,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Text & Text::setScale(const vec2 & value)
+	Text & Text::setScale(vec2 const & value)
 	{
 		if (m_scale != value)
 		{
@@ -50,7 +50,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Text & Text::setColor(const vec4 & value)
+	Text & Text::setColor(vec4 const & value)
 	{
 		m_color = value;
 		return (*this);
@@ -76,7 +76,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Text & Text::setString(const String & value)
+	Text & Text::setString(String const & value)
 	{
 		if (m_string != value)
 		{
@@ -101,7 +101,7 @@ namespace ml
 
 			for (size_t i = 0, imax = m_string.size(); i < imax; i++)
 			{
-				const Glyph & glyph = m_font->getGlyph(m_string[i], m_fontSize);
+				Glyph const & glyph = m_font->getGlyph(m_string[i], m_fontSize);
 				
 				const FloatRect rect {
 					glyph.offset() + pos * m_scale,
@@ -125,7 +125,7 @@ namespace ml
 		}
 	}
 	
-	void Text::draw(const RenderTarget & target, RenderBatch & batch) const
+	void Text::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
 		if (m_font && batch.mat)
 		{

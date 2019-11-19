@@ -24,7 +24,7 @@ namespace ml
 	{
 	}
 
-	SharedLibrary::SharedLibrary(const String & filename)
+	SharedLibrary::SharedLibrary(String const & filename)
 		: SharedLibrary()
 	{
 		this->loadFromFile(filename);
@@ -50,7 +50,7 @@ namespace ml
 		return ML_FREE_LIBRARY(m_instance);
 	}
 
-	bool SharedLibrary::loadFromFile(const String & filename)
+	bool SharedLibrary::loadFromFile(String const & filename)
 	{
 		return 
 			(m_filename = filename) &&
@@ -58,7 +58,7 @@ namespace ml
 			(m_instance = ML_LOAD_LIBRARY(m_filename.c_str()));
 	}
 
-	void * SharedLibrary::loadFunction(const String & name)
+	void * SharedLibrary::loadFunction(String const & name)
 	{
 		auto it { m_functions.find(name) };
 		if (it != m_functions.end())

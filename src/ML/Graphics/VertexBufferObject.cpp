@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	VertexBufferObject::VertexBufferObject(const VertexBufferObject & copy)
+	VertexBufferObject::VertexBufferObject(VertexBufferObject const & copy)
 		: Handle(copy)
 		, m_usage(copy.m_usage)
 		, m_data(copy.m_data)
@@ -50,13 +50,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const VertexBufferObject & VertexBufferObject::bind() const
+	VertexBufferObject const & VertexBufferObject::bind() const
 	{
 		ML_GL.bindBuffer(GL::ArrayBuffer, (*this));
 		return (*this);
 	}
 	
-	const VertexBufferObject & VertexBufferObject::unbind() const
+	VertexBufferObject const & VertexBufferObject::unbind() const
 	{
 		ML_GL.bindBuffer(GL::ArrayBuffer, NULL);
 		return (*this);
@@ -64,7 +64,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	const VertexBufferObject & VertexBufferObject::bufferData(void * data, uint32_t size) const
+	VertexBufferObject const & VertexBufferObject::bufferData(void * data, uint32_t size) const
 	{
 		if (*this)
 		{
@@ -81,12 +81,12 @@ namespace ml
 		return (*this);
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferData(const List<float_t> & data) const
+	VertexBufferObject const & VertexBufferObject::bufferData(const List<float_t> & data) const
 	{
 		return bufferData((void *)&data[0], (uint32_t)data.size());
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferSubData(void * data, uint32_t size, uint32_t offset) const
+	VertexBufferObject const & VertexBufferObject::bufferSubData(void * data, uint32_t size, uint32_t offset) const
 	{
 		if (*this)
 		{
@@ -103,7 +103,7 @@ namespace ml
 		return (*this);
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferSubData(const List<float_t> & data, uint32_t offset) const
+	VertexBufferObject const & VertexBufferObject::bufferSubData(const List<float_t> & data, uint32_t offset) const
 	{
 		return bufferSubData((void *)&data[0], (uint32_t)data.size(), offset);
 	}

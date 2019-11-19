@@ -26,7 +26,7 @@ namespace ml
 	{
 	}
 
-	Surface::Surface(const Surface & copy)
+	Surface::Surface(Surface const & copy)
 		: m_colorID	{ copy.m_colorID }
 		, m_frameID	{ copy.m_frameID }
 		, m_fbo		{ }
@@ -87,7 +87,7 @@ namespace ml
 		return (m_fbo && m_rbo);
 	}
 
-	bool Surface::update(const vec2i & size)
+	bool Surface::update(vec2i const & size)
 	{
 		if ((size[0] != 0 && size[1] != 0) && (m_size != size))
 		{
@@ -96,13 +96,13 @@ namespace ml
 		return false;
 	}
 
-	void Surface::draw(const RenderTarget & target, RenderBatch & batch) const
+	void Surface::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
 		if (m_model && m_material && m_shader)
 		{
 			m_shader->bind(false);
 
-			for (const auto & u : (*m_material))
+			for (auto const & u : (*m_material))
 			{
 				m_shader->setUniform(u);
 			}
@@ -119,13 +119,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const Surface & Surface::bind() const
+	Surface const & Surface::bind() const
 	{
 		m_fbo.bind();
 		return (*this);
 	}
 	
-	const Surface & Surface::unbind() const
+	Surface const & Surface::unbind() const
 	{
 		m_fbo.unbind();
 		return (*this);
@@ -163,7 +163,7 @@ namespace ml
 		return (*this);
 	}
 
-	Surface & Surface::setSize(const vec2i & value)
+	Surface & Surface::setSize(vec2i const & value)
 	{
 		m_size = value;
 		return (*this);

@@ -19,7 +19,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Packet(const Host & addr, const GUID & guid, uint32_t size, uint8_t * data)
+		constexpr Packet(Host const & addr, GUID const & guid, uint32_t size, uint8_t * data)
 			: host(addr)
 			, guid(guid)
 			, size(size)
@@ -27,7 +27,7 @@ namespace ml
 		{
 		}
 
-		constexpr Packet(const Packet & copy)
+		constexpr Packet(Packet const & copy)
 			: Packet{ copy.host, copy.guid, copy.size, copy.data }
 		{
 		}
@@ -39,7 +39,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(std::ostream & out, const Packet & value)
+		inline friend ML_SERIALIZE(std::ostream & out, Packet const & value)
 		{
 			return out
 				<< value.host << " "
@@ -50,7 +50,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool operator==(const Packet & other)
+		constexpr bool operator==(Packet const & other)
 		{
 
 			return
@@ -60,12 +60,12 @@ namespace ml
 				this->data == other.data;
 		}
 
-		constexpr bool operator!=(const Packet & other)
+		constexpr bool operator!=(Packet const & other)
 		{
 			return !((*this) == other);
 		}
 
-		constexpr bool operator<(const Packet & other)
+		constexpr bool operator<(Packet const & other)
 		{
 			return
 				this->host < other.host &&
@@ -74,17 +74,17 @@ namespace ml
 				this->data < other.data;
 		}
 
-		constexpr bool operator>(const Packet & other)
+		constexpr bool operator>(Packet const & other)
 		{
 			return !((*this) < other);
 		}
 
-		constexpr bool operator<=(const Packet & other)
+		constexpr bool operator<=(Packet const & other)
 		{
 			return ((*this) == other) || ((*this) < other);
 		}
 
-		constexpr bool operator>=(const Packet & other)
+		constexpr bool operator>=(Packet const & other)
 		{
 			return ((*this) == other) || ((*this) > other);
 		}

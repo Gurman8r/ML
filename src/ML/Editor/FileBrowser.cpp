@@ -60,9 +60,9 @@ namespace ml
 		if (ImGui::BeginChild(("FileBrowser##Content##" + m_label).c_str()))
 		{
 			m_doubleClick = false;
-			for (const auto & pair : m_dir)
+			for (auto const & pair : m_dir)
 			{
-				const char & type = pair.first;
+				char const & type = pair.first;
 				const List<String> & list = pair.second;
 
 				ImVec4 color;
@@ -79,7 +79,7 @@ namespace ml
 				ImGui::PushStyleColor(ImGuiCol_Text, color);
 				for (size_t i = 0, imax = list.size(); i < imax; i++)
 				{
-					const String & name = list.at(i);
+					String const & name = list.at(i);
 
 					if (ImGui::Selectable(
 						((name + type + "##" + m_label).c_str()),
@@ -173,7 +173,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
-	void FileBrowser::render(const String & label, const vec2 & size, bool border, int32_t flags)
+	void FileBrowser::render(String const & label, vec2 const & size, bool border, int32_t flags)
 	{
 		ImGui::PushID(ML_ADDRESSOF(this));
 		ImGui::PushID(label.c_str());
@@ -241,13 +241,13 @@ namespace ml
 
 	String FileBrowser::get_selected_name() const
 	{
-		const String * file;
+		String const * file;
 		return ((file = get_selected()) ? (*file) : String());
 	}
 
 	String FileBrowser::get_selected_path() const
 	{
-		const String * file;
+		String const * file;
 		return (file = get_selected()) ? pathTo(*file) : String(); }
 
 	String FileBrowser::get_selected_type() const

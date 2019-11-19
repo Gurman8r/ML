@@ -13,11 +13,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		CommandImpl();
-		CommandImpl(const String & name);
-		CommandImpl(const String & name, CommandExecutor * executor);
-		CommandImpl(const String & name, const String & desc, const String & usage);
-		CommandImpl(const String & name, const String & desc, const String & usage, CommandExecutor * executor);
-		CommandImpl(const CommandImpl & copy);
+		CommandImpl(String const & name);
+		CommandImpl(String const & name, CommandExecutor * executor);
+		CommandImpl(String const & name, String const & desc, String const & usage);
+		CommandImpl(String const & name, String const & desc, String const & usage, CommandExecutor * executor);
+		CommandImpl(CommandImpl const & copy);
 		virtual ~CommandImpl();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -30,7 +30,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getExecutor() const -> const CommandExecutor * { return m_executor; }
+		inline auto getExecutor() const -> CommandExecutor const * { return m_executor; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

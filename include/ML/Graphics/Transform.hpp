@@ -2,7 +2,7 @@
 #define _ML_TRANSFORM_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Quaternion.hpp>
 
 namespace ml
@@ -15,22 +15,22 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Transform();
-		Transform(const Transform & copy);
+		Transform(Transform const & copy);
 		~Transform();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Transform & setEnabled(bool value);
-		Transform & setPosition(const vec3 & value);
-		Transform & setRotation(const vec4 & value);
-		Transform & setScale(const vec3 & value);
+		Transform & setPosition(vec3 const & value);
+		Transform & setRotation(vec4 const & value);
+		Transform & setScale(vec3 const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto enabled()	const -> const bool & { return m_enabled; }
-		inline auto position()	const -> const vec3 & { return m_pos; }
-		inline auto rotation()	const -> const vec4 & { return m_rot; }
-		inline auto scale()		const -> const vec3 & { return m_scl; }
+		inline auto enabled()	const -> bool const & { return m_enabled; }
+		inline auto position()	const -> vec3 const & { return m_pos; }
+		inline auto rotation()	const -> vec4 const & { return m_rot; }
+		inline auto scale()		const -> vec3 const & { return m_scl; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -3,7 +3,7 @@
 
 #include <ML/Core/EventListener.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
@@ -50,17 +50,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		virtual bool create(
-			const String & title, 
-			const VideoMode & videoMode,
-			const WindowStyle & style,
-			const ContextSettings & context
+			String const & title, 
+			VideoMode const & videoMode,
+			WindowStyle const & style,
+			ContextSettings const & context
 		);
 
 		virtual void installCallbacks();
 
 		virtual bool dispose() override;
 
-		virtual void onEvent(const Event & value) override;
+		virtual void onEvent(Event const & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -82,25 +82,25 @@ namespace ml
 
 		Window & setCentered();
 		
-		Window & setClipboardString(const String & value);
+		Window & setClipboardString(String const & value);
 		
 		Window & setCursor(void * value);
 		
 		Window & setCursorMode(const Cursor::Mode value);
 		
-		Window & setCursorPos(const vec2i & value);
+		Window & setCursorPos(vec2i const & value);
 		
 		Window & setFullscreen(bool value);
 		
 		Window & setIcon(uint32_t w, uint32_t h, byte_t const * pixels);
 		
-		Window & setPosition(const vec2i & value);
+		Window & setPosition(vec2i const & value);
 		
 		Window & setMonitor(void * value);
 		
-		Window & setSize(const vec2u & value);
+		Window & setSize(vec2u const & value);
 		
-		Window & setTitle(const String & value);
+		Window & setTitle(String const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -134,7 +134,7 @@ namespace ml
 
 		inline auto getAspect() const -> float_t { return ML_ASPECT_2(getSize()); };
 		
-		inline auto getContext() const -> const ContextSettings & { return m_context; }
+		inline auto getContext() const -> ContextSettings const & { return m_context; }
 		
 		inline auto getFrameAspect() const -> float_t { return ML_ASPECT_2(getFrameSize()); };
 		
@@ -148,13 +148,13 @@ namespace ml
 
 		inline auto getShare() const -> void * { return m_share; }
 		
-		inline auto getSize() const -> const vec2u & { return getVideoMode().size; }
+		inline auto getSize() const -> vec2u const & { return getVideoMode().size; }
 		
-		inline auto getStyle() const -> const WindowStyle & { return m_style; }
+		inline auto getStyle() const -> WindowStyle const & { return m_style; }
 		
-		inline auto getTitle() const -> const String & { return m_title; }
+		inline auto getTitle() const -> String const & { return m_title; }
 		
-		inline auto getVideoMode() const -> const VideoMode & { return m_videoMode; }
+		inline auto getVideoMode() const -> VideoMode const & { return m_videoMode; }
 		
 		inline auto getWidth() const -> uint32_t { return getSize()[0]; }
 
@@ -170,7 +170,7 @@ namespace ml
 
 		static void * getContextCurrent();
 
-		static const VideoMode & getDesktopMode();
+		static VideoMode const & getDesktopMode();
 		
 		static const List<VideoMode> & getFullscreenModes();
 

@@ -31,7 +31,7 @@ namespace ml
 	struct PropertyDrawer<>::Layout
 	{
 		template <class T, class Value> static inline void begin_prop(
-			const PropertyDrawer<T> * prop, const String & label, const Value &
+			const PropertyDrawer<T> * prop, String const & label, Value const &
 		)
 		{
 			if (prop)
@@ -56,7 +56,7 @@ namespace ml
 		}
 
 		template <class T>
-		static inline bool select_combo(const String & label, const T *& value)
+		static inline bool select_combo(String const & label, T const *& value)
 		{
 			int32_t index { ML_Engine.content().get_index_of<T>(value) };
 			return (ImGuiExt::Combo(label.c_str(), &index, ML_Engine.content().get_keys<T>())
@@ -66,7 +66,7 @@ namespace ml
 		}
 
 		template <class T>
-		static inline bool inspect_button(const String & label, const T * value)
+		static inline bool inspect_button(String const & label, T const * value)
 		{
 			ImGui::PushID((int32_t)typeof<T>::hash);
 			ImGui::PushID(label.c_str());
@@ -95,7 +95,7 @@ namespace ml
 {
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Entity>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Entity>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -114,7 +114,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Entity>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Entity>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -165,7 +165,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Entity>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Entity>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -194,17 +194,17 @@ namespace ml
 				ImGuiWindowFlags_NoMove
 			);
 			ImGui::PopStyleVar();
-			for (const auto & pair : ML_Registry.funcs())
+			for (auto const & pair : ML_Registry.funcs())
 			{
 				// Skip
 				if (!filter.PassFilter(pair.first.c_str())) continue;
-				const String * info { ML_Registry.get_info(pair.first) };
+				String const * info { ML_Registry.get_info(pair.first) };
 				if (info && *info != "Component") continue;
 
 				// Selectable
 				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
 				{
-					if (const hash_t * code { ML_Registry.get_code(pair.first) })
+					if (hash_t const * code { ML_Registry.get_code(pair.first) })
 					{
 						void * temp { ML_Registry.generate(pair.first) };
 						if (!value.addByCode(*code, temp))
@@ -315,7 +315,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool PropertyDrawer<Camera>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Camera>::operator()(String const & label, reference value) const
 	{
 		constexpr float_t speed{ 0.005f };
 
@@ -430,7 +430,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool PropertyDrawer<Light>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Light>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -474,7 +474,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool PropertyDrawer<Renderer>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Renderer>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -624,7 +624,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool PropertyDrawer<Transform>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Transform>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -677,7 +677,7 @@ namespace ml
 
 	// Font Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Font>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Font>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -696,7 +696,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Font>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -787,7 +787,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Font>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Font>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -802,7 +802,7 @@ namespace ml
 		);
 		ImGui::Text("%s", value.info().family.c_str());
 		ImGui::BeginGroup();
-		auto draw_glyph = [](const Glyph & g) 
+		auto draw_glyph = [](Glyph const & g) 
 		{
 			ImGui::Image(
 				g.texture.get_address(),
@@ -838,7 +838,7 @@ namespace ml
 
 	// Image Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Image>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Image>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -857,7 +857,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Image>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -945,7 +945,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Image>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Image>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -963,7 +963,7 @@ namespace ml
 
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Material>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Material>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -982,7 +982,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Material>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1055,7 +1055,7 @@ namespace ml
 				{
 					if (globals)
 					{
-						for (const auto & pair : ML_Engine.content().data<Uniform>())
+						for (auto const & pair : ML_Engine.content().data<Uniform>())
 						{
 							if (auto u { (Uniform const *)pair.second })
 							{
@@ -1065,7 +1065,7 @@ namespace ml
 					}
 					if (copy)
 					{
-						for (const auto & u : (*copy))
+						for (auto const & u : (*copy))
 						{
 							if (!value->get(u->getName())) { value->insert(u->clone()); }
 						}
@@ -1096,7 +1096,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Material>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Material>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1183,7 +1183,7 @@ namespace ml
 
 	// Model Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Model>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Model>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1202,7 +1202,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Model>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1290,7 +1290,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Model>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Model>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1390,7 +1390,7 @@ namespace ml
 						ImGuiWindowFlags_NoScrollbar |
 						ImGuiWindowFlags_NoScrollWithMouse
 					);
-					for (const BufferLayout::Element & e : mesh->layout().elements())
+					for (BufferLayout::Element const & e : mesh->layout().elements())
 					{
 						ImGui::Text(
 							"Index: %u | "
@@ -1417,7 +1417,7 @@ namespace ml
 
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Script>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Script>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1436,7 +1436,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Script>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1528,7 +1528,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Script>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Script>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1591,7 +1591,7 @@ namespace ml
 
 	// Shader Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Shader>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Shader>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1610,7 +1610,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 	
-	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Shader>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1717,7 +1717,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Shader>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Shader>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1730,9 +1730,9 @@ namespace ml
 		if (ImGui::BeginTabBar(("SourceTabs##" + label).c_str()))
 		{
 			auto draw_source_tab = [](
-				const String & name, 
-				const String & type, 
-				const String & source)
+				String const & name, 
+				String const & type, 
+				String const & source)
 			{
 				if (!source) return;
 				
@@ -1777,7 +1777,7 @@ namespace ml
 
 	// Sound Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Sound>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Sound>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1796,7 +1796,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Sound>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Sound>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1873,7 +1873,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Sound>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Sound>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1883,7 +1883,7 @@ namespace ml
 
 	// Sprite Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Sprite>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Sprite>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1902,7 +1902,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Sprite>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Sprite>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -1994,7 +1994,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Sprite>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Sprite>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -2051,7 +2051,7 @@ namespace ml
 	
 	// Surface Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Surface>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Surface>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -2070,7 +2070,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Surface>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Surface>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -2137,7 +2137,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Surface>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Surface>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -2196,7 +2196,7 @@ namespace ml
 	
 	// Texture Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Texture>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Texture>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 		
@@ -2246,7 +2246,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Texture>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 		
@@ -2379,7 +2379,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Texture>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Texture>::operator()(String const & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
 		
@@ -2533,7 +2533,7 @@ namespace ml
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Uniform>::operator()(const String & label, const_pointer & value) const
+	bool PropertyDrawer<Uniform>::operator()(String const & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -2555,7 +2555,7 @@ namespace ml
 		return Layout::end_prop(this, changed);
 	}
 
-	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value) const
+	bool PropertyDrawer<Uniform>::operator()(String const & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
 
@@ -2637,7 +2637,7 @@ namespace ml
 		return Layout::end_prop(this, false);
 	}
 
-	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value) const
+	bool PropertyDrawer<Uniform>::operator()(String const & label, reference value) const
 	{
 		constexpr float_t spd{ 0.005f };
 		constexpr C_String fmt { "%.4f" };

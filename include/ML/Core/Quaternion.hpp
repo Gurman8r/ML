@@ -34,7 +34,7 @@ namespace ml
 		{
 		}
 
-		constexpr Quaternion(const self_type & copy)
+		constexpr Quaternion(self_type const & copy)
 			: base_type(copy)
 		{
 		}
@@ -135,7 +135,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr self_type angleAxis(value_type angle, const complex_type & axis)
+		static constexpr self_type angleAxis(value_type angle, complex_type const & axis)
 		{
 			const auto half_angle { angle * 0.5f };
 			const auto temp { gcem::sin(half_angle) };
@@ -154,9 +154,9 @@ namespace ml
 			return static_cast<base_type &>(*this);
 		}
 		
-		constexpr operator const base_type &() const
+		constexpr operator base_type const &() const
 		{
-			return static_cast<const base_type &>(*this);
+			return static_cast<base_type const &>(*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

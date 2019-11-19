@@ -15,7 +15,7 @@ namespace ml
 
 		Editor_MainMenuBar();
 
-		void onEvent(const Event & value) override;
+		void onEvent(Event const & value) override;
 
 		bool beginDraw(int32_t flags) override;
 
@@ -25,7 +25,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		List<std::pair<
+		List<Pair<
 			String,
 			List<std::function<void()>>
 		>> m_menus;
@@ -33,7 +33,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline Editor_MainMenuBar & addMenu(const String & name, const std::function<void()> & fun)
+		inline Editor_MainMenuBar & addMenu(String const & name, const std::function<void()> & fun)
 		{
 			auto it{ std::find_if(m_menus.begin(), m_menus.end(), [&](auto elem)
 			{

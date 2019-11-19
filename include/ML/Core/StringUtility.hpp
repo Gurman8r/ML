@@ -33,7 +33,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline List<String> tokenize(String value, const String & delim)
+		static inline List<String> tokenize(String value, String const & delim)
 		{
 			List<String> out;
 			size_t pos = 0;
@@ -48,7 +48,7 @@ namespace ml
 
 		template <
 			class Arg0, class ... Args
-		> inline SStream sink(const Arg0 & arg0, Args && ... args)
+		> inline SStream sink(Arg0 const & arg0, Args && ... args)
 		{
 			SStream ss {}; ss << arg0 << std::endl;
 			int32_t i[] = { 0, ((void)(ss << args << std::endl), 0)... }; (void)i;
@@ -63,72 +63,72 @@ namespace ml
 		{
 			BasicString<To> temp {};
 			temp.reserve(value.size());
-			for (const From & c : value)
+			for (From const & c : value)
 				temp.push_back(static_cast<To>(c));
 			return temp;
 		}
 
-		static inline String narrow(const W_String & value)
+		static inline String narrow(W_String const & value)
 		{ 
 			return str_convert<char>(value);
 		}
 
-		static inline W_String widen(const String & value)
+		static inline W_String widen(String const & value)
 		{ 
 			return str_convert<wchar_t>(value); 
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool is_alpha(const String & value)
+		static inline bool is_alpha(String const & value)
 		{
 			if (value.empty()) return false;
 			std::locale loc {};
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 				if (!std::isalpha(elem, loc))
 					return false;
 			return true;
 		}
 
-		static inline bool is_alnum(const String & value)
+		static inline bool is_alnum(String const & value)
 		{
 			if (value.empty()) return false;
 			std::locale loc {};
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 				if (!std::isalnum(elem, loc))
 					return false;
 			return true;
 		}
 
-		static inline bool is_graph(const String & value)
+		static inline bool is_graph(String const & value)
 		{
 			if (value.empty()) return false;
 			std::locale loc {};
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 				if (!std::isgraph(elem, loc))
 					return false;
 			return true;
 		}
 
-		static inline bool is_print(const String & value)
+		static inline bool is_print(String const & value)
 		{
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 				if (!std::isprint(elem))
 					return false;
 			return true;
 		}
 
-		static inline bool is_lower(const String & value)
+		static inline bool is_lower(String const & value)
 		{
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 				if (!std::islower(elem))
 					return false;
 			return true;
 		}
 
-		static inline bool is_upper(const String & value)
+		static inline bool is_upper(String const & value)
 		{
-			for (const auto & elem : value)
+			for (auto const & elem : value)
 				if (!std::islower(elem))
 					return false;
 			return true;
@@ -154,7 +154,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool is_bool(const String & value)
+		static inline bool is_bool(String const & value)
 		{
 			switch (to_lower(value).hash())
 			{
@@ -172,7 +172,7 @@ namespace ml
 			}
 		}
 
-		static inline bool is_integer(const String & value)
+		static inline bool is_integer(String const & value)
 		{
 			if (!value) return false; 
 			String::const_iterator it = value.cbegin();
@@ -187,7 +187,7 @@ namespace ml
 			return (it == value.cend());
 		}
 
-		static inline bool is_decimal(const String & value)
+		static inline bool is_decimal(String const & value)
 		{
 			if (!value) { return false; }
 			String::pointer endptr = nullptr;
@@ -195,7 +195,7 @@ namespace ml
 			return !(*endptr != '\0' || endptr == value);
 		}
 
-		static inline bool is_name(const String & value)
+		static inline bool is_name(String const & value)
 		{
 			if (!value.empty() && (std::isalpha(value.front()) || (value.front() == '_')))
 			{
@@ -217,7 +217,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool to_bool(const String & value, bool dv = 0)
+		static inline bool to_bool(String const & value, bool dv = 0)
 		{
 			switch (to_lower(value).hash())
 			{
@@ -237,67 +237,67 @@ namespace ml
 			}
 		}
 
-		static inline int32_t to_i8(const String & value, int8_t dv = 0)
+		static inline int32_t to_i8(String const & value, int8_t dv = 0)
 		{
 			try { return static_cast<int8_t>(std::stoi(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline int32_t to_i16(const String & value, int16_t dv = 0)
+		static inline int32_t to_i16(String const & value, int16_t dv = 0)
 		{
 			try { return static_cast<int16_t>(std::stoi(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline int32_t to_i32(const String & value, int32_t dv = 0)
+		static inline int32_t to_i32(String const & value, int32_t dv = 0)
 		{
 			try { return static_cast<int32_t>(std::stoi(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline int64_t to_i64(const String & value, int64_t dv = 0)
+		static inline int64_t to_i64(String const & value, int64_t dv = 0)
 		{
 			try { return static_cast<int64_t>(std::stoll(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline uint8_t to_u8(const String & value, uint8_t dv = 0)
+		static inline uint8_t to_u8(String const & value, uint8_t dv = 0)
 		{
 			try { return static_cast<uint8_t>(std::stoul(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline uint16_t to_u16(const String & value, uint16_t dv = 0)
+		static inline uint16_t to_u16(String const & value, uint16_t dv = 0)
 		{
 			try { return static_cast<uint16_t>(std::stoul(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline uint32_t to_u32(const String & value, uint32_t dv = 0)
+		static inline uint32_t to_u32(String const & value, uint32_t dv = 0)
 		{
 			try { return static_cast<uint32_t>(std::stoul(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline uint64_t to_u64(const String & value, uint64_t dv = 0)
+		static inline uint64_t to_u64(String const & value, uint64_t dv = 0)
 		{
 			try { return static_cast<uint64_t>(std::stoull(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline float32_t to_f32(const String & value, float32_t dv = 0)
+		static inline float32_t to_f32(String const & value, float32_t dv = 0)
 		{
 			try { return static_cast<float32_t>(std::stof(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline float64_t to_f64(const String & value, float64_t dv = 0)
+		static inline float64_t to_f64(String const & value, float64_t dv = 0)
 		{
 			try { return static_cast<float64_t>(std::stod(value)); }
 			catch (std::exception &) { return dv; }
 		}
 
-		static inline float80_t to_f80(const String & value, float80_t dv = 0)
+		static inline float80_t to_f80(String const & value, float80_t dv = 0)
 		{
 			try { return static_cast<float80_t>(std::stold(value)); }
 			catch (std::exception &) { return dv; }
@@ -305,7 +305,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline String to_string(const String & value) { return value; }
+		static inline String to_string(String const & value) { return value; }
 
 		static inline String to_string(int8_t value) { return std::to_string(value); }
 
@@ -329,14 +329,14 @@ namespace ml
 
 		static inline String to_string(float80_t value) { return std::to_string(value); }
 
-		template <class T> static inline String to_string(const T & value)
+		template <class T> static inline String to_string(T const & value)
 		{
 			SStream ss {}; 
 			ss << value; 
 			return ss.str();
 		}
 
-		template <class T> static inline C_String to_cstring(const T & value)
+		template <class T> static inline C_String to_cstring(T const & value)
 		{
 			return to_string<T>(value).c_str();
 		}
@@ -352,14 +352,14 @@ namespace ml
 			return fmt;
 		}
 
-		template <class T> static inline String to_hex(const T & value)
+		template <class T> static inline String to_hex(T const & value)
 		{
 			SStream ss {};
 			ss << std::hex << value;
 			return ss.str();
 		}
 
-		template <class T> static inline String to_oct(const T & value)
+		template <class T> static inline String to_oct(T const & value)
 		{
 			SStream ss {};
 			ss << std::oct << value;

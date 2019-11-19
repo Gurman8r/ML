@@ -14,10 +14,10 @@ namespace ml
 	{
 	}
 
-	Material::Material(const Material & copy)
+	Material::Material(Material const & copy)
 		: m_uniforms {}
 	{
-		for (const auto & u : copy)
+		for (auto const & u : copy)
 		{
 			this->insert(u->clone());
 		}
@@ -37,12 +37,12 @@ namespace ml
 		return m_uniforms.empty();
 	}
 
-	bool Material::loadFromFile(const String & filename)
+	bool Material::loadFromFile(String const & filename)
 	{
 		return loadFromFile(filename, nullptr);
 	}
 
-	bool Material::loadFromFile(const String & filename, const Map<String, Texture *> * textures)
+	bool Material::loadFromFile(String const & filename, const Map<String, Texture *> * textures)
 	{
 		// Load uniforms from file
 		if (std::ifstream file { filename })
@@ -123,7 +123,7 @@ namespace ml
 
 					// Generate Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Uniform * u{ ([](int32_t type, const String & name, SStream & ss, auto t)
+					if (Uniform * u{ ([](int32_t type, String const & name, SStream & ss, auto t)
 					{
 						Uniform * u{ nullptr };
 						if ((type == -1) || name.empty() || ss.str().empty()) { return u; }

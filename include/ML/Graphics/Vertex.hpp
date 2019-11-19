@@ -26,42 +26,42 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr explicit Vertex(const array_type & value)
+		constexpr explicit Vertex(array_type const & value)
 			: m_data { value }
 		{
 		}
 
-		constexpr explicit Vertex(const vec3 & p, const vec4 & n, const vec2 & t)
+		constexpr explicit Vertex(vec3 const & p, vec4 const & n, vec2 const & t)
 			: self_type { { p[0], p[1], p[2], n[0], n[1], n[2], n[3], t[0], t[1] } }
 		{
 		}
 
-		constexpr explicit Vertex(const vec3 & pos, const vec4 & col)
+		constexpr explicit Vertex(vec3 const & pos, vec4 const & col)
 			: self_type { pos, col, vec2 { NULL } }
 		{
 		}
 
-		constexpr explicit Vertex(const vec3 & pos, const vec2 & tex)
+		constexpr explicit Vertex(vec3 const & pos, vec2 const & tex)
 			: self_type { pos, Colors::white, tex }
 		{
 		}
 
-		constexpr explicit Vertex(const vec4 & col)
+		constexpr explicit Vertex(vec4 const & col)
 			: self_type { vec3 { NULL }, col, vec2 { NULL } }
 		{
 		}
 
-		constexpr explicit Vertex(const vec3 & pos)
+		constexpr explicit Vertex(vec3 const & pos)
 			: self_type { pos, Colors::white, vec2 { NULL } }
 		{
 		}
 
-		constexpr explicit Vertex(const vec2 & tex)
+		constexpr explicit Vertex(vec2 const & tex)
 			: self_type { vec3 { NULL }, Colors::white, tex }
 		{
 		}
 
-		constexpr Vertex(const Vertex & copy)
+		constexpr Vertex(Vertex const & copy)
 			: self_type { copy.pos(), copy.col(), copy.tex() }
 		{
 		}
@@ -110,13 +110,13 @@ namespace ml
 		constexpr auto col() const -> vec4 { return { at(3), at(4), at(5), at(6) }; }
 		constexpr auto tex() const -> vec2 { return { at(7), at(8) }; }
 
-		constexpr auto pos(const vec3 & v) -> self_type & { return at(0, v[0]).at(1, v[1]).at(2, v[2]); }
-		constexpr auto col(const vec4 & v) -> self_type & { return at(3, v[0]).at(4, v[1]).at(5, v[2]).at(6, v[3]); }
-		constexpr auto tex(const vec2 & v) -> self_type & { return at(7, v[0]).at(8, v[1]); }
+		constexpr auto pos(vec3 const & v) -> self_type & { return at(0, v[0]).at(1, v[1]).at(2, v[2]); }
+		constexpr auto col(vec4 const & v) -> self_type & { return at(3, v[0]).at(4, v[1]).at(5, v[2]).at(6, v[3]); }
+		constexpr auto tex(vec2 const & v) -> self_type & { return at(7, v[0]).at(8, v[1]); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(std::ostream & out, const self_type & rhs)
+		inline friend ML_SERIALIZE(std::ostream & out, self_type const & rhs)
 		{
 			return out << rhs.m_data;
 		}

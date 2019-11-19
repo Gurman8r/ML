@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	RectTransform::RectTransform(const vec2 & position, const vec2 & scale, const float_t rotation, const vec2 & origin)
+	RectTransform::RectTransform(vec2 const & position, vec2 const & scale, const float_t rotation, vec2 const & origin)
 		: m_changed	{ true }
 		, m_matrix	{}
 		, m_position{ position }
@@ -24,7 +24,7 @@ namespace ml
 	{
 	}
 
-	RectTransform::RectTransform(const RectTransform & copy)
+	RectTransform::RectTransform(RectTransform const & copy)
 		: m_changed	{ copy.m_changed }
 		, m_matrix	{ copy.m_matrix }
 		, m_position{ copy.m_position }
@@ -68,7 +68,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RectTransform & RectTransform::setOrigin(const vec2 & value)
+	RectTransform & RectTransform::setOrigin(vec2 const & value)
 	{
 		if (m_origin != value)
 		{
@@ -78,7 +78,7 @@ namespace ml
 		return (*this);
 	}
 
-	RectTransform & RectTransform::setPosition(const vec2 & value)
+	RectTransform & RectTransform::setPosition(vec2 const & value)
 	{
 		if (m_position != value)
 		{
@@ -98,7 +98,7 @@ namespace ml
 		return (*this);
 	}
 
-	RectTransform & RectTransform::setScale(const vec2 & value)
+	RectTransform & RectTransform::setScale(vec2 const & value)
 	{
 		if (m_scale != value)
 		{

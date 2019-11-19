@@ -10,7 +10,7 @@ namespace ml
 	{
 	}
 
-	RenderBufferObject::RenderBufferObject(const RenderBufferObject & copy)
+	RenderBufferObject::RenderBufferObject(RenderBufferObject const & copy)
 		: Handle(copy)
 	{
 	}
@@ -33,7 +33,7 @@ namespace ml
 		return (*this);
 	}
 	
-	RenderBufferObject & RenderBufferObject::create(const vec2i & size)
+	RenderBufferObject & RenderBufferObject::create(vec2i const & size)
 	{
 		if (this->set_handle(ML_GL.genRenderbuffer()))
 		{
@@ -44,13 +44,13 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	const RenderBufferObject & RenderBufferObject::bind() const
+	RenderBufferObject const & RenderBufferObject::bind() const
 	{
 		ML_GL.bindRenderbuffer(GL::Renderbuffer, (*this));
 		return (*this);
 	}
 	
-	const RenderBufferObject & RenderBufferObject::unbind() const
+	RenderBufferObject const & RenderBufferObject::unbind() const
 	{
 		ML_GL.bindRenderbuffer(GL::Renderbuffer, NULL);
 		return (*this);
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderBufferObject & RenderBufferObject::bufferStorage(GL::Format format) const
+	RenderBufferObject const & RenderBufferObject::bufferStorage(GL::Format format) const
 	{
 		if (*this)
 		{
@@ -72,7 +72,7 @@ namespace ml
 		return (*this);
 	}
 
-	const RenderBufferObject & RenderBufferObject::setFramebuffer(GL::FrameID attachment) const
+	RenderBufferObject const & RenderBufferObject::setFramebuffer(GL::FrameID attachment) const
 	{
 		if (*this)
 		{

@@ -35,7 +35,7 @@ namespace ml
 
 		static bool Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height = -1);
 
-		static bool Combo(C_String label, int32_t * index, const C_String * arr, int32_t max_height = -1);
+		static bool Combo(C_String label, int32_t * index, C_String const * arr, int32_t max_height = -1);
 
 		static bool Combo(C_String label, int32_t * index, C_String items, int32_t max_height = -1);
 
@@ -43,13 +43,13 @@ namespace ml
 
 		static int32_t Confirm(bool trigger, C_String label, bool * p_open, C_String message, int32_t popup_flags);
 
-		static int32_t Confirm(const String & label, bool trigger, const String & message);
+		static int32_t Confirm(String const & label, bool trigger, String const & message);
 
-		static void HelpMarker(const String & message);
+		static void HelpMarker(String const & message);
 
-		static int32_t OpenFile(const String & label, String & path, const vec2 & size);
+		static int32_t OpenFile(String const & label, String & path, vec2 const & size);
 
-		static void Tooltip(const String & message);
+		static void Tooltip(String const & message);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

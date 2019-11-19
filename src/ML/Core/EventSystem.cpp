@@ -13,7 +13,7 @@ namespace ml
 		);
 	}
 	
-	bool EventSystem::fireEvent(const Event & value)
+	bool EventSystem::fireEvent(Event const & value)
 	{
 		if (!value) { return false; }
 		auto found{ m_listeners.equal_range(*value) };
@@ -26,7 +26,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EventSystem::removeListener(const int32_t & type, EventListener * listener)
+	bool EventSystem::removeListener(int32_t const & type, EventListener * listener)
 	{
 		auto found { m_listeners.equal_range(type) };
 		for (auto it = found.first; it != found.second; it++)

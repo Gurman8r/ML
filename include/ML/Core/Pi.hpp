@@ -29,7 +29,7 @@ namespace ml
 
 		constexpr pi() noexcept = default;
 
-		constexpr operator const type &() const { return self_type::value; }
+		constexpr operator type const &() const { return self_type::value; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

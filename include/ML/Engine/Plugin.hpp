@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 
 #define ML_PLUGIN_API ML_API_EXPORT
 
@@ -24,7 +24,7 @@ namespace ml
 		
 		virtual ~Plugin() {}
 
-		virtual void onEvent(const Event & value) override = 0;
+		virtual void onEvent(Event const & value) override = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

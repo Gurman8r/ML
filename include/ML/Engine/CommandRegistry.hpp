@@ -39,7 +39,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool execute(const String & value)
+		inline bool execute(String const & value)
 		{
 			auto args { util::tokenize(value, " ") };
 			if (!args.empty())
@@ -54,7 +54,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(const String & name)
+		inline iterator find(String const & name)
 		{
 			return std::find_if(this->begin(), this->end(), [&](auto && e)
 			{
@@ -62,7 +62,7 @@ namespace ml
 			});
 		}
 
-		inline const_iterator find(const String & name) const
+		inline const_iterator find(String const & name) const
 		{
 			return std::find_if(this->cbegin(), this->cend(), [&](auto && e)
 			{
@@ -72,13 +72,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline value_type find_by_name(const String & name)
+		inline value_type find_by_name(String const & name)
 		{
 			iterator it = this->find(name);
 			return it != this->end() ? (*it) : nullptr;
 		}
 
-		inline const value_type find_by_name(const String & name) const
+		inline const value_type find_by_name(String const & name) const
 		{
 			const_iterator it = this->find(name);
 			return it != this->cend() ? (*it) : nullptr;
@@ -87,7 +87,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto commands()			-> command_list &		{ return m_cmd; }
-		inline auto commands()	const	-> const command_list & { return m_cmd; }
+		inline auto commands()	const	-> command_list const & { return m_cmd; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -18,15 +18,15 @@ namespace ml
 			m_traces.clear();
 		}
 
-		inline void push_trace(C_String name, const Duration & duration)
+		inline void push_trace(C_String name, Duration const & duration)
 		{
 			m_traces.push_back({ name, duration });
 		}
 
-		inline const auto & traces() const { return m_traces; }
+		inline auto const & traces() const { return m_traces; }
 
 	private:
-		List<std::pair<C_String, Duration>> m_traces;
+		List<Pair<C_String, Duration>> m_traces;
 		PerformanceTracker() : m_traces{} {}
 		~PerformanceTracker() {}
 	};

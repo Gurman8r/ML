@@ -23,17 +23,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Font();
-		explicit Font(const String & filename);
+		explicit Font(String const & filename);
 		~Font();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		const Glyph & getGlyph(uint32_t c, uint32_t characterSize) const;
+		Glyph const & getGlyph(uint32_t c, uint32_t characterSize) const;
 
 		Page & getPage(uint32_t characterSize) const;
 		
@@ -41,9 +41,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto info() const -> const Info & { return m_info; };
+		inline auto info() const -> Info const & { return m_info; };
 
-		inline auto pages() const -> const PageTable & { return m_pages; }
+		inline auto pages() const -> PageTable const & { return m_pages; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -59,12 +59,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const Font::Info & value)
+	inline ML_SERIALIZE(std::ostream & out, Font::Info const & value)
 	{
 		return out << value.family;
 	}
 
-	inline ML_SERIALIZE(std::ostream & out, const Font & value)
+	inline ML_SERIALIZE(std::ostream & out, Font const & value)
 	{
 		return out << value.info();
 	}

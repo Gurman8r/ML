@@ -26,36 +26,36 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Shader();
-		explicit Shader(const String & filename);
-		Shader(const Shader & copy);
+		explicit Shader(String const & filename);
+		Shader(Shader const & copy);
 		~Shader();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
-		bool loadFromFile(const String & vs, const String & fs);
-		bool loadFromFile(const String & vs, const String & gs, const String & fs);
-		bool loadFromMemory(const Source & source);
-		bool loadFromMemory(const String & source);
-		bool loadFromMemory(const String & source, GL::ShaderType type);
-		bool loadFromMemory(const String & vs, const String & fs);
-		bool loadFromMemory(const String & vs, const String & gs, const String & fs);
+		bool loadFromFile(String const & filename);
+		bool loadFromFile(String const & vs, String const & fs);
+		bool loadFromFile(String const & vs, String const & gs, String const & fs);
+		bool loadFromMemory(Source const & source);
+		bool loadFromMemory(String const & source);
+		bool loadFromMemory(String const & source, GL::ShaderType type);
+		bool loadFromMemory(String const & vs, String const & fs);
+		bool loadFromMemory(String const & vs, String const & gs, String const & fs);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const Shader & bind(bool bindTextures = true) const;
+		Shader const & bind(bool bindTextures = true) const;
 		
-		const Shader & unbind() const;
+		Shader const & unbind() const;
 
 		static void bind(Shader const * shader, bool bindTextures = true);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto sources() const	-> const Source & { return m_sources; }
-		inline auto vertSrc() const -> const String & { return sources().vs; }
-		inline auto fragSrc() const -> const String & { return sources().fs; }
-		inline auto geomSrc() const -> const String & { return sources().gs; }
+		inline auto sources() const	-> Source const & { return m_sources; }
+		inline auto vertSrc() const -> String const & { return sources().vs; }
+		inline auto fragSrc() const -> String const & { return sources().fs; }
+		inline auto geomSrc() const -> String const & { return sources().gs; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -63,45 +63,45 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniform(const String & name, const bool value) const;
-		bool setUniform(const String & name, const float_t value) const;
-		bool setUniform(const String & name, const int32_t value) const;
-		bool setUniform(const String & name, const vec2 & value) const;
-		bool setUniform(const String & name, const vec3 & value) const;
-		bool setUniform(const String & name, const vec4 & value) const;
-		bool setUniform(const String & name, const vec2i & value) const;
-		bool setUniform(const String & name, const vec3i & value) const;
-		bool setUniform(const String & name, const vec4i & value) const;
-		bool setUniform(const String & name, const mat2 & value) const;
-		bool setUniform(const String & name, const mat3 & value) const;
-		bool setUniform(const String & name, const mat4 & value) const;
-		bool setUniform(const String & name, const Texture & value) const;
-		bool setUniform(const String & name, Texture const * value) const;
+		bool setUniform(String const & name, const bool value) const;
+		bool setUniform(String const & name, const float_t value) const;
+		bool setUniform(String const & name, const int32_t value) const;
+		bool setUniform(String const & name, vec2 const & value) const;
+		bool setUniform(String const & name, vec3 const & value) const;
+		bool setUniform(String const & name, vec4 const & value) const;
+		bool setUniform(String const & name, vec2i const & value) const;
+		bool setUniform(String const & name, vec3i const & value) const;
+		bool setUniform(String const & name, vec4i const & value) const;
+		bool setUniform(String const & name, mat2 const & value) const;
+		bool setUniform(String const & name, mat3 const & value) const;
+		bool setUniform(String const & name, mat4 const & value) const;
+		bool setUniform(String const & name, Texture const & value) const;
+		bool setUniform(String const & name, Texture const * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformArray(const String & name, const int32_t count, float_t const * value) const;
-		bool setUniformArray(const String & name, const int32_t count, vec2 const * value) const;
-		bool setUniformArray(const String & name, const int32_t count, vec3 const * value) const;
-		bool setUniformArray(const String & name, const int32_t count, vec4 const * value) const;
-		bool setUniformArray(const String & name, const int32_t count, mat2 const * value) const;
-		bool setUniformArray(const String & name, const int32_t count, mat3 const * value) const;
-		bool setUniformArray(const String & name, const int32_t count, mat4 const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, float_t const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, vec2 const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, vec3 const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, vec4 const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, mat2 const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, mat3 const * value) const;
+		bool setUniformArray(String const & name, const int32_t count, mat4 const * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformList(const String & name, const List<float_t> & value) const;
-		bool setUniformList(const String & name, const List<vec2> & value) const;
-		bool setUniformList(const String & name, const List<vec3> & value) const;
-		bool setUniformList(const String & name, const List<vec4> & value) const;
-		bool setUniformList(const String & name, const List<mat2> & value) const;
-		bool setUniformList(const String & name, const List<mat3> & value) const;
-		bool setUniformList(const String & name, const List<mat4> & value) const;
+		bool setUniformList(String const & name, const List<float_t> & value) const;
+		bool setUniformList(String const & name, const List<vec2> & value) const;
+		bool setUniformList(String const & name, const List<vec3> & value) const;
+		bool setUniformList(String const & name, const List<vec4> & value) const;
+		bool setUniformList(String const & name, const List<mat2> & value) const;
+		bool setUniformList(String const & name, const List<mat3> & value) const;
+		bool setUniformList(String const & name, const List<mat4> & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		int32_t	getAttributeLocation(const String & value) const;
-		int32_t	getUniformLocation(const String & value) const;
+		int32_t	getAttributeLocation(String const & value) const;
+		int32_t	getUniformLocation(String const & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

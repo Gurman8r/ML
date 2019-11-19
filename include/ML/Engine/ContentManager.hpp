@@ -64,7 +64,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline const AssetMap & data(hash_t code) const
+		inline AssetMap const & data(hash_t code) const
 		{
 			auto it{ m_data.find(code) };
 			return ((it != m_data.end())
@@ -73,37 +73,37 @@ namespace ml
 			);
 		}
 
-		template <hash_t H> inline const AssetMap & data() const
+		template <hash_t H> inline AssetMap const & data() const
 		{
-			static const auto & temp { this->data(H) };
+			static auto const & temp { this->data(H) };
 			return temp;
 		}
 
-		template <class T> inline const AssetMap & data() const
+		template <class T> inline AssetMap const & data() const
 		{
 			return this->data<typeof<T>::hash>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Trackable * insert(hash_t code, const String & name, void * value)
+		inline Trackable * insert(hash_t code, String const & name, void * value)
 		{
 			return this->data(code).insert({ name, (Trackable *)value }).first->second;
 		}
 
-		template <hash_t H> inline Trackable * insert(const String & name, void * value)
+		template <hash_t H> inline Trackable * insert(String const & name, void * value)
 		{
 			return this->insert(H, name, value);
 		}
 
-		template <class T> inline T * insert(const String & name, T * value)
+		template <class T> inline T * insert(String const & name, T * value)
 		{
 			return (T *)this->insert<typeof<T>::hash>(name, value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T, class ... A> inline T * create(const String & name, A && ... args)
+		template <class T, class ... A> inline T * create(String const & name, A && ... args)
 		{
 			return (!this->exists<T>(name)
 				? this->insert(name, new T { std::forward<A>(args)... })
@@ -111,9 +111,9 @@ namespace ml
 			);
 		}
 
-		inline Trackable * generate(const String & type, const String & name)
+		inline Trackable * generate(String const & type, String const & name)
 		{
-			if (const hash_t * code{ ML_Registry.get_code(type) })
+			if (hash_t const * code{ ML_Registry.get_code(type) })
 			{
 				if (!this->exists(*code, name))
 				{
@@ -125,7 +125,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool destroy(hash_t code, const String & name)
+		inline bool destroy(hash_t code, String const & name)
 		{
 			auto it{ this->data(code).find(name) };
 			if (it != this->data(code).end())
@@ -138,60 +138,60 @@ namespace ml
 			return false;
 		}
 
-		template <hash_t H> inline bool destroy(const String & name)
+		template <hash_t H> inline bool destroy(String const & name)
 		{
 			return this->destroy(H, name);
 		}
 
-		template <class T> inline bool destroy(const String & name)
+		template <class T> inline bool destroy(String const & name)
 		{
 			return this->destroy<typeof<T>::hash>(name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool exists(hash_t code, const String & name) const
+		inline bool exists(hash_t code, String const & name) const
 		{
 			return (this->data(code).find(name) != this->data(code).cend());
 		}
 
-		template <hash_t H> inline bool exists(const String & name) const
+		template <hash_t H> inline bool exists(String const & name) const
 		{
 			return this->exists(H, name);
 		}
 
-		template <class T> inline bool exists(const String & name) const
+		template <class T> inline bool exists(String const & name) const
 		{
 			return this->exists<typeof<T>::hash>(name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline AssetMap::iterator find(const String & name)
+		template <class T> inline AssetMap::iterator find(String const & name)
 		{
 			return name ? this->data<T>().find(name) : this->end<T>();
 		}
 
-		template <class T> inline AssetMap::const_iterator find(const String & name) const
+		template <class T> inline AssetMap::const_iterator find(String const & name) const
 		{
 			return name ? this->data<T>().find(name) : this->end<T>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline T * get(const String & name)
+		template <class T> inline T * get(String const & name)
 		{
 			auto it { this->find<T>(name) };
 			return ((it != this->end<T>()) ? (T *)it->second : nullptr);
 		}
 
-		template <class T> inline T const * get(const String & name) const
+		template <class T> inline T const * get(String const & name) const
 		{
 			auto it { this->find<T>(name) };
 			return ((it != this->end<T>()) ? (T const *)it->second : nullptr);
 		}
 
-		template <class T> inline T const * cget(const String & name) const
+		template <class T> inline T const * cget(String const & name) const
 		{
 			return this->get<T>(name);
 		}
@@ -202,7 +202,7 @@ namespace ml
 		{
 			List<String> temp{};
 			temp.reserve(this->size<T>());
-			for (const auto & pair : this->data<T>())
+			for (auto const & pair : this->data<T>())
 			{
 				temp.push_back(pair.first);
 			}
@@ -240,7 +240,7 @@ namespace ml
 			if (value)
 			{
 				int32_t index { 0 };
-				for (const auto & [ name, ptr ] : this->data<T>())
+				for (auto const & [ name, ptr ] : this->data<T>())
 				{
 					if (ptr == value)
 					{

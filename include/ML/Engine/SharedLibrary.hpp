@@ -2,7 +2,7 @@
 #define _ML_SHARED_LIBRARY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
@@ -23,7 +23,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		SharedLibrary();
-		explicit SharedLibrary(const String & filename);
+		explicit SharedLibrary(String const & filename);
 		SharedLibrary(SharedLibrary && copy);
 		~SharedLibrary();
 
@@ -31,15 +31,15 @@ namespace ml
 
 		bool dispose() override;
 		
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 		
-		void * loadFunction(const String & name);
+		void * loadFunction(String const & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class Out, class ... Args
-		> inline Out callFunction(const String & name, Args && ... args)
+		> inline Out callFunction(String const & name, Args && ... args)
 		{
 			using Fun = Out(*)(Args...);
 			Fun fun{ reinterpret_cast<Fun>(loadFunction(name)) };
@@ -52,8 +52,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto instance()	const -> void * { return m_instance; }
-		inline auto filename()	const -> const String & { return m_filename; }
-		inline auto functions() const -> const map_type & { return m_functions; }
+		inline auto filename()	const -> String const & { return m_filename; }
+		inline auto functions() const -> map_type const & { return m_functions; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -21,7 +21,7 @@ namespace ml
 		return init(true, lib);
 	}
 
-	lua_State * Lua::init(bool openLibs, const luaL_Reg * userLib)
+	lua_State * Lua::init(bool openLibs, luaL_Reg const * userLib)
 	{
 		if (!m_L && (m_L = luaL_newstate()))
 		{
@@ -47,12 +47,12 @@ namespace ml
 		return false;
 	}
 
-	int32_t Lua::doString(const String & value) const
+	int32_t Lua::doString(String const & value) const
 	{
 		return ((value && m_L) ? luaL_dostring(m_L, value.c_str()) : 0);
 	}
 
-	int32_t Lua::doFile(const String & filename) const
+	int32_t Lua::doFile(String const & filename) const
 	{
 		return doString(ML_FS.getFileContents(filename));
 	}

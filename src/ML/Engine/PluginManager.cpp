@@ -17,7 +17,7 @@ namespace ml
 		return m_files.empty() && m_plugins.empty() && m_libraries.empty();
 	}
 	
-	bool PluginManager::loadFromFile(const String & filename)
+	bool PluginManager::loadFromFile(String const & filename)
 	{
 		// Load Filenames
 		if (std::ifstream file { filename })
@@ -82,7 +82,7 @@ namespace ml
 		return m_plugins.size();
 	}
 
-	bool PluginManager::loadOneShot(const String & filename)
+	bool PluginManager::loadOneShot(String const & filename)
 	{
 		if (!filename || (filename.trim().front() == '#'))
 			return false;
@@ -115,7 +115,7 @@ namespace ml
 	size_t PluginManager::loadList(const std::vector<std::string>& value)
 	{
 		size_t count { 0 };
-		for (const auto & filename : value)
+		for (auto const & filename : value)
 		{
 			count += loadOneShot(filename);
 		}

@@ -11,7 +11,7 @@ namespace ml
 	{
 	}
 
-	FrameBufferObject::FrameBufferObject(const FrameBufferObject & copy)
+	FrameBufferObject::FrameBufferObject(FrameBufferObject const & copy)
 		: Handle(copy)
 	{
 	}
@@ -44,13 +44,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	const FrameBufferObject & FrameBufferObject::bind() const
+	FrameBufferObject const & FrameBufferObject::bind() const
 	{
 		ML_GL.bindFramebuffer(GL::Framebuffer, (*this));
 		return (*this);
 	}
 
-	const FrameBufferObject & FrameBufferObject::unbind() const
+	FrameBufferObject const & FrameBufferObject::unbind() const
 	{
 		ML_GL.bindFramebuffer(GL::Framebuffer, NULL);
 		return (*this);
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const FrameBufferObject & FrameBufferObject::setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const
+	FrameBufferObject const & FrameBufferObject::setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const
 	{
 		if (*this)
 		{
@@ -73,7 +73,7 @@ namespace ml
 		return (*this);
 	}
 
-	const FrameBufferObject & FrameBufferObject::setTexture(uint32_t attachment, const Texture & value) const
+	FrameBufferObject const & FrameBufferObject::setTexture(uint32_t attachment, Texture const & value) const
 	{
 		return setTexture(attachment, value, value.sampler(), value.level());
 	}

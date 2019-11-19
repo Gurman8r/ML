@@ -20,7 +20,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void NetServer::onEvent(const Event & value)
+	void NetServer::onEvent(Event const & value)
 	{
 		switch (*value)
 		{
@@ -35,7 +35,7 @@ namespace ml
 		}
 	}
 
-	void NetServer::onPacket(const Packet & value)
+	void NetServer::onPacket(Packet const & value)
 	{
 		switch (value.data[0])
 		{
@@ -78,7 +78,7 @@ namespace ml
 		}
 	}
 	
-	bool NetServer::start(const Host & host, uint32_t maxClients)
+	bool NetServer::start(Host const & host, uint32_t maxClients)
 	{
 		if (m_peer && (m_maxClients = maxClients))
 		{

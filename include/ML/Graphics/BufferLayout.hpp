@@ -4,7 +4,7 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Matrix.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 
 namespace ml
 {
@@ -28,7 +28,7 @@ namespace ml
 			uint32_t	offset;
 			uint32_t	width;
 
-			const Element & operator()() const;
+			Element const & operator()() const;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
@@ -38,16 +38,16 @@ namespace ml
 		BufferLayout();
 		BufferLayout(const List<Element> & elements);
 		BufferLayout(const std::initializer_list<Element> & elements);
-		BufferLayout(const BufferLayout & copy);
+		BufferLayout(BufferLayout const & copy);
 		~BufferLayout();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static const BufferLayout & get_default();
+		static BufferLayout const & get_default();
 
-		const BufferLayout & bind() const;
+		BufferLayout const & bind() const;
 
-		BufferLayout & push_back(const Element & value);
+		BufferLayout & push_back(Element const & value);
 		
 		inline const List<Element> & elements() const { return m_elements; }
 

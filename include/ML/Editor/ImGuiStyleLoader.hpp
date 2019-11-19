@@ -15,7 +15,7 @@ namespace ml
 
 		ImGuiStyleLoader();
 		
-		explicit ImGuiStyleLoader(const String & filename);
+		explicit ImGuiStyleLoader(String const & filename);
 		
 		ImGuiStyleLoader(ImGuiStyleLoader && copy) noexcept;
 		
@@ -23,7 +23,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 
 		inline operator bool() const { return m_good; }
 

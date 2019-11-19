@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
@@ -15,7 +15,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		VertexArrayObject();
-		VertexArrayObject(const VertexArrayObject & copy);
+		VertexArrayObject(VertexArrayObject const & copy);
 		~VertexArrayObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,13 +26,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexArrayObject & bind() const;
+		VertexArrayObject const & bind() const;
 
-		const VertexArrayObject & unbind() const;
+		VertexArrayObject const & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto mode() const -> const GL::Mode & { return m_mode; }
+		inline auto mode() const -> GL::Mode const & { return m_mode; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

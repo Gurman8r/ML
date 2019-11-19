@@ -20,31 +20,31 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Text();
-		Text(const Text & copy);
+		Text(Text const & copy);
 		~Text();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Text & setPosition(const vec2 & value);
-		Text & setScale(const vec2 & value);
-		Text & setColor(const vec4 & value);
+		Text & setPosition(vec2 const & value);
+		Text & setScale(vec2 const & value);
+		Text & setColor(vec4 const & value);
 		Text & setFont(Font const * value);
 		Text & setFontSize(uint32_t value);
-		Text & setString(const String & value);
+		Text & setString(String const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto getFont()		const -> Font const *		{ return m_font; }
 		inline auto getFontSize()	const -> const uint32_t		{ return m_fontSize; }
-		inline auto getPosition()	const -> const vec2 &		{ return m_position; }
-		inline auto getScale()		const -> const vec2 &		{ return m_scale; }
-		inline auto getString()		const -> const String &		{ return m_string; }
-		inline auto getColor()		const -> const vec4 &		{ return m_color; }
+		inline auto getPosition()	const -> vec2 const &		{ return m_position; }
+		inline auto getScale()		const -> vec2 const &		{ return m_scale; }
+		inline auto getString()		const -> String const &		{ return m_string; }
+		inline auto getColor()		const -> vec4 const &		{ return m_color; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void update() const;
-		void draw(const RenderTarget & target, RenderBatch & batch) const override;
+		void draw(RenderTarget const & target, RenderBatch & batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

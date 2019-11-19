@@ -18,18 +18,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
-		Material(const Material & copy);
+		Material(Material const & copy);
 		~Material();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
-		bool loadFromFile(const String & filename, const Map<String, Texture *> * textures);
+		bool loadFromFile(String const & filename);
+		bool loadFromFile(String const & filename, const Map<String, Texture *> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline base_type::iterator find(const String & name)
+		inline base_type::iterator find(String const & name)
 		{
 			return std::find_if(this->begin(), this->end(), [&](auto u)
 			{
@@ -37,7 +37,7 @@ namespace ml
 			});
 		}
 
-		inline base_type::const_iterator find(const String & name) const
+		inline base_type::const_iterator find(String const & name) const
 		{
 			return std::find_if(this->cbegin(), this->cend(), [&](auto u)
 			{
@@ -59,7 +59,7 @@ namespace ml
 		}
 
 		template <class U, class T> 
-		inline Uniform * insert(const String & name, const T & value)
+		inline Uniform * insert(String const & name, T const & value)
 		{
 			if (!name) { return nullptr; }
 			if (auto it{ this->find(value->getName()) }; it == this->end())
@@ -77,7 +77,7 @@ namespace ml
 			return (value && value->getName()) && erase(value->getName());
 		}
 
-		inline bool erase(const String & name)
+		inline bool erase(String const & name)
 		{
 			if (auto it{ this->find(name) }; it != this->end())
 			{
@@ -92,7 +92,7 @@ namespace ml
 
 		template <
 			class U = typename Uniform
-		> inline U * get(const String & name)
+		> inline U * get(String const & name)
 		{
 			auto it { this->find(name) };
 			return (it != this->end()) ? dynamic_cast<U *>(*it) : nullptr;
@@ -100,7 +100,7 @@ namespace ml
 
 		template <
 			class U = typename Uniform
-		> inline U const * get(const String & name) const
+		> inline U const * get(String const & name) const
 		{
 			auto it { this->find(name) };
 			return (it != this->cend()) ? dynamic_cast<U const *>(*it) : nullptr;
@@ -108,7 +108,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class U, class T> inline bool set(const String & name, const T & value)
+		template <class U, class T> inline bool set(String const & name, T const & value)
 		{
 			if (auto u { this->get<U>(name) })
 			{
@@ -120,7 +120,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool rename(const String & from, const String & to)
+		inline bool rename(String const & from, String const & to)
 		{
 			auto it{ this->find(from) };
 			if ((it != end()) && (to && (this->find(to) == this->end())))

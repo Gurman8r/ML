@@ -4,7 +4,7 @@
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Input.hpp>
 
 namespace ml
@@ -21,22 +21,22 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Light();
-		Light(const Light & copy);
+		Light(Light const & copy);
 		~Light();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Light & setEnabled(bool value);
-		Light & setColor(const Color & value);
+		Light & setColor(Color const & value);
 		Light & setIntensity(float_t value);
 		Light & setMode(Light::Mode value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto enabled()	const -> const bool & { return m_enabled; }
-		inline auto color()		const -> const Color & { return m_color; }
-		inline auto intensity() const -> const float_t & { return m_intensity; }
-		inline auto mode()		const -> const Mode & { return m_mode; }
+		inline auto enabled()	const -> bool const & { return m_enabled; }
+		inline auto color()		const -> Color const & { return m_color; }
+		inline auto intensity() const -> float_t const & { return m_intensity; }
+		inline auto mode()		const -> Mode const & { return m_mode; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -53,7 +53,7 @@ namespace ml
 
 	template <> struct input<Light::Mode> final
 	{
-		inline auto operator()(const String & str) const
+		inline auto operator()(String const & str) const
 		{
 			switch (util::to_lower(str).hash())
 			{

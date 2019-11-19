@@ -23,7 +23,7 @@ namespace ml
 		{
 		}
 
-		constexpr AlphaState(const AlphaState & copy)
+		constexpr AlphaState(AlphaState const & copy)
 			: AlphaState(copy.enabled, copy.func, copy.coeff)
 		{
 		}
@@ -38,7 +38,7 @@ namespace ml
 		{
 		}
 
-		const AlphaState & operator()() const;
+		AlphaState const & operator()() const;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -60,7 +60,7 @@ namespace ml
 		{
 		}
 
-		constexpr BlendState(const BlendState & copy)
+		constexpr BlendState(BlendState const & copy)
 			: BlendState(copy.enabled, copy.sfactorRGB, copy.sfactorAlpha, copy.dfactorRGB, copy.dfactorAlpha)
 		{
 		}
@@ -80,7 +80,7 @@ namespace ml
 		{
 		}
 
-		const BlendState & operator()() const;
+		BlendState const & operator()() const;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -96,7 +96,7 @@ namespace ml
 		{
 		}
 
-		constexpr CullState(const CullState & copy)
+		constexpr CullState(CullState const & copy)
 			: CullState(copy.enabled, copy.mode)
 		{
 		}
@@ -111,7 +111,7 @@ namespace ml
 		{
 		}
 
-		const CullState & operator()() const;
+		CullState const & operator()() const;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -134,7 +134,7 @@ namespace ml
 		{
 		}
 
-		constexpr DepthState(const DepthState & copy)
+		constexpr DepthState(DepthState const & copy)
 			: DepthState(copy.enabled, copy.func, copy.mask)
 		{
 		}
@@ -149,7 +149,7 @@ namespace ml
 		{
 		}
 
-		const DepthState & operator()() const;
+		DepthState const & operator()() const;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -160,10 +160,10 @@ namespace ml
 
 		constexpr RenderStates(
 			bool enabled,
-			const AlphaState & alpha,
-			const BlendState & blend,
+			AlphaState const & alpha,
+			BlendState const & blend,
 			const CullState  & cull,
-			const DepthState & depth
+			DepthState const & depth
 		)	: m_enabled { enabled }
 			, m_alpha	{ alpha }
 			, m_blend	{ blend }
@@ -173,15 +173,15 @@ namespace ml
 		}
 
 		constexpr RenderStates(
-			const AlphaState & alpha, 
-			const BlendState & blend, 
+			AlphaState const & alpha, 
+			BlendState const & blend, 
 			const CullState  & cull,
-			const DepthState & depth
+			DepthState const & depth
 		)	: RenderStates { true, alpha, blend, cull, depth }
 		{
 		}
 
-		constexpr RenderStates(const RenderStates & copy) : RenderStates { 
+		constexpr RenderStates(RenderStates const & copy) : RenderStates { 
 			copy.m_enabled, copy.m_alpha, copy.m_blend, copy.m_cull, copy.m_depth 
 		}
 		{
@@ -201,7 +201,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const RenderStates & operator()() const;
+		RenderStates const & operator()() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

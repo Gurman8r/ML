@@ -29,7 +29,7 @@ namespace ml
 		switch (type.hash)
 		{
 		case typeof<Glyph>::hash:
-			if (auto temp { static_cast<const Glyph *>(value) })
+			if (auto temp { static_cast<Glyph const *>(value) })
 			{
 				return getPreview(temp->texture);
 			}
@@ -63,7 +63,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void AssetPreview::drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk clbk) const
+	void AssetPreview::drawPreview(const typeof<> & type, void * value, vec2 const & size, Clbk clbk) const
 	{
 		ImGui::PushID((int32_t)type.hash);
 		ImGui::PushID(value);

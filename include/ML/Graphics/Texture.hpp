@@ -26,42 +26,42 @@ namespace ml
 		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated);
 		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped);
 		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
-		explicit Texture(const Texture & copy);
-		explicit Texture(const Image & image);
+		explicit Texture(Texture const & copy);
+		explicit Texture(Image const & image);
 		~Texture();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename);
-		bool loadFromImage(const Image & value);
+		bool loadFromFile(String const & filename);
+		bool loadFromImage(Image const & value);
 		bool loadFromFaces(const Array<Image const *, 6> & faces);
 		bool loadFromFaces(const Array<Image, 6> & faces);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool create(const Texture & copy);
-		bool create(const vec2u & size);
-		bool create(const Image & image, const vec2u & size);
-		bool create(const Image & image, uint32_t w, uint32_t h);
-		bool create(byte_t const * pixels, const vec2u & size);
+		bool create(Texture const & copy);
+		bool create(vec2u const & size);
+		bool create(Image const & image, vec2u const & size);
+		bool create(Image const & image, uint32_t w, uint32_t h);
+		bool create(byte_t const * pixels, vec2u const & size);
 		bool create(byte_t const * pixels, uint32_t w, uint32_t h);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool update(const Texture & other);
-		bool update(const Texture & other, const UintRect & area);
-		bool update(const Texture & other, const vec2u & position, const vec2u & size);
-		bool update(const Texture & other, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+		bool update(Texture const & other);
+		bool update(Texture const & other, UintRect const & area);
+		bool update(Texture const & other, vec2u const & position, vec2u const & size);
+		bool update(Texture const & other, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
-		bool update(const Image & image);
-		bool update(const Image & image, const UintRect & area);
-		bool update(const Image & image, const vec2u & position, const vec2u & size);
-		bool update(const Image & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+		bool update(Image const & image);
+		bool update(Image const & image, UintRect const & area);
+		bool update(Image const & image, vec2u const & position, vec2u const & size);
+		bool update(Image const & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 		
 		bool update(byte_t const * pixels);
-		bool update(byte_t const * pixels, const UintRect & area);
-		bool update(byte_t const * pixels, const vec2u & position, const vec2u & size);
+		bool update(byte_t const * pixels, UintRect const & area);
+		bool update(byte_t const * pixels, vec2u const & position, vec2u const & size);
 		bool update(byte_t const * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -73,7 +73,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Texture & swap(Texture & value);
-		Texture & operator=(const Texture & value);
+		Texture & operator=(Texture const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -81,9 +81,9 @@ namespace ml
 
 		uint32_t getChannels() const;
 
-		const Texture & bind() const;
+		Texture const & bind() const;
 
-		const Texture & unbind() const;
+		Texture const & unbind() const;
 
 		static void bind(Texture const * value);
 
@@ -94,8 +94,8 @@ namespace ml
 		inline auto internal_fmt()	const -> GL::Format		{ return m_iFormat; }
 		inline auto color_fmt()		const -> GL::Format		{ return m_cFormat; }
 		inline auto pixel_type()	const -> GL::Type		{ return m_pixType; }
-		inline auto size()			const -> const vec2u &	{ return m_size; }
-		inline auto real_size()		const -> const vec2u &	{ return m_realSize; }
+		inline auto size()			const -> vec2u const &	{ return m_size; }
+		inline auto real_size()		const -> vec2u const &	{ return m_realSize; }
 		inline auto smooth()		const -> bool			{ return m_smooth; }
 		inline auto repeated()		const -> bool			{ return m_repeated; }
 		inline auto mipmapped()		const -> bool			{ return m_mipmapped; }

@@ -17,10 +17,10 @@ namespace ml
 			decay() = delete;
 
 			using type = typename 
-				_STD remove_const_t<
-				_STD remove_volatile_t<
-				_STD remove_reference_t<
-				_STD remove_pointer_t<
+				std::remove_const_t<
+				std::remove_volatile_t<
+				std::remove_reference_t<
+				std::remove_pointer_t<
 				T
 			>>>>;
 		};

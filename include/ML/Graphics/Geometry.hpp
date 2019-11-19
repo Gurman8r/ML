@@ -21,7 +21,7 @@ namespace ml
 		
 		using rect_uvs	= typename Array<float_t, rect_quad::Size * 2>;
 
-		static constexpr rect_quad rectQuad(const FloatRect & rq, const rect_uvs & uv)
+		static constexpr rect_quad rectQuad(FloatRect const & rq, rect_uvs const & uv)
 		{
 			return
 			{
@@ -35,7 +35,7 @@ namespace ml
 			};
 		}
 
-		static constexpr rect_quad glyphQuad(const FloatRect & rq)
+		static constexpr rect_quad glyphQuad(FloatRect const & rq)
 		{
 			return rectQuad(rq,
 			{
@@ -48,7 +48,7 @@ namespace ml
 			});
 		}
 
-		static constexpr rect_quad spriteQuad(const FloatRect & rq)
+		static constexpr rect_quad spriteQuad(FloatRect const & rq)
 		{
 			return rectQuad(rq,
 			{
@@ -71,7 +71,7 @@ namespace ml
 				using indices_t		= typename Array<uint32_t, I>;
 				using contiguous_t	= typename Array<float_t, V * Vertex::Size>;
 
-				static constexpr contiguous_t make_contiguous(const vertices_t & value)
+				static constexpr contiguous_t make_contiguous(vertices_t const & value)
 				{
 					contiguous_t temp { 0 };
 					for (size_t i = 0; i < temp.size(); i++)

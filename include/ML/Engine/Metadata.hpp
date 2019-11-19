@@ -17,10 +17,10 @@ namespace ml
 		using value_type		= typename MetadataValue;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
+		using const_pointer		= typename value_type const *;
+		using const_reference	= typename value_type const &;
 		using map_type			= typename Map<String, value_type>;
-		using init_type			= typename std::initializer_list<std::pair<String, value_type>>;
+		using init_type			= typename std::initializer_list<Pair<String, value_type>>;
 		using pair_type			= typename map_type::value_type;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
@@ -35,13 +35,13 @@ namespace ml
 		template <class S> explicit Metadata(const Map<S, S> & values)
 			: m_data {}
 		{
-			for (const auto & pair : values)
+			for (auto const & pair : values)
 			{
 				this->setData(pair);
 			}
 		}
 
-		Metadata(const Metadata & copy)
+		Metadata(Metadata const & copy)
 			: m_data { copy.m_data }
 		{
 		}
@@ -60,7 +60,7 @@ namespace ml
 
 		template <
 			class T = typename String
-		> inline const_reference getData(const String & name, const T & dv = T()) const
+		> inline const_reference getData(String const & name, T const & dv = T()) const
 		{
 			auto it{ m_data.find(name) };
 			return (it != this->cend()
@@ -71,7 +71,7 @@ namespace ml
 
 		template <
 			class T
-		> inline T getData(const String & value, const T dv, const Map<String, T> & m) const
+		> inline T getData(String const & value, const T dv, const Map<String, T> & m) const
 		{
 			if (!m.empty())
 			{
@@ -87,7 +87,7 @@ namespace ml
 			return dv;
 		}
 
-		inline Metadata & removeData(const String & name)
+		inline Metadata & removeData(String const & name)
 		{
 			auto it{ m_data.find(name) };
 			if (it != this->end())
@@ -99,7 +99,7 @@ namespace ml
 
 		template <
 			class ... Args
-		> inline const_reference & setData(const String & name, Args && ... args)
+		> inline const_reference & setData(String const & name, Args && ... args)
 		{
 			auto it{ m_data.find(name) };
 			if (it == m_data.end())
@@ -109,7 +109,7 @@ namespace ml
 			return ((it->second) = value_type { std::forward<Args>(args)... });
 		}
 
-		inline const_reference & setData(const std::pair<String, String> & pair)
+		inline const_reference & setData(const Pair<String, String> & pair)
 		{
 			return setData(pair.first, pair.second);
 		}
@@ -132,9 +132,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const Metadata & value)
+	inline ML_SERIALIZE(std::ostream & out, Metadata const & value)
 	{
-		for (const auto & pair : value)
+		for (auto const & pair : value)
 		{
 			out << "[" << pair.first << "] | " << pair.second << std::endl;
 		}

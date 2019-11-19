@@ -4,7 +4,7 @@
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Input.hpp>
 
 namespace ml
@@ -24,42 +24,42 @@ namespace ml
 
 		Camera();
 		Camera(ClearFlags clearFlags, Projection projection);
-		Camera(const Camera & copy);
+		Camera(Camera const & copy);
 		~Camera();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const Camera & applyClear() const;
-		const Camera & applyViewport() const;
+		Camera const & applyClear() const;
+		Camera const & applyViewport() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Camera & setEnabled(bool value);
 		Camera & setClearFlags(ClearFlags value);
-		Camera & setBackground(const vec4 & value);
+		Camera & setBackground(vec4 const & value);
 		Camera & setFieldOfView(float_t value);
 		Camera & setProjection(Projection value);
-		Camera & setPosition(const vec3 & value);
-		Camera & setDirection(const vec3 & value);
+		Camera & setPosition(vec3 const & value);
+		Camera & setDirection(vec3 const & value);
 		Camera & setClipping(float_t zNear, float_t zFar);
 		Camera & setClipFar(float_t value);
 		Camera & setClipNear(float_t value);
-		Camera & setViewport(const vec2i & pos, const vec2i & size);
-		Camera & setViewport(const vec2i & value);
-		Camera & setViewport(const IntRect & value);
+		Camera & setViewport(vec2i const & pos, vec2i const & size);
+		Camera & setViewport(vec2i const & value);
+		Camera & setViewport(IntRect const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto enabled()		const -> const bool &		{ return m_enabled; }
-		inline auto clearFlags()	const -> const ClearFlags & { return m_clearFlags; }
-		inline auto background()	const -> const vec4 &		{ return m_background; }
-		inline auto projection()	const -> const Projection & { return m_projection; }
-		inline auto position()		const -> const vec3 &		{ return m_position; }
-		inline auto direction()		const -> const vec3 &		{ return m_direction; }
-		inline auto fieldOfView()	const -> const float_t &	{ return m_fieldOfView; }
-		inline auto clipNear()		const -> const float_t &	{ return m_clipNear; }
-		inline auto clipFar()		const -> const float_t &	{ return m_clipFar; }
-		inline auto viewport()		const -> const IntRect &	{ return m_viewport; }
+		inline auto enabled()		const -> bool const &		{ return m_enabled; }
+		inline auto clearFlags()	const -> ClearFlags const & { return m_clearFlags; }
+		inline auto background()	const -> vec4 const &		{ return m_background; }
+		inline auto projection()	const -> Projection const & { return m_projection; }
+		inline auto position()		const -> vec3 const &		{ return m_position; }
+		inline auto direction()		const -> vec3 const &		{ return m_direction; }
+		inline auto fieldOfView()	const -> float_t const &	{ return m_fieldOfView; }
+		inline auto clipNear()		const -> float_t const &	{ return m_clipNear; }
+		inline auto clipFar()		const -> float_t const &	{ return m_clipFar; }
+		inline auto viewport()		const -> IntRect const &	{ return m_viewport; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -95,7 +95,7 @@ namespace ml
 
 	template <> struct input<Camera::ClearFlags> final
 	{
-		inline auto operator()(const String & value) const
+		inline auto operator()(String const & value) const
 		{
 			switch (util::to_lower(value).hash())
 			{
@@ -111,7 +111,7 @@ namespace ml
 
 	template <> struct input<Camera::Projection> final
 	{
-		inline auto operator()(const String & value) const
+		inline auto operator()(String const & value) const
 		{
 			switch (util::to_lower(value).hash())
 			{

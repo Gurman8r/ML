@@ -33,7 +33,7 @@ namespace ml
 		return m_lists.empty();
 	}
 
-	bool MetadataParser::loadFromFile(const String & filename)
+	bool MetadataParser::loadFromFile(String const & filename)
 	{
 		return this->dispose() && readFile(filename, m_lists);
 	}
@@ -42,11 +42,11 @@ namespace ml
 
 	const List<Metadata *> & MetadataParser::loadLists(List<Metadata *> & data, const List<Map<String, String>>& value)
 	{
-		for (const auto & elem : value)
+		for (auto const & elem : value)
 		{
 			Metadata * md = new Metadata();
 
-			for (const auto & pair : elem)
+			for (auto const & pair : elem)
 			{
 				md->setData(pair.first, pair.second);
 
@@ -56,7 +56,7 @@ namespace ml
 		return data;
 	}
 
-	bool MetadataParser::readFile(const String & filename, List<Metadata *>& list)
+	bool MetadataParser::readFile(String const & filename, List<Metadata *>& list)
 	{
 		SStream file;
 		String	line;

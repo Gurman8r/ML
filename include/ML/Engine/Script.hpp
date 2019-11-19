@@ -2,7 +2,7 @@
 #define _ML_SCRIPT_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
@@ -20,20 +20,20 @@ namespace ml
 
 		Script();
 		Script(Language language);
-		Script(Language language, const String & text);
-		explicit Script(const String & filename);
-		Script(const Script & copy);
+		Script(Language language, String const & text);
+		explicit Script(String const & filename);
+		Script(Script const & copy);
 		~Script();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool loadFromFile(const String & filename);
+		bool loadFromFile(String const & filename);
 		
 		int32_t execute() const;
 
 		Script & setLanguage(Language value);
 		
-		Script & setText(const String & value);
+		Script & setText(String const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -42,9 +42,9 @@ namespace ml
 			return ((m_lang != Language::Unknown) && m_text);
 		}
 
-		inline auto language()	const -> const Language &	{ return m_lang; }
-		inline auto path()		const -> const String &		{ return m_path; }
-		inline auto text()		const -> const String &		{ return m_text; }
+		inline auto language()	const -> Language const &	{ return m_lang; }
+		inline auto path()		const -> String const &		{ return m_path; }
+		inline auto text()		const -> String const &		{ return m_text; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

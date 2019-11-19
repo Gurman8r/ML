@@ -84,12 +84,12 @@ namespace ml
 			return alg::value_at(i, value, Cursor::Mode_values);
 		}
 
-		static constexpr int32_t index_of(const Cursor::Mode & value)
+		static constexpr int32_t index_of(Cursor::Mode const & value)
 		{
 			return alg::index_of(value, Cursor::Mode_values);
 		}
 
-		static constexpr C_String name_of(const Cursor::Mode & value)
+		static constexpr C_String name_of(Cursor::Mode const & value)
 		{
 			const int32_t i = index_of(value);
 			return (i >= 0) ? Cursor::Mode_names[i] : "";
@@ -102,12 +102,12 @@ namespace ml
 			return alg::value_at(i, value, Cursor::Shape_values);
 		}
 
-		static constexpr int32_t index_of(const Cursor::Shape & value)
+		static constexpr int32_t index_of(Cursor::Shape const & value)
 		{
 			return alg::index_of(value, Cursor::Shape_values);
 		}
 
-		static constexpr C_String name_of(const Cursor::Shape & value)
+		static constexpr C_String name_of(Cursor::Shape const & value)
 		{
 			const int32_t i = index_of(value);
 			return (i >= 0) ? Cursor::Shape_names[i] : "";
@@ -115,12 +115,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(std::ostream & out, const Cursor::Mode & value)
+		inline friend ML_SERIALIZE(std::ostream & out, Cursor::Mode const & value)
 		{
 			return out << Cursor::name_of(value);
 		}
 
-		inline friend ML_SERIALIZE(std::ostream & out, const Cursor::Shape & value)
+		inline friend ML_SERIALIZE(std::ostream & out, Cursor::Shape const & value)
 		{
 			return out << Cursor::name_of(value);
 		}

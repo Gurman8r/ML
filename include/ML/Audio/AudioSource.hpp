@@ -2,7 +2,7 @@
 #define _ML_AUDIO_SOURCE_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
@@ -16,7 +16,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		AudioSource();
-		AudioSource(const AudioSource & copy);
+		AudioSource(AudioSource const & copy);
 		~AudioSource();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

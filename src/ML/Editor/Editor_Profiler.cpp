@@ -23,7 +23,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Profiler::onEvent(const Event & value)
+	void Editor_Profiler::onEvent(Event const & value)
 	{
 		Editor_Base::onEvent(value);
 
@@ -103,7 +103,7 @@ namespace ml
 				{
 					if (ImGui::BeginChild("Active Allocations", { 0, 0 }, true))
 					{
-						ImGui::Text("Active Allocations: %u", ML_Memory.records().size());
+						ImGui::Text("Active Allocations: %u", ML_MemoryTracker.records().size());
 
 						if (ImGui::BeginChild("Active Allocation##Content", { 0, 0 }, true))
 						{
@@ -114,16 +114,16 @@ namespace ml
 							ImGui::Text("Type"); ImGui::NextColumn();
 							ImGui::Separator();
 
-							for (const auto & [ ptr, rec ] : ML_Memory.records())
+							for (auto const & [ ptr, rec ] : ML_MemoryTracker.records())
 							{
 								ImGui::Columns(4, "Allocations##Columns");
-								ImGui::Text("%p", rec->ptr);
+								ImGui::Text("%p", rec->value);
 								ImGui::NextColumn();
 								ImGui::Text("%u", rec->index);
 								ImGui::NextColumn();
 								ImGui::Text("%u", rec->size);
 								ImGui::NextColumn();
-								ImGui::Text("%s", rec->get_type_info().name());
+								ImGui::Text("%s", rec->target_type().name());
 								ImGui::Columns(1);
 							}
 						}

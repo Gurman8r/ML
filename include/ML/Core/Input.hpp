@@ -26,7 +26,7 @@ namespace ml
 			return temp;
 		}
 
-		inline auto operator()(const String & str) const
+		inline auto operator()(String const & str) const
 		{
 			SStream ss { str };
 			return (*this)(ss);
@@ -44,7 +44,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, To dv = To { 0 }) const
+		inline auto operator()(String const & str, To dv = To { 0 }) const
 		{
 			return static_cast<To>(input<From>{}(str, static_cast<From>(dv)));
 		}
@@ -82,7 +82,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str) const
+		inline auto operator()(String const & str) const
 		{
 			return util::to_bool(str);
 		}
@@ -99,7 +99,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, int8_t dv = 0) const
+		inline auto operator()(String const & str, int8_t dv = 0) const
 		{
 			return util::to_i8(str, dv);
 		}
@@ -116,7 +116,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, int16_t dv = 0) const
+		inline auto operator()(String const & str, int16_t dv = 0) const
 		{
 			return util::to_i16(str, dv);
 		}
@@ -133,7 +133,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, int32_t dv = 0) const
+		inline auto operator()(String const & str, int32_t dv = 0) const
 		{
 			return util::to_i32(str, dv);
 		}
@@ -150,7 +150,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, int64_t dv = 0) const
+		inline auto operator()(String const & str, int64_t dv = 0) const
 		{
 			return util::to_i64(str, dv);
 		}
@@ -167,7 +167,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, uint8_t dv = 0) const
+		inline auto operator()(String const & str, uint8_t dv = 0) const
 		{
 			return util::to_u8(str, dv);
 		}
@@ -184,7 +184,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, uint16_t dv = 0) const
+		inline auto operator()(String const & str, uint16_t dv = 0) const
 		{
 			return util::to_u16(str, dv);
 		}
@@ -201,7 +201,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, uint32_t dv = 0) const
+		inline auto operator()(String const & str, uint32_t dv = 0) const
 		{
 			return util::to_u32(str, dv);
 		}
@@ -218,7 +218,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, uint64_t dv = 0) const
+		inline auto operator()(String const & str, uint64_t dv = 0) const
 		{
 			return util::to_u64(str, dv);
 		}
@@ -235,7 +235,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, float32_t dv = 0) const
+		inline auto operator()(String const & str, float32_t dv = 0) const
 		{
 			return util::to_f32(str, dv);
 		}
@@ -252,7 +252,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, float64_t dv = 0) const
+		inline auto operator()(String const & str, float64_t dv = 0) const
 		{
 			return util::to_f64(str, dv);
 		}
@@ -269,7 +269,7 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, float80_t dv = 0) const
+		inline auto operator()(String const & str, float80_t dv = 0) const
 		{
 			return util::to_f80(str, dv);
 		}

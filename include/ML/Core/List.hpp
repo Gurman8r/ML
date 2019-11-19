@@ -31,34 +31,34 @@ namespace ml
 		{
 		}
 
-		explicit List(const allocator_type & alloc)
+		explicit List(allocator_type const & alloc)
 			: base_type(alloc)
 		{
 		}
 
-		explicit List(const size_type count, const allocator_type & alloc = allocator_type())
+		explicit List(const size_type count, allocator_type const & alloc = allocator_type())
 			: base_type(count, alloc)
 		{
 		}
 
-		List(const base_type & value, const allocator_type & alloc = allocator_type())
+		List(base_type const & value, allocator_type const & alloc = allocator_type())
 			: base_type(value, alloc)
 		{
 		}
 
-		List(const init_type & value, const allocator_type & alloc = allocator_type())
+		List(init_type const & value, allocator_type const & alloc = allocator_type())
 			: base_type(value, alloc)
 		{
 		}
 
-		List(const self_type & value, const allocator_type & alloc = allocator_type())
+		List(self_type const & value, allocator_type const & alloc = allocator_type())
 			: base_type(value, alloc)
 		{
 		}
 
 		template <
 			class Iter
-		> List(Iter begin, Iter end, const allocator_type & alloc = allocator_type())
+		> List(Iter begin, Iter end, allocator_type const & alloc = allocator_type())
 			: base_type(begin, end, alloc)
 		{
 		}
@@ -77,9 +77,9 @@ namespace ml
 			return static_cast<base_type &>(*this);
 		}
 
-		inline operator const base_type &() const
+		inline operator base_type const &() const
 		{
-			return static_cast<const base_type &>(*this);
+			return static_cast<base_type const &>(*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -71,7 +71,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(const Texture & copy) : Texture {
+	Texture::Texture(Texture const & copy) : Texture {
 		copy.m_sampler,
 		copy.m_iFormat,
 		copy.m_cFormat,
@@ -85,7 +85,7 @@ namespace ml
 		create(copy);
 	}
 
-	Texture::Texture(const Image & image)
+	Texture::Texture(Image const & image)
 		: Texture {}
 	{
 		loadFromImage(image);
@@ -107,13 +107,13 @@ namespace ml
 		return !(*this);
 	}
 
-	bool Texture::loadFromFile(const String & filename)
+	bool Texture::loadFromFile(String const & filename)
 	{
 		Image image;
 		return image.loadFromFile(filename) && loadFromImage(image);
 	}
 
-	bool Texture::loadFromImage(const Image & value)
+	bool Texture::loadFromImage(Image const & value)
 	{
 		if (!value.channels()) return false;
 		m_iFormat = m_cFormat = value.getFormat();
@@ -209,7 +209,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool Texture::create(const Texture & other)
+	bool Texture::create(Texture const & other)
 	{
 		return (other
 			? create(other.size())
@@ -219,22 +219,22 @@ namespace ml
 		);
 	}
 
-	bool Texture::create(const vec2u & size)
+	bool Texture::create(vec2u const & size)
 	{
 		return create(nullptr, size);
 	}
 
-	bool Texture::create(const Image & image, const vec2u & size)
+	bool Texture::create(Image const & image, vec2u const & size)
 	{
 		return create(image.data(), size);
 	}
 
-	bool Texture::create(const Image & image, uint32_t w, uint32_t h)
+	bool Texture::create(Image const & image, uint32_t w, uint32_t h)
 	{
 		return create(image.data(), w, h);
 	}
 
-	bool Texture::create(byte_t const * pixels, const vec2u & size)
+	bool Texture::create(byte_t const * pixels, vec2u const & size)
 	{
 		return create(pixels, size[0], size[1]);
 	}
@@ -301,44 +301,44 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool Texture::update(const Texture & other)
+	bool Texture::update(Texture const & other)
 	{
 		return update(other.copyToImage());
 	}
 
-	bool Texture::update(const Texture & other, const UintRect & area)
+	bool Texture::update(Texture const & other, UintRect const & area)
 	{
 		return update(other.copyToImage(), area);
 	}
 
-	bool Texture::update(const Texture & other, const vec2u & position, const vec2u & size)
+	bool Texture::update(Texture const & other, vec2u const & position, vec2u const & size)
 	{
 		return update(other.copyToImage(), position, size);
 	}
 
-	bool Texture::update(const Texture & other, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+	bool Texture::update(Texture const & other, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
 		return update(other.copyToImage(), x, y, w, h);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Texture::update(const Image & image)
+	bool Texture::update(Image const & image)
 	{
 		return update(image.data(), image.bounds());
 	}
 
-	bool Texture::update(const Image & image, const UintRect & area)
+	bool Texture::update(Image const & image, UintRect const & area)
 	{
 		return update(image.data(), area.position(), area.size());
 	}
 
-	bool Texture::update(const Image & image, const vec2u & position, const vec2u & size)
+	bool Texture::update(Image const & image, vec2u const & position, vec2u const & size)
 	{
 		return update(image.data(), position[0], position[1], size[0], size[1]);
 	}
 
-	bool Texture::update(const Image & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+	bool Texture::update(Image const & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
 		return update(image.data(), x, y, w, h);
 	}
@@ -350,12 +350,12 @@ namespace ml
 		return update(pixels, UintRect { width(), height() });
 	}
 
-	bool Texture::update(byte_t const * pixels, const UintRect & area)
+	bool Texture::update(byte_t const * pixels, UintRect const & area)
 	{
 		return update(pixels, area.position(), area.size());
 	}
 
-	bool Texture::update(byte_t const * pixels, const vec2u & position, const vec2u & size)
+	bool Texture::update(byte_t const * pixels, vec2u const & position, vec2u const & size)
 	{
 		return update(pixels, position[0], position[1], size[0], size[1]);
 	}
@@ -518,7 +518,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Texture & Texture::operator=(const Texture & value)
+	Texture & Texture::operator=(Texture const & value)
 	{
 		Texture temp { value };
 		return swap(temp);
@@ -551,13 +551,13 @@ namespace ml
 		}
 	}
 
-	const Texture & Texture::bind() const
+	Texture const & Texture::bind() const
 	{
 		bind(this);
 		return (*this);
 	}
 
-	const Texture & Texture::unbind() const
+	Texture const & Texture::unbind() const
 	{
 		bind(nullptr);
 		return (*this);

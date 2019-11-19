@@ -19,7 +19,7 @@ namespace ml
 
 		~Editor_Content() {}
 
-		void onEvent(const Event & value) override;
+		void onEvent(Event const & value) override;
 
 		bool draw() override;
 
@@ -32,7 +32,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto select_item(const String & type, const String & name, void * obj)
+		inline auto select_item(String const & type, String const & name, void * obj)
 		{
 			m_typename = type;
 			m_itemname = name;
@@ -44,9 +44,9 @@ namespace ml
 			return select_item({}, {}, nullptr);
 		}
 
-		inline const auto & type_name() const { return m_typename; }
-		inline const auto & item_name() const { return m_itemname; }
-		inline const auto & selected() const { return m_selected; }
+		inline auto const & type_name() const { return m_typename; }
+		inline auto const & item_name() const { return m_itemname; }
+		inline auto const & selected() const { return m_selected; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -13,8 +13,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RectTransform();
-		RectTransform(const vec2 & position, const vec2 & scale, const float_t rotation, const vec2 & origin);
-		RectTransform(const RectTransform & copy);
+		RectTransform(vec2 const & position, vec2 const & scale, const float_t rotation, vec2 const & origin);
+		RectTransform(RectTransform const & copy);
 		~RectTransform();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -23,21 +23,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		RectTransform & setOrigin(const vec2 & value);
-		RectTransform & setPosition(const vec2 & value);
+		RectTransform & setOrigin(vec2 const & value);
+		RectTransform & setPosition(vec2 const & value);
 		RectTransform & setRotation(float_t value);
-		RectTransform & setScale(const vec2 & value);
+		RectTransform & setScale(vec2 const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto origin()	const -> const vec2 &		{ return m_origin; }
-		inline auto position()	const -> const vec2 &		{ return m_position; }
-		inline auto rotation()	const -> const float_t &	{ return m_rotation; }
-		inline auto scale()		const -> const vec2 &		{ return m_scale; }
+		inline auto origin()	const -> vec2 const &		{ return m_origin; }
+		inline auto position()	const -> vec2 const &		{ return m_position; }
+		inline auto rotation()	const -> float_t const &	{ return m_rotation; }
+		inline auto scale()		const -> vec2 const &		{ return m_scale; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const mat4 & getMat() const
+		inline mat4 const & getMat() const
 		{
 			update();
 			return m_matrix;

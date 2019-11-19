@@ -26,7 +26,7 @@ namespace ml
 					<< std::left
 					<< FG::Green << std::setw(6) << rec->index
 					<< FG::Cyan << std::setw(sizeof(size_t) * 2) << rec->size
-					<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->ptr
+					<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->value
 					<< FG::Normal << std::setw(10) << rec->target_type().name()
 					<< FMT() << std::endl;
 			}

@@ -49,6 +49,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline operator bool() const { return m_value; }
+
 		inline operator T const *() const { return m_value; }
 
 		inline T const * operator->() const { return m_value; }

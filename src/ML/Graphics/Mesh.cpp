@@ -61,23 +61,29 @@ namespace ml
 	{
 		if (!m_vertices.empty() && !m_indices.empty())
 		{
-			ML_BIND_SCOPE	(VAO, m_vao.create(GL::Triangles));
-			ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw));
-			ML_BIND_SCOPE_EX(IBO, _ib, m_ibo.create(GL::StaticDraw, GL::UnsignedInt));
-			
-			_vb->bufferData(alg::contiguous(m_vertices));
-			_ib->bufferData(m_indices);
-			
-			m_layout.bind();
+			if (ML_BIND_SCOPE(VAO, m_vao.create(GL::Triangles)))
+			{
+				if (ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw)))
+				{
+					if (ML_BIND_SCOPE_EX(IBO, _ib, m_ibo.create(GL::StaticDraw, GL::UnsignedInt)))
+					{
+						_vb->bufferData(alg::contiguous(m_vertices));
+						_ib->bufferData(m_indices);
+						m_layout.bind();
+					}
+				}
+			}
 		}
 		else if (!m_vertices.empty())
 		{
-			ML_BIND_SCOPE	(VAO, m_vao.create(GL::Triangles));
-			ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw));
-			
-			_vb->bufferData(alg::contiguous(m_vertices));
-			
-			m_layout.bind();
+			if (ML_BIND_SCOPE(VAO, m_vao.create(GL::Triangles)))
+			{
+				if (ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw)))
+				{
+					_vb->bufferData(alg::contiguous(m_vertices));
+					m_layout.bind();
+				}
+			}
 		}
 		return (*this);
 	}

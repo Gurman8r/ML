@@ -102,7 +102,7 @@ namespace ml
 			value_type temp { 0 };
 			for (size_t i = 0; i < N; i++)
 			{
-				temp.write(i, value[i]);
+				ML_BITWRITE(temp, i, value[i]);
 			}
 			return temp;
 		}
@@ -112,7 +112,7 @@ namespace ml
 			array_type temp { 0 };
 			for (size_t i = 0; i < Size; i++)
 			{
-				temp[i] = value.read(i);
+				temp[i] = ML_BITREAD(value.m_value, i);
 			}
 			return temp;
 		}

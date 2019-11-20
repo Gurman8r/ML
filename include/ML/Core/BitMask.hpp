@@ -70,10 +70,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr self_type const & read(size_t i) const
+		constexpr bool read(size_t i) const
 		{
-			ML_BITREAD(m_value, i);
-			return (*this);
+			return ML_BITREAD(m_value, i);
 		}
 
 		inline self_type & clear(size_t i)

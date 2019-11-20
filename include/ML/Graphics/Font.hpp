@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Font final : public Trackable, public NonCopyable, public Disposable
+	struct ML_GRAPHICS_API Font final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,11 +24,11 @@ namespace ml
 
 		Font();
 		explicit Font(String const & filename);
-		~Font();
+		~Font() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

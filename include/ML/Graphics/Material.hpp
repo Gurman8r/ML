@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Materials are collections of uniforms
-	struct ML_GRAPHICS_API Material final : public Trackable, public Disposable
+	struct ML_GRAPHICS_API Material final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -19,11 +19,11 @@ namespace ml
 
 		Material();
 		Material(Material const & copy);
-		~Material();
+		~Material() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 		bool loadFromFile(String const & filename, const Dict<String, Texture *> * textures);
 

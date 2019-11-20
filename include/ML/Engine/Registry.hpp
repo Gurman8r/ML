@@ -2,7 +2,6 @@
 #define _ML_REGISTRY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/StringUtility.hpp>
 
@@ -130,7 +129,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<Registry<>>;
+		friend Singleton<Registry<>>;
 		Registry() : m_codes(), m_funcs(), m_infos(), m_names() {}
 		~Registry() {}
 		HashMap<String, Code>	m_codes; // 

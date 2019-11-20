@@ -3,7 +3,6 @@
 
 #include <ML/Graphics/Color.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
@@ -12,7 +11,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Image final : public Trackable, public Disposable
+	struct ML_GRAPHICS_API Image final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -37,11 +36,11 @@ namespace ml
 		explicit Image(String const & filename, bool flip_v);
 		explicit Image(String const & filename, bool flip_v, uint32_t req_comp);
 		Image(Image const & copy);
-		~Image();
+		~Image() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 		bool loadFromFile(String const & filename, bool flip_v);
 		bool loadFromFile(String const & filename, bool flip_v, uint32_t req_comp);

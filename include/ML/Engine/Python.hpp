@@ -13,11 +13,11 @@
 
 namespace ml
 {
-	class ML_ENGINE_API Py final : public Singleton<Py>, Disposable
+	class ML_ENGINE_API Py final : public Singleton<Py>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		friend struct Singleton<Py>;
+		friend Singleton<Py>;
 
 		Py() {}
 		~Py() {}
@@ -31,7 +31,7 @@ namespace ml
 
 		bool	init(String const & name, String const & home);
 		bool	restart();
-		bool	dispose() override;
+		bool	dispose();
 		int32_t doString(String const & value) const;
 		int32_t doFile(String const & filename) const;
 

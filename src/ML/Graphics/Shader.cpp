@@ -102,8 +102,6 @@ namespace ml
 		loadFromMemory(copy.sources());
 	}
 
-	Shader::~Shader() { this->dispose(); }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::dispose()

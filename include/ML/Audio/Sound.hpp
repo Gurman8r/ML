@@ -3,26 +3,23 @@
 
 #include <ML/Audio/Export.hpp>
 #include <ML/Core/MemoryTracker.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_AUDIO_API Sound
-		: public Trackable
-		, public Disposable
+	struct ML_AUDIO_API Sound : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Sound();
 		explicit Sound(String const & filename);
-		~Sound();
+		~Sound() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -11,7 +11,7 @@ namespace ml
 
 	// Bank of shared resources.
 	// Anything can be stored in Content as long as it derives Trackable.
-	struct ML_ENGINE_API ContentManager final : public Trackable, public NonCopyable, public Disposable
+	struct ML_ENGINE_API ContentManager final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -26,7 +26,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override
+		bool dispose()
 		{
 			for (auto & types : m_data)
 			{

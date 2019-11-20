@@ -38,11 +38,6 @@ namespace ml
 		std::swap(m_functions, copy.m_functions);
 	}
 
-	SharedLibrary::~SharedLibrary()
-	{
-		dispose();
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool SharedLibrary::dispose()

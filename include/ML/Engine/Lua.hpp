@@ -18,14 +18,14 @@ extern "C" {
 
 namespace ml
 {
-	class ML_ENGINE_API Lua final : public Singleton<Lua>, public Disposable
+	class ML_ENGINE_API Lua final : public Singleton<Lua>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		friend struct Singleton<Lua>;
+		friend Singleton<Lua>;
 
 		Lua() {}
-		~Lua() {}
+		~Lua() { this->dispose(); }
 
 		lua_State * m_L{ nullptr };
 
@@ -34,7 +34,7 @@ namespace ml
 
 		lua_State * init();
 		lua_State * init(bool openLibs, luaL_Reg const * userLib);
-		bool		dispose() override;
+		bool		dispose();
 		int32_t		doString(String const & value) const;
 		int32_t		doFile(String const & filename) const;
 

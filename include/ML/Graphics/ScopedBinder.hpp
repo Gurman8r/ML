@@ -5,13 +5,19 @@
 #include <ML/Core/StandardLib.hpp>
 #include <ML/Core/NonCopyable.hpp>
 
+// Named scope binder
+#define ML_BIND_SCOPE_EX(T, var, value) \
+	const ScopedBinder<T> var { value }
+
+// Anonymous scope binder
+#define ML_BIND_SCOPE(T, value) \
+	ML_BIND_SCOPE_EX(T, ML_ANON(ML_CONCAT(ScopedBinder_, T)), value)
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <class ... T> struct ScopedBinder;
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct ScopedBinder<> final { ScopedBinder() = delete; };
 
@@ -20,8 +26,6 @@ namespace ml
 	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> : public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		ScopedBinder() = delete;
 
 		template <
 			class ... Args

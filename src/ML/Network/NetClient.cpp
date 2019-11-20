@@ -14,10 +14,6 @@ namespace ml
 		ML_EventSystem.addListener<ClientRecievePacketEvent>(this);
 	}
 
-	NetClient::~NetClient()
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	void NetClient::onEvent(Event const & value)

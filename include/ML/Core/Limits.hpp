@@ -11,6 +11,8 @@ namespace ml
 
 	template <> struct limits<> final { limits() = delete; };
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	template <class T> struct limits<T> final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -2,7 +2,6 @@
 #define _ML_NETWORK_INTERFACE_HPP_
 
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Core/NonCopyable.hpp>
 #include <ML/Network/GUID.hpp>
@@ -14,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API NetInterface : public EventListener, public Disposable, public NonCopyable
+	struct ML_NETWORK_API NetInterface : public EventListener, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -23,13 +22,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		NetInterface();
-		virtual ~NetInterface();
+		virtual ~NetInterface() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setup();
 		
-		bool dispose() override;
+		bool dispose();
 		
 		void poll();
 

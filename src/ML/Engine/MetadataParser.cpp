@@ -22,8 +22,6 @@ namespace ml
 	{
 	}
 
-	MetadataParser::~MetadataParser() { this->dispose(); }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool MetadataParser::dispose()

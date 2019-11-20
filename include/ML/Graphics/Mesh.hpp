@@ -13,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Mesh final : public Trackable, public Disposable, public Drawable
+	struct ML_GRAPHICS_API Mesh final : public Trackable, public Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,12 +24,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 
 		Mesh & create();
-		Mesh & addVertex(Vertex const & value);
-		Mesh & addIndex(uint32_t value);
 		Mesh & setLayout(BufferLayout const & value);
+		Mesh & setIndices(ArrayList<uint32_t> const & value);
+		Mesh & setTextures(ArrayList<Texture const *> const & value);
+		Mesh & setVertices(ArrayList<Vertex> const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -37,13 +38,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto vertices()	const -> ArrayList<Vertex> const & { return m_vertices; }
-		inline auto indices()	const -> ArrayList<uint32_t> const & { return m_indices; }
-		inline auto textures()	const -> ArrayList<Texture const *> const &	{ return m_textures; }
-		inline auto layout()	const -> BufferLayout const & { return m_layout; }
-		inline auto vao()		const -> VAO const & { return m_vao; }
-		inline auto vbo()		const -> VBO const & { return m_vbo; }
-		inline auto ibo()		const -> IBO const & { return m_ibo; }
+		inline auto layout() const -> BufferLayout const & { return m_layout; }
+		
+		inline auto ibo() const -> IBO const & { return m_ibo; }
+		
+		inline auto indices() const -> ArrayList<uint32_t> const & { return m_indices; }
+		
+		inline auto textures() const -> ArrayList<Texture const *> const &	{ return m_textures; }
+		
+		inline auto vao() const -> VAO const & { return m_vao; }
+		
+		inline auto vbo() const -> VBO const & { return m_vbo; }
+		
+		inline auto vertices() const -> ArrayList<Vertex> const & { return m_vertices; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -10,11 +10,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API AssetPreview final : public Singleton<AssetPreview>, Disposable
+	struct ML_EDITOR_API AssetPreview final : public Singleton<AssetPreview>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -58,7 +58,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<AssetPreview>;
+		friend Singleton<AssetPreview>;
 
 		AssetPreview() : m_previewMap {}, m_textureList {} {}
 		~AssetPreview() { this->dispose(); }

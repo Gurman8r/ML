@@ -3,23 +3,22 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
-#include <ML/Core/Disposable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API MetadataParser final : public Disposable, public NonCopyable
+	struct ML_ENGINE_API MetadataParser final : public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataParser();
 		explicit MetadataParser(ArrayList<Metadata *> const & data);
-		~MetadataParser();
+		~MetadataParser() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 
 		bool loadFromFile(String const & filename);
 

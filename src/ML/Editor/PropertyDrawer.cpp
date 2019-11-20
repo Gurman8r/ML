@@ -1381,16 +1381,16 @@ namespace ml
 					ImGui::PopID();
 				}
 
-				if (!mesh->layout().elements().empty())
+				if (mesh->layout())
 				{
 					ImGui::PushID(("Layout" + meshID).c_str());
 					ImGui::Text("Layout");
 					ImGui::BeginChildFrame(ImGui::GetID("vertexattrib"),
-						{ 0, ImGui::GetTextLineHeightWithSpacing() * mesh->layout().elements().size() },
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * mesh->layout().size() },
 						ImGuiWindowFlags_NoScrollbar |
 						ImGuiWindowFlags_NoScrollWithMouse
 					);
-					for (BufferLayout::Element const & e : mesh->layout().elements())
+					for (auto const & e : mesh->layout())
 					{
 						ImGui::Text(
 							"Index: %u | "

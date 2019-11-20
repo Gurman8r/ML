@@ -39,8 +39,6 @@ namespace ml
 	{
 	}
 
-	Surface::~Surface() { this->dispose(); }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Surface::dispose()

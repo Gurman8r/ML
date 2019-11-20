@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Entity final : public Trackable, public Disposable, public NonCopyable
+	struct ML_ENGINE_API Entity final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,7 +21,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
+		inline bool dispose()
 		{
 			for (auto & [key, value] : m_data)
 			{

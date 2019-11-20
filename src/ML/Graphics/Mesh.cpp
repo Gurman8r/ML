@@ -1,5 +1,6 @@
 #include <ML/Graphics/Mesh.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
+#include <ML/Graphics/ScopedBinder.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
@@ -11,7 +12,7 @@ namespace ml
 		: m_vertices{}
 		, m_indices	{}
 		, m_textures{}
-		, m_layout	{ BufferLayout::get_default() }
+		, m_layout	{}
 		, m_vao		{}
 		, m_vbo		{}
 		, m_ibo		{}
@@ -22,7 +23,7 @@ namespace ml
 		: m_vertices{ vertices }
 		, m_indices	{ indices }
 		, m_textures{ textures }
-		, m_layout	{ BufferLayout::get_default() }
+		, m_layout	{}
 		, m_vao		{}
 		, m_vbo		{}
 		, m_ibo		{}
@@ -60,40 +61,50 @@ namespace ml
 	{
 		if (!m_vertices.empty() && !m_indices.empty())
 		{
-			m_vao.create(GL::Triangles).bind();
-			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
-			m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(m_indices);
+			ML_BIND_SCOPE	(VAO, m_vao.create(GL::Triangles));
+			ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw));
+			ML_BIND_SCOPE_EX(IBO, _ib, m_ibo.create(GL::StaticDraw, GL::UnsignedInt));
+			
+			_vb->bufferData(alg::contiguous(m_vertices));
+			_ib->bufferData(m_indices);
+			
 			m_layout.bind();
-			m_ibo.unbind();
-			m_vbo.unbind();
-			m_vao.unbind();
 		}
 		else if (!m_vertices.empty())
 		{
-			m_vao.create(GL::Triangles).bind();
-			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
+			ML_BIND_SCOPE	(VAO, m_vao.create(GL::Triangles));
+			ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw));
+			
+			_vb->bufferData(alg::contiguous(m_vertices));
+			
 			m_layout.bind();
-			m_vbo.unbind();
-			m_vao.unbind();
 		}
 		return (*this);
 	}
 
-	Mesh & Mesh::addVertex(Vertex const & value)
-	{
-		m_vertices.push_back(value);
-		return (*this);
-	}
-
-	Mesh & Mesh::addIndex(uint32_t value)
-	{
-		m_indices.push_back(value);
-		return (*this);
-	}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Mesh & Mesh::setLayout(BufferLayout const & value)
 	{
 		m_layout = value;
+		return (*this);
+	}
+
+	Mesh & Mesh::setIndices(ArrayList<uint32_t> const & value)
+	{
+		m_indices = value;
+		return (*this);
+	}
+
+	Mesh & Mesh::setTextures(ArrayList<Texture const *> const & value)
+	{
+		m_textures = value;
+		return (*this);
+	}
+
+	Mesh & Mesh::setVertices(ArrayList<Vertex> const & value)
+	{
+		m_vertices = value;
 		return (*this);
 	}
 

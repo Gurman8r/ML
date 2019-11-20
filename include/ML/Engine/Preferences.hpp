@@ -3,7 +3,6 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/MemoryTracker.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
@@ -11,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// INI Reader
-	struct ML_ENGINE_API Preferences final : public Trackable, public NonCopyable, public Disposable
+	struct ML_ENGINE_API Preferences final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,7 +20,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 		bool saveToFile(String const & filename) const;
 		bool saveToFile() const;

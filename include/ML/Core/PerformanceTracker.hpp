@@ -11,7 +11,7 @@ namespace ml
 {
 	struct ML_CORE_API PerformanceTracker final : public Singleton<PerformanceTracker>
 	{
-		friend struct Singleton<PerformanceTracker>;
+		friend Singleton<PerformanceTracker>;
 
 		inline void clear_traces()
 		{

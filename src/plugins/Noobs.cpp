@@ -76,7 +76,7 @@ namespace ml
 				}
 			}
 
-			ShaderError(const String & file, int32_t line, const String & code, const String & expr)
+			ShaderError(String const & file, int32_t line, String const & code, String const & expr)
 				: file{ file }, line{ line }, code{ code }, desc{ expr }
 			{
 			}
@@ -256,7 +256,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				// Render Main Scene
-				if (const ScopedBinder<Surface> binder{ m_pipeline.at(0) })
+				if (ML_BIND_SCOPE(Surface, m_pipeline.at(0)))
 				{
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
@@ -288,7 +288,7 @@ namespace ml
 				}
 
 				// Render Post Processing
-				if (const ScopedBinder<Surface> binder{ m_pipeline.at(1) })
+				if (ML_BIND_SCOPE(Surface, m_pipeline.at(1)))
 				{
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
@@ -1314,7 +1314,7 @@ namespace ml
 				{
 					if (auto s{ (Shader *)r->shader() })
 					{
-						auto setup_file = ([&](size_t type, const String & src)
+						auto setup_file = ([&](size_t type, String const & src)
 						{
 							m_files[type].dirty = false;
 							m_files[type].open = !src.empty();

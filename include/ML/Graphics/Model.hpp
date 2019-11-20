@@ -9,21 +9,18 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Model is a drawable collection of Meshes
-	struct ML_GRAPHICS_API Model final
-		: public Trackable
-		, public Drawable
-		, public Disposable
+	struct ML_GRAPHICS_API Model final : public Trackable, public Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Model();
 		explicit Model(String const & filename);
 		Model(Model const & copy);
-		~Model();
+		~Model() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 		bool loadFromMemory(ArrayList<Vertex> const & vertices);
 		bool loadFromMemory(ArrayList<Vertex> const & vertices, ArrayList<uint32_t> const & indices);

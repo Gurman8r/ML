@@ -23,8 +23,6 @@ namespace ml
 		}
 	}
 
-	Material::~Material() { this->dispose(); }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Material::dispose()

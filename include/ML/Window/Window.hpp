@@ -2,7 +2,6 @@
 #define _ML_WINDOW_HPP_
 
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Window/ContextSettings.hpp>
@@ -21,7 +20,6 @@ namespace ml
 
 	struct ML_WINDOW_API Window
 		: public Trackable
-		, public Disposable
 		, public NonCopyable
 		, public EventListener
 	{
@@ -58,7 +56,7 @@ namespace ml
 
 		virtual void installCallbacks();
 
-		virtual bool dispose() override;
+		virtual bool dispose();
 
 		virtual void onEvent(Event const & value) override;
 

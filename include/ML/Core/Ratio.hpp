@@ -7,26 +7,24 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		int64_t Num, int64_t Den = 1
-	> using Ratio = typename std::ratio<Num, Den>;
+	ML_USING_T_(int64_t Num, int64_t Den = 1) Ratio = typename _STD ratio<Num, Den>;
 
-	using Atto	= typename Ratio<1LL, 1000000000000000000LL>;
-	using Femto = typename Ratio<1LL, 1000000000000000LL>;
-	using Pico	= typename Ratio<1LL, 1000000000000LL>;
-	using Nano	= typename Ratio<1LL, 1000000000LL>;
-	using Micro = typename Ratio<1LL, 1000000LL>;
-	using Milli	= typename Ratio<1LL, 1000LL>;
-	using Centi = typename Ratio<1LL, 100LL>;
-	using Deci	= typename Ratio<1LL, 10LL>;
-	using Deca	= typename Ratio<10LL, 1LL>;
-	using Hecto = typename Ratio<100LL, 1LL>;
-	using Kilo	= typename Ratio<1000LL, 1LL>;
-	using Mega	= typename Ratio<1000000LL, 1LL>;
-	using Giga	= typename Ratio<1000000000LL, 1LL>;
-	using Tera	= typename Ratio<100000000000LL, 1LL>;
-	using Peta	= typename Ratio<1000000000000000LL, 1LL>;
-	using Exa	= typename Ratio<1000000000000000000LL, 1LL>;
+	ML_USING Atto	= typename Ratio<1LL, 1000000000000000000LL>;
+	ML_USING Femto	= typename Ratio<1LL, 1000000000000000LL>;
+	ML_USING Pico	= typename Ratio<1LL, 1000000000000LL>;
+	ML_USING Nano	= typename Ratio<1LL, 1000000000LL>;
+	ML_USING Micro	= typename Ratio<1LL, 1000000LL>;
+	ML_USING Milli	= typename Ratio<1LL, 1000LL>;
+	ML_USING Centi	= typename Ratio<1LL, 100LL>;
+	ML_USING Deci	= typename Ratio<1LL, 10LL>;
+	ML_USING Deca	= typename Ratio<10LL, 1LL>;
+	ML_USING Hecto	= typename Ratio<100LL, 1LL>;
+	ML_USING Kilo	= typename Ratio<1000LL, 1LL>;
+	ML_USING Mega	= typename Ratio<1000000LL, 1LL>;
+	ML_USING Giga	= typename Ratio<1000000000LL, 1LL>;
+	ML_USING Tera	= typename Ratio<100000000000LL, 1LL>;
+	ML_USING Peta	= typename Ratio<1000000000000000LL, 1LL>;
+	ML_USING Exa	= typename Ratio<1000000000000000000LL, 1LL>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

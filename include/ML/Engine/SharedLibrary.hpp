@@ -3,17 +3,13 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/MemoryTracker.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API SharedLibrary final
-		: public Trackable
-		, public Disposable
-		, public NonCopyable
+	struct ML_ENGINE_API SharedLibrary final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,11 +21,11 @@ namespace ml
 		SharedLibrary();
 		explicit SharedLibrary(String const & filename);
 		SharedLibrary(SharedLibrary && copy);
-		~SharedLibrary();
+		~SharedLibrary() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		
 		bool loadFromFile(String const & filename);
 		

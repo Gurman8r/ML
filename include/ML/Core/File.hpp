@@ -2,7 +2,6 @@
 #define _ML_FILE_HPP_
 
 #include <ML/Core/MemoryTracker.hpp>
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
@@ -10,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Stores the contents of a text file
-	template <class Ch> struct BasicFile final : public Trackable, public Disposable
+	template <class Ch> struct BasicFile final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -58,7 +57,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
+		inline bool dispose()
 		{
 			m_data.clear();
 			return empty();

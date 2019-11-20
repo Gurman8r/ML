@@ -10,22 +10,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Surface is used to render a texture
-	struct ML_GRAPHICS_API Surface final
-		: public Trackable
-		, public Disposable
-		, public Drawable
+	// Surfaces are used to render textures.
+	struct ML_GRAPHICS_API Surface final : public Trackable, public Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Surface();
 		Surface(Model const * model, Material const * material, Shader const * shader);
 		Surface(Surface const & copy);
-		~Surface();
+		~Surface() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool create();
 		bool update(vec2i const & size);
 		void draw(RenderTarget const & target, RenderBatch & batch) const override;
@@ -47,18 +44,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto colorID()	const -> GL::ColorID			{ return m_colorID; }
-		inline auto frameID()	const -> GL::FrameID			{ return m_frameID; }
-		inline auto fbo()		const -> FBO const & 			{ return m_fbo; }
-		inline auto height()	const -> int32_t				{ return m_size[1]; }
+		inline auto colorID()	const -> GL::ColorID		{ return m_colorID; }
+		inline auto frameID()	const -> GL::FrameID		{ return m_frameID; }
+		inline auto fbo()		const -> FBO const & 		{ return m_fbo; }
+		inline auto height()	const -> int32_t			{ return m_size[1]; }
 		inline auto material()	const -> Material const *	{ return m_material; }
 		inline auto model()		const -> Model const *		{ return m_model; }
-		inline auto rbo()		const -> RBO const &			{ return m_rbo; }
-		inline auto shader()	const -> Shader const *	{ return m_shader; }
-		inline auto size()		const -> const vec2i  &			{ return m_size; }
-		inline auto storage()	const -> GL::Format				{ return m_storage; }
-		inline auto texture()	const -> Texture const &		{ return m_texture; }
-		inline auto width()		const -> int32_t				{ return m_size[0]; }
+		inline auto rbo()		const -> RBO const &		{ return m_rbo; }
+		inline auto shader()	const -> Shader const *		{ return m_shader; }
+		inline auto size()		const -> const vec2i  &		{ return m_size; }
+		inline auto storage()	const -> GL::Format			{ return m_storage; }
+		inline auto texture()	const -> Texture const &	{ return m_texture; }
+		inline auto width()		const -> int32_t			{ return m_size[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -67,16 +64,16 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		GL::ColorID				m_colorID;	// 
-		GL::FrameID				m_frameID;	// 
-		FBO						m_fbo;		// 
+		GL::ColorID			m_colorID;	// 
+		GL::FrameID			m_frameID;	// 
+		FBO					m_fbo;		// 
 		Material const *	m_material;	// 
 		Shader const *		m_shader;	//
 		Model const *		m_model;	// 
-		RBO						m_rbo;		// 
-		vec2i					m_size;		// 
-		GL::Format				m_storage;	// 
-		Texture					m_texture;	// 
+		RBO					m_rbo;		// 
+		vec2i				m_size;		// 
+		GL::Format			m_storage;	// 
+		Texture				m_texture;	// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

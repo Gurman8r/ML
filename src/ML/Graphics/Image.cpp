@@ -90,8 +90,6 @@ namespace ml
 		this->update(copy.m_size, copy.m_channels, copy.m_pixels);
 	}
 
-	Image::~Image() { this->dispose(); }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Image::dispose()

@@ -22,7 +22,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		friend struct Singleton<Editor>;
+		friend Singleton<Editor>;
 
 		Editor();
 

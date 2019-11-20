@@ -10,14 +10,9 @@ namespace ml
 	}
 
 	Sound::Sound(String const & filename)
-		: Sound()
+		: Sound{}
 	{
 		loadFromFile(filename);
-	}
-
-	Sound::~Sound()
-	{
-		dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

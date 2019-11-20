@@ -10,7 +10,6 @@ namespace ml
 
 	struct ML_GRAPHICS_API Texture final
 		: public Trackable
-		, public Disposable
 		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,7 +31,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 		bool loadFromImage(Image const & value);
 		bool loadFromFaces(const Array<Image const *, 6> & faces);

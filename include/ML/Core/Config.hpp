@@ -237,8 +237,8 @@
 #define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
 #define ML_CONCAT_IMPL(a, b)	a##b
 #define ML_CONCAT(a, b)			ML_CONCAT_IMPL(a, b)
-#define ML_STRINGIFY(str)		ML_TOSTRING(str)
 #define ML_TOSTRING(str)		#str
+#define ML_STRINGIFY(str)		ML_TOSTRING(str)
 #define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
 #define ML_FALSE_EXPR(expr)		(([&](){ expr; return false; })())
 
@@ -250,11 +250,11 @@
 #define ML_USING_XYZ			ML_USING_T_(class X, class Y, class Z)
 #define ML_USING_Ts				ML_USING_T_(class ... Ts)
 
-// Anonymous
+// Anonymous ( _str_# )
 #ifdef __COUNTER__
-#	define ML_ANONYMOUS(str) ML_CONCAT(str, __COUNTER__)
+#	define ML_ANON(str) ML_CONCAT(_, ML_CONCAT(str, ML_CONCAT(_, __COUNTER__)))
 #else
-#	define ML_ANONYMOUS(str) ML_CONCAT(str, __LINE__)
+#	define ML_ANON(str) ML_CONCAT(_, ML_CONCAT(str, ML_CONCAT(_, __LINE__)))
 #endif
 
 // Inlining

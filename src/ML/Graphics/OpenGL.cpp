@@ -366,19 +366,23 @@ namespace ml
 
 	void OpenGL::vertexAttribPointer(uint32_t index, uint32_t size, uint32_t type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width)
 	{
+#ifdef ML_CC_MSC
+#	pragma warning(push)
+#	pragma warning(disable: 4312)
+#	pragma warning(disable: 26451)
+#endif
 		return vertexAttribPointer(
 			index,
 			size,
 			type,
 			normalized,
 			(stride * width),
-# pragma warning(push)
-# pragma warning(disable: 4312)
-# pragma warning(disable: 26451)
-			// causes a warning in x64
+			// causes a warning in 64-bit
 			reinterpret_cast<void *>(offset * width)
-# pragma warning(pop)
 		);
+#ifdef ML_CC_MSC
+#	pragma warning(pop)
+#endif
 	}
 
 	void OpenGL::enableVertexAttribArray(uint32_t index)

@@ -14,10 +14,6 @@ namespace ml
 		ML_EventSystem.addListener<ServerRecievePacketEvent>(this);
 	}
 
-	NetServer::~NetServer()
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void NetServer::onEvent(Event const & value)

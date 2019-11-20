@@ -12,11 +12,6 @@ namespace ml
 		: m_peer{ nullptr }
 	{
 	}
-	
-	NetInterface::~NetInterface()
-	{
-		dispose();
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

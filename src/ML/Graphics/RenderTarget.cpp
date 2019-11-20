@@ -49,9 +49,9 @@ namespace ml
 
 	RenderTarget const & RenderTarget::draw(float_t const * verts, size_t count, VAO const * vao, VBO const * vbo) const
 	{
-		if (const ScopedBinder<VBO> b{ vbo })
+		if (ML_BIND_SCOPE_EX(VBO, _vb, vbo))
 		{
-			b->bufferSubData((void *)verts, (uint32_t)count, 0);
+			_vb->bufferSubData((void *)verts, (uint32_t)count, 0);
 		}
 		return (vao && vbo) ? draw(*vao, *vbo) : (*this);
 	}
@@ -60,11 +60,11 @@ namespace ml
 
 	RenderTarget const & RenderTarget::draw(VAO const & vao, VBO const & vbo, IBO const & ibo) const
 	{
-		if (const ScopedBinder<VAO> a{ vao })
+		if (ML_BIND_SCOPE(VAO, vao))
 		{
-			if (const ScopedBinder<VBO> b{ vbo })
+			if (ML_BIND_SCOPE(VBO, vbo))
 			{
-				if (const ScopedBinder<IBO> i{ ibo })
+				if (ML_BIND_SCOPE(IBO, ibo))
 				{
 					ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
 				}
@@ -75,9 +75,9 @@ namespace ml
 	
 	RenderTarget const & RenderTarget::draw(VAO const & vao, VBO const & vbo) const
 	{
-		if (const ScopedBinder<VAO> a{ vao })
+		if (ML_BIND_SCOPE(VAO, vao))
 		{
-			if (const ScopedBinder<VBO> b{ vbo })
+			if (ML_BIND_SCOPE(VBO, vbo))
 			{
 				ML_GL.drawArrays(vao.mode(), 0, vbo.size());
 			}

@@ -38,7 +38,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<MemoryTracker>;
+		friend Singleton<MemoryTracker>;
 		friend struct Trackable;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -70,17 +70,32 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline std::type_info const & target_type() const { return typeid(*this); }
+		ML_ALWAYS_INLINE std::type_info const & target_type() const
+		{
+			return typeid(*this);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * operator new(size_t size) { return ML_MemoryTracker.allocate(size); }
+		ML_ALWAYS_INLINE void * operator new(size_t size)
+		{
+			return ML_MemoryTracker.allocate(size);
+		}
 
-		inline void * operator new[](size_t size) { return ML_MemoryTracker.allocate(size); }
+		ML_ALWAYS_INLINE void * operator new[](size_t size)
+		{
+			return ML_MemoryTracker.allocate(size);
+		}
 
-		inline void operator delete(void * value) { return ML_MemoryTracker.deallocate(value); }
+		ML_ALWAYS_INLINE void operator delete(void * value)
+		{
+			return ML_MemoryTracker.deallocate(value);
+		}
 
-		inline void operator delete[](void * value) { return ML_MemoryTracker.deallocate(value); }
+		ML_ALWAYS_INLINE void operator delete[](void * value)
+		{
+			return ML_MemoryTracker.deallocate(value);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

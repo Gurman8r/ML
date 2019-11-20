@@ -219,7 +219,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<FileSystem>;
+		friend Singleton<FileSystem>;
 		
 		FileSystem() : m_root { getPath() } {}
 		

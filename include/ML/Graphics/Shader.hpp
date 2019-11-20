@@ -17,7 +17,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Shader final : public Trackable, public Disposable, public Handle<uint32_t>
+	struct ML_GRAPHICS_API Shader final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -28,11 +28,11 @@ namespace ml
 		Shader();
 		explicit Shader(String const & filename);
 		Shader(Shader const & copy);
-		~Shader();
+		~Shader() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose();
 		bool loadFromFile(String const & filename);
 		bool loadFromFile(String const & vs, String const & fs);
 		bool loadFromFile(String const & vs, String const & gs, String const & fs);

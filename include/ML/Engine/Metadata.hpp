@@ -1,7 +1,6 @@
 #ifndef _ML_METADATA_HPP_
 #define _ML_METADATA_HPP_
 
-#include <ML/Core/Disposable.hpp>
 #include <ML/Engine/MetadataValue.hpp>
 
 namespace ml
@@ -9,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// A collection of MetadataValues
-	struct Metadata final : public Trackable, public Disposable
+	struct Metadata final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -50,7 +49,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
+		inline bool dispose()
 		{
 			m_data.clear();
 			return m_data.empty();

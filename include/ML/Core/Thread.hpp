@@ -2,15 +2,14 @@
 #define _ML_THREAD_HPP_
 
 #include <ML/Core/Duration.hpp>
-#include <ML/Core/Disposable.hpp>
-#include <ML/Core/Trackable.hpp>
+#include <ML/Core/MemoryTracker.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Wrapper and manager for std::thread
-	struct Thread final : public Trackable, public Disposable, public NonCopyable
+	struct Thread final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -30,7 +29,7 @@ namespace ml
 			return alive() && m_thr->joinable();
 		}
 
-		inline bool dispose() override
+		inline bool dispose()
 		{
 			if (joinable())
 			{

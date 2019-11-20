@@ -5,31 +5,25 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class ... T> struct cast;
 
 	template <> struct cast<> { cast() = delete; };
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <class T> struct cast<T> final
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		using type = typename detail::decay_t<T>;
-
-		using self_type = typename cast<type>;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr cast() noexcept = default;
 
-		template <class T> constexpr auto operator()(T value) const noexcept
+		template <class U> constexpr auto operator()(U value) const noexcept
 		{
 			return static_cast<type>(value);
 		}
 		
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static constexpr type minus_one		{ static_cast<type>( -1) };
 		static constexpr type zero			{ static_cast<type>(  0) };
 		static constexpr type one			{ static_cast<type>(  1) };
@@ -60,11 +54,9 @@ namespace ml
 		static constexpr type tenth			{ one / ten };
 		static constexpr type two_thirds	{ two / three };
 		static constexpr type three_fourths	{ three / four };
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_CONSTANTS_HPP_

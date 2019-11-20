@@ -23,7 +23,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		friend struct Singleton<Engine>;
+		friend Singleton<Engine>;
 
 		Engine();
 

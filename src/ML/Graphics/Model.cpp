@@ -38,8 +38,6 @@ namespace ml
 		}
 	}
 
-	Model::~Model() { this->dispose(); }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Model::dispose()
@@ -67,7 +65,7 @@ namespace ml
 		// Meshes
 		for (aiMesh ** m = &scene->mMeshes[0]; m != &scene->mMeshes[scene->mNumMeshes]; m++)
 		{
-			Mesh * temp { new Mesh() };
+			ArrayList<Vertex> vertices;
 			
 			// Faces
 			for (aiFace * f = &(*m)->mFaces[0]; f != &(*m)->mFaces[(*m)->mNumFaces]; f++)
@@ -79,19 +77,16 @@ namespace ml
 					aiVector3D const * vn { (*m)->mNormals ? &(*m)->mNormals[*i] : nullptr };
 					aiVector3D const * uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
 
-					temp->addVertex(Vertex {
+					vertices.push_back(Vertex {
 						vp ? vec3 { vp->x, vp->y, vp->z }		: vec3::zero(),
 						vn ? vec4 { vn->x, vn->y, vn->z, 1.0f } : vec4::one(),
 						uv ? vec2 { uv->x, uv->y }				: vec2::one()
 					});
 				}
 			}
-			
-			temp->setLayout(BufferLayout::get_default());
-			
-			temp->create();
-			
-			m_meshes.push_back(temp);
+
+			m_meshes.push_back(new Mesh{ vertices, {}, {} });
+			m_meshes.back()->create();
 		}
 		return !m_meshes.empty();
 	}

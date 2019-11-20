@@ -43,7 +43,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<EventSystem>;
+		friend Singleton<EventSystem>;
 		EventSystem() {}
 		~EventSystem() {}
 		std::multimap<int32_t, EventListener *> m_listeners;

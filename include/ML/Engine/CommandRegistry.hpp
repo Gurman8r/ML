@@ -1,7 +1,6 @@
 #ifndef _ML_COMMAND_REGISTRY_HPP_
 #define _ML_COMMAND_REGISTRY_HPP_
 
-#include <ML/Core/Disposable.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/CommandExecutor.hpp>
 #include <ML/Engine/CommandDescriptor.hpp>
@@ -10,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API CommandRegistry final : public Trackable, public NonCopyable, public Disposable
+	struct ML_ENGINE_API CommandRegistry final : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -23,11 +22,11 @@ namespace ml
 
 		CommandRegistry() : m_cmd() {}
 
-		~CommandRegistry() {}
+		~CommandRegistry() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
+		inline bool dispose()
 		{
 			for (auto & elem : m_cmd)
 			{

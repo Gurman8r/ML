@@ -53,9 +53,11 @@ namespace ml
 
 		inline operator T const *() const { return m_value; }
 
+		inline T * operator->() { return (T *)m_value; }
+
 		inline T const * operator->() const { return m_value; }
 
-		inline T * operator->() { return (T *)m_value; }
+		inline T & operator*() { return (T &)*m_value; }
 
 		inline T const & operator*() const { return *m_value; }
 

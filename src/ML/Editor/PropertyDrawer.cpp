@@ -1549,11 +1549,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		ImGui::NewLine();
+		ImGui::Text("Texture Settings (Read Only)");
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		bool smooth{ value.texture().smooth() };
 		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
 		{
-			value.texture().setSmooth(smooth);
-			changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1561,8 +1564,6 @@ namespace ml
 		bool repeated{ value.texture().repeated() };
 		if (ImGui::Checkbox(("Repeated##" + label).c_str(), &repeated))
 		{
-			value.texture().setRepeated(repeated);
-			changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1572,8 +1573,6 @@ namespace ml
 			? "Invalidate Mipmap##" : "Generate Mipmap##") + label).c_str()
 		))
 		{
-			value.texture().setMipmapped(!mipmapped);
-			changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

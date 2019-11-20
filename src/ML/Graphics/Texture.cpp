@@ -391,7 +391,7 @@ namespace ml
 				(m_mipmapped
 					? m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapLinear
 					: m_smooth ? GL::Linear : GL::Nearest
-					));
+			));
 		}
 		ML_GL.flush();
 		return (*this);
@@ -408,16 +408,20 @@ namespace ml
 				GL::TexWrapS,
 				(m_repeated
 					? GL::Repeat
-					: ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp
-			);
+					: (ML_GL.edgeClampAvailable()
+						? GL::ClampToEdge
+						: GL::Clamp
+						)));
 
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexWrapT,
 				(m_repeated
 					? GL::Repeat
-					: ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp
-			);
+					: (ML_GL.edgeClampAvailable()
+						? GL::ClampToEdge 
+						: GL::Clamp
+						)));
 		}
 		ML_GL.flush();
 		return (*this);
@@ -476,13 +480,15 @@ namespace ml
 	Image Texture::copyToImage() const
 	{
 		Image image { size(), getChannels() };
-		if (*this)
+		if (ML_BIND_SCOPE(Texture, (*this)))
 		{
-			bind();
-			
-			ML_GL.getTexImage(GL::Texture2D, m_level, m_iFormat, m_pixType, &image[0]);
-			
-			unbind();
+			ML_GL.getTexImage(
+				GL::Texture2D, 
+				m_level, 
+				m_iFormat, 
+				m_pixType, 
+				&image[0]
+			);
 		}
 		return image;
 	}

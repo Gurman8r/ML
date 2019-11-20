@@ -33,15 +33,13 @@ void main()
     vec3  diff_nml = normalize(V.normal.xyz);
     vec3  diff_dir = normalize(u_lightPos - V.position);
     float diff_amt = max(dot(diff_nml, diff_dir), 0.0);
-    vec4  diff_col = u_diffuse * diff_amt;
-    vec4  diffuse = diff_col * texture(u_texture0, V.texcoord);
+    vec4  diffuse = u_diffuse * diff_amt * texture(u_texture0, V.texcoord);
 
     // Specular
     vec3  spec_nml = normalize(u_camera.pos - V.position);
     vec3  spec_dir = reflect(-diff_dir, diff_nml);
     float spec_amt = pow(max(dot(spec_nml, spec_dir), 0.0), u_shininess);
-    vec4  spec_col = u_specular * spec_amt;
-    vec4  specular = spec_col * texture(u_texture1, V.texcoord).r;
+    vec4  specular = u_specular * spec_amt * texture(u_texture1, V.texcoord).r;
 
     // Output
     gl_Color = u_color * (ambient + diffuse + specular);

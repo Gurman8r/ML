@@ -50,7 +50,7 @@ namespace ml
 	private:
 		mutable PageTable m_pages;
 		
-		Info		m_info;
+		Info	m_info;
 		void *	m_library;
 		void *	m_face;
 

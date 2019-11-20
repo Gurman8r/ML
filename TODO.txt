@@ -7,7 +7,7 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] BUILD ALL FROM SOURCE
+[ ] BUILD THE WORLD FROM SOURCE
 [ ] INCREASE DATA DENSITY 	(dense hash map)
 [ ] BETTER DESERIALIZATION 	(refl)
 

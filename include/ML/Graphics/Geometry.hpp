@@ -4,7 +4,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Graphics/Vertex.hpp>
 
-// Default meshes and rect quad generator functions
+// Default meshes and rect-quad generator functions
 // Used to create builtin geometry
 
 namespace ml
@@ -12,8 +12,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	namespace geo
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */	{
+
 
 		// Rect-Quad
 		

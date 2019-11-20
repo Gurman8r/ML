@@ -247,6 +247,8 @@ namespace ml
 							}
 						}
 					}
+
+					constexpr auto foo = alignof(Vertex);
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */

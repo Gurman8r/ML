@@ -22,7 +22,7 @@
 #include <ML/Graphics/GraphicsEvents.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Light.hpp>
@@ -117,7 +117,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pipeline = typename ArrayList<Surface *>;
+		using Pipeline = typename ArrayList<RenderTexture *>;
 
 		enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
@@ -208,9 +208,9 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_pipeline.push_back(ML_Engine.content().get<Surface>("surf/main"));
+				m_pipeline.push_back(ML_Engine.content().get<RenderTexture>("render/main"));
 
-				m_pipeline.push_back(ML_Engine.content().get<Surface>("surf/post"));
+				m_pipeline.push_back(ML_Engine.content().get<RenderTexture>("render/post"));
 					
 				m_target_name = ML_Engine.prefs().get_string("Noobs", "target_entity", "");
 
@@ -225,9 +225,9 @@ namespace ml
 				if (auto c{ Camera::mainCamera() }; c && c->enabled())
 				{
 					// Update Pipeline
-					for (auto & surf : m_pipeline)
+					for (auto & rt : m_pipeline)
 					{
-						surf->update((vec2)c->viewport().size());
+						rt->update((vec2)c->viewport().size());
 					}
 
 					// Update Camera Uniforms
@@ -256,7 +256,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				// Render Main Scene
-				if (ML_BIND_SCOPE(Surface, m_pipeline.at(0)))
+				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(0)))
 				{
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
@@ -288,7 +288,7 @@ namespace ml
 				}
 
 				// Render Post Processing
-				if (ML_BIND_SCOPE(Surface, m_pipeline.at(1)))
+				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(1)))
 				{
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
@@ -322,7 +322,7 @@ namespace ml
 					ImGui::PushID("Display##Noobs");
 					if (ImGui::Begin(display_name, &m_display_open, 0))
 					{
-						ML_AssetPreview.drawPreview<Surface>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
+						ML_AssetPreview.drawPreview<RenderTexture>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
 						{
 							if (auto c{ Camera::mainCamera() }; c && (m_displayMode == Automatic))
 							{

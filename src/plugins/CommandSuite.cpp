@@ -62,7 +62,7 @@ namespace ml
 					"cat",
 					"Display the contents of a file",
 					"cat [FILE]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						if (args.size() == 2)
 						{
@@ -82,17 +82,17 @@ namespace ml
 				m_cmd.push_back(new CommandImpl {
 					"cd",
 					"Set the current working directory",
-					"cd [DIR]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					"cd [DIR]",
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
-						const String path = ([&]()
+						const String path { ([&]()
 						{
 							if (args.size() == 1) return String { "/" };
 							SStream ss;
 							for (size_t i = 1; i < args.size(); i++)
 								ss << args[i];
 							return (String)ss.str();
-						})();
+						})() };
 						return path && ML_FS.setPath(path);
 					})
 				});
@@ -103,7 +103,7 @@ namespace ml
 					"clear",
 					"Clear the terminal screen",
 					"clear",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						ML_Editor.terminal().clear();
 						return true;
@@ -116,7 +116,7 @@ namespace ml
 					"cwd",
 					"Display the current working directory",
 					"cwd",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						std::cout << ML_FS.getPath() << std::endl;
 						return true;
@@ -129,7 +129,7 @@ namespace ml
 					"exit",
 					"Close the application",
 					"exit",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						ML_EventSystem.fireEvent<WindowKillEvent>();
 						return true;
@@ -142,7 +142,7 @@ namespace ml
 					"help",
 					"Display information about commands.",
 					"help [COMMAND]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						switch (args.size())
 						{
@@ -164,7 +164,7 @@ namespace ml
 					"history",
 					"Display or manipulate history list",
 					"history",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						for (C_String h : ML_Editor.terminal().history())
 						{
@@ -180,16 +180,16 @@ namespace ml
 					"lua",
 					"Execute lua string",
 					"lua [CODE]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
-						if (const String code = ([&]()
+						if (const String code{ ([&]()
 						{
 							if (args.size() == 1) return String();
 							SStream ss;
 							for (size_t i = 1; i < args.size(); i++)
 								ss << args[i] << " ";
 							return (String)ss.str();
-						})())
+						})() })
 						{
 							return (bool)Script { Script::Language::Lua, code }.execute();
 						}
@@ -203,16 +203,16 @@ namespace ml
 					"ls",
 					"ArrayList directory contents",
 					"ls [DIR]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
-						if (const String path = ([&]()
+						if (const String path{ ([&]()
 						{
 							if (args.size() == 1) return String { "." };
 							SStream ss;
 							for (size_t i = 1; i < args.size(); i++)
 								ss << args[i];
 							return (String)ss.str();
-						})())
+						})() })
 						{
 							SStream dir;
 							if (ML_FS.getDirContents(path, dir))
@@ -235,7 +235,7 @@ namespace ml
 					"os",
 					"Execute operating system commands",
 					"os [CMD] [FILE] [ARGS] [PATH] [FLAGS]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						switch (args.size())
 						{
@@ -255,7 +255,7 @@ namespace ml
 					"pause",
 					"Pause the console subsystem",
 					"pause",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						Debug::pause(0);
 						return true;
@@ -268,16 +268,16 @@ namespace ml
 					"py",
 					"Execute python code.",
 					"py [CODE]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
-						if (const String code = ([&]()
+						if (const String code{ ([&]()
 						{
 							if (args.size() == 1) return String();
 							SStream ss;
 							for (size_t i = 1; i < args.size(); i++)
 								ss << args[i] << " ";
 							return (String)ss.str();
-						})())
+						})() })
 						{
 							return (bool)Script { Script::Language::Python, code }.execute();
 						}
@@ -291,7 +291,7 @@ namespace ml
 					"pause",
 					"Pause the console subsystem",
 					"pause",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						Debug::pause(0);
 						return false;
@@ -304,7 +304,7 @@ namespace ml
 					"execute",
 					"Execute a script",
 					"execute [NAME]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
+					new FunctionExecutor([](CommandDescriptor const & cmd, ArrayList<String> const & args)
 					{
 						if (args.size() == 2)
 						{

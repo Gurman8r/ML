@@ -13,7 +13,7 @@
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Core/FileSystem.hpp>
@@ -1415,6 +1415,235 @@ namespace ml
 	}
 
 
+	// RenderTexture Drawer
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	bool PropertyDrawer<RenderTexture>::operator()(String const & label, const_pointer & value) const
+	{
+		Layout::begin_prop(this, label, value);
+
+		const bool changed{ Layout::select_combo<value_type>(label, value) };
+		if (value && ImGui::IsItemHovered())
+		{
+		}
+		const String menu_label{ "##SelectorMenu##{0}##{1}"_s.format(label, this->info.brief) };
+		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
+		{
+			if (Layout::inspect_button((label + menu_label), value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
+		return Layout::end_prop(this, changed);
+	}
+
+	bool PropertyDrawer<RenderTexture>::operator()(String const & label, pointer & value) const
+	{
+		Layout::begin_prop(this, label, value);
+
+		// Popup
+		const String button_label{ ("{0}##NewButton##{1}"_s).format(label, this->info.brief) };
+		const String popup_label{ ("Create {1}##{0}##Popup"_s).format(label, this->info.brief) };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open{ false };
+			static char name[32] = "";
+			static const_pointer copy{ nullptr };
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, "new_surface");
+				copy = nullptr;
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + this->info.brief.str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Copy
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
+			{
+			}
+
+			// Submit
+			const bool submit{ ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (copy)
+				{
+					value = ML_Engine.content().create<value_type>(name, (*copy));
+				}
+				else
+				{
+					value = ML_Engine.content().create<value_type>(name);
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			const bool cancel{ ImGui::Button("Cancel") };
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return Layout::end_prop(this, submit || cancel);
+		}
+		return Layout::end_prop(this, false);
+	}
+
+	bool PropertyDrawer<RenderTexture>::operator()(String const & label, reference value) const
+	{
+		Layout::begin_prop(this, label, value);
+
+		bool changed{ false };
+
+		ImGui::Columns(2);
+
+		ImGui::Text("Handle: %u", (uint32_t)value.texture());
+
+		ImGui::Text("Size: %i x %i", value.width(), value.height());
+
+		int32_t colorID{ GL::index_of(value.colorID()) };
+		if (ImGuiExt::Combo(("Color Attachment##RenderTexture##" + label).c_str(),
+			&colorID, GL::ColorID_names, ML_ARRAYSIZE(GL::ColorID_names)))
+		{
+			value.setColorID(GL::value_at<GL::ColorID>(colorID));
+		}
+
+		int32_t frameID{ GL::index_of(value.frameID()) };
+		if (ImGuiExt::Combo(("Framebuffer Attachment##RenderTexture##" + label).c_str(),
+			&frameID, GL::FrameID_names, ML_ARRAYSIZE(GL::FrameID_names)))
+		{
+			value.setFrameID(GL::value_at<GL::FrameID>(frameID));
+		}
+
+		Material const * material{ value.material() };
+		if (PropertyDrawer<Material>()(("Material##RenderTexture##" + label), material))
+		{
+			value.setMaterial(material); changed = true;
+		}
+
+		Model const * model{ value.model() };
+		if (PropertyDrawer<Model>()(("Model##RenderTexture##" + label), model))
+		{
+			value.setModel(model); changed = true;
+		}
+
+		Shader const * shader{ value.shader() };
+		if (PropertyDrawer<Shader>()(("Shader##RenderTexture##" + label), shader))
+		{
+			value.setShader(shader); changed = true;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		bool smooth{ value.texture().smooth() };
+		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
+		{
+			value.texture().setSmooth(smooth);
+			changed = true;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		bool repeated{ value.texture().repeated() };
+		if (ImGui::Checkbox(("Repeated##" + label).c_str(), &repeated))
+		{
+			value.texture().setRepeated(repeated);
+			changed = true;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		bool mipmapped{ value.texture().mipmapped() };
+		if (ImGui::Button(((mipmapped
+			? "Invalidate Mipmap##" : "Generate Mipmap##") + label).c_str()
+		))
+		{
+			value.texture().setMipmapped(!mipmapped);
+			changed = true;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t level{ value.texture().level() };
+		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t target{ GL::index_of(value.texture().sampler()) };
+		if (ImGuiExt::Combo(
+			("Sampler##" + label).c_str(),
+			&(target),
+			GL::Sampler_names,
+			ML_ARRAYSIZE(GL::Sampler_names)
+		))
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t colorFormat{ GL::index_of(value.texture().color_fmt()) };
+		if (ImGuiExt::Combo(
+			("Color Format##" + label).c_str(),
+			&(colorFormat),
+			GL::Format_names,
+			ML_ARRAYSIZE(GL::Format_names)
+		))
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t internalFormat{ GL::index_of(value.texture().internal_fmt()) };
+		if (ImGuiExt::Combo(
+			("Internal Format##" + label).c_str(),
+			&(internalFormat),
+			GL::Format_names,
+			ML_ARRAYSIZE(GL::Format_names)
+		))
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t pixelType{ GL::index_of(value.texture().pixel_type()) };
+		if (ImGuiExt::Combo(
+			("Pixel Type##" + label).c_str(),
+			&(pixelType),
+			GL::Type_names,
+			ML_ARRAYSIZE(GL::Type_names)
+		))
+		{
+		}
+
+		ImGui::NextColumn();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ImGui::Columns(1);
+		return Layout::end_prop(this, changed);
+	}
+
+
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Script>::operator()(String const & label, const_pointer & value) const
@@ -2045,151 +2274,6 @@ namespace ml
 
 		ImGui::PopID();
 
-		return Layout::end_prop(this, changed);
-	}
-
-	
-	// Surface Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool PropertyDrawer<Surface>::operator()(String const & label, const_pointer & value) const
-	{
-		Layout::begin_prop(this, label, value);
-
-		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (value && ImGui::IsItemHovered())
-		{
-		}
-		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, this->info.brief) };
-		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
-		{
-			if (Layout::inspect_button((label + menu_label), value))
-				ImGui::CloseCurrentPopup();
-			ImGui::EndPopup();
-		}
-
-		return Layout::end_prop(this, changed);
-	}
-
-	bool PropertyDrawer<Surface>::operator()(String const & label, pointer & value) const
-	{
-		Layout::begin_prop(this, label, value);
-
-		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, this->info.brief) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, this->info.brief) };
-		if (ImGui::Button(button_label.c_str()))
-		{
-			ImGui::OpenPopup(popup_label.c_str());
-		}
-		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
-		{
-			// State
-			static bool popup_open { false };
-			static char name[32] = "";
-			static const_pointer copy { nullptr };
-
-			// Popup Opened
-			if (!popup_open && (popup_open = true))
-			{
-				std::strcpy(name, "new_surface");
-				copy = nullptr;
-			}
-
-			// Name
-			ImGui::InputText(
-				("Name##" + this->info.brief.str() + "##" + label).c_str(),
-				name,
-				ML_ARRAYSIZE(name)
-			);
-
-			// Copy
-			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
-			{
-			}
-
-			// Submit
-			const bool submit { ImGui::Button("Submit") };
-			if (submit && !value)
-			{
-				if (copy)
-				{
-					value = ML_Engine.content().create<value_type>(name, (*copy));
-				}
-				else
-				{
-					value = ML_Engine.content().create<value_type>(name);
-				}
-			}
-			ImGui::SameLine();
-
-			// Cancel / Popup Closed
-			const bool cancel { ImGui::Button("Cancel") };
-			if (submit || cancel)
-			{
-				popup_open = false;
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
-
-			return Layout::end_prop(this, submit || cancel);
-		}
-		return Layout::end_prop(this, false);
-	}
-
-	bool PropertyDrawer<Surface>::operator()(String const & label, reference value) const
-	{
-		Layout::begin_prop(this, label, value);
-
-		bool changed { false };
-
-		ImGui::Columns(2);
-
-		ImGui::Text("Handle: %u", (uint32_t)value.texture());
-
-		ImGui::Text("Size: %i x %i", value.width(), value.height());
-
-		int32_t colorID { GL::index_of(value.colorID()) };
-		if (ImGuiExt::Combo(("Color Attachment##Surface##" + label).c_str(), 
-			&colorID, GL::ColorID_names, ML_ARRAYSIZE(GL::ColorID_names)))
-		{
-			value.setColorID(GL::value_at<GL::ColorID>(colorID));
-		}
-
-		int32_t frameID { GL::index_of(value.frameID()) };
-		if (ImGuiExt::Combo(("Framebuffer Attachment##Surface##" + label).c_str(),
-			&frameID, GL::FrameID_names, ML_ARRAYSIZE(GL::FrameID_names)))
-		{
-			value.setFrameID(GL::value_at<GL::FrameID>(frameID));
-		}
-
-		Material const * material { value.material() };
-		if (PropertyDrawer<Material>()(("Material##Surface##" + label), material))
-		{
-			value.setMaterial(material); changed = true;
-		}
-
-		Model const * model { value.model() };
-		if (PropertyDrawer<Model>()(("Model##Surface##" + label), model))
-		{
-			value.setModel(model); changed = true;
-		}
-
-		Shader const * shader { value.shader() };
-		if (PropertyDrawer<Shader>()(("Shader##Surface##" + label), shader))
-		{
-			value.setShader(shader); changed = true;
-		}
-
-		ImGui::NextColumn();
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		ImGui::Columns(1);
 		return Layout::end_prop(this, changed);
 	}
 

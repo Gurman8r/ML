@@ -1,18 +1,19 @@
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
+#include <ML/Graphics/ScopedBinder.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Surface::Surface()
-		: Surface { nullptr, nullptr, nullptr }
+	RenderTexture::RenderTexture()
+		: RenderTexture { nullptr, nullptr, nullptr }
 	{
 	}
 
-	Surface::Surface(Model const * model, Material const * material, Shader const * shader)
+	RenderTexture::RenderTexture(Model const * model, Material const * material, Shader const * shader)
 		: m_colorID	{ GL::ColorAttachment0 }
 		, m_frameID { GL::DepthStencil }
 		, m_fbo		{ }
@@ -26,7 +27,7 @@ namespace ml
 	{
 	}
 
-	Surface::Surface(Surface const & copy)
+	RenderTexture::RenderTexture(RenderTexture const & copy)
 		: m_colorID	{ copy.m_colorID }
 		, m_frameID	{ copy.m_frameID }
 		, m_fbo		{ }
@@ -41,14 +42,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Surface::dispose()
+	bool RenderTexture::dispose()
 	{
 		if (m_fbo) { m_fbo.clean(); }
 		if (m_rbo) { m_rbo.clean(); }
 		return (!m_fbo && !m_rbo);
 	}
 
-	bool Surface::create()
+	bool RenderTexture::create()
 	{
 		if (m_fbo || m_rbo || (m_size[0] == 0) || (m_size[1] == 0))
 		{
@@ -56,36 +57,32 @@ namespace ml
 		}
 
 		// Setup Framebuffer
-		if (m_fbo.create().bind())
+		if (ML_BIND_SCOPE_EX(FBO, _fb, m_fbo.create(m_size)))
 		{
 			// Setup Renderbuffer
-			m_rbo
-				.create(m_size)
-				.bind()
-				.bufferStorage(m_storage)
-				.setFramebuffer(m_frameID)
-				.unbind();
+			if (ML_BIND_SCOPE_EX(RBO, _rb, m_rbo.create(m_size)))
+			{
+				_rb->bufferStorage(m_storage);
+
+				_fb->renderBuffer(m_frameID, (uint32_t)(*_rb));
+			}
 
 			// Check Framebuffer Status
 			if (ML_GL.checkFramebufferStatus(GL::Framebuffer))
 			{
-				// Create Texture
+				// Setup Texture
 				m_texture.dispose();
-
+				
 				m_texture.create(m_size);
-
-				// Attach to FBO
-				m_fbo.setTexture(m_colorID, m_texture);
+				
+				_fb->texture2D(m_colorID, m_texture);
 			}
-
-			// Unbind
-			m_fbo.unbind();
 		}
 		
 		return (m_fbo && m_rbo);
 	}
 
-	bool Surface::update(vec2i const & size)
+	bool RenderTexture::update(vec2i const & size)
 	{
 		if ((size[0] != 0 && size[1] != 0) && (m_size != size))
 		{
@@ -94,36 +91,35 @@ namespace ml
 		return false;
 	}
 
-	void Surface::draw(RenderTarget const & target, RenderBatch & batch) const
+	void RenderTexture::draw(RenderTarget const & target, RenderBatch & batch) const
 	{
-		if (m_model && m_material && m_shader)
+		if (ML_BIND_SCOPE_EX(Shader, _sh, m_shader, false))
 		{
-			m_shader->bind(false);
-
-			for (auto const & u : (*m_material))
+			if (m_material)
 			{
-				m_shader->setUniform(u);
+				for (auto const & u : (*m_material))
+				{
+					_sh->setUniform(u);
+				}
 			}
 
-			m_shader->setUniform(ML_UNI_MAIN_TEX, m_texture);
+			_sh->setUniform(ML_UNI_MAIN_TEX, m_texture);
 
-			m_shader->bind(true);
+			_sh->bind(true); // bind textures
 
 			target.draw(m_model, batch);
-
-			m_shader->unbind();
 		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Surface const & Surface::bind() const
+	RenderTexture const & RenderTexture::bind() const
 	{
 		m_fbo.bind();
 		return (*this);
 	}
 	
-	Surface const & Surface::unbind() const
+	RenderTexture const & RenderTexture::unbind() const
 	{
 		m_fbo.unbind();
 		return (*this);
@@ -131,43 +127,43 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Surface & Surface::setColorID(GL::ColorID value)
+	RenderTexture & RenderTexture::setColorID(GL::ColorID value)
 	{
 		m_colorID = value;
 		return (*this);
 	}
 
-	Surface & Surface::setFrameID(GL::FrameID value)
+	RenderTexture & RenderTexture::setFrameID(GL::FrameID value)
 	{
 		m_frameID = value;
 		return (*this);
 	}
 
-	Surface & Surface::setMaterial(Material const * value)
+	RenderTexture & RenderTexture::setMaterial(Material const * value)
 	{
 		m_material = value;
 		return (*this);
 	}
 
-	Surface & Surface::setShader(Shader const * value)
+	RenderTexture & RenderTexture::setShader(Shader const * value)
 	{
 		m_shader = value;
 		return (*this);
 	}
 
-	Surface & Surface::setModel(Model const * value)
+	RenderTexture & RenderTexture::setModel(Model const * value)
 	{
 		m_model = value;
 		return (*this);
 	}
 
-	Surface & Surface::setSize(vec2i const & value)
+	RenderTexture & RenderTexture::setSize(vec2i const & value)
 	{
 		m_size = value;
 		return (*this);
 	}
 
-	Surface & Surface::setStorage(GL::Format value)
+	RenderTexture & RenderTexture::setStorage(GL::Format value)
 	{
 		m_storage = value;
 		return (*this);

@@ -11,7 +11,7 @@
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Material.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
@@ -54,7 +54,7 @@ namespace ml
 			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + plural).c_str()))
 			{
 				void * temp { nullptr };
-				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
+				if (!std::is_same_v<T, RenderTexture> && !std::is_same_v<T, Uniform>)
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(
 						nameof<>::filter_namespace(typeof<T>::name)
@@ -104,7 +104,7 @@ namespace ml
 							no_delete = !u->isModifiable();
 						}
 					}
-					else if (std::is_same_v<T, Surface>) no_delete = true;
+					else if (std::is_same_v<T, RenderTexture>) no_delete = true;
 
 					// Delete
 					if (!no_delete &&
@@ -222,7 +222,7 @@ namespace ml
 			Layout::draw_list<Shader>();
 			Layout::draw_list<Script>();
 			//Layout::draw_list<Sprite>();
-			Layout::draw_list<Surface>();
+			Layout::draw_list<RenderTexture>();
 			Layout::draw_list<Texture>();
 			Layout::draw_list<Uniform>();
 			ImGui::EndTabBar();

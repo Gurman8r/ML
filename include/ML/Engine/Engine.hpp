@@ -33,12 +33,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		CommandRegistry	* m_commands;
-		ContentManager	* m_content;
-		PluginManager	* m_plugins;
-		Preferences		* m_prefs;
-		GameTime		* m_time;
-		RenderWindow	* m_window;
+		CommandRegistry * m_commands{ nullptr };
+		ContentManager	* m_content	{ nullptr };
+		PluginManager	* m_plugins	{ nullptr };
+		Preferences		* m_prefs	{ nullptr };
+		GameTime		* m_time	{ nullptr };
+		RenderWindow	* m_window	{ nullptr };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

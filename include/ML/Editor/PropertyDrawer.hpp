@@ -156,6 +156,17 @@ namespace ml
 	};
 
 
+	// RenderTexture Drawer
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct RenderTexture; template <
+	> struct ML_EDITOR_API PropertyDrawer<RenderTexture> final : public BasePropertyDrawer<RenderTexture>
+	{
+		bool operator()(String const & label, const_pointer & value) const;
+		bool operator()(String const & label, pointer & value) const;
+		bool operator()(String const & label, reference value) const;
+	};
+
+
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	struct Script; template <
@@ -193,17 +204,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	struct Sprite; template <
 	> struct ML_EDITOR_API PropertyDrawer<Sprite> final : public BasePropertyDrawer<Sprite>
-	{
-		bool operator()(String const & label, const_pointer & value) const;
-		bool operator()(String const & label, pointer & value) const;
-		bool operator()(String const & label, reference value) const;
-	};
-
-
-	// Surface Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Surface; template <
-	> struct ML_EDITOR_API PropertyDrawer<Surface> final : public BasePropertyDrawer<Surface>
 	{
 		bool operator()(String const & label, const_pointer & value) const;
 		bool operator()(String const & label, pointer & value) const;

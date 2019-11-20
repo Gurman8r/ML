@@ -1,5 +1,6 @@
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Graphics/ScopedBinder.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -246,14 +247,13 @@ namespace ml
 			if (dispose() && set_handle(ML_GL.genTexture()))
 			{
 				m_size = { w, h };
-				m_realSize =
-				{
+				m_realSize = {
 					ML_GL.getValidTextureSize(m_size[0]),
 					ML_GL.getValidTextureSize(m_size[1])
 				};
 
-				static const uint32_t max_size { ML_GL.getMaxTextureSize() };
-				if ((m_realSize[0] > max_size) || (m_realSize[1] > max_size))
+				if (static const uint32_t max_size{ ML_GL.getMaxTextureSize() }; 
+					(m_realSize[0] > max_size) || (m_realSize[1] > max_size))
 				{
 					return Debug::logError(
 						"Failed creating texture, size is too large {0} max is {1}",
@@ -262,41 +262,28 @@ namespace ml
 					);
 				}
 
-				bind();
-
-				ML_GL.texImage2D(
-					m_sampler,
-					m_level,
-					m_iFormat,
-					m_size[0],
-					m_size[1],
-					0, // border: "This value must be 0" -khronos.org
-					m_cFormat,
-					m_pixType,
-					(void *)pixels
-				);
-				
-				unbind();
-
-				ML_GL.flush();
-
+				if (ML_BIND_SCOPE(Texture, (*this)))
+				{
+					ML_GL.texImage2D(
+						m_sampler,
+						m_level,
+						m_iFormat,
+						m_size[0],
+						m_size[1],
+						0, // border: "This value must be 0" -khronos.org
+						m_cFormat,
+						m_pixType,
+						(void *)pixels
+					);
+				}
 				setRepeated(m_repeated);
-
 				setSmooth(m_smooth);
-
-				if (m_mipmapped) setMipmapped(m_mipmapped);
-
+				setMipmapped(m_mipmapped);
 				return true;
 			}
-			else
-			{
-				return Debug::logError("Failed creating texture, failed setting handle.");
-			}
+			return Debug::logError("Failed creating texture, failed setting handle.");
 		}
-		else
-		{
-			return Debug::logError("Failed creating texture, invalid size: {0} x {1}", w, h);
-		}
+		return Debug::logError("Failed creating texture, invalid size: {0} x {1}", w, h);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -362,58 +349,41 @@ namespace ml
 
 	bool Texture::update(byte_t const * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
-		if (w && h)
+		if (w && h && pixels)
 		{
-			if ((*this) && (pixels))
+			if (ML_BIND_SCOPE(Texture, (*this)))
 			{
-				bind();
-
 				ML_GL.texSubImage2D(
 					m_sampler,
 					m_level,
-					x,
-					y,
-					w,
-					h,
+					x, y, w, h,
 					m_iFormat,
 					m_pixType,
 					(void *)pixels
 				);
-
-				unbind();
-
-				ML_GL.flush();
-
-				setRepeated(m_repeated);
-
-				setSmooth(m_smooth);
-
-				if (m_mipmapped) setMipmapped(m_mipmapped);
-
-				return true;
 			}
 			else
 			{
 				return Debug::logError("Failed updating texture, failed updating handle.");
 			}
+			setRepeated(m_repeated);
+			setSmooth(m_smooth);
+			setMipmapped(m_mipmapped);
+			return true;
 		}
-		else
-		{
-			return Debug::logError("Failed updating texture, invalid size: {0}", vec2u { w, h });
-		}
+		return Debug::logError("Failed updating texture, invalid size: {0}", vec2u { w, h });
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Texture & Texture::setMipmapped(bool value)
 	{
-		if (*this)
+		if (ML_BIND_SCOPE(Texture, (*this)))
 		{
-			m_mipmapped = value;
-
-			bind();
-
-			ML_GL.generateMipmap(m_sampler);
+			if (m_mipmapped = value)
+			{
+				ML_GL.generateMipmap(m_sampler);
+			}
 
 			ML_GL.texParameter(
 				m_sampler,
@@ -422,38 +392,23 @@ namespace ml
 					? m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapLinear
 					: m_smooth ? GL::Linear : GL::Nearest
 					));
-
-			unbind();
-
-			ML_GL.flush();
 		}
+		ML_GL.flush();
 		return (*this);
 	}
 
 	Texture & Texture::setRepeated(bool value)
 	{
-		if (*this)
+		if (ML_BIND_SCOPE(Texture, (*this)))
 		{
-			if ((m_repeated = value) && !ML_GL.edgeClampAvailable())
-			{
-				static bool once { true };
-				if (once && !(once = false))
-				{
-					Debug::logWarning(
-						"OpenGL extension texture_edge_clamp unavailable.\n"
-						"Artifacts may occur along texture edges."
-					);
-				}
-			}
+			m_repeated = value;
 
-			bind();
-			
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexWrapS,
 				(m_repeated
 					? GL::Repeat
-					: (ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp)
+					: ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp
 			);
 
 			ML_GL.texParameter(
@@ -461,28 +416,23 @@ namespace ml
 				GL::TexWrapT,
 				(m_repeated
 					? GL::Repeat
-					: (ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp)
+					: ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp
 			);
-			
-			unbind();
-
-			ML_GL.flush();
 		}
+		ML_GL.flush();
 		return (*this);
 	}
 
 	Texture & Texture::setSmooth(bool value)
 	{
-		if (*this)
+		if (ML_BIND_SCOPE(Texture, (*this)))
 		{
 			m_smooth = value;
-
-			bind();
 
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexMagFilter,
-				(m_smooth ? GL::Linear : GL::Nearest)
+				m_smooth ? GL::Linear : GL::Nearest
 			);
 
 			ML_GL.texParameter(
@@ -492,11 +442,8 @@ namespace ml
 					? m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapLinear
 					: m_smooth ? GL::Linear : GL::Nearest
 			));
-
-			unbind();
-
-			ML_GL.flush();
 		}
+		ML_GL.flush();
 		return (*this);
 	}
 

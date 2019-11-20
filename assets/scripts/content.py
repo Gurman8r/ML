@@ -47,7 +47,7 @@ ml.content.load_all([
     { "type": "ml::Shader", "name": "gl/3D/basic",          "vert": PATH + "/shaders/3D.vs.shader", "frag": PATH + "/shaders/basic.fs.shader" },
     { "type": "ml::Shader", "name": "gl/3D/phong",          "vert": PATH + "/shaders/3D.vs.shader", "frag": PATH + "/shaders/phong.fs.shader" },
     { "type": "ml::Shader", "name": "gl/3D/skybox",         "vert": PATH + "/shaders/skybox.vs.shader", "frag": PATH + "/shaders/skybox.fs.shader" },
-    { "type": "ml::Shader", "name": "gl/util/surface",      "file": PATH + "/shaders/surface.shader" },
+    { "type": "ml::Shader", "name": "gl/util/pipeline",     "file": PATH + "/shaders/pipeline.shader" },
     #{ "type": "ml::Shader", "name": "gl/test/geometry",     "file": PATH + "/shaders/geometry.shader" },
 
 # Textures
@@ -174,9 +174,9 @@ ml.content.load_all([
     },
     {
         "type": "ml::Material",
-        "name": "mat/util/surface",
+        "name": "mat/util/pipeline",
         "defaults": "False",
-        "uniforms": PATH + "/materials/surface.mat"
+        "uniforms": PATH + "/materials/pipeline.mat"
     },
     #{
     #    "type": "ml::Material",
@@ -185,21 +185,21 @@ ml.content.load_all([
     #    "uniforms": PATH + "/materials/geometry.mat"
     #},
 
-# Surfaces
+# RenderTextures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     { 
-        "type": "ml::Surface", 
-        "name": "surf/main", 
-        "model": "obj/default/quad", 
-        "material": "mat/util/surface",
-        "shader": "gl/util/surface",
+        "type":     "ml::RenderTexture", 
+        "name":     "render/main", 
+        "model":    "obj/default/quad", 
+        "material": "mat/util/pipeline",
+        "shader":   "gl/util/pipeline",
     },
     { 
-        "type": "ml::Surface", 
-        "name": "surf/post", 
-        "model": "obj/default/quad", 
-        "material": "mat/util/surface",
-        "shader": "gl/util/surface",
+        "type":     "ml::RenderTexture", 
+        "name":     "render/post", 
+        "model":    "obj/default/quad", 
+        "material": "mat/util/pipeline",
+        "shader":   "gl/util/pipeline",
     },
 
 # Scripts

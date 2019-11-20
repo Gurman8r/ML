@@ -26,9 +26,12 @@ namespace ml
 
 	struct ML_ENGINE_API FunctionExecutor final : public CommandExecutor
 	{
-		using fun_type = typename bool(*)(CommandDescriptor const &, ArrayList<String> const &);
+		using fun_type = typename std::function<bool(CommandDescriptor const &, ArrayList<String> const &)>;
 
-		FunctionExecutor(fun_type && fun) : m_fun(fun) {}
+		FunctionExecutor(fun_type const & fun)
+			: m_fun(fun)
+		{
+		}
 
 		inline bool onCommand(CommandDescriptor const & cmd, ArrayList<String> const & args) const override
 		{

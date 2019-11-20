@@ -8,7 +8,7 @@
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Core/Debug.hpp>
 
@@ -31,7 +31,7 @@ namespace ml
 			case typeof<Shader>::hash	: return (bool)ContentImporter<Shader>()(value);
 			case typeof<Sound>::hash	: return (bool)ContentImporter<Sound>()(value);
 			case typeof<Sprite>::hash	: return (bool)ContentImporter<Sprite>()(value);
-			case typeof<Surface>::hash	: return (bool)ContentImporter<Surface>()(value);
+			case typeof<RenderTexture>::hash	: return (bool)ContentImporter<RenderTexture>()(value);
 			case typeof<Texture>::hash	: return (bool)ContentImporter<Texture>()(value);
 			} 
 			return false;
@@ -207,6 +207,28 @@ namespace ml
 	}
 
 
+	// RenderTexture Importer
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	RenderTexture * ContentImporter<RenderTexture>::operator()(Metadata const & md) const
+	{
+		if (this->info.hash == md.getData("type").asString().hash())
+		{
+			if (const String name{ md.getData("name") })
+			{
+				if (!ML_Engine.content().get<RenderTexture>(name))
+				{
+					return ML_Engine.content().create<RenderTexture>(name,
+						ML_Engine.content().get<Model>(md.getData("model")),
+						ML_Engine.content().get<Material>(md.getData("material")),
+						ML_Engine.content().get<Shader>(md.getData("shader"))
+						);
+				}
+			}
+		}
+		return nullptr;
+	}
+
+
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Script * ContentImporter<Script>::operator()(Metadata const & md) const
@@ -337,28 +359,6 @@ namespace ml
 					{
 						return ML_Engine.content().insert(name, new Sprite{});
 					}
-				}
-			}
-		}
-		return nullptr;
-	}
-
-
-	// Surface Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Surface * ContentImporter<Surface>::operator()(Metadata const & md) const
-	{
-		if (this->info.hash == md.getData("type").asString().hash())
-		{
-			if (const String name { md.getData("name") })
-			{
-				if (!ML_Engine.content().get<Surface>(name))
-				{
-					return ML_Engine.content().create<Surface>(name, 
-						ML_Engine.content().get<Model>(md.getData("model")),
-						ML_Engine.content().get<Material>(md.getData("material")),
-						ML_Engine.content().get<Shader>(md.getData("shader"))
-					);
 				}
 			}
 		}

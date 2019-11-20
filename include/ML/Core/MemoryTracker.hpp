@@ -31,9 +31,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto current() const -> size_t { return m_current; }
+		ML_NEVER_INLINE auto current() const -> size_t { return m_current; }
 
-		inline auto records() const -> RecordTable const & { return m_records; }
+		ML_NEVER_INLINE auto records() const -> RecordTable const & { return m_records; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -70,29 +70,29 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ML_ALWAYS_INLINE std::type_info const & target_type() const
+		ML_NEVER_INLINE std::type_info const & target_type() const
 		{
 			return typeid(*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ML_ALWAYS_INLINE void * operator new(size_t size)
+		ML_NEVER_INLINE void * operator new(size_t size)
 		{
 			return ML_MemoryTracker.allocate(size);
 		}
 
-		ML_ALWAYS_INLINE void * operator new[](size_t size)
+		ML_NEVER_INLINE void * operator new[](size_t size)
 		{
 			return ML_MemoryTracker.allocate(size);
 		}
 
-		ML_ALWAYS_INLINE void operator delete(void * value)
+		ML_NEVER_INLINE void operator delete(void * value)
 		{
 			return ML_MemoryTracker.deallocate(value);
 		}
 
-		ML_ALWAYS_INLINE void operator delete[](void * value)
+		ML_NEVER_INLINE void operator delete[](void * value)
 		{
 			return ML_MemoryTracker.deallocate(value);
 		}

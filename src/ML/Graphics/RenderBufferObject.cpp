@@ -6,12 +6,16 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderBufferObject::RenderBufferObject()
-		: Handle(NULL)
+		: Handle{ NULL }
+		, m_size{ 0 }
+		, m_storage{ (GL::Format)0 }
 	{
 	}
 
 	RenderBufferObject::RenderBufferObject(RenderBufferObject const & copy)
-		: Handle(copy)
+		: Handle{ copy }
+		, m_size{ copy.m_size }
+		, m_storage{ copy.m_storage }
 	{
 	}
 
@@ -24,7 +28,7 @@ namespace ml
 	
 	RenderBufferObject & RenderBufferObject::clean()
 	{
-		if ((*this))
+		if (*this)
 		{
 			ML_GL.deleteRenderbuffer(*this);
 
@@ -58,29 +62,15 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderBufferObject const & RenderBufferObject::bufferStorage(GL::Format format) const
+	RenderBufferObject & RenderBufferObject::bufferStorage(GL::Format value)
 	{
-		if (*this)
+		if ((*this) && value)
 		{
 			ML_GL.renderbufferStorage(
 				GL::Renderbuffer, 
-				format, 
+				(m_storage = value),
 				width(), 
 				height()
-			);
-		}
-		return (*this);
-	}
-
-	RenderBufferObject const & RenderBufferObject::setFramebuffer(GL::FrameID attachment) const
-	{
-		if (*this)
-		{
-			ML_GL.framebufferRenderbuffer(
-				GL::Framebuffer, 
-				attachment, 
-				GL::Renderbuffer,
-				(*this)
 			);
 		}
 		return (*this);

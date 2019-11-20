@@ -68,7 +68,9 @@ namespace ml
 					if (ML_BIND_SCOPE_EX(IBO, _ib, m_ibo.create(GL::StaticDraw, GL::UnsignedInt)))
 					{
 						_vb->bufferData(alg::contiguous(m_vertices));
+						
 						_ib->bufferData(m_indices);
+						
 						m_layout.bind();
 					}
 				}
@@ -81,6 +83,7 @@ namespace ml
 				if (ML_BIND_SCOPE_EX(VBO, _vb, m_vbo.create(GL::StaticDraw)))
 				{
 					_vb->bufferData(alg::contiguous(m_vertices));
+
 					m_layout.bind();
 				}
 			}

@@ -6,12 +6,12 @@
 #include <ML/Core/NonCopyable.hpp>
 
 // Named scope binder
-#define ML_BIND_SCOPE_EX(T, var, value) \
-	const ScopedBinder<T> var { value }
+#define ML_BIND_SCOPE_EX(T, var, value, ...) \
+	ScopedBinder<T> var { value, ##__VA_ARGS__ }
 
 // Anonymous scope binder
-#define ML_BIND_SCOPE(T, value) \
-	ML_BIND_SCOPE_EX(T, ML_ANON(ML_CONCAT(ScopedBinder_, T)), value)
+#define ML_BIND_SCOPE(T, value, ...) \
+	ML_BIND_SCOPE_EX(T, ML_ANON(ML_CONCAT(ScopedBinder_, T)), value, ##__VA_ARGS__)
 
 namespace ml
 {
@@ -54,6 +54,10 @@ namespace ml
 		inline operator T const *() const { return m_value; }
 
 		inline T const * operator->() const { return m_value; }
+
+		inline T * operator->() { return (T *)m_value; }
+
+		inline T const & operator*() const { return *m_value; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -8,6 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// fixed size array
 	template <class T, size_t N> struct Array
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -52,7 +53,7 @@ namespace ml
 
 		static constexpr size_t size() { return self_type::Size; }
 
-		constexpr reference operator[](size_t i) { return at(i); }
+		inline reference operator[](size_t i) { return at(i); }
 		
 		constexpr const_reference operator[](size_t i) const { return at(i); }
 

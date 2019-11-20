@@ -121,8 +121,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Color		= BasicColor<float_t>;
-	using Color32	= BasicColor<byte_t>;
+	ML_USING Color = BasicColor<float_t>;
+	ML_USING Color32 = BasicColor<byte_t>;
+
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <class T> inline ML_SERIALIZE(std::ostream & out, const BasicColor<T> & value)
 	{
@@ -131,30 +133,26 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Colors final
+	namespace Colors
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Colors() = delete;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr Color clear		{ 0.0f,		0.0f,	0.0f,	0.0f };
-		static constexpr Color white		{ 1.0f,		1.0f,	1.0f,	1.0f };
-		static constexpr Color gray			{ 0.5f,		0.5f,	0.5f,	1.0f };
-		static constexpr Color black		{ 0.0f,		0.0f,	0.0f,	1.0f };
-		static constexpr Color red			{ 1.0f,		0.0f,	0.0f,	1.0f };
-		static constexpr Color green		{ 0.0f,		1.0f,	0.0f,	1.0f };
-		static constexpr Color blue			{ 0.0f,		0.0f,	1.0f,	1.0f };
-		static constexpr Color cyan			{ 0.0f,		1.0f,	1.0f,	1.0f };
-		static constexpr Color yellow		{ 1.0f,		1.0f,	0.0f,	1.0f };
-		static constexpr Color magenta		{ 1.0f,		0.0f,	1.0f,	1.0f };
-		static constexpr Color violet		{ 0.5f,		0.0f,	1.0f,	1.0f };
-		static constexpr Color lime			{ 0.5f,		1.0f,	0.0f,	1.0f };
-		static constexpr Color orange		{ 1.0f,		0.5f,	0.0f,	1.0f };
-		static constexpr Color fuchsia		{ 1.0f,		0.0f,	0.5f,	1.0f };
-		static constexpr Color aqua			{ 0.0f,		1.0f,	0.5f,	1.0f };
-		static constexpr Color azure		{ 0.0f,		0.5f,	1.0f,	1.0f };
+		static constexpr Color clear		{ 0.0f, 0.0f, 0.0f, 0.0f };
+		static constexpr Color white		{ 1.0f, 1.0f, 1.0f, 1.0f };
+		static constexpr Color gray			{ 0.5f, 0.5f, 0.5f, 1.0f };
+		static constexpr Color black		{ 0.0f, 0.0f, 0.0f, 1.0f };
+		static constexpr Color red			{ 1.0f, 0.0f, 0.0f, 1.0f };
+		static constexpr Color green		{ 0.0f, 1.0f, 0.0f, 1.0f };
+		static constexpr Color blue			{ 0.0f, 0.0f, 1.0f, 1.0f };
+		static constexpr Color cyan			{ 0.0f, 1.0f, 1.0f, 1.0f };
+		static constexpr Color yellow		{ 1.0f, 1.0f, 0.0f, 1.0f };
+		static constexpr Color magenta		{ 1.0f, 0.0f, 1.0f, 1.0f };
+		static constexpr Color violet		{ 0.5f, 0.0f, 1.0f, 1.0f };
+		static constexpr Color lime			{ 0.5f, 1.0f, 0.0f, 1.0f };
+		static constexpr Color orange		{ 1.0f, 0.5f, 0.0f, 1.0f };
+		static constexpr Color fuchsia		{ 1.0f, 0.0f, 0.5f, 1.0f };
+		static constexpr Color aqua			{ 0.0f, 1.0f, 0.5f, 1.0f };
+		static constexpr Color azure		{ 0.0f, 0.5f, 1.0f, 1.0f };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

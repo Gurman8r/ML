@@ -417,8 +417,7 @@ namespace ml
 				static_cast<size_t>(ML_GL.getMaxTextureUnits())
 			};
 
-			TextureTable::iterator it;
-			if ((it = m_textures.find(u.location)) != m_textures.end())
+			if (auto it{ m_textures.find(u.location) }; it != m_textures.end())
 			{
 				it->second = &value;
 			}

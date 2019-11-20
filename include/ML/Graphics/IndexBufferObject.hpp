@@ -33,24 +33,27 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		IndexBufferObject const & bufferData(uint32_t const * data, uint32_t count) const;
+		IndexBufferObject & bufferData(uint32_t const * data, uint32_t count);
 
-		IndexBufferObject const & bufferData(ArrayList<uint32_t> const & data) const;
+		IndexBufferObject & bufferData(ArrayList<uint32_t> const & data);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto data()	const -> uint32_t const *	{ return m_data; }
-		inline auto count() const -> uint32_t			{ return m_count; }
-		inline auto usage() const -> GL::Usage			{ return m_usage; }
-		inline auto type()	const -> GL::Type			{ return m_type; }
+		inline auto data()	const -> uint32_t const * { return m_data; }
+		
+		inline auto count() const -> uint32_t { return m_count; }
+		
+		inline auto usage() const -> GL::Usage { return m_usage; }
+		
+		inline auto type()	const -> GL::Type { return m_type; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	private:
-		mutable uint32_t const *	m_data;
-		mutable uint32_t			m_count;
-		mutable GL::Usage			m_usage;
-		mutable GL::Type			m_type;
+		uint32_t const * m_data;
+		uint32_t m_count;
+		GL::Usage m_usage;
+		GL::Type m_type;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

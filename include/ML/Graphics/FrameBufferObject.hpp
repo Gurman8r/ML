@@ -5,6 +5,7 @@
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/MemoryTracker.hpp>
 #include <ML/Core/Handle.hpp>
+#include <ML/Core/Matrix.hpp>
 
 namespace ml
 {
@@ -26,7 +27,7 @@ namespace ml
 
 		FrameBufferObject & clean();
 
-		FrameBufferObject & create();
+		FrameBufferObject & create(vec2i const & size);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,9 +37,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		FrameBufferObject const & setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
+		FrameBufferObject const & texture2D(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
 
-		FrameBufferObject const & setTexture(uint32_t attachment, Texture const & value) const;
+		FrameBufferObject const & texture2D(uint32_t attachment, Texture const & value) const;
+
+		FrameBufferObject const & renderBuffer(GL::FrameID attachment, uint32_t value) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto size() const -> vec2i const & { return m_size; }
+
+		inline auto width() const -> int32_t { return m_size[0]; }
+
+		inline auto height() const -> int32_t { return m_size[1]; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: vec2i m_size;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -25,14 +25,14 @@ namespace ml
 
 	IndexBufferObject::~IndexBufferObject()
 	{
-		clean();
+		this->clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	IndexBufferObject & IndexBufferObject::clean()
 	{
-		if ((*this))
+		if (*this)
 		{
 			ML_GL.deleteBuffer(*this);
 
@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	IndexBufferObject const & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count) const
+	IndexBufferObject & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count)
 	{
 		if (*this)
 		{
@@ -83,7 +83,7 @@ namespace ml
 		return (*this);
 	}
 
-	IndexBufferObject const & IndexBufferObject::bufferData(ArrayList<uint32_t> const & data) const
+	IndexBufferObject & IndexBufferObject::bufferData(ArrayList<uint32_t> const & data)
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}

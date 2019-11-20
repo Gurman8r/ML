@@ -4,16 +4,6 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
 
-#define ML_GEN_CONTENT_IMPORTER(T)									\
-using value_type		= typename _ML detail::decay_t<T>;			\
-using self_type			= typename _ML ContentImporter<value_type>;	\
-using pointer			= typename value_type *;				\
-using reference			= typename value_type &;					\
-using const_pointer		= typename value_type const *;			\
-using const_reference	= typename value_type const &;				\
-static constexpr typeof<> info() { return typeof<T>{}; }			\
-ContentImporter() = default;
-
 namespace ml
 {
 	// Content Importer
@@ -111,6 +101,15 @@ namespace ml
 	};
 
 
+	// RenderTexture Importer
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct RenderTexture; template <
+	> struct ML_ENGINE_API ContentImporter<RenderTexture> final : public BaseContentImporter<RenderTexture>
+	{
+		RenderTexture * operator()(Metadata const & md) const;
+	};
+
+
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	struct Script; template <
@@ -144,15 +143,6 @@ namespace ml
 	> struct ML_ENGINE_API ContentImporter<Sprite> final : public BaseContentImporter<Sprite>
 	{
 		Sprite * operator()(Metadata const & md) const;
-	};
-
-
-	// Surface Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Surface; template <
-	> struct ML_ENGINE_API ContentImporter<Surface> final : public BaseContentImporter<Surface>
-	{
-		Surface * operator()(Metadata const & md) const;
 	};
 
 

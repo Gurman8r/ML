@@ -33,20 +33,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		RenderBufferObject const & bufferStorage(GL::Format internalFormat) const;
-
-		RenderBufferObject const & setFramebuffer(GL::FrameID attachment) const;
+		RenderBufferObject & bufferStorage(GL::Format value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto size()		const -> vec2i const &		{ return m_size; }
-		inline auto width()		const -> int32_t const &	{ return m_size[0]; }
-		inline auto height()	const -> int32_t const &	{ return m_size[1]; }
+		inline auto storage() const -> GL::Format { return m_storage; }
+
+		inline auto size() const -> vec2i const & { return m_size; }
+
+		inline auto width() const -> int32_t { return m_size[0]; }
+
+		inline auto height() const -> int32_t { return m_size[1]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		mutable vec2i m_size;
+		vec2i m_size;
+		GL::Format m_storage;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

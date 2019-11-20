@@ -12,7 +12,7 @@
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Material.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
@@ -145,7 +145,7 @@ namespace ml
 			case typeof<Shader>::hash:	Layout::draw_item<Shader>(c.selected(), c.item_name()); break;
 			case typeof<Sound>::hash:	Layout::draw_item<Sound>(c.selected(), c.item_name()); break;
 			case typeof<Sprite>::hash:	Layout::draw_item<Sprite>(c.selected(), c.item_name()); break;
-			case typeof<Surface>::hash:	Layout::draw_item<Surface>(c.selected(), c.item_name()); break;
+			case typeof<RenderTexture>::hash:	Layout::draw_item<RenderTexture>(c.selected(), c.item_name()); break;
 			case typeof<Texture>::hash:	Layout::draw_item<Texture>(c.selected(), c.item_name()); break;
 			case typeof<Uniform>::hash:	Layout::draw_item<Uniform>(c.selected(), c.item_name()); break;
 			}

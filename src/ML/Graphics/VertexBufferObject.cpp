@@ -8,12 +8,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VertexBufferObject::VertexBufferObject()
-		: Handle(NULL)
+		: Handle{ NULL }
 	{
 	}
 
 	VertexBufferObject::VertexBufferObject(VertexBufferObject const & copy)
-		: Handle(copy)
+		: Handle{ copy }
 		, m_usage(copy.m_usage)
 		, m_data(copy.m_data)
 		, m_size(copy.m_size)
@@ -23,14 +23,14 @@ namespace ml
 
 	VertexBufferObject::~VertexBufferObject()
 	{
-		clean();
+		this->clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VertexBufferObject & VertexBufferObject::clean()
 	{
-		if ((*this))
+		if (*this)
 		{
 			ML_GL.deleteBuffer(*this);
 

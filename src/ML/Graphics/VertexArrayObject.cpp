@@ -7,25 +7,25 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VertexArrayObject::VertexArrayObject()
-		: Handle(NULL)
+		: Handle{ NULL }
 	{
 	}
 
 	VertexArrayObject::VertexArrayObject(VertexArrayObject const & copy)
-		: Handle(copy)
+		: Handle{ copy }
 	{
 	}
 
 	VertexArrayObject::~VertexArrayObject()
 	{
-		clean();
+		this->clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VertexArrayObject & VertexArrayObject::clean()
 	{
-		if ((*this))
+		if (*this)
 		{
 			ML_GL.deleteVertexArray(*this);
 

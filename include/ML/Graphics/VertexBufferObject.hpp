@@ -45,9 +45,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto	data()	const -> void * { return m_data; }
-		inline auto	usage() const -> GL::Usage const & { return m_usage; }
-		inline auto	size()	const -> uint32_t const & { return m_size; }
-		inline auto	count() const -> int32_t const & { return m_count; }
+		
+		inline auto	usage() const -> GL::Usage { return m_usage; }
+		
+		inline auto	size()	const -> uint32_t { return m_size; }
+		
+		inline auto	count() const -> int32_t { return m_count; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

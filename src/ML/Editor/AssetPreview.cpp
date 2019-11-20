@@ -1,6 +1,6 @@
 #include <ML/Editor/AssetPreview.hpp>
 #include <ML/Graphics/Font.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/RenderTexture.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 
@@ -42,8 +42,8 @@ namespace ml
 			}
 			break;
 
-		case typeof<Surface>::hash:
-			if (auto temp { static_cast<Surface const *>(value) })
+		case typeof<RenderTexture>::hash:
+			if (auto temp { static_cast<RenderTexture const *>(value) })
 			{
 				return getPreview(temp->texture());
 			}

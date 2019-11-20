@@ -36,14 +36,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr const Element Default[] = {
-			Element { 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
-			Element { 1, 4, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
-			Element { 2, 2, GL::Float, false, Vertex::Size, 7, sizeof(float_t) },
-		};
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		using value_type		= typename Element;
 		using self_type			= typename BufferLayout;
 		using pointer			= typename value_type *;
@@ -55,7 +47,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr BufferLayout() noexcept
+		static constexpr const Element Default[] = {
+			Element { 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
+			Element { 1, 4, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
+			Element { 2, 2, GL::Float, false, Vertex::Size, 7, sizeof(float_t) },
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr BufferLayout() noexcept 
 			: self_type{ Default }
 		{
 		}

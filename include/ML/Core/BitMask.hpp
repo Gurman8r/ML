@@ -127,10 +127,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using BitMask_8		= typename BitMask<uint8_t>;
-	using BitMask_16	= typename BitMask<uint16_t>;
-	using BitMask_32	= typename BitMask<uint32_t>;
-	using BitMask_64	= typename BitMask<uint64_t>;
+	ML_USING BitMask_8	= typename BitMask<uint8_t>;
+	ML_USING BitMask_16	= typename BitMask<uint16_t>;
+	ML_USING BitMask_32	= typename BitMask<uint32_t>;
+	ML_USING BitMask_64	= typename BitMask<uint64_t>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

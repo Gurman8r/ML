@@ -2418,16 +2418,23 @@ namespace ml
 			{
 				if (sampler_type == 0)
 				{
-					if (image[0] && (value = ML_Engine.content().create<Texture>(name, image[0]->getFormat(), true, false)))
+					if (asset_path)
+					{
+						if (value = ML_Engine.content().create<Texture>(name))
+						{
+							if (Image temp_img{ asset_path })
+							{
+								value->loadFromImage(temp_img);
+							}
+							else
+							{
+								Debug::logError("Failed loading image: {0}", asset_path);
+							}
+						}
+					}
+					else if (image[0] && (value = ML_Engine.content().create<Texture>(name, image[0]->getFormat(), true, false)))
 					{
 						value->loadFromImage(*image[0]);
-					}
-					else if (ML_FS.fileExists(asset_path))
-					{
-						if (value = ML_Engine.content().create<value_type>(name))
-						{
-							value->loadFromFile(asset_path);
-						}
 					}
 				}
 				else if (sampler_type == 1)

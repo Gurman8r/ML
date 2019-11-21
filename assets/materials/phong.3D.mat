@@ -13,8 +13,8 @@ uniform color   u_ambient       { 0.01, 0.01, 0.01, 1 }
 uniform color	u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
 uniform float	u_shininess		{ 8.0 }
 uniform color   u_specular      { 0.5, 0.5, 0.5, 1 }
-uniform sampler	u_texture0		{ tex/default }
-uniform sampler	u_texture1		{ tex/default }
+uniform sampler	u_texture0		{ tex/earth_dm_10k }
+uniform sampler	u_texture1		{ tex/earth_sm_10k }
 
 uniform vec3	u_position		{ 0.0, 0.0, 0.0 }
 uniform vec3	u_scale			{ 0.75, 0.75, 0.75 }

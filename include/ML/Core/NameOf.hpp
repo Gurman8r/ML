@@ -146,23 +146,23 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-# ifndef ML_HAS_CONSTEXPR_17
-template <> struct ml::nameof<std::string> final
+#ifndef ML_HAS_CONSTEXPR_17
+template <> struct _ML nameof<std::string> final
 {
 	static constexpr auto value { "std::string" };
 };
 
-template <> struct ml::nameof<std::wstring> final
+template <> struct _ML :nameof<std::wstring> final
 {
 	static constexpr auto value { "std::wstring" };
 };
 
-template <> struct ml::nameof<std::u16string> final
+template <> struct _ML nameof<std::u16string> final
 {
 	static constexpr auto value { "std::u16string" };
 };
 
-template <> struct ml::nameof<std::u32string> final
+template <> struct _ML nameof<std::u32string> final
 {
 	static constexpr auto value { "std::u32string" };
 };

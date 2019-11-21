@@ -11,7 +11,14 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static_assert("Check Version"
+	static_assert("Unit Tests"
+
+		&& sizeof(mat4b) == (sizeof(unsigned char) * 16)
+		&& sizeof(mat4u) == (sizeof(unsigned int) * 16)
+		&& sizeof(mat4i) == (sizeof(int) * 16)
+		&& sizeof(mat4f) == (sizeof(float) * 16)
+		&& sizeof(mat4d) == (sizeof(double) * 16)
+
 		&& typeof<bool>::name			== "bool"
 		&& typeof<char>::name			== "char"
 		&& typeof<wchar_t>::name		== "wchar_t"

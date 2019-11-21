@@ -103,7 +103,7 @@ namespace ml
 				}
 			}
 
-			_sh->setUniform(ML_UNI_MAIN_TEX, m_texture);
+			_sh->setUniform(ML_IMPL_UNI_MAIN_TEXTURE, m_texture);
 
 			_sh->bind(true); // bind textures
 

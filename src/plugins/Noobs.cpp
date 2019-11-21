@@ -223,7 +223,7 @@ namespace ml
 				if (auto c{ Camera::mainCamera() }; c && c->enabled())
 				{
 					// Update Pipeline
-					for (auto & rt : m_pipeline)
+					for (RenderTexture *& rt : m_pipeline)
 					{
 						rt->update((vec2)c->viewport().size());
 					}
@@ -384,7 +384,7 @@ namespace ml
 								}
 							}
 
-							// Set Markers
+							// Set Error Markers
 							for (auto & file : m_files)
 							{
 								TextEditor::ErrorMarkers markers;

@@ -90,9 +90,9 @@ namespace ml
 	{
 		if (m_texture && batch.mat)
 		{
-			batch.mat->set<uni_color>(ML_UNI_MAIN_COL, m_color);
+			batch.mat->set<uni_color>(ML_IMPL_UNI_MAIN_COLOR, m_color);
 			
-			batch.mat->set<uni_sampler>(ML_UNI_MAIN_TEX, m_texture);
+			batch.mat->set<uni_sampler>(ML_IMPL_UNI_MAIN_TEXTURE, m_texture);
 
 			target.draw(
 				geo::spriteQuad({ position() - (size() * origin()), size() }).data(),

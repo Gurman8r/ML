@@ -86,6 +86,7 @@ namespace ml
 		struct ml_py_config {};
 		pybind11::class_<ml_py_config>(m, "config")
 			.def_static("architecture", []() { return ML_ARCHITECTURE; })
+			.def_static("args", []() { return list_t{ ML_ARGV, ML_ARGV + ML_ARGC }; })
 			.def_static("compiler_name", []() { return ML_CC_NAME; })
 			.def_static("compiler_version", []() { return ML_CC_VER; })
 			.def_static("configuration", []() { return ML_CONFIGURATION; })

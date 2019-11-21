@@ -4,10 +4,13 @@
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/Color.hpp>
 
-// uniform names used internally by text and sprite
-// would like to phase these out
-#define ML_UNI_MAIN_COL "u_color"
-#define ML_UNI_MAIN_TEX "u_texture0"
+#ifndef ML_IMPL_UNI_MAIN_COLOR
+#	define ML_IMPL_UNI_MAIN_COLOR "u_color"
+#endif
+
+#ifndef ML_IMPL_UNI_MAIN_TEXTURE
+#	define ML_IMPL_UNI_MAIN_TEXTURE "u_texture0"
+#endif
 
 namespace ml
 {

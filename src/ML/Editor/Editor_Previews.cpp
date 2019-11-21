@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Previews::Editor_Previews()
-		: Editor_Widget { "Manual", "Ctrl+Alt+M", ML_Engine.prefs().get_bool("Editor", "show_manual", false) }
+		: Editor_Widget { "Previews", "", false }
 		, m_previewMap{}
 		, m_textureList{}
 	{

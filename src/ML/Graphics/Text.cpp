@@ -131,11 +131,11 @@ namespace ml
 		{
 			update();
 
-			batch.mat->set<uni_color>(ML_UNI_MAIN_COL, m_color);
+			batch.mat->set<uni_color>(ML_IMPL_UNI_MAIN_COLOR, m_color);
 
 			for (size_t i = 0, imax = m_string.size(); i < imax; i++)
 			{
-				batch.mat->set<uni_sampler>(ML_UNI_MAIN_TEX, m_textures[i]);
+				batch.mat->set<uni_sampler>(ML_IMPL_UNI_MAIN_TEXTURE, m_textures[i]);
 
 				target.draw(m_vertices[i].data(), geo::rect_quad::Size, batch);
 			}

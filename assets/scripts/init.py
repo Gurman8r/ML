@@ -11,6 +11,10 @@ import MEMELIB as ml
 
 # Debug Mode
 if ml.config.is_debug():
+    
+    for e in ml.config.args():
+        ml.io.printl(e)
+    
     ml.io.printf("{0}/{1} | {2}/{3} | {4}/{5} \n", [
         ml.config.project_name(),
         ml.config.project_version(),
@@ -19,7 +23,9 @@ if ml.config.is_debug():
         ml.config.project_date(),
         ml.config.project_time()
         ])
+    
     ml.prefs.set("Editor", "custom_style", "../../../assets/styles/obsidian.style")
+    
     #ml.io.pause()
     #ml.io.exit()
 

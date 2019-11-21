@@ -40,17 +40,18 @@ namespace ml
 		return nullptr;
 	}
 
-	void NetInterface::freePacket(void * value)
+	void * NetInterface::receive(void * value)
 	{
 		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) }; p && value)
 		{
 			p->DeallocatePacket(static_cast<RakNet::Packet *>(value));
 		}
+		return this->receive();
 	}
 
 	void NetInterface::poll()
 	{
-		for (void * pkt{ this->receive() }; pkt; this->freePacket(pkt), pkt = this->receive())
+		for (void * pkt{ this->receive() }; pkt; pkt = this->receive(pkt))
 		{
 			this->onPacket({ {
 				static_cast<RakNet::Packet *>(pkt)->systemAddress.ToString(),

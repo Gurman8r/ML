@@ -199,7 +199,7 @@ namespace ml
 
 		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, BitMask_8 { {
+			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, mask8_t { {
 				(mods & ML_MOD_SHIFT),
 				(mods & ML_MOD_CTRL),
 				(mods & ML_MOD_ALT),

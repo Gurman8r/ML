@@ -34,7 +34,7 @@ namespace ml
 
 		void * receive();
 
-		void freePacket(void * value);
+		void * receive(void * value);
 
 		void poll();
 

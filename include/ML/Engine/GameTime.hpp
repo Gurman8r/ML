@@ -12,12 +12,6 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		GameTime() : m_step{}, m_main{ true }{}
-
-		~GameTime() {}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline float_t totalTime() const { return static_cast<float_t>(m_main.elapsed().count()); }
 
 		inline float_t deltaTime() const { return static_cast<float_t>(m_elapsed.count()); }
@@ -51,6 +45,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		friend class Engine;
+
+		GameTime() : m_step{}, m_main{ true }{}
+
+		~GameTime() {}
+
 		Timer m_main;
 		Timer m_step;
 

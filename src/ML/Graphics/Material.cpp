@@ -45,8 +45,7 @@ namespace ml
 		// Load uniforms from file
 		if (std::ifstream file { filename })
 		{
-			auto pop_front = ([](ArrayList<String> & toks)
-			{
+			auto pop_front = ([](ArrayList<String> & toks) {
 				// Erase begin and return front
 				if (toks.empty()) return String{};
 				const String temp{ toks.front() };
@@ -54,6 +53,8 @@ namespace ml
 				return temp;
 			});
 
+
+			// Parse Lines
 			String line;
 			while (std::getline(file, line))
 			{
@@ -154,6 +155,12 @@ namespace ml
 					}
 				}
 			}
+
+
+			// Sort
+			std::sort(this->begin(), this->end(), [&](auto a, auto b) {
+				return a->getName() < b->getName();
+			});
 
 			file.close();
 			return true;

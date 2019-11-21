@@ -188,7 +188,7 @@ namespace ml
 							ImGui::Checkbox("Update Camera", &m_apply_camera);
 							ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
 
-							auto e{ ML_Engine.content().cget<Entity>(m_target_name) };
+							Entity const * e{ ML_Engine.content().get<Entity>(m_target_name) };
 							if (PropertyDrawer<Entity>()("Target Entity", e) && e)
 							{
 								m_target_name = ML_Engine.content().get_name(e);

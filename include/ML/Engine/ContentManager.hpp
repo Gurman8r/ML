@@ -16,13 +16,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using AssetMap	= typename Dict<String, Trackable *>;
-		using TypeMap	= typename HashMap<hash_t, AssetMap>;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
-		ContentManager() : m_data{} {}
-
-		~ContentManager() { this->dispose(); }
+		using TypeMap	= typename Dict<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -191,11 +185,6 @@ namespace ml
 			return ((it != this->end<T>()) ? (T const *)it->second : nullptr);
 		}
 
-		template <class T> inline T const * cget(String const & name) const
-		{
-			return this->get<T>(name);
-		}
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline ArrayList<String> get_keys() const
@@ -267,7 +256,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: mutable TypeMap m_data;
+	private:
+		friend class Engine;
+
+		ContentManager() : m_data{} {}
+
+		~ContentManager() { this->dispose(); }
+
+		mutable TypeMap m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

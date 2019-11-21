@@ -15,14 +15,6 @@ namespace ml
 
 		using value_type		= typename CommandDescriptor *;
 		using command_list		= typename ArrayList<value_type>;
-		using iterator			= typename command_list::iterator;
-		using const_iterator	= typename command_list::const_iterator;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		CommandRegistry() : m_cmd() {}
-
-		~CommandRegistry() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -53,7 +45,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(String const & name)
+		inline command_list::iterator find(String const & name)
 		{
 			return std::find_if(this->begin(), this->end(), [&](auto && e)
 			{
@@ -61,7 +53,7 @@ namespace ml
 			});
 		}
 
-		inline const_iterator find(String const & name) const
+		inline command_list::const_iterator find(String const & name) const
 		{
 			return std::find_if(this->cbegin(), this->cend(), [&](auto && e)
 			{
@@ -73,33 +65,45 @@ namespace ml
 
 		inline value_type find_by_name(String const & name)
 		{
-			iterator it = this->find(name);
+			auto it{ this->find(name) };
 			return it != this->end() ? (*it) : nullptr;
 		}
 
 		inline const value_type find_by_name(String const & name) const
 		{
-			const_iterator it = this->find(name);
+			auto it{ this->find(name) };
 			return it != this->cend() ? (*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto commands()			-> command_list &		{ return m_cmd; }
-		inline auto commands()	const	-> command_list const & { return m_cmd; }
+		inline auto commands() -> command_list & { return m_cmd; }
+
+		inline auto commands() const -> command_list const & { return m_cmd; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()				-> iterator				{ return m_cmd.begin(); }
-		inline auto begin()		const	-> const_iterator		{ return m_cmd.begin(); }
-		inline auto cbegin()	const	-> const_iterator		{ return m_cmd.cbegin(); }
-		inline auto cend()		const	-> const_iterator		{ return m_cmd.cend(); }
-		inline auto end()				-> iterator				{ return m_cmd.end(); }
-		inline auto end()		const	-> const_iterator		{ return m_cmd.end(); }
+		inline auto begin() -> command_list::iterator { return m_cmd.begin(); }
+		
+		inline auto begin() const -> command_list::const_iterator { return m_cmd.begin(); }
+		
+		inline auto cbegin() const -> command_list::const_iterator { return m_cmd.cbegin(); }
+		
+		inline auto cend() const -> command_list::const_iterator { return m_cmd.cend(); }
+		
+		inline auto end() -> command_list::iterator { return m_cmd.end(); }
+		
+		inline auto end() const	-> command_list::const_iterator { return m_cmd.end(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		friend class Engine;
+
+		CommandRegistry() : m_cmd() {}
+
+		~CommandRegistry() { this->dispose(); }
+
 		command_list m_cmd;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

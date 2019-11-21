@@ -18,49 +18,54 @@ namespace ml
 
 		enum : size_t { Size = sizeof(T) * 8 };
 
-		using value_type		= typename detail::decay_t<T>;
-		using self_type			= typename BitMask<value_type>;
-		using array_type		= typename Array<bool, Size>;
-		using pointer			= typename value_type *;
-		using reference			= typename value_type &;
-		using const_pointer		= typename value_type const *;
-		using const_reference	= typename value_type const &;
+		using value_type = typename detail::decay_t<T>;
+		using self_type = typename BitMask<value_type>;
+		using array_type = typename Array<bool, Size>;
+		using pointer = typename value_type *;
+		using reference = typename value_type &;
+		using const_pointer = typename value_type const *;
+		using const_reference = typename value_type const &;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr BitMask() noexcept
-			: m_value { 0 }
+			: m_value{ 0 }
 		{
 		}
 
 		constexpr BitMask(const value_type value) noexcept
-			: m_value { value }
+			: m_value{ value }
 		{
 		}
 
 		constexpr BitMask(array_type const & value) noexcept
-			: m_value { from_bits<array_type, T, value.size()>(value) }
+			: m_value{ from_bits<array_type, T, value.size()>(value) }
 		{
 		}
 
 		template <
 			class U, size_t N
 		> constexpr BitMask(const U(&value)[N]) noexcept
-			: m_value { from_bits<const U(&)[N], U, N>(value) }
+			: m_value{ from_bits<const U(&)[N], U, N>(value) }
 		{
 		}
 
 		constexpr BitMask(self_type const & copy) noexcept
-			: m_value { copy.m_value }
+			: m_value{ copy.m_value }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto bits() const -> array_type const &	{ return to_bits(*this); }
-		constexpr auto size() const							{ return Size; }
-		inline	  auto data()		-> reference			{ return m_value; }
-		constexpr auto data() const -> const_reference		{ return m_value; }
+		static constexpr auto size() { return self_type::Size; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr auto bits() const -> array_type { return to_bits(*this); }
+
+		constexpr auto data() const -> const_reference { return m_value; }
+
+		constexpr auto data() -> reference { return m_value; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -70,28 +75,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool read(size_t i) const
-		{
-			return ML_BITREAD(m_value, i);
-		}
+		constexpr bool read(size_t i) const { return ML_BITREAD(m_value, i); }
 
-		constexpr self_type & clear(size_t i)
-		{
-			ML_BITCLEAR(m_value, i);
-			return (*this);
-		}
+		constexpr self_type & clear(size_t i) { ML_BITCLEAR(m_value, i); return (*this); }
 
-		constexpr self_type & set(size_t i)
-		{
-			ML_BITSET(m_value, i);
-			return (*this);
-		}
+		constexpr self_type & set(size_t i) { ML_BITSET(m_value, i); return (*this); }
 
-		constexpr self_type & write(size_t i, bool value)
-		{
-			ML_BITWRITE(m_value, i, value);
-			return (*this);
-		}
+		constexpr self_type & write(size_t i, bool value) { ML_BITWRITE(m_value, i, value); return (*this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -99,7 +89,7 @@ namespace ml
 			class In, class U, size_t N
 		> static constexpr value_type from_bits(In const & value)
 		{
-			value_type temp { 0 };
+			value_type temp{ 0 };
 			for (size_t i = 0; i < N; i++)
 			{
 				ML_BITWRITE(temp, i, value[i]);
@@ -109,7 +99,7 @@ namespace ml
 
 		static constexpr array_type to_bits(self_type const & value)
 		{
-			array_type temp { 0 };
+			array_type temp{ 0 };
 			for (size_t i = 0; i < Size; i++)
 			{
 				temp[i] = ML_BITREAD(value.m_value, i);
@@ -126,10 +116,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ML_USING BitMask_8	= typename BitMask<uint8_t>;
-	ML_USING BitMask_16	= typename BitMask<uint16_t>;
-	ML_USING BitMask_32	= typename BitMask<uint32_t>;
-	ML_USING BitMask_64	= typename BitMask<uint64_t>;
+	ML_USING mask8_t = typename BitMask<uint8_t>;
+	ML_USING mask16_t = typename BitMask<uint16_t>;
+	ML_USING mask32_t = typename BitMask<uint32_t>;
+	ML_USING mask64_t = typename BitMask<uint64_t>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

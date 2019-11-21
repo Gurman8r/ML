@@ -11,18 +11,6 @@ namespace ml
 	struct ML_ENGINE_API PluginManager final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
-		PluginManager()
-			: m_path{}
-			, m_files{}
-			, m_libraries{}
-			, m_plugins{}
-		{
-		};
-
-		~PluginManager() { this->dispose(); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose();
 
@@ -46,6 +34,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		friend class Engine;
+
+		PluginManager()
+			: m_path{}
+			, m_files{}
+			, m_libraries{}
+			, m_plugins{}
+		{
+		}
+
+		~PluginManager() { this->dispose(); }
+
 		String m_path;
 		ArrayList<String> m_files;
 		ArrayList<SharedLibrary *> m_libraries;

@@ -31,9 +31,9 @@ namespace ml
 
 	struct ServerRecievePacketEvent final : public NetworkEvent<NetworkEventType::EV_ServerRecievePacket>
 	{
-		C_String data;
-		constexpr ServerRecievePacketEvent(C_String data)
-			: data(data)
+		const C_String data;
+		constexpr ServerRecievePacketEvent(C_String data) noexcept
+			: data{ data }
 		{
 		}
 	};
@@ -42,9 +42,9 @@ namespace ml
 
 	struct ClientRecievePacketEvent final : public NetworkEvent<NetworkEventType::EV_ClientRecievePacket>
 	{
-		C_String data;
-		constexpr ClientRecievePacketEvent(C_String data)
-			: data(data)
+		const C_String data;
+		constexpr ClientRecievePacketEvent(C_String data) noexcept
+			: data{ data }
 		{
 		}
 	};

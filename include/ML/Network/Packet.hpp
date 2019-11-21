@@ -15,15 +15,12 @@ namespace ml
 		Host		host;
 		GUID		guid;
 		uint32_t	size;
-		uint8_t *	data;
+		byte_t *	data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Packet(Host const & addr, GUID const & guid, uint32_t size, uint8_t * data)
-			: host(addr)
-			, guid(guid)
-			, size(size)
-			, data(data)
+		constexpr Packet()
+			: Packet{ {}, {}, 0, nullptr }
 		{
 		}
 
@@ -32,8 +29,11 @@ namespace ml
 		{
 		}
 
-		constexpr Packet()
-			: Packet{ {}, {}, 0, nullptr }
+		constexpr Packet(Host const & addr, GUID const & guid, uint32_t size, byte_t * data)
+			: host{ addr }
+			, guid{ guid }
+			, size{ size }
+			, data{ data }
 		{
 		}
 

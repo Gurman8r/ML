@@ -7,7 +7,7 @@
 
 // Named scope binder
 #define ML_BIND_SCOPE_EX(T, var, value, ...) \
-	ScopedBinder<T> var { value, ##__VA_ARGS__ }
+	const ScopedBinder<T> var { value, ##__VA_ARGS__ }
 
 // Anonymous scope binder
 #define ML_BIND_SCOPE(T, value, ...) \
@@ -53,11 +53,7 @@ namespace ml
 
 		inline operator T const *() const { return m_value; }
 
-		inline T * operator->() { return (T *)m_value; }
-
 		inline T const * operator->() const { return m_value; }
-
-		inline T & operator*() { return (T &)*m_value; }
 
 		inline T const & operator*() const { return *m_value; }
 

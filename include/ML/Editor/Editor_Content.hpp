@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_CONTENT_HPP_
 #define _ML_EDITOR_CONTENT_HPP_
 
-#include <ML/Editor/Editor_Base.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Content final : public Editor_Base
+	class ML_EDITOR_API Editor_Content final : public Editor_Widget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -18,6 +18,8 @@ namespace ml
 		Editor_Content();
 
 		~Editor_Content() {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(Event const & value) override;
 

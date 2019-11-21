@@ -25,40 +25,42 @@ namespace ml
 		CommandSuite() : Plugin {}
 		{
 			ML_EventSystem.addListener<LoadEvent>(this);
+			ML_EventSystem.addListener<StartEvent>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ArrayList<CommandImpl *> m_cmd;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		void onEvent(const Event & value) override
+		void onEvent(Event const & value) override
 		{
 			switch (*value)
 			{
-			case LoadEvent::ID: if (auto ev = value.as<LoadEvent>())
+			case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
-				{
-					ImGui::PushID(ML_ADDRESSOF(this));
-					if (ImGui::BeginMenu("Command Suite"))
+				ML_Editor.mainMenuBar()
+					.addMenu("Plugins", [&]() 
 					{
-						for (auto & m_cmd : ML_Engine.commands())
+						ImGui::PushID(ML_ADDRESSOF(this));
+						if (ImGui::BeginMenu("Command Suite"))
 						{
-							ImGui::MenuItem(m_cmd->getName().c_str(), "");
-							ImGuiExt::Tooltip(util::to_string(*m_cmd));
+							for (auto & elem : ML_Engine.commands())
+							{
+								ImGui::MenuItem(elem->getName().c_str());
+								ImGuiExt::Tooltip(util::to_string(*elem));
+							}
+							ImGui::EndMenu();
 						}
-						ImGui::EndMenu();
-					}
-					ImGui::PopID();
-				});
+						ImGui::PopID();
+					});
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				ArrayList<CommandImpl *> cmd{};
+				
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				cmd.push_back(new CommandImpl {
 					"cat",
 					"Display the contents of a file",
 					"cat [FILE]",
@@ -79,7 +81,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"cd",
 					"Set the current working directory",
 					"cd [DIR]",
@@ -99,7 +101,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"clear",
 					"Clear the terminal screen",
 					"clear",
@@ -112,7 +114,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"cwd",
 					"Display the current working directory",
 					"cwd",
@@ -125,7 +127,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"exit",
 					"Close the application",
 					"exit",
@@ -138,7 +140,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"help",
 					"Display information about commands.",
 					"help [COMMAND]",
@@ -146,12 +148,12 @@ namespace ml
 					{
 						switch (args.size())
 						{
-						case 1:	for (const auto & m_cmd : ML_Engine.commands())
-							std::cout << m_cmd->getName() << std::endl;
+						case 1:	for (const auto & cmd : ML_Engine.commands())
+							std::cout << cmd->getName() << std::endl;
 							return true;
 
-						case 2: if (auto m_cmd = ML_Engine.commands().find_by_name(args[1]))
-							std::cout << (*m_cmd) << std::endl;
+						case 2: if (auto cmd = ML_Engine.commands().find_by_name(args[1]))
+							std::cout << (*cmd) << std::endl;
 							return true;
 						}
 						return false;
@@ -160,7 +162,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"history",
 					"Display or manipulate history list",
 					"history",
@@ -176,7 +178,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"lua",
 					"Execute lua string",
 					"lua [CODE]...",
@@ -199,7 +201,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"ls",
 					"ArrayList directory contents",
 					"ls [DIR]...",
@@ -231,7 +233,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"os",
 					"Execute operating system commands",
 					"os [CMD] [FILE] [ARGS] [PATH] [FLAGS]",
@@ -251,7 +253,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"pause",
 					"Pause the console subsystem",
 					"pause",
@@ -264,7 +266,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"py",
 					"Execute python code.",
 					"py [CODE]...",
@@ -287,7 +289,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"pause",
 					"Pause the console subsystem",
 					"pause",
@@ -300,7 +302,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_cmd.push_back(new CommandImpl {
+				cmd.push_back(new CommandImpl {
 					"execute",
 					"Execute a script",
 					"execute [NAME]",
@@ -321,7 +323,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				// Install All
-				for (auto *& elem : m_cmd)
+				for (auto *& elem : cmd)
 				{
 					if (elem && !elem->install(ML_Engine.commands()))
 					{
@@ -332,6 +334,14 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			break;
+			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				std::cout << "# Type \'help\' for a list of commands";
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
 			}
 		}
 

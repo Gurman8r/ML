@@ -33,9 +33,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		IndexBufferObject & bufferData(uint32_t const * data, uint32_t count);
+		IndexBufferObject const & bufferData(uint32_t const * data, uint32_t count) const;
 
-		IndexBufferObject & bufferData(ArrayList<uint32_t> const & data);
+		IndexBufferObject const & bufferData(ArrayList<uint32_t> const & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -50,10 +50,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	private:
-		uint32_t const * m_data;
-		uint32_t m_count;
 		GL::Usage m_usage;
 		GL::Type m_type;
+		mutable uint32_t const * m_data;
+		mutable uint32_t m_count;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

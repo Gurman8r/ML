@@ -54,8 +54,7 @@ namespace ml
 
 		case (ID_USER_PACKET_ENUM + NetClient::ID):
 			RakNet::BitStream bitStream(value.data, value.size, false);
-			RakNet::RakString str;
-			if (bitStream.Read(str))
+			if (RakNet::RakString str; bitStream.Read(str))
 			{
 				ML_EventSystem.fireEvent<ClientRecievePacketEvent>(str.C_String());
 			}
@@ -63,15 +62,16 @@ namespace ml
 		}
 	}
 
-	bool NetClient::connect(Host const & host, String const & pass)
+	bool NetClient::connect(Host const & host, String const & password)
 	{
-		if (m_peer)
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
 		{
-			switch (ML_PEER(m_peer)->Connect(
-				host.addr.str().c_str(),
-				host.port,
-				pass.c_str(),
-				(int32_t)pass.size()))
+			switch (p->Connect(
+				host.addr.str().c_str(), 
+				host.port, 
+				password.c_str(), 
+				(int32_t)password.size()
+			))
 			{
 			case RakNet::CONNECTION_ATTEMPT_STARTED:
 				return Debug::logInfo("CONNECTION_ATTEMPT_STARTED");

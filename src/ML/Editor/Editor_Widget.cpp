@@ -1,4 +1,4 @@
-#include <ML/Editor/Editor_Base.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Editor_Base::Editor_Base(C_String title, C_String hotkey, bool startOpen)
+	Editor_Widget::Editor_Widget(C_String title, C_String hotkey, bool startOpen)
 		: m_title	{ title }
 		, m_hotkey	{ hotkey }
 		, m_open	{ startOpen }
@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Base::onEvent(Event const & value)
+	void Editor_Widget::onEvent(Event const & value)
 	{
 		switch (*value)
 		{
@@ -36,7 +36,7 @@ namespace ml
 		}
 	}
 
-	bool Editor_Base::beginDraw(int32_t flags)
+	bool Editor_Widget::beginDraw(int32_t flags)
 	{
 		ImGui::PushID((int32_t)typeof<>(*this).hash);
 		ImGui::PushID(ML_ADDRESSOF(this));
@@ -44,7 +44,7 @@ namespace ml
 		return (m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags)));
 	}
 
-	bool Editor_Base::endDraw()
+	bool Editor_Widget::endDraw()
 	{
 		ImGui::End();
 		ImGui::PopID();
@@ -55,7 +55,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Editor_Base::setFocused(bool value)
+	bool Editor_Widget::setFocused(bool value)
 	{
 		if (setOpen(value))
 		{

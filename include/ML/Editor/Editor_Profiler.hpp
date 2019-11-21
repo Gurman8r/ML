@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_PROFILER_HPP_
 #define _ML_EDITOR_PROFILER_HPP_
 
-#include <ML/Editor/Editor_Base.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Profiler final : public Editor_Base
+	class ML_EDITOR_API Editor_Profiler final : public Editor_Widget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -17,36 +17,33 @@ namespace ml
 
 		~Editor_Profiler() {}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void onEvent(Event const & value) override;
 
 		bool draw() override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
+	private:
 		struct GraphLines
 		{
-			Array<float_t, 256> values { NULL };
+			using Samples = typename Array<float_t, 256>;
 
-			int32_t	offset	{ 0 };
-			float_t	refresh	{ 0.0f };
-			float_t	min		{ 0.0f };
-			float_t	max		{ 0.0f };
-			vec2	size	{ 0.0f, 80.0f };
+			Samples		m_values	{ 0 };
+			int32_t		m_offset	{ 0 };
+			float_t		m_refresh	{ 0.0f };
+			float_t		m_min		{ 0.0f };
+			float_t		m_max		{ 0.0f };
+			vec2		m_size		{ 0.0f, 80.0f };
+			String		m_label		{ "" };
+			String		m_text		{ "" };
 
-			void draw(C_String label, float_t sample, C_String text);
+			void update(C_String label, float_t sample, C_String text);
 			void render();
-
-		private:
-			String		m_label		{};
-			String		m_text		{};
-			float_t		m_sample	{ 0.0f };
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private:
-		Array<GraphLines, 2> graphs;
+		ArrayList<GraphLines> m_graphs;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

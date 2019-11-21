@@ -22,7 +22,7 @@ namespace ml
 
 			Record() = default;
 
-			std::type_info const & target_type() const;
+			std::type_info const & get_rtti() const;
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -70,7 +70,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline std::type_info const & target_type() const
+		inline std::type_info const & get_rtti() const
 		{
 			return typeid(*this);
 		}

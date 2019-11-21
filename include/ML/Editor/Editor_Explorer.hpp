@@ -1,14 +1,14 @@
 #ifndef _ML_EDITOR_EXPLORER_HPP_
 #define _ML_EDITOR_EXPLORER_HPP_
 
-#include <ML/Editor/Editor_Base.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 #include <ML/Editor/FileBrowser.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Explorer final : public Editor_Base
+	class ML_EDITOR_API Editor_Explorer final : public Editor_Widget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -17,6 +17,8 @@ namespace ml
 		Editor_Explorer();
 
 		~Editor_Explorer() {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(Event const & value) override;
 

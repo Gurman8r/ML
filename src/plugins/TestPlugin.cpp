@@ -22,7 +22,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void onEvent(const Event & value) override
+		void onEvent(Event const & value) override
 		{
 			switch (*value)
 			{
@@ -30,16 +30,17 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
-				{
-					ImGui::PushID(ML_ADDRESSOF(this));
-					if (ImGui::BeginMenu("Test Plugin"))
+				ML_Editor.mainMenuBar()
+					.addMenu("Plugins", [&]()
 					{
-						ImGui::Text("Sample text.");
-						ImGui::EndMenu();
-					}
-					ImGui::PopID();
-				});
+						ImGui::PushID(ML_ADDRESSOF(this));
+						if (ImGui::BeginMenu("Test Plugin"))
+						{
+							ImGui::Text("Sample text.");
+							ImGui::EndMenu();
+						}
+						ImGui::PopID();
+					});
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;

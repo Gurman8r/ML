@@ -162,7 +162,7 @@ namespace ml
 			bool enabled,
 			AlphaState const & alpha,
 			BlendState const & blend,
-			const CullState  & cull,
+			CullState const & cull,
 			DepthState const & depth
 		)	: m_enabled { enabled }
 			, m_alpha	{ alpha }
@@ -175,7 +175,7 @@ namespace ml
 		constexpr RenderStates(
 			AlphaState const & alpha, 
 			BlendState const & blend, 
-			const CullState  & cull,
+			CullState const & cull,
 			DepthState const & depth
 		)	: RenderStates { true, alpha, blend, cull, depth }
 		{

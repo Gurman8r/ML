@@ -118,8 +118,6 @@ namespace ml
 	ML_USING_Ts Dict		= typename _STD map				<Ts...>;
 	ML_USING_Ts HashMap		= typename _STD unordered_map	<Ts...>;
 	ML_USING_Ts Pair		= typename _STD pair			<Ts...>;
-	ML_USING_Ts Shared		= typename _STD shared_ptr		<Ts...>;
-	ML_USING_Ts Unique		= typename _STD unique_ptr		<Ts...>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

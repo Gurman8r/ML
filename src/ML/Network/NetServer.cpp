@@ -10,6 +10,8 @@ namespace ml
 
 	NetServer::NetServer()
 		: m_running{ false }
+		, m_maxClients{ 0 }
+		, m_threadPriority{ -99999 }
 	{
 		ML_EventSystem.addListener<ServerRecievePacketEvent>(this);
 	}
@@ -65,8 +67,7 @@ namespace ml
 	
 		case (ID_USER_PACKET_ENUM + NetServer::ID):
 			RakNet::BitStream bitStream(value.data, value.size, false);
-			RakNet::RakString str;
-			if (bitStream.Read(str))
+			if (RakNet::RakString str; bitStream.Read(str))
 			{
 				ML_EventSystem.fireEvent<ServerRecievePacketEvent>(str.C_String());
 			}
@@ -76,10 +77,20 @@ namespace ml
 	
 	bool NetServer::start(Host const & host, uint32_t maxClients)
 	{
-		if (m_peer && (m_maxClients = maxClients))
+		if (!(m_maxClients = maxClients)) { return false; }
+
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
 		{
-			RakNet::SocketDescriptor socket{ host.port, host.addr.str().c_str() };
-			switch (ML_PEER(m_peer)->Startup(m_maxClients, &socket, 1))
+			RakNet::SocketDescriptor sockets[] = {
+				{ host.port, host.addr.str().c_str() },
+			};
+
+			switch (p->Startup(
+				m_maxClients, 
+				&sockets[0], 
+				ML_ARRAYSIZE(sockets),
+				m_threadPriority
+			))
 			{
 			case RakNet::RAKNET_STARTED:
 				m_running = true;

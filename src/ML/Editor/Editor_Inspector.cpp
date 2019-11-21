@@ -46,7 +46,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Inspector::Editor_Inspector()
-		: Editor_Base { "Inspector", "Ctrl+Alt+I", ML_Engine.prefs().get_bool("Editor", "show_inspector", false) }
+		: Editor_Widget { "Inspector", "Ctrl+Alt+I", ML_Engine.prefs().get_bool("Editor", "show_inspector", false) }
 	{
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
@@ -57,7 +57,7 @@ namespace ml
 
 	void Editor_Inspector::onEvent(Event const & value)
 	{
-		Editor_Base::onEvent(value);
+		Editor_Widget::onEvent(value);
 
 		switch (*value)
 		{

@@ -1,23 +1,51 @@
-#ifndef _ML_ASSET_PREVIEW_HPP_
-#define _ML_ASSET_PREVIEW_HPP_
+#ifndef _ML_EDITOR_PREVIEWS_HPP_
+#define _ML_EDITOR_PREVIEWS_HPP_
 
-#include <ML/Editor/Export.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 #include <ML/Graphics/Texture.hpp>
-
-#define ML_AssetPreview ::ml::AssetPreview::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API AssetPreview final : public Singleton<AssetPreview>
+	class ML_EDITOR_API Editor_Previews final : public Editor_Widget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose();
+		friend class Editor;
+
+		Editor_Previews();
+
+		~Editor_Previews() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		void onEvent(Event const & value) override;
+
+		bool draw() override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		using PreviewMap = typename HashMap<void *, Texture const *>;
+		using TextureList = typename ArrayList<Texture *>;
+
+		mutable PreviewMap	m_previewMap;
+		mutable TextureList m_textureList;
+
+		template <class ... Args> inline Texture * loadTemp(Args && ... args) const
+		{
+			m_textureList.push_back(new Texture{ std::forward<Args>(args)... });
+			return m_textureList.back();
+		}
+
+		inline Texture const * insertPreview(void * value, Texture const * preview) const
+		{
+			return m_previewMap.insert({ value, preview }).first->second;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	public:
 		Texture const * getPreview(const typeof<> & type, void * value) const;
 
 		template <class T> inline Texture const * getPreview(void * value) const
@@ -56,34 +84,9 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private:
-		friend Singleton<AssetPreview>;
-
-		AssetPreview() : m_previewMap {}, m_textureList {} {}
-		~AssetPreview() { this->dispose(); }
-
-		using PreviewMap = typename HashMap<void *, Texture const *>;
-		using TextureList = typename ArrayList<Texture *>;
-
-		mutable PreviewMap	m_previewMap;
-		mutable TextureList m_textureList;
-
-		template <class ... Args> inline Texture * loadTemp(Args && ... args) const
-		{
-			m_textureList.push_back(new Texture { std::forward<Args>(args)... });
-			return m_textureList.back();
-		}
-
-		inline Texture const * insertPreview(void * value, Texture const * preview) const
-		{
-			return m_previewMap.insert({ value, preview }).first->second;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_ASSET_PREVIEW_HPP_
+#endif // !_ML_EDITOR_PREVIEWS_HPP_

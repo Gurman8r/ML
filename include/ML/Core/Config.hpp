@@ -257,6 +257,8 @@
 #	define ML_ANON(str) ML_CONCAT(_, ML_CONCAT(str, ML_CONCAT(_, __LINE__)))
 #endif
 
+#define ML_ANON_V(T, ...) auto ML_ANON(T) { T { ##__VA_ARGS__ } }
+
 // Inlining
 #ifdef ML_CC_MSC
 #	define ML_ALWAYS_INLINE __forceinline

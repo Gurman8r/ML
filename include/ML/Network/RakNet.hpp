@@ -10,9 +10,4 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_PEER		static_cast<RakNet::RakPeerInterface *>
-#define ML_PACKET	static_cast<RakNet::Packet *>
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #endif // !_ML_RAKNET_HPP_

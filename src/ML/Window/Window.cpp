@@ -120,23 +120,23 @@ namespace ml
 
 		// Renderer Profile
 		glfwWindowHint(GLFW_OPENGL_PROFILE, 
-			((m_context.profile == 0)
+			(m_context.profile == 0
 				? GLFW_OPENGL_DEBUG_CONTEXT
-				: ((m_context.profile == 1)
+				: (m_context.profile == 1
 					? GLFW_OPENGL_CORE_PROFILE
-					: ((m_context.profile == 2)
+					: (m_context.profile == 2
 						? GLFW_OPENGL_COMPAT_PROFILE
 						: GLFW_OPENGL_ANY_PROFILE
 						))));
 		
 		// Window Style
-		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable);
-		glfwWindowHint(GLFW_VISIBLE,		m_style.visible);
-		glfwWindowHint(GLFW_DECORATED,		m_style.decorated);
-		glfwWindowHint(GLFW_FOCUSED,		m_style.focused);
-		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify);
-		glfwWindowHint(GLFW_FLOATING,		m_style.floating);
-		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized);
+		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable());
+		glfwWindowHint(GLFW_VISIBLE,		m_style.visible());
+		glfwWindowHint(GLFW_DECORATED,		m_style.decorated());
+		glfwWindowHint(GLFW_FOCUSED,		m_style.focused());
+		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify());
+		glfwWindowHint(GLFW_FLOATING,		m_style.floating());
+		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized());
 
 		// Create Window
 		if (m_window = static_cast<GLFWwindow *>(glfwCreateWindow(
@@ -153,7 +153,7 @@ namespace ml
 
 			this->setCursorMode(Cursor::Mode::Normal);
 
-			if (this->getStyle().maximized)
+			if (this->getStyle().maximized())
 			{
 				this->maximize(); // Maximized
 			}
@@ -335,6 +335,8 @@ namespace ml
 		if (m_window)
 		{
 			glfwMaximizeWindow(static_cast<GLFWwindow *>(m_window));
+
+			m_style.data().set(m_style.Maximized);
 		}
 		return (*this);
 	}
@@ -344,6 +346,8 @@ namespace ml
 		if (m_window)
 		{
 			glfwRestoreWindow(static_cast<GLFWwindow *>(m_window));
+
+			m_style.data().clear(m_style.Maximized);
 		}
 		return (*this);
 	}

@@ -13,11 +13,12 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum { ID = 1 };
+		enum : int32_t { ID = 1 };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		NetServer();
+
 		~NetServer() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -34,11 +35,14 @@ namespace ml
 
 		inline auto maxClients() const -> uint32_t { return m_maxClients; }
 
+		inline auto threadPriority() const -> int32_t { return m_threadPriority; }
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		bool		m_running;
 		uint32_t	m_maxClients;
+		int32_t		m_threadPriority;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

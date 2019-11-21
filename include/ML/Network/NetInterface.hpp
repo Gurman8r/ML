@@ -29,7 +29,13 @@ namespace ml
 		bool setup();
 		
 		bool dispose();
-		
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		void * receive();
+
+		void freePacket(void * value);
+
 		void poll();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -53,6 +59,8 @@ namespace ml
 		Host getMyAddress() const;
 		
 		Host getAddressFromGUID(GUID const & value) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

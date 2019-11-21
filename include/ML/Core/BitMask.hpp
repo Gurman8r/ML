@@ -75,19 +75,19 @@ namespace ml
 			return ML_BITREAD(m_value, i);
 		}
 
-		inline self_type & clear(size_t i)
+		constexpr self_type & clear(size_t i)
 		{
 			ML_BITCLEAR(m_value, i);
 			return (*this);
 		}
 
-		inline self_type & set(size_t i)
+		constexpr self_type & set(size_t i)
 		{
 			ML_BITSET(m_value, i);
 			return (*this);
 		}
 
-		inline self_type & write(size_t i, bool value)
+		constexpr self_type & write(size_t i, bool value)
 		{
 			ML_BITWRITE(m_value, i, value);
 			return (*this);

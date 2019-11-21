@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Terminal::Editor_Terminal()
-		: Editor_Base { "Terminal", "Ctrl+Alt+T", ML_Engine.prefs().get_bool("Editor", "show_terminal", false) }
+		: Editor_Widget { "Terminal", "Ctrl+Alt+T", ML_Engine.prefs().get_bool("Editor", "show_terminal", false) }
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}
@@ -29,16 +29,13 @@ namespace ml
 		ML_EventSystem.addListener<UnloadEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
-
-		this->clear();
-		this->printf("# Type \'help\' for a list of commands.");
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Editor_Terminal::onEvent(Event const & value)
 	{
-		Editor_Base::onEvent(value);
+		Editor_Widget::onEvent(value);
 
 		switch (*value)
 		{
@@ -232,13 +229,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Terminal::clear()
+	Editor_Terminal & Editor_Terminal::clear()
 	{
 		m_lines.clear();
 		m_scrollToBot = true;
+		return (*this);
 	}
 
-	void Editor_Terminal::execute(C_String value)
+	Editor_Terminal & Editor_Terminal::execute(C_String value)
 	{
 		this->printf("# %s\n", value);
 
@@ -256,11 +254,10 @@ namespace ml
 		m_history.push_back(strdup(value));
 
 		ML_EventSystem.fireEvent<CommandEvent>(value);
+		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Editor_Terminal::printf(C_String value, ...)
+	Editor_Terminal & Editor_Terminal::printf(C_String value, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -268,21 +265,24 @@ namespace ml
 		vsnprintf(buf, IM_ARRAYSIZE(buf), value, args);
 		buf[IM_ARRAYSIZE(buf) - 1] = '\0';
 		va_end(args);
-		this->printl(buf);
+		return this->printl(buf);
 	}
 
-	void Editor_Terminal::printl(String const & value)
+	Editor_Terminal & Editor_Terminal::printl(String const & value)
 	{
-		if (m_paused) return;
-		m_lines.push_back(value);
-		m_scrollToBot = true;
-	}
-
-	void Editor_Terminal::printss(SStream & value)
-	{
-		if (String const & text = value.str())
+		if (!m_paused)
 		{
-			SStream sink(text);
+			m_lines.push_back(value);
+			m_scrollToBot = true;
+		}
+		return (*this);
+	}
+
+	Editor_Terminal & Editor_Terminal::printss(SStream & value)
+	{
+		if (String const & text{ value.str() })
+		{
+			SStream sink{ text };
 			String	line;
 			while (std::getline(sink, line))
 			{
@@ -290,6 +290,7 @@ namespace ml
 			}
 			value.str({});
 		}
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

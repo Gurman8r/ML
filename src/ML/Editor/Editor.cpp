@@ -1,6 +1,5 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
-#include <ML/Editor/AssetPreview.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiStyleLoader.hpp>
 #include <ML/Editor/EditorEvents.hpp>
@@ -38,7 +37,7 @@ namespace ml
 		m_content		= new Editor_Content{};
 		m_explorer		= new Editor_Explorer{};
 		m_inspector		= new Editor_Inspector{};
-		m_manual		= new Editor_Manual{};
+		m_previews		= new Editor_Previews{};
 		m_profiler		= new Editor_Profiler{};
 		m_terminal		= new Editor_Terminal{};
 	}
@@ -47,7 +46,7 @@ namespace ml
 	{
 		delete m_terminal;
 		delete m_profiler;
-		delete m_manual;
+		delete m_previews;
 		delete m_inspector;
 		delete m_explorer;
 		delete m_content;
@@ -69,7 +68,6 @@ namespace ml
 			// Create ImGui Context
 			IMGUI_CHECKVERSION();
 			ImGui::CreateContext();
-
 			auto & io{ ImGui::GetIO() };
 			auto & style{ ImGui::GetStyle() };
 
@@ -204,9 +202,10 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::PushID(ML_ADDRESSOF(this));
-			
-			if (m_show_imgui_demo) { ImGui::ShowDemoWindow(&m_show_imgui_demo); }
-
+			if (m_show_imgui_demo)
+			{
+				ImGui::ShowDemoWindow(&m_show_imgui_demo);
+			}
 			ImGui::PopID();
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -233,7 +232,6 @@ namespace ml
 
 			ImGui_ImplOpenGL3_Shutdown();
 			ImGui_ImplGlfw_Shutdown();
-			ML_AssetPreview.dispose();
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;

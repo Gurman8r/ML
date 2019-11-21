@@ -6,7 +6,6 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Editor/FileBrowser.hpp>
-#include <ML/Editor/AssetPreview.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Font.hpp>
@@ -955,7 +954,7 @@ namespace ml
 		
 		ImGui::Text("Channels: %i", value.channels());
 
-		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
+		ML_Editor.previews().drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 
 		return Layout::end_prop(this, changed);
 	}
@@ -1634,7 +1633,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
+		ML_Editor.previews().drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2291,7 +2290,7 @@ namespace ml
 			switch (value->sampler())
 			{
 			case GL::Texture2D:
-				if (auto preview { ML_AssetPreview.getPreview(value) })
+				if (auto preview { ML_Editor.previews().getPreview(value) })
 				{
 					const vec2 dst { 128, 128 };
 					const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
@@ -2591,7 +2590,7 @@ namespace ml
 		{
 		case GL::Texture2D:
 		{
-			ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
+			ML_Editor.previews().drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 		}
 		break;
 		case GL::Texture3D:

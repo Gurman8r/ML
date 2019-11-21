@@ -29,7 +29,6 @@
 #include <ML/Graphics/ScopedBinder.hpp>
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
-#include <ML/Editor/AssetPreview.hpp>
 #include <ImGuiColorTextEdit/TextEditor.h>
 
 namespace ml
@@ -93,7 +92,6 @@ namespace ml
 
 		struct ShaderFile final : public Trackable, public NonCopyable
 		{
-
 			static constexpr C_String Names[] = { "Fragment", "Vertex", "Geometry" };
 
 			using Errors = typename ArrayList<ShaderError>;
@@ -159,7 +157,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void onEvent(const Event & value) override
+		void onEvent(Event const & value) override
 		{
 			switch (*value)
 			{
@@ -247,8 +245,6 @@ namespace ml
 							}
 						}
 					}
-
-					constexpr auto foo = alignof(Vertex);
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -324,7 +320,8 @@ namespace ml
 					ImGui::PushID("Display##Noobs");
 					if (ImGui::Begin(display_name, &m_display_open, 0))
 					{
-						ML_AssetPreview.drawPreview<RenderTexture>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
+						// Draw the last texture in the pipeline
+						ML_Editor.previews().drawPreview<RenderTexture>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
 						{
 							if (auto c{ Camera::mainCamera() }; c && (m_displayMode == Automatic))
 							{
@@ -474,13 +471,11 @@ namespace ml
 						ImGui::PushID(ML_ADDRESSOF(&file));
 
 						// Text Editor Tab
-						const bool tab_open { ImGui::BeginTabItem(
-							file.name.c_str(),
-							nullptr,
-							(file.dirty
-								? ImGuiTabItemFlags_UnsavedDocument
-								: ImGuiTabItemFlags_None)
-						) };
+						const bool tab_open{ ImGui::BeginTabItem(
+							file.name.c_str(), 
+							nullptr, 
+							file.dirty ? ImGuiTabItemFlags_UnsavedDocument : 0)
+						};
 
 						// Tab Context Item
 						if (ImGui::BeginPopupContextItem())
@@ -507,7 +502,7 @@ namespace ml
 							}
 
 							// Copy
-							if (ImGui::MenuItem(("Copy to Clipboard##" + file.name).c_str()))
+							if (ImGui::MenuItem(("Copy All##" + file.name).c_str()))
 							{
 								ML_Engine.window().setClipboardString(file.text.GetText());
 								ImGui::CloseCurrentPopup();
@@ -552,7 +547,25 @@ namespace ml
 								{ 0, 0 },
 								true
 							);
-
+							if (ImGui::BeginPopupContextItem("TextEditorContextMenu"))
+							{
+								if (ImGui::MenuItem("Copy", "Ctrl+C", nullptr))
+								{
+									file.text.Copy();
+									ImGui::CloseCurrentPopup();
+								}
+								if (ImGui::MenuItem("Cut", "Ctrl+X", nullptr))
+								{
+									file.text.Cut();
+									ImGui::CloseCurrentPopup();
+								}
+								if (ImGui::MenuItem("Paste", "Ctrl+V", nullptr))
+								{
+									file.text.Paste();
+									ImGui::CloseCurrentPopup();
+								}
+								ImGui::EndPopup();
+							}
 							if (file.text.IsTextChanged())
 							{
 								file.dirty = true;

@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_MainMenuBar::Editor_MainMenuBar()
-		: Editor_Base{ "Main Menu Bar", "", ML_Engine.prefs().get_bool("Editor", "show_main_menu", true) }
+		: Editor_Widget{ "Main Menu Bar", "", ML_Engine.prefs().get_bool("Editor", "show_main_menu", true) }
 		, m_menus{}
 	{
 		ML_EventSystem.addListener<UnloadEvent>(this);
@@ -19,7 +19,7 @@ namespace ml
 
 	void Editor_MainMenuBar::onEvent(Event const & value)
 	{
-		Editor_Base::onEvent(value);
+		Editor_Widget::onEvent(value);
 
 		switch (*value)
 		{

@@ -8,7 +8,7 @@
 #include <ML/Editor/Editor_Explorer.hpp>
 #include <ML/Editor/Editor_Inspector.hpp>
 #include <ML/Editor/Editor_MainMenuBar.hpp>
-#include <ML/Editor/Editor_Manual.hpp>
+#include <ML/Editor/Editor_Previews.hpp>
 #include <ML/Editor/Editor_Profiler.hpp>
 #include <ML/Editor/Editor_Terminal.hpp>
 
@@ -28,6 +28,8 @@ namespace ml
 
 		~Editor();
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void onEvent(Event const & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -40,7 +42,7 @@ namespace ml
 		Editor_Explorer		* m_explorer	{ nullptr };
 		Editor_Inspector	* m_inspector	{ nullptr };
 		Editor_MainMenuBar	* m_mainMenuBar	{ nullptr };
-		Editor_Manual		* m_manual		{ nullptr };
+		Editor_Previews		* m_previews	{ nullptr };
 		Editor_Profiler		* m_profiler	{ nullptr };
 		Editor_Terminal		* m_terminal	{ nullptr };
 
@@ -53,7 +55,7 @@ namespace ml
 		inline auto & explorer()	{ return *m_explorer; }
 		inline auto & inspector()	{ return *m_inspector; }
 		inline auto & mainMenuBar()	{ return *m_mainMenuBar; }
-		inline auto & manual()		{ return *m_manual; }
+		inline auto & previews()	{ return *m_previews; }
 		inline auto & profiler()	{ return *m_profiler; }
 		inline auto & terminal()	{ return *m_terminal; }
 

@@ -1,19 +1,23 @@
 #ifndef _ML_EDITOR_TERMINAL_HPP_
 #define _ML_EDITOR_TERMINAL_HPP_
 
-#include <ML/Editor/Editor_Base.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Terminal final : public Editor_Base
+	class ML_EDITOR_API Editor_Terminal final : public Editor_Widget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
 		Editor_Terminal();
+
+		~Editor_Terminal() {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(Event const & value) override;
 
@@ -22,15 +26,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		void clear();
+		Editor_Terminal & clear();
 		
-		void execute(C_String value);
+		Editor_Terminal & execute(C_String value);
 		
-		void printf(C_String value, ...);
+		Editor_Terminal & printf(C_String value, ...);
 		
-		void printl(String const & value);
+		Editor_Terminal & printl(String const & value);
 		
-		void printss(SStream & value);
+		Editor_Terminal & printss(SStream & value);
 		
 		int32_t inputCallback(void * value);
 

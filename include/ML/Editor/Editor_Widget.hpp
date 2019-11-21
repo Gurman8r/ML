@@ -1,5 +1,5 @@
-#ifndef _ML_EDITOR_COMPONENT_HPP_
-#define _ML_EDITOR_COMPONENT_HPP_
+#ifndef _ML_EDITOR_WIDGET_HPP_
+#define _ML_EDITOR_WIDGET_HPP_
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
@@ -13,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Base : public NonCopyable, public EventListener
+	class ML_EDITOR_API Editor_Widget : public NonCopyable, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,9 +22,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		Editor_Base(C_String title, C_String hotkey, bool startOpen);
+		Editor_Widget(C_String title, C_String hotkey, bool startOpen);
 
-		virtual ~Editor_Base() {}
+		virtual ~Editor_Widget() {}
 
 		virtual void onEvent(Event const & value) override;
 		virtual bool beginDraw(int32_t flags);
@@ -61,4 +61,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_EDITOR_COMPONENT_HPP_
+#endif // !_ML_EDITOR_WIDGET_HPP_

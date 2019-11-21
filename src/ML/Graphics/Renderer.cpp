@@ -76,14 +76,14 @@ namespace ml
 		{
 			m_states();
 
-			if (const ScopedBinder<Shader> binder{ m_shader, false })
+			if (ML_BIND_SCOPE_EX(Shader, _sh, m_shader, false))
 			{
 				for (auto const & u : (*m_material))
 				{
-					binder->setUniform(u);
+					_sh->setUniform(u);
 				}
 				
-				binder->bind(true); // bind textures
+				_sh->bind(true); // bind textures
 
 				target.draw(m_model, batch);
 			}

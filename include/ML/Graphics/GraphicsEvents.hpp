@@ -39,7 +39,7 @@ namespace ml
 		const uint32_t line;
 		const C_String expr;
 		const uint32_t code;
-		constexpr OpenGLErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code)
+		constexpr OpenGLErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code) noexcept
 			: file { file }
 			, line { line }
 			, expr { expr }
@@ -52,10 +52,10 @@ namespace ml
 
 	struct ShaderErrorEvent final : public GraphicsEvent<GraphicsEventType::EV_ShaderError>
 	{
-		Shader const * shader;
-		uint32_t type;
-		C_String error;
-		constexpr ShaderErrorEvent(Shader const * shader, uint32_t type, C_String error)
+		Shader const * const shader;
+		const uint32_t type;
+		const C_String error;
+		constexpr ShaderErrorEvent(Shader const * shader, uint32_t type, C_String error) noexcept
 			: shader{ shader }
 			, type	{ type }
 			, error { error } 

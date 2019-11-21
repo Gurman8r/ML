@@ -33,19 +33,15 @@ namespace ml
 
 	struct ML_CORE_API ScopeTimer final
 	{
-		C_String name;
-		Timer timer;
+		C_String name; Timer timer;
 
-		ScopeTimer(C_String name)
-			: name{ name }
-			, timer { true }
+		ScopeTimer(C_String name) : name{ name }, timer { true }
 		{
 		}
 
 		~ScopeTimer()
 		{
-			timer.stop();
-			ML_PerformanceTracker.push_trace(name, timer.elapsed());
+			ML_PerformanceTracker.push_trace(name, timer.stop().elapsed());
 		}
 	};
 }

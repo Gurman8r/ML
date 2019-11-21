@@ -8,9 +8,9 @@
 #	define ML_LOAD_LIBRARY(file)		LoadLibraryA(file)
 #	define ML_LOAD_FUNCTION(inst, name) GetProcAddress(static_cast<HINSTANCE>(inst), name)
 #else
-#	define ML_LOAD_LIBRARY(file)		(0)
-#	define ML_FREE_LIBRARY(inst)		(0)
-#	define ML_LOAD_FUNCTION(inst, name) (0)
+#	define ML_LOAD_LIBRARY(file)		((void)0)
+#	define ML_FREE_LIBRARY(inst)		((void)0)
+#	define ML_LOAD_FUNCTION(inst, name) ((void)0)
 #endif
 
 namespace ml
@@ -30,7 +30,7 @@ namespace ml
 		this->loadFromFile(filename);
 	}
 
-	SharedLibrary::SharedLibrary(SharedLibrary && copy)
+	SharedLibrary::SharedLibrary(SharedLibrary && copy) noexcept
 		: SharedLibrary()
 	{
 		std::swap(m_instance, copy.m_instance);
@@ -50,13 +50,13 @@ namespace ml
 		return 
 			(m_filename = filename) &&
 			(ML_FS.fileExists(filename)) &&
-			(m_instance = ML_LOAD_LIBRARY(m_filename.c_str()));
+			(m_instance = ML_LOAD_LIBRARY(m_filename.c_str()))
+			;
 	}
 
 	void * SharedLibrary::loadFunction(String const & name)
 	{
-		auto it { m_functions.find(name) };
-		if (it != m_functions.end())
+		if (auto it{ m_functions.find(name) }; it != m_functions.end())
 		{
 			return it->second;
 		}

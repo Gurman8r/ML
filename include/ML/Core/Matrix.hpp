@@ -234,7 +234,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_SERIALIZE(std::ostream & out, const Matrix<T, X, Y> & value)
+	> inline ML_SERIALIZE(std::ostream & out, Matrix<T, X, Y> const & value)
 	{
 		for (auto const & elem : value)
 		{
@@ -258,42 +258,42 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t X, size_t Y
-	> constexpr bool operator==(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+	> constexpr bool operator==(Matrix<Tx, X, Y> const & lhs, Matrix<Ty, X, Y> const & rhs)
 	{
 		return (lhs.m_data == rhs.m_data);
 	}
 
 	template <
 		class Tx, class Ty, size_t X, size_t Y
-	> constexpr bool operator!=(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+	> constexpr bool operator!=(Matrix<Tx, X, Y> const & lhs, Matrix<Ty, X, Y> const & rhs)
 	{
 		return (lhs.m_data != rhs.m_data);
 	}
 
 	template <
 		class Tx, class Ty, size_t X, size_t Y
-	> constexpr bool operator<(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+	> constexpr bool operator<(Matrix<Tx, X, Y> const & lhs, Matrix<Ty, X, Y> const & rhs)
 	{
 		return (lhs.m_data < rhs.m_data);
 	}
 
 	template <
 		class Tx, class Ty, size_t X, size_t Y
-	> constexpr bool operator<=(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+	> constexpr bool operator<=(Matrix<Tx, X, Y> const & lhs, Matrix<Ty, X, Y> const & rhs)
 	{
 		return (lhs.m_data <= rhs.m_data);
 	}
 
 	template <
 		class Tx, class Ty, size_t X, size_t Y
-	> constexpr bool operator>(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+	> constexpr bool operator>(Matrix<Tx, X, Y> const & lhs, Matrix<Ty, X, Y> const & rhs)
 	{
 		return (lhs.m_data > rhs.m_data);
 	}
 
 	template <
 		class Tx, class Ty, size_t X, size_t Y
-	> constexpr bool operator>=(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+	> constexpr bool operator>=(Matrix<Tx, X, Y> const & lhs, Matrix<Ty, X, Y> const & rhs)
 	{
 		return (lhs.m_data >= rhs.m_data);
 	}
@@ -302,7 +302,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator+=(tvecn<Tx, N> & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
@@ -314,7 +314,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator-=(tvecn<Tx, N> & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
@@ -326,7 +326,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator*=(tvecn<Tx, N> & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
@@ -338,7 +338,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator/=(tvecn<Tx, N> & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
@@ -352,7 +352,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator+(tvecn<Tx, N> const & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -362,7 +362,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator-(tvecn<Tx, N> const & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -372,7 +372,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator*(tvecn<Tx, N> const & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -382,7 +382,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+	> constexpr auto operator/(tvecn<Tx, N> const & lhs, tvecn<Ty, N> const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -444,7 +444,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+(const tvecn<Tx, N> & lhs, Ty const & rhs)
+	> constexpr auto operator+(tvecn<Tx, N> const & lhs, Ty const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -454,7 +454,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-(const tvecn<Tx, N> & lhs, Ty const & rhs)
+	> constexpr auto operator-(tvecn<Tx, N> const & lhs, Ty const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -464,7 +464,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*(const tvecn<Tx, N> & lhs, Ty const & rhs)
+	> constexpr auto operator*(tvecn<Tx, N> const & lhs, Ty const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -474,7 +474,7 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/(const tvecn<Tx, N> & lhs, Ty const & rhs)
+	> constexpr auto operator/(tvecn<Tx, N> const & lhs, Ty const & rhs)
 		-> tvecn<Tx, N>
 	{
 		tvecn<Tx, N> temp { lhs };
@@ -486,7 +486,7 @@ namespace ml
 
 	template <
 		class T,  size_t X, size_t Y
-	> constexpr auto operator-(const Matrix<T, X, Y> & lhs)
+	> constexpr auto operator-(Matrix<T, X, Y> const & lhs)
 		-> Matrix<T, X, Y>
 	{
 		return (lhs * static_cast<T>(-1));
@@ -494,7 +494,7 @@ namespace ml
 
 	template <
 		class T,  size_t X, size_t Y
-	> constexpr auto operator+(const Matrix<T, X, Y> & lhs)
+	> constexpr auto operator+(Matrix<T, X, Y> const & lhs)
 		-> Matrix<T, X, Y>
 	{
 		return -(-(lhs));

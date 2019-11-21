@@ -70,8 +70,8 @@ namespace ml
 	struct CharEvent final : public WindowEvent<WindowEventType::EV_Char>
 	{
 		const uint32_t value;
-		constexpr CharEvent(uint32_t value)
-			: value(value)
+		constexpr CharEvent(uint32_t value) noexcept
+			: value{ value }
 		{
 		}
 	};
@@ -81,8 +81,8 @@ namespace ml
 	struct CursorEnterEvent final : public WindowEvent<WindowEventType::EV_CursorEnter>
 	{
 		const int32_t entered;
-		constexpr CursorEnterEvent(int32_t entered)
-			: entered(entered)
+		constexpr CursorEnterEvent(int32_t entered) noexcept
+			: entered{ entered }
 		{
 		}
 	};
@@ -92,9 +92,9 @@ namespace ml
 	struct CursorPosEvent final : public WindowEvent<WindowEventType::EV_CursorPos>
 	{
 		const float64_t x, y;
-		constexpr CursorPosEvent(float64_t x, float64_t y)
-			: x(x)
-			, y(y)
+		constexpr CursorPosEvent(float64_t x, float64_t y) noexcept
+			: x{ x }
+			, y{ y }
 		{
 		}
 	};
@@ -107,11 +107,11 @@ namespace ml
 		const int32_t key, scan, action;
 		const Mods mods;
 
-		constexpr KeyEvent(int32_t key, int32_t scan, int32_t action, Mods const & mods)
-			: key	(key)
-			, scan	(scan)
-			, action(action)
-			, mods	(mods)
+		constexpr KeyEvent(int32_t key, int32_t scan, int32_t action, Mods const & mods) noexcept
+			: key{ key }
+			, scan{ scan }
+			, action{ action }
+			, mods{ mods }
 		{
 		}
 
@@ -147,11 +147,11 @@ namespace ml
 
 	struct MouseEvent final : public WindowEvent<WindowEventType::EV_Mouse>
 	{
-		const int32_t key, action, mod;
-		constexpr MouseEvent(int32_t key, int32_t action, int32_t mod)
-			: key(key)
-			, action(action)
-			, mod(mod)
+		const int32_t key, action, mods;
+		constexpr MouseEvent(int32_t key, int32_t action, int32_t mods) noexcept
+			: key{ key }
+			, action{ action }
+			, mods{ mods }
 		{
 		}
 	};
@@ -161,9 +161,9 @@ namespace ml
 	struct ScrollEvent final : public WindowEvent<WindowEventType::EV_Scroll>
 	{
 		const float64_t x, y;
-		constexpr ScrollEvent(float64_t x, float64_t y)
-			: x(x)
-			, y(y)
+		constexpr ScrollEvent(float64_t x, float64_t y) noexcept
+			: x{ x }
+			, y{ y }
 		{
 		}
 	};
@@ -173,9 +173,9 @@ namespace ml
 	struct FrameSizeEvent final : public WindowEvent<WindowEventType::EV_FrameSize>
 	{
 		const int32_t width, height;
-		constexpr FrameSizeEvent(int32_t width, int32_t height)
-			: width(width)
-			, height(height)
+		constexpr FrameSizeEvent(int32_t width, int32_t height) noexcept
+			: width{ width }
+			, height{ height }
 		{
 		}
 	};
@@ -193,9 +193,9 @@ namespace ml
 	{
 		const int32_t code;
 		const C_String desc;
-		constexpr WindowErrorEvent(int32_t code, C_String desc)
-			: code(code)
-			, desc(desc)
+		constexpr WindowErrorEvent(int32_t code, C_String desc) noexcept
+			: code{ code }
+			, desc{ desc }
 		{
 		}
 	};
@@ -205,8 +205,8 @@ namespace ml
 	struct WindowFocusEvent final : public WindowEvent<WindowEventType::EV_WindowFocus>
 	{
 		const int32_t focused;
-		constexpr WindowFocusEvent(int32_t entered)
-			: focused(entered)
+		constexpr WindowFocusEvent(int32_t focused) noexcept
+			: focused{ focused }
 		{
 		}
 	};
@@ -223,9 +223,9 @@ namespace ml
 	struct WindowPosEvent final : public WindowEvent<WindowEventType::EV_WindowPos>
 	{
 		const int32_t x, y;
-		constexpr WindowPosEvent(int32_t x, int32_t y)
-			: x(x)
-			, y(y)
+		constexpr WindowPosEvent(int32_t x, int32_t y) noexcept
+			: x{ x }
+			, y{ y }
 		{
 		}
 	};
@@ -235,9 +235,9 @@ namespace ml
 	struct WindowSizeEvent final : public WindowEvent<WindowEventType::EV_WindowSize>
 	{
 		const int32_t width, height;
-		constexpr WindowSizeEvent(int32_t width, int32_t height)
-			: width(width)
-			, height(height)
+		constexpr WindowSizeEvent(int32_t width, int32_t height) noexcept
+			: width{ width }
+			, height{ height }
 		{
 		}
 	};
@@ -247,8 +247,8 @@ namespace ml
 	struct WindowFullscreenEvent final : public WindowEvent<WindowEventType::EV_WindowFullscreen>
 	{
 		const int32_t value;
-		constexpr WindowFullscreenEvent(int32_t value)
-			: value(value)
+		constexpr WindowFullscreenEvent(int32_t value) noexcept
+			: value{ value }
 		{
 		}
 	};

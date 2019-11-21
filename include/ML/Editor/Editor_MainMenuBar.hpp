@@ -1,19 +1,23 @@
 #ifndef _ML_EDITOR_MAIN_MENU_HPP_
 #define _ML_EDITOR_MAIN_MENU_HPP_
 
-#include <ML/Editor/Editor_Base.hpp>
+#include <ML/Editor/Editor_Widget.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_MainMenuBar final : public Editor_Base
+	class ML_EDITOR_API Editor_MainMenuBar final : public Editor_Widget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
 		Editor_MainMenuBar();
+
+		~Editor_MainMenuBar() {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(Event const & value) override;
 

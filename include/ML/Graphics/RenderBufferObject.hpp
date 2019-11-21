@@ -33,7 +33,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		RenderBufferObject & bufferStorage(GL::Format value);
+		RenderBufferObject const & bufferStorage(GL::Format value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,7 +49,7 @@ namespace ml
 
 	private:
 		vec2i m_size;
-		GL::Format m_storage;
+		mutable GL::Format m_storage;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

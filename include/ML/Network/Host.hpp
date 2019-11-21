@@ -10,18 +10,37 @@ namespace ml
 
 	struct Host final
 	{
-		StringView	addr;
-		uint16_t	port;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		using Addr = typename StringView;
+		using Port = typename uint16_t;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Host(StringView const & addr, uint16_t port) : addr { addr }, port { port } {}
+		Addr addr;
+		Port port;
 
-		constexpr Host(StringView const & addr) : Host { addr, 0 } {}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Host(Host const & copy) : Host { copy.addr, copy.port } {}
+		constexpr Host()
+			: Host{ "", 0 }
+		{
+		}
 
-		constexpr Host() : Host { "", 0 } {}
+		constexpr Host(Host const & copy)
+			: Host{ copy.addr, copy.port }
+		{
+		}
+
+		constexpr Host(Addr const & addr) 
+			: Host { addr, 0 } 
+		{
+		}
+
+		constexpr Host(Addr const & addr, Port port)
+			: addr{ addr }, port{ port }
+		{
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -29,7 +48,7 @@ namespace ml
 
 		inline friend ML_SERIALIZE(std::ostream & out, Host const & value)
 		{
-			return out << value.addr;
+			return out << value.addr << ':' << value.port;
 		}
 
 		constexpr bool operator==(Host const & other)

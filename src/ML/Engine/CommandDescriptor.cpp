@@ -51,7 +51,7 @@ namespace ml
 			auto it{ reg.find(m_name) };
 			if (it == reg.end())
 			{
-				reg.commands().push_back(this);
+				reg.commands().push_back(std::move(this));
 				m_isRegistered = true;
 				return true;
 			}

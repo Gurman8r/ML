@@ -55,8 +55,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		GL::Usage			m_usage;
 		mutable void *		m_data;
-		mutable GL::Usage	m_usage;
 		mutable uint32_t	m_size;		// total length of contiguous data
 		mutable int32_t		m_count;	// number of vertices
 

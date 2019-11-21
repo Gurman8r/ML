@@ -15,7 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Explorer::Editor_Explorer()
-		: Editor_Base { "Explorer", "Ctrl+Alt+E", ML_Engine.prefs().get_bool("Editor", "show_explorer", false) }
+		: Editor_Widget { "Explorer", "Ctrl+Alt+E", ML_Engine.prefs().get_bool("Editor", "show_explorer", false) }
 		, m_browser	{ }
 	{
 		ML_EventSystem.addListener<LoadEvent>(this);
@@ -28,7 +28,7 @@ namespace ml
 
 	void Editor_Explorer::onEvent(Event const & value)
 	{
-		Editor_Base::onEvent(value);
+		Editor_Widget::onEvent(value);
 
 		switch (*value)
 		{

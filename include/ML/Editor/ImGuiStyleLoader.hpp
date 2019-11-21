@@ -13,24 +13,12 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ImGuiStyleLoader();
+		ImGuiStyleLoader() = default;
 		
-		explicit ImGuiStyleLoader(String const & filename);
-		
-		ImGuiStyleLoader(ImGuiStyleLoader && copy) noexcept;
-		
-		~ImGuiStyleLoader();
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool loadFromFile(String const & filename);
 
-		inline operator bool() const { return m_good; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: bool m_good;
-		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 

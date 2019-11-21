@@ -12,15 +12,21 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		uint64_t id;
+		using type = typename uint64_t;
 
-		constexpr GUID(uint64_t id) : id { id } {}
+		static constexpr auto Invalid{ static_cast<type>(-1) };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		type id;
+
+		constexpr GUID(type id) : id { id } {}
 
 		constexpr GUID(GUID const & copy) : GUID { copy.id } {}
 
-		constexpr GUID() : GUID { 0 } {}
+		constexpr GUID() : GUID { GUID::Invalid } {}
 
-		constexpr operator uint64_t() const { return this->id; }
+		constexpr operator type const &() const { return this->id; }
 
 		inline friend ML_SERIALIZE(std::ostream & out, GUID const & value)
 		{

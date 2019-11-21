@@ -15,7 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_About::Editor_About()
-		: Editor_Base { "About", "Ctrl+Alt+A", ML_Engine.prefs().get_bool("Editor", "show_about", false) }
+		: Editor_Widget { "About", "Ctrl+Alt+A", ML_Engine.prefs().get_bool("Editor", "show_about", false) }
 	{
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
@@ -26,7 +26,7 @@ namespace ml
 
 	void Editor_About::onEvent(Event const & value)
 	{
-		Editor_Base::onEvent(value);
+		Editor_Widget::onEvent(value);
 
 		switch (*value)
 		{

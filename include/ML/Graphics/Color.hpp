@@ -21,20 +21,20 @@ namespace ml
 		static constexpr vec4b color_cast(vec4f const & value)
 		{
 			return {
-				(byte_t)(value[0] * 255.f),
-				(byte_t)(value[1] * 255.f),
-				(byte_t)(value[2] * 255.f),
-				(byte_t)(value[3] * 255.f)
+				static_cast<byte_t>(value[0] * 255.f),
+				static_cast<byte_t>(value[1] * 255.f),
+				static_cast<byte_t>(value[2] * 255.f),
+				static_cast<byte_t>(value[3] * 255.f)
 			};
 		}
 
 		static constexpr vec4f color_cast(vec4b const & value)
 		{
 			return {
-				(float_t)value[0] / 255.f,
-				(float_t)value[1] / 255.f,
-				(float_t)value[2] / 255.f,
-				(float_t)value[3] / 255.f
+				static_cast<float_t>(value[0]) / 255.f,
+				static_cast<float_t>(value[1]) / 255.f,
+				static_cast<float_t>(value[2]) / 255.f,
+				static_cast<float_t>(value[3]) / 255.f
 			};
 		}
 	}

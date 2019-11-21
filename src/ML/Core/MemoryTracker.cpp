@@ -5,9 +5,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	std::type_info const & MemoryTracker::Record::target_type() const
+	std::type_info const & MemoryTracker::Record::get_rtti() const
 	{
-		return static_cast<Trackable const *>(value)->target_type();
+		return static_cast<Trackable const *>(value)->get_rtti();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -34,7 +34,7 @@ namespace ml
 					<< FG::Green << std::setw(6) << rec->index
 					<< FG::Cyan << std::setw(sizeof(size_t) * 2) << rec->size
 					<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->value
-					<< FG::Normal << std::setw(10) << rec->target_type().name()
+					<< FG::Normal << std::setw(10) << rec->get_rtti().name()
 					<< FMT() << std::endl;
 			}
 

@@ -59,6 +59,7 @@ project "MemeLib"
 		"%{sln_dir}ML.ini", 
 		"%{sln_dir}premake5.lua",
 		"%{sln_dir}README.md",
+		"%{sln_dir}TODO.txt",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",

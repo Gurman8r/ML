@@ -310,9 +310,9 @@ namespace ml
 		> static constexpr M<T, 2, 1> scale_to_fit(const M<T, 2, 1> & l, const M<T, 2, 1> & r)
 		{
 			const M<T, 2, 1>
-				h = { (r[0] / l[0]), (r[0] / l[0]) },
-				v = { (r[1] / l[1]), (r[1] / l[1]) };
-			return (l * (((h) < (v)) ? (h) : (v)));
+				h { { (r[0] / l[0]), (r[0] / l[0]) } },
+				v { { (r[1] / l[1]), (r[1] / l[1]) } };
+			return l * ((h < v) ? h : v);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

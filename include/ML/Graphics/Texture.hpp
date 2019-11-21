@@ -8,9 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Texture final
-		: public Trackable
-		, public Handle<uint32_t>
+	struct ML_GRAPHICS_API Texture final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

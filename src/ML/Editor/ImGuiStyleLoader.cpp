@@ -135,27 +135,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ImGuiStyleLoader::ImGuiStyleLoader()
-		: m_good(false)
-	{
-	}
-
-	ImGuiStyleLoader::ImGuiStyleLoader(String const & filename)
-		: ImGuiStyleLoader()
-	{
-		loadFromFile(filename);
-	}
-
-	ImGuiStyleLoader::ImGuiStyleLoader(ImGuiStyleLoader && copy) noexcept
-		: ImGuiStyleLoader {}
-	{
-		std::swap(m_good, copy.m_good);
-	}
-
-	ImGuiStyleLoader::~ImGuiStyleLoader() { }
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	bool ImGuiStyleLoader::loadFromFile(String const & filename)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -232,9 +211,9 @@ namespace ml
 				}
 			}
 			file.close();
-			return (m_good = true);
+			return true;
 		}
-		return (m_good = false);
+		return false;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}

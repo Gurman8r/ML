@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	IndexBufferObject & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count)
+	IndexBufferObject const & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count) const
 	{
 		if (*this)
 		{
@@ -75,7 +75,7 @@ namespace ml
 			m_count = count;
 			ML_GL.bufferData(
 				GL::ElementArrayBuffer,
-				(m_count * sizeof(uint32_t)),
+				m_count * sizeof(uint32_t),
 				(void *)m_data,
 				m_usage
 			);
@@ -83,7 +83,7 @@ namespace ml
 		return (*this);
 	}
 
-	IndexBufferObject & IndexBufferObject::bufferData(ArrayList<uint32_t> const & data)
+	IndexBufferObject const & IndexBufferObject::bufferData(ArrayList<uint32_t> const & data) const
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}

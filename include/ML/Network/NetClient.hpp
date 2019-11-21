@@ -13,11 +13,12 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum { ID = 2 };
+		enum : int32_t { ID = 2 };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		NetClient();
+
 		~NetClient() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,7 +27,7 @@ namespace ml
 		
 		void onPacket(Packet const & value) override;
 
-		bool connect(Host const & host, String const & pass = String());
+		bool connect(Host const & host, String const & password = String{});
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

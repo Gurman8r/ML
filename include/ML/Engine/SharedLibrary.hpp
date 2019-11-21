@@ -13,14 +13,13 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using map_type			= typename Dict<String, void *>;
-		using const_iterator	= typename map_type::const_iterator;
+		using Functions = typename Dict<String, void *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		SharedLibrary();
 		explicit SharedLibrary(String const & filename);
-		SharedLibrary(SharedLibrary && copy);
+		SharedLibrary(SharedLibrary && copy) noexcept;
 		~SharedLibrary() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,7 +48,7 @@ namespace ml
 
 		inline auto instance()	const -> void * { return m_instance; }
 		inline auto filename()	const -> String const & { return m_filename; }
-		inline auto functions() const -> map_type const & { return m_functions; }
+		inline auto functions() const -> Functions const & { return m_functions; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -58,9 +57,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void *	m_instance;
+		void *		m_instance;
 		String		m_filename;
-		map_type	m_functions;
+		Functions	m_functions;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

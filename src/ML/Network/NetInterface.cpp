@@ -17,31 +17,47 @@ namespace ml
 
 	bool NetInterface::setup()
 	{
-		return ((!m_peer) && (m_peer = ML_PEER(RakNet::RakPeerInterface::GetInstance())));
+		return !m_peer && (m_peer = RakNet::RakPeerInterface::GetInstance());
 	}
 
 	bool NetInterface::dispose()
 	{
-		if (m_peer)
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
 		{
-			RakNet::RakPeerInterface::DestroyInstance(ML_PEER(m_peer));
+			RakNet::RakPeerInterface::DestroyInstance(p);
+			
+			return true;
 		}
-		return (!m_peer);
+		return false;
+	}
+
+	void * NetInterface::receive()
+	{
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
+		{
+			return p->Receive();
+		}
+		return nullptr;
+	}
+
+	void NetInterface::freePacket(void * value)
+	{
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) }; p && value)
+		{
+			p->DeallocatePacket(static_cast<RakNet::Packet *>(value));
+		}
 	}
 
 	void NetInterface::poll()
 	{
-		for (void * packet{ ML_PEER(m_peer)->Receive() };
-			(packet != nullptr);
-			(ML_PEER(m_peer)->DeallocatePacket(ML_PACKET(packet))),
-			(packet = ML_PEER(m_peer)->Receive()))
+		for (void * pkt{ this->receive() }; pkt; this->freePacket(pkt), pkt = this->receive())
 		{
-			onPacket({ {
-				ML_PACKET(packet)->systemAddress.ToString(),
-				ML_PACKET(packet)->systemAddress.GetPort() },
-				ML_PACKET(packet)->guid.g,
-				ML_PACKET(packet)->length,
-				ML_PACKET(packet)->data
+			this->onPacket({ {
+				static_cast<RakNet::Packet *>(pkt)->systemAddress.ToString(),
+				static_cast<RakNet::Packet *>(pkt)->systemAddress.GetPort() },
+				static_cast<RakNet::Packet *>(pkt)->guid.g,
+				static_cast<RakNet::Packet *>(pkt)->length,
+				static_cast<RakNet::Packet *>(pkt)->data
 			});
 		}
 	}
@@ -50,46 +66,59 @@ namespace ml
 
 	uint32_t NetInterface::send(GUID const & guid, String const & data, SendSettings const & settings)
 	{
-		RakNet::BitStream bitStream{};
-		bitStream.Write(data.c_str());
-		return ML_PEER(m_peer)->Send(
-			&bitStream,
-			(PacketPriority)settings.priority,
-			(PacketReliability)settings.reliability,
-			settings.ordering,
-			ML_PEER(m_peer)->GetSystemAddressFromGuid(RakNet::RakNetGUID{ guid }),
-			settings.broadcast,
-			settings.receiptNumber
-		);
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
+		{
+			RakNet::BitStream bitStream{};
+			bitStream.Write(data.c_str());
+			return p->Send(
+				&bitStream,
+				(PacketPriority)settings.priority,
+				(PacketReliability)settings.reliability,
+				settings.ordering,
+				p->GetSystemAddressFromGuid(RakNet::RakNetGUID{ guid }),
+				settings.broadcast,
+				settings.receiptNumber
+			);
+		}
 	}
 
 	uint32_t NetInterface::send(Host const & host, String const & data, SendSettings const & settings)
 	{
-		RakNet::BitStream bitStream{};
-		bitStream.Write(data.c_str());
-		return ML_PEER(m_peer)->Send(
-			&bitStream,
-			(PacketPriority)settings.priority,
-			(PacketReliability)settings.reliability,
-			settings.ordering,
-			RakNet::SystemAddress{ host.addr.str().c_str(), host.port },
-			settings.broadcast,
-			settings.receiptNumber
-		);
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
+		{
+			RakNet::BitStream bitStream{};
+			bitStream.Write(data.c_str());
+			return p->Send(
+				&bitStream,
+				(PacketPriority)settings.priority,
+				(PacketReliability)settings.reliability,
+				settings.ordering,
+				RakNet::SystemAddress{ host.addr.str().c_str(), host.port },
+				settings.broadcast,
+				settings.receiptNumber
+			);
+		}
+		return 0;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	GUID NetInterface::getMyGUID() const
 	{
-		return { ML_PEER(m_peer)->GetMyGUID().g };
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
+		{
+			return { p->GetMyGUID().g };
+		}
+		return GUID{};
 	}
 
 	GUID NetInterface::getGUIDFromAddress(Host const & value) const
 	{
-		return { ML_PEER(m_peer)->GetGuidFromSystemAddress(
-			RakNet::SystemAddress { value.addr.str().c_str(), value.port }
-		).g };
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
+		{
+			return { p->GetGuidFromSystemAddress({ value.addr.str().c_str(), value.port }).g };
+		}
+		return GUID{};
 	}
 
 	Host NetInterface::getMyAddress() const
@@ -99,10 +128,12 @@ namespace ml
 
 	Host NetInterface::getAddressFromGUID(GUID const & value) const
 	{
-		const RakNet::SystemAddress addr { 
-			ML_PEER(m_peer)->GetSystemAddressFromGuid(RakNet::RakNetGUID(value)) 
-		};
-		return { addr.ToString(), addr.GetPort() };
+		if (auto p{ static_cast<RakNet::RakPeerInterface *>(m_peer) })
+		{
+			const auto addr { p->GetSystemAddressFromGuid(RakNet::RakNetGUID(value)) };
+			return { addr.ToString(), addr.GetPort() };
+		}
+		return Host{};
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

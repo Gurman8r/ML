@@ -2,6 +2,7 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/PerformanceTracker.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -12,8 +13,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Profiler::Editor_Profiler()
-		: Editor_Base { "Profiler", "Ctrl+Alt+P", ML_Engine.prefs().get_bool("Editor", "show_profiler", false) }
-		, graphs {}
+		: Editor_Widget { "Profiler", "Ctrl+Alt+P", ML_Engine.prefs().get_bool("Editor", "show_profiler", false) }
+		, m_graphs {}
 	{
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<UpdateEvent>(this);
@@ -25,7 +26,7 @@ namespace ml
 
 	void Editor_Profiler::onEvent(Event const & value)
 	{
-		Editor_Base::onEvent(value);
+		Editor_Widget::onEvent(value);
 
 		switch (*value)
 		{
@@ -40,17 +41,25 @@ namespace ml
 				ImGui::PopID();
 			});
 
+			m_graphs.push_back(GraphLines{});
+			m_graphs[0].m_min = 0.f;
+			m_graphs[0].m_max = 0.033f;
+
+			m_graphs.push_back(GraphLines{});
+			m_graphs[1].m_min = 0.f;
+			m_graphs[1].m_max = 120.f;
+
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
 		case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			const float_t dt{ ML_Engine.time().deltaTime() };
-			graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
+			const auto dt{ ML_Engine.time().deltaTime() };
+			const auto fr{ ML_Engine.time().frameRate() };
 
-			const float_t fr{ (float_t)ML_Engine.time().frameRate() };
-			graphs[1].draw("Frame Rate", fr, util::to_string(fr).c_str());
+			m_graphs[0].update("Delta Time", dt, util::to_string(dt).c_str());
+			m_graphs[1].update("Frame Rate", fr, util::to_string(fr).c_str());
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -90,9 +99,9 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Graphs"))
 				{
-					for (size_t i = 0; i < graphs.size(); i++)
+					for (auto & elem : m_graphs)
 					{
-						graphs[i].render();
+						elem.render();
 					}
 					ImGui::EndTabItem();
 				}
@@ -123,7 +132,7 @@ namespace ml
 								ImGui::NextColumn();
 								ImGui::Text("%u", rec->size);
 								ImGui::NextColumn();
-								ImGui::Text("%s", rec->target_type().name());
+								ImGui::Text("%s", rec->get_rtti().name());
 								ImGui::Columns(1);
 							}
 						}
@@ -141,50 +150,48 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Profiler::GraphLines::draw(C_String label, float_t sample, C_String text)
+	void Editor_Profiler::GraphLines::update(C_String label, float_t sample, C_String text)
 	{
-		const float_t dt { ML_Engine.time().deltaTime() };
+		const auto dt{ ML_Engine.time().deltaTime() };
+		const auto tt{ ML_Engine.time().totalTime() };
 
 		m_label = label;
-		m_sample = sample;
 		m_text = text;
 
-		if (m_sample >= max)
-		{
-			max += m_sample * dt / 2;
-		}
-		else if (m_sample <= min)
-		{
-			min -= m_sample * dt / 2;
+		if (m_refresh == 0.0f) 
+		{ 
+			m_refresh = tt; 
 		}
 
-		const float_t t { (float_t)ImGui::GetTime() };
+		//if (m_max < sample) { m_max += (dt * 0.1f); }
 
-		if (refresh == 0.0f) { refresh = t; }
+		//if (m_min > sample) { m_min -= (dt * 0.1f); }
 
-		while (refresh < t)
+		while (m_refresh < tt)
 		{
-			values[offset] = m_sample;
-			offset = (offset + 1) % values.size();
-			refresh += dt;
+			m_values[m_offset] = sample;
+			
+			m_offset = (m_offset + 1) % m_values.size();
+			
+			m_refresh += dt;
 		}
 	}
 
 	void Editor_Profiler::GraphLines::render()
 	{
-		size[0] =
+		m_size[0] =
 			(ImGui::GetContentRegionAvail().x -
 			(4 * ImGui::GetStyle().ItemSpacing.x)) * (m_label ? 0.75f : 1.0f);
 
 		ImGui::PlotLines(
 			m_label.c_str(),
-			values.data(),
-			(int32_t)values.size(),
-			offset,
+			m_values.data(),
+			(int32_t)m_values.size(),
+			m_offset,
 			m_text.c_str(),
-			min,
-			max,
-			{ size[0], size[1] }
+			m_min,
+			m_max,
+			{ m_size[0], m_size[1] }
 		);
 	}
 

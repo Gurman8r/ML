@@ -62,7 +62,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderBufferObject & RenderBufferObject::bufferStorage(GL::Format value)
+	RenderBufferObject const & RenderBufferObject::bufferStorage(GL::Format value) const
 	{
 		if ((*this) && value)
 		{

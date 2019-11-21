@@ -25,7 +25,7 @@ namespace ml
 
 		bool dispose();
 		bool loadFromFile(String const & filename);
-		bool loadFromFile(String const & filename, const Dict<String, Texture *> * textures);
+		bool loadFromFile(String const & filename, const Tree<String, Texture *> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

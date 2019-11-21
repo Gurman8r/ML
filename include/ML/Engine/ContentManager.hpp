@@ -15,8 +15,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Dict<String, Trackable *>;
-		using TypeMap	= typename Dict<hash_t, AssetMap>;
+		using AssetMap	= typename Tree<String, Trackable *>;
+		using TypeMap	= typename Tree<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

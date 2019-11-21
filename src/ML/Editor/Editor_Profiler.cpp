@@ -34,12 +34,13 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ML_Editor.mainMenuBar().addMenu("View", [&]()
-			{
-				ImGui::PushID(ML_ADDRESSOF(this));
-				ImGui::MenuItem(getTitle(), getHotkey(), openPtr());
-				ImGui::PopID();
-			});
+			ML_Editor.mainMenuBar()
+				.addMenu("View", [&]()
+				{
+					ImGui::PushID(ML_ADDRESSOF(this));
+					ImGui::MenuItem(getTitle(), getHotkey(), openPtr());
+					ImGui::PopID();
+				});
 
 			m_graphs.push_back(GraphLines{});
 			m_graphs[0].m_min = 0.f;
@@ -47,7 +48,7 @@ namespace ml
 
 			m_graphs.push_back(GraphLines{});
 			m_graphs[1].m_min = 0.f;
-			m_graphs[1].m_max = 120.f;
+			m_graphs[1].m_max = 70.f;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -152,20 +153,17 @@ namespace ml
 
 	void Editor_Profiler::GraphLines::update(C_String label, float_t sample, C_String text)
 	{
-		const auto dt{ ML_Engine.time().deltaTime() };
-		const auto tt{ ML_Engine.time().totalTime() };
-
 		m_label = label;
 		m_text = text;
 
-		if (m_refresh == 0.0f) 
-		{ 
-			m_refresh = tt; 
+		const auto dt{ ML_Engine.time().deltaTime() };
+
+		const auto tt{ ML_Engine.time().totalTime() };
+
+		if (m_refresh == 0.0f)
+		{
+			m_refresh = tt;
 		}
-
-		//if (m_max < sample) { m_max += (dt * 0.1f); }
-
-		//if (m_min > sample) { m_min -= (dt * 0.1f); }
 
 		while (m_refresh < tt)
 		{

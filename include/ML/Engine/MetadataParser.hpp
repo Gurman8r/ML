@@ -24,7 +24,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static ArrayList<Metadata *> const & loadLists(ArrayList<Metadata *> & data, ArrayList<Dict<String, String>> const & value);
+		static ArrayList<Metadata *> const & loadLists(ArrayList<Metadata *> & data, ArrayList<Tree<String, String>> const & value);
 		
 		static bool readFile(String const & filename, ArrayList<Metadata *> & list);
 		

@@ -40,7 +40,7 @@ namespace ml
 		return loadFromFile(filename, nullptr);
 	}
 
-	bool Material::loadFromFile(String const & filename, const Dict<String, Texture *> * textures)
+	bool Material::loadFromFile(String const & filename, const Tree<String, Texture *> * textures)
 	{
 		// Load uniforms from file
 		if (std::ifstream file { filename })

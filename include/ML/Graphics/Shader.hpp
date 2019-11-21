@@ -110,9 +110,9 @@ namespace ml
 
 		struct UniformBinder;
 
-		using AttribTable	= Dict<String, int32_t>;
-		using TextureTable	= Dict<int32_t, Texture const *>;
-		using UniformTable	= Dict<String, int32_t>;
+		using AttribTable	= Tree<String, int32_t>;
+		using TextureTable	= Tree<int32_t, Texture const *>;
+		using UniformTable	= Tree<String, int32_t>;
 
 		mutable AttribTable		m_attribs;	// Attribute Cache
 		mutable TextureTable	m_textures; // Texture Cache

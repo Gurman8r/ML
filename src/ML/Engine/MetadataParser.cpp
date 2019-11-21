@@ -38,7 +38,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ArrayList<Metadata *> const & MetadataParser::loadLists(ArrayList<Metadata *> & data, ArrayList<Dict<String, String>> const & value)
+	ArrayList<Metadata *> const & MetadataParser::loadLists(ArrayList<Metadata *> & data, ArrayList<Tree<String, String>> const & value)
 	{
 		for (auto const & elem : value)
 		{

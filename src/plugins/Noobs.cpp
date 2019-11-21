@@ -549,14 +549,14 @@ namespace ml
 							);
 							if (ImGui::BeginPopupContextItem("TextEditorContextMenu"))
 							{
-								if (ImGui::MenuItem("Copy", "Ctrl+C", nullptr))
-								{
-									file.text.Copy();
-									ImGui::CloseCurrentPopup();
-								}
 								if (ImGui::MenuItem("Cut", "Ctrl+X", nullptr))
 								{
 									file.text.Cut();
+									ImGui::CloseCurrentPopup();
+								}
+								if (ImGui::MenuItem("Copy", "Ctrl+C", nullptr))
+								{
+									file.text.Copy();
 									ImGui::CloseCurrentPopup();
 								}
 								if (ImGui::MenuItem("Paste", "Ctrl+V", nullptr))

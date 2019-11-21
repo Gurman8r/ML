@@ -7,15 +7,15 @@
 
 #define ML_Registry ::ml::Registry<>::getInstance()
 
-#define ML_REGISTER_EXT(TYPE, INFO, FUNC)		\
-bool Registry<TYPE>::s_registered {				\
-	ML_Registry.registrate<TYPE>(INFO, FUNC)	\
-}
+#define ML_REGISTER_EX(T, INFO, FUNC)			\
+	static void * FUNC();						\
+	bool Registry<T>::s_registered {			\
+		ML_Registry.registrate<T>(INFO, FUNC)	\
+	};											\
+	void * FUNC()
 
-#define ML_REGISTER(TYPE, INFO)					\
-static void * ml_factory_##TYPE();				\
-ML_REGISTER_EXT(TYPE, INFO, ml_factory_##TYPE);	\
-void * ml_factory_##TYPE()
+#define ML_REGISTER(T, INFO) \
+	ML_REGISTER_EX(T, INFO, ML_CONCAT(ML_FACTORY_, T))
 
 namespace ml
 {

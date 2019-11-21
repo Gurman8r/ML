@@ -27,7 +27,7 @@ namespace ml
 		static int32_t loadMetadata(ArrayList<Metadata> const & value);
 
 		template <class S>
-		static inline int32_t loadMetadata(ArrayList<Dict<S, S>> const & value)
+		static inline int32_t loadMetadata(ArrayList<Tree<S, S>> const & value)
 		{
 			ArrayList<Metadata> md{};
 			md.reserve(value.size());

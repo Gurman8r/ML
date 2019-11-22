@@ -114,7 +114,7 @@ namespace ml
 					ImGui::Columns(2);
 
 					auto const & traces{ ML_PerformanceTracker.traces() };
-					for (auto it = traces.rbegin(); it != traces.rend(); it++)
+					for (auto it = traces.begin(); it != traces.end(); it++)
 					{
 						ImGui::Text("%s", it->first);
 

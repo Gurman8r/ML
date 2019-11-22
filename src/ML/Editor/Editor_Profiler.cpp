@@ -107,7 +107,19 @@ namespace ml
 					ImGui::EndTabItem();
 				}
 
-				// Active Allocations
+				// Traces
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Traces"))
+				{
+					for (auto const & elem : ML_PerformanceTracker.traces())
+					{
+						ImGui::Text("%s | %fs", elem.first, elem.second.count());
+					}
+
+					ImGui::EndTabItem();
+				}
+
+				// Allocations
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Allocations"))
 				{

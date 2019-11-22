@@ -4,6 +4,7 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/PerformanceTracker.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -82,14 +83,23 @@ ml::int32_t main()
 	while (ML_Engine.window().isOpen())
 	{
 		ML_EventSystem.fireEvent<BeginStepEvent>();
-		ML_EventSystem.fireEvent<UpdateEvent>();
+		{
+			ML_TRACE("Main Update");
+			ML_EventSystem.fireEvent<UpdateEvent>();
+		}
 		ML_EventSystem.fireEvent<BeginDrawEvent>();
-		ML_EventSystem.fireEvent<DrawEvent>();
-		ML_EventSystem.fireEvent<BeginGuiEvent>();
-		ML_EventSystem.fireEvent<GuiEvent>();
-		ML_EventSystem.fireEvent<EndGuiEvent>();
-		ML_EventSystem.fireEvent<EndDrawEvent>();
+		{
+			{
+				ML_TRACE("Main Draw");
+				ML_EventSystem.fireEvent<DrawEvent>();
+			}
+			ML_EventSystem.fireEvent<BeginGuiEvent>();
+			ML_EventSystem.fireEvent<GuiEvent>();
+			ML_EventSystem.fireEvent<EndGuiEvent>();
+			ML_EventSystem.fireEvent<EndDrawEvent>();
+		}
 		ML_EventSystem.fireEvent<EndStepEvent>();
+		ML_PerformanceTracker.clear_traces();
 	}
 
 	// Unload

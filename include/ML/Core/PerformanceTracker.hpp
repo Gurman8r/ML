@@ -7,8 +7,12 @@
 
 #define ML_PerformanceTracker ::ml::PerformanceTracker::getInstance()
 
+#define ML_TRACE(...) ML_ANON_T(ScopeTimer, ##__VA_ARGS__)
+
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_CORE_API PerformanceTracker final : public Singleton<PerformanceTracker>
 	{
 		friend Singleton<PerformanceTracker>;
@@ -23,13 +27,18 @@ namespace ml
 			m_traces.push_back({ name, duration });
 		}
 
-		inline auto const & traces() const { return m_traces; }
+		inline auto const & traces() const
+		{
+			return m_traces;
+		}
 
 	private:
 		std::vector<std::pair<C_String, Duration>> m_traces;
 		PerformanceTracker() : m_traces{} {}
 		~PerformanceTracker() {}
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_CORE_API ScopeTimer final
 	{
@@ -44,6 +53,8 @@ namespace ml
 			ML_PerformanceTracker.push_trace(name, timer.stop().elapsed());
 		}
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_PERFORMANCE_TRACKER_HPP_

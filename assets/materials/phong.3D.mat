@@ -8,7 +8,7 @@ uniform float	u_camera.far	{ 1000.0 }
 uniform vec2	u_camera.view	{ 1920.0, 1080.0 }
 
 uniform color	u_color			{ 1.0, 1.0, 1.0, 1.0 }
-uniform vec3	u_lightPos		{ 0.0, 0.0, 10.0 }
+uniform vec3	u_lightPos		{ -10.0, 0.0, 20.0 }
 uniform color   u_ambient       { 0.01, 0.01, 0.01, 1 }
 uniform color	u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
 uniform float	u_shininess		{ 8.0 }

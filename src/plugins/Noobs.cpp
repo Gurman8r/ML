@@ -321,7 +321,7 @@ namespace ml
 				if (m_display_open)
 				{
 					ImGui::PushID("Display##Noobs");
-					if (ImGui::Begin("Display##Noobs", &m_display_open, 0))
+					if (ImGui::Begin("Display##Noobs", &m_display_open, ImGuiWindowFlags_NoScrollbar))
 					{
 						// Draw the last texture in the pipeline
 						ML_Editor.previews().drawPreview<RenderTexture>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
@@ -336,49 +336,34 @@ namespace ml
 					ImGui::PopID();
 				}
 
-				// Draw Code
-				if (m_code_open)
+				if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 				{
-					ImGui::PushID("Code##Noobs");
-					if (ImGui::Begin("Code##Noobs", &m_code_open, 0))
+					// Draw Code
+					if (m_code_open)
 					{
-						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
-						{
-							draw_code(e);
-						}
+						ImGui::PushID("Code##Noobs");
+						if (ImGui::Begin("Code##Noobs", &m_code_open, 0)) { draw_code(e); }
+						ImGui::End();
+						ImGui::PopID();
 					}
-					ImGui::End();
-					ImGui::PopID();
-				}
 
-				// Draw Uniforms
-				if (m_uniforms_open)
-				{
-					ImGui::PushID("Uniforms##Noobs");
-					if (ImGui::Begin("Uniforms##Noobs", &m_uniforms_open, 0))
+					// Draw Uniforms
+					if (m_uniforms_open)
 					{
-						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
-						{
-							draw_uniforms(e);
-						}
+						ImGui::PushID("Uniforms##Noobs");
+						if (ImGui::Begin("Uniforms##Noobs", &m_uniforms_open, 0)) { draw_uniforms(e); }
+						ImGui::End();
+						ImGui::PopID();
 					}
-					ImGui::End();
-					ImGui::PopID();
-				}
 
-				// Draw Settings
-				if (m_settings_open)
-				{
-					ImGui::PushID("Settings##Noobs");
-					if (ImGui::Begin("Settings##Noobs", &m_settings_open, 0))
+					// Draw Settings
+					if (m_settings_open)
 					{
-						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
-						{
-							draw_settings(e);
-						}
+						ImGui::PushID("Settings##Noobs");
+						if (ImGui::Begin("Settings##Noobs", &m_settings_open, 0)) { draw_settings(e); }
+						ImGui::End();
+						ImGui::PopID();
 					}
-					ImGui::End();
-					ImGui::PopID();
 				}
 
 				ImGui::PopID();

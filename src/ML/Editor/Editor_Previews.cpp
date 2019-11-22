@@ -120,11 +120,7 @@ namespace ml
 
 			if (clbk) { clbk(); }
 
-			ImGui::BeginChild(
-				("##Editor_Previews##" + type.name.str() + "##").c_str(),
-				{ 0, 0 },
-				true
-			);
+			ImGui::BeginChild(("##Editor_Previews##" + type.name.str() + "##").c_str(), { 0, 0 }, true);
 
 			ImGui::SetCursorPos({ pos[0], pos[1] });
 

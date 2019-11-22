@@ -38,8 +38,8 @@ namespace ml
 		m_explorer		= new Editor_Explorer{};
 		m_inspector		= new Editor_Inspector{};
 		m_previews		= new Editor_Previews{};
-		m_terminal		= new Editor_Terminal{};
 		m_profiler		= new Editor_Profiler{};
+		m_terminal		= new Editor_Terminal{};
 	}
 
 	Editor::~Editor()

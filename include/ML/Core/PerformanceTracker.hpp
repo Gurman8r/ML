@@ -7,35 +7,45 @@
 
 #define ML_PerformanceTracker ::ml::PerformanceTracker::getInstance()
 
-#define ML_TRACE(...) ML_ANON_T(ScopeTimer, ##__VA_ARGS__)
+#ifndef ML_DISABLE_BENCHMARKS
+#	define ML_TRACE(...) ML_ANON_T(ScopeTimer, ##__VA_ARGS__)
+#else
+#	define ML_TRACE(...)
+#endif
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API PerformanceTracker final : public Singleton<PerformanceTracker>
+	class ML_CORE_API PerformanceTracker final : public Singleton<PerformanceTracker>
 	{
 		friend Singleton<PerformanceTracker>;
 
-		inline void clear_traces()
+		std::vector<std::pair<C_String, Duration>> m_curr, m_prev;
+		
+		PerformanceTracker() : m_curr{}, m_prev{}
 		{
-			m_traces.clear();
+		}
+		
+		~PerformanceTracker() {}
+
+	public:
+		inline void swap_buffers()
+		{
+			m_prev = m_curr;
+
+			m_curr.clear();
 		}
 
 		inline void push_trace(C_String name, Duration const & duration)
 		{
-			m_traces.push_back({ name, duration });
+			m_curr.push_back({ name, duration });
 		}
 
 		inline auto const & traces() const
 		{
-			return m_traces;
+			return m_prev;
 		}
-
-	private:
-		std::vector<std::pair<C_String, Duration>> m_traces;
-		PerformanceTracker() : m_traces{} {}
-		~PerformanceTracker() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

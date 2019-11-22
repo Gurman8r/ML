@@ -107,13 +107,13 @@ namespace ml
 					ImGui::EndTabItem();
 				}
 
-				// Traces
+				// Benchmarks
 				/* * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Traces"))
+				auto const & traces{ ML_PerformanceTracker.traces() };
+				if (!traces.empty() && ImGui::BeginTabItem("Benchmarks"))
 				{
 					ImGui::Columns(2);
 
-					auto const & traces{ ML_PerformanceTracker.traces() };
 					for (auto it = traces.begin(); it != traces.end(); it++)
 					{
 						ImGui::Text("%s", it->first);

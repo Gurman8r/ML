@@ -14,6 +14,8 @@ namespace ml
 
 	static_assert("Unit Tests"
 
+		&& sizeof(String) == sizeof(std::string)
+
 		&& sizeof(mat4b) == (sizeof(unsigned char) * 16)
 		&& sizeof(mat4u) == (sizeof(unsigned int) * 16)
 		&& sizeof(mat4i) == (sizeof(int) * 16)
@@ -82,24 +84,18 @@ ml::int32_t main()
 	// Main Loop
 	while (ML_Engine.window().isOpen())
 	{
-		ML_EventSystem.fireEvent<BeginStepEvent>();
 		{
-			ML_TRACE("Main Update");
-			ML_EventSystem.fireEvent<UpdateEvent>();
+			{ ML_TRACE("Begin Step");	ML_EventSystem.fireEvent<BeginStepEvent>(); }
+			{ ML_TRACE("-Update");		ML_EventSystem.fireEvent<UpdateEvent>(); }
+			{ ML_TRACE("-Begin Draw");	ML_EventSystem.fireEvent<BeginDrawEvent>(); }
+			{ ML_TRACE("--Draw");		ML_EventSystem.fireEvent<DrawEvent>(); }
+			{ ML_TRACE("--Begin Gui");	ML_EventSystem.fireEvent<BeginGuiEvent>(); }
+			{ ML_TRACE("---Gui");		ML_EventSystem.fireEvent<GuiEvent>(); }
+			{ ML_TRACE("--End Gui");	ML_EventSystem.fireEvent<EndGuiEvent>(); }
+			{ ML_TRACE("-End Draw");	ML_EventSystem.fireEvent<EndDrawEvent>(); }
+			{ ML_TRACE("End Step");		ML_EventSystem.fireEvent<EndStepEvent>(); }
 		}
-		ML_EventSystem.fireEvent<BeginDrawEvent>();
-		{
-			{
-				ML_TRACE("Main Draw");
-				ML_EventSystem.fireEvent<DrawEvent>();
-			}
-			ML_EventSystem.fireEvent<BeginGuiEvent>();
-			ML_EventSystem.fireEvent<GuiEvent>();
-			ML_EventSystem.fireEvent<EndGuiEvent>();
-			ML_EventSystem.fireEvent<EndDrawEvent>();
-		}
-		ML_EventSystem.fireEvent<EndStepEvent>();
-		ML_PerformanceTracker.clear_traces();
+		ML_PerformanceTracker.swap_buffers();
 	}
 
 	// Unload

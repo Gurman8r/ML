@@ -30,7 +30,6 @@
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ImGuiColorTextEdit/TextEditor.h>
-#include <ML/Core/PerformanceTracker.hpp>
 
 namespace ml
 {
@@ -224,8 +223,6 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ML_TRACE("Noobs Update");
-
 				if (auto c{ Camera::mainCamera() }; c && c->enabled())
 				{
 					// Update Pipeline
@@ -259,13 +256,9 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ML_TRACE("Noobs Draw");
-
 				// Render Main Scene
 				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(0)))
 				{
-					ML_TRACE("Noobs Render Main");
-
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
 					{
@@ -298,8 +291,6 @@ namespace ml
 				// Render Post Processing
 				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(1)))
 				{
-					ML_TRACE("Noobs Render Post");
-
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
 					{

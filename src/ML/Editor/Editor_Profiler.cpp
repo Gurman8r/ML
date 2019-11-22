@@ -111,9 +111,18 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Traces"))
 				{
-					for (auto const & elem : ML_PerformanceTracker.traces())
+					ImGui::Columns(2);
+
+					auto const & traces{ ML_PerformanceTracker.traces() };
+					for (auto it = traces.rbegin(); it != traces.rend(); it++)
 					{
-						ImGui::Text("%s | %fs", elem.first, elem.second.count());
+						ImGui::Text("%s", it->first);
+
+						ImGui::NextColumn();
+
+						ImGui::Text("%fs", it->second.count());
+
+						ImGui::NextColumn();
 					}
 
 					ImGui::EndTabItem();

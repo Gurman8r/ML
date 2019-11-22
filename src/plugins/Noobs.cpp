@@ -30,6 +30,7 @@
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ImGuiColorTextEdit/TextEditor.h>
+#include <ML/Core/PerformanceTracker.hpp>
 
 namespace ml
 {
@@ -123,8 +124,10 @@ namespace ml
 
 		enum DisplayMode : int32_t { Automatic, Manual, Fixed };
 
-		bool m_editor_open	{ true };
 		bool m_display_open	{ true };
+		bool m_code_open	{ true };
+		bool m_uniforms_open{ true };
+		bool m_settings_open{ true };
 		bool m_apply_camera	{ true };
 
 		Pipeline	m_pipeline;
@@ -132,9 +135,6 @@ namespace ml
 		FileArray	m_files;
 		DisplayMode	m_displayMode;
 		int32_t		m_displayIndex;
-
-		static constexpr auto display_name { "Display##Noobs##DemoView" };
-		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -170,7 +170,9 @@ namespace ml
 					{
 						ImGui::PushID(ML_ADDRESSOF(this));
 						ImGui::Separator();
-						ImGui::MenuItem("Editor", "", &m_editor_open);
+						ImGui::MenuItem("Code", "", &m_code_open);
+						ImGui::MenuItem("Uniforms", "", &m_uniforms_open);
+						ImGui::MenuItem("Settings", "", &m_settings_open);
 						ImGui::MenuItem("Display", "", &m_display_open);
 						ImGui::PopID();
 					})
@@ -180,10 +182,12 @@ namespace ml
 						if (ImGui::BeginMenu("Noobs"))
 						{
 							ImGui::Checkbox("Show Display", &m_display_open);
-							ImGuiExt::Tooltip("Toggle display visibility");
 
-							ImGui::Checkbox("Show Editor", &m_editor_open);
-							ImGuiExt::Tooltip("Toggle editor visibility");
+							ImGui::Checkbox("Show Code", &m_code_open);
+
+							ImGui::Checkbox("Show Uniforms", &m_uniforms_open);
+
+							ImGui::Checkbox("Show Settings", &m_settings_open);
 
 							ImGui::Checkbox("Update Camera", &m_apply_camera);
 							ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
@@ -220,6 +224,8 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ML_TRACE("Noobs Update");
+
 				if (auto c{ Camera::mainCamera() }; c && c->enabled())
 				{
 					// Update Pipeline
@@ -253,9 +259,13 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ML_TRACE("Noobs Draw");
+
 				// Render Main Scene
 				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(0)))
 				{
+					ML_TRACE("Noobs Render Main");
+
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
 					{
@@ -288,6 +298,8 @@ namespace ml
 				// Render Post Processing
 				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(1)))
 				{
+					ML_TRACE("Noobs Render Post");
+
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
 					{
@@ -318,7 +330,7 @@ namespace ml
 				if (m_display_open)
 				{
 					ImGui::PushID("Display##Noobs");
-					if (ImGui::Begin(display_name, &m_display_open, 0))
+					if (ImGui::Begin("Display##Noobs", &m_display_open, 0))
 					{
 						// Draw the last texture in the pipeline
 						ML_Editor.previews().drawPreview<RenderTexture>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
@@ -333,21 +345,45 @@ namespace ml
 					ImGui::PopID();
 				}
 
-				// Draw Editor
-				if (m_editor_open)
+				// Draw Code
+				if (m_code_open)
 				{
-					ImGui::PushID("Editor##Noobs");
-					if (ImGui::Begin(editor_name, &m_editor_open, 0))
+					ImGui::PushID("Code##Noobs");
+					if (ImGui::Begin("Code##Noobs", &m_code_open, 0))
 					{
 						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 						{
-							if (ImGui::BeginTabBar("Editor##Noobs##MainTabBar", ImGuiTabBarFlags_Reorderable))
-							{
-								if (ImGui::BeginTabItem("Code")) { draw_code(e); ImGui::EndTabItem(); }
-								if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms(e); ImGui::EndTabItem(); }
-								if (ImGui::BeginTabItem("Settings")) { draw_settings(e); ImGui::EndTabItem(); }
-								ImGui::EndTabBar();
-							}
+							draw_code(e);
+						}
+					}
+					ImGui::End();
+					ImGui::PopID();
+				}
+
+				// Draw Uniforms
+				if (m_uniforms_open)
+				{
+					ImGui::PushID("Uniforms##Noobs");
+					if (ImGui::Begin("Uniforms##Noobs", &m_uniforms_open, 0))
+					{
+						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
+						{
+							draw_uniforms(e);
+						}
+					}
+					ImGui::End();
+					ImGui::PopID();
+				}
+
+				// Draw Settings
+				if (m_settings_open)
+				{
+					ImGui::PushID("Settings##Noobs");
+					if (ImGui::Begin("Settings##Noobs", &m_settings_open, 0))
+					{
+						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
+						{
+							draw_settings(e);
 						}
 					}
 					ImGui::End();
@@ -430,9 +466,10 @@ namespace ml
 
 				if (Editor_Dockspace & d{ ev.dockspace }; d.isOpen())
 				{
-					d.dockWindow(display_name, d.getNode(d.LeftUp));
-
-					d.dockWindow(editor_name, d.getNode(d.RightUp));
+					d.dockWindow("Display##Noobs", d.getNode(d.LeftUp));
+					d.dockWindow("Code##Noobs", d.getNode(d.RightUp));
+					d.dockWindow("Uniforms##Noobs", d.getNode(d.RightUp));
+					d.dockWindow("Settings##Noobs", d.getNode(d.RightUp));
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */

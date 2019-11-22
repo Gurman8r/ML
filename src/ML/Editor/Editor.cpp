@@ -38,14 +38,14 @@ namespace ml
 		m_explorer		= new Editor_Explorer{};
 		m_inspector		= new Editor_Inspector{};
 		m_previews		= new Editor_Previews{};
-		m_profiler		= new Editor_Profiler{};
 		m_terminal		= new Editor_Terminal{};
+		m_profiler		= new Editor_Profiler{};
 	}
 
 	Editor::~Editor()
 	{
-		delete m_terminal;
 		delete m_profiler;
+		delete m_terminal;
 		delete m_previews;
 		delete m_inspector;
 		delete m_explorer;

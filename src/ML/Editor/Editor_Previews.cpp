@@ -114,13 +114,13 @@ namespace ml
 				size[1] == 0.0f ? ImGuiExt::GetContentRegionAvail()[1] : size[1]
 			};
 
-			const vec2 scl{ alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
+			const vec2 scl{ alg::scale_to_fit((vec2)preview->size(), dst) };
 
 			const vec2 pos{ ((dst - scl) * 0.5f) };
 
 			if (clbk) { clbk(); }
 
-			ImGui::BeginChild(("##Editor_Previews##" + type.name.str() + "##").c_str(), { 0, 0 }, true);
+			ImGui::BeginChild(("##Editor_Previews##" + type.name.str() + "##").c_str(), { 0, 0 }, 0);
 
 			ImGui::SetCursorPos({ pos[0], pos[1] });
 

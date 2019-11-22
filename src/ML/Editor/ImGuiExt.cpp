@@ -14,14 +14,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGuiExt::Combo(C_String label, int32_t * index, ArrayList<String> const & arr, int32_t max_height)
+	bool ImGuiExt::Combo(C_String label, int32_t * index, std::vector<String> const & arr, int32_t max_height)
 	{
 		ImGui::PushID(label);
 		const bool retval { ImGui::Combo(
 			label,
 			index,
 			Util::get_vector,
-			static_cast<void *>(&std::remove_cv_t<ArrayList<String> &>(arr)),
+			static_cast<void *>(&std::remove_cv_t<std::vector<String> &>(arr)),
 			static_cast<int32_t>(arr.size()),
 			max_height
 		) };
@@ -139,6 +139,75 @@ namespace ml
 			ImGui::PopTextWrapPos();
 			ImGui::EndTooltip();
 		}
+	}
+
+	int32_t ImGuiExt::DragMat2(C_String label, mat2 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
+	{
+		ImGui::PushID(ML_ADDRESSOF(&v));
+		ImGui::PushID(label);
+
+		ImGui::PushID("Row1");
+		const bool row1{ ImGui::DragFloat2(label, &v[0], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PushID("Row2");
+		const bool row2{ ImGui::DragFloat2(label, &v[2], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PopID();
+		ImGui::PopID();
+
+		return (row1 ? 1 : row2 ? 2 : 0);
+	}
+
+	int32_t ImGuiExt::DragMat3(C_String label, mat3 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
+	{
+		ImGui::PushID(ML_ADDRESSOF(&v));
+		ImGui::PushID(label);
+
+		ImGui::PushID("Row1");
+		const bool row1{ ImGui::DragFloat3(label, &v[0], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PushID("Row2");
+		const bool row2{ ImGui::DragFloat3(label, &v[3], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PushID("Row3");
+		const bool row3{ ImGui::DragFloat3(label, &v[6], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PopID();
+		ImGui::PopID();
+
+		return (row1 ? 1 : row2 ? 2 : row3 ? 3 : 0);
+	}
+
+	int32_t ImGuiExt::DragMat4(C_String label, mat4 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
+	{
+		ImGui::PushID(ML_ADDRESSOF(&v));
+		ImGui::PushID(label);
+
+		ImGui::PushID("Row1");
+		const bool row1{ ImGui::DragFloat4(label, &v[0], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PushID("Row2");
+		const bool row2{ ImGui::DragFloat4(label, &v[4], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PushID("Row3");
+		const bool row3{ ImGui::DragFloat4(label, &v[8], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PushID("Row4");
+		const bool row4{ ImGui::DragFloat4(label, &v[12], v_speed, v_min, v_max, format) };
+		ImGui::PopID();
+
+		ImGui::PopID();
+		ImGui::PopID();
+
+		return (row1 ? 1 : row2 ? 2 : row3 ? 3 : row4 ? 4 : 0);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

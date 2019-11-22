@@ -18,8 +18,8 @@ namespace ml
 		using reference			= typename value_type &;
 		using const_pointer		= typename value_type const *;
 		using const_reference	= typename value_type const &;
-		using map_type			= typename Tree<String, value_type>;
-		using init_type			= typename std::initializer_list<Pair<String, value_type>>;
+		using map_type			= typename std::map<String, value_type>;
+		using init_type			= typename std::initializer_list<std::pair<String, value_type>>;
 		using pair_type			= typename map_type::value_type;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
@@ -31,7 +31,7 @@ namespace ml
 		{
 		}
 
-		template <class S> explicit Metadata(const Tree<S, S> & values)
+		template <class S> explicit Metadata(const std::map<S, S> & values)
 			: m_data {}
 		{
 			for (auto const & pair : values)
@@ -70,7 +70,7 @@ namespace ml
 
 		template <
 			class T
-		> inline T getData(String const & value, const T dv, const Tree<String, T> & m) const
+		> inline T getData(String const & value, const T dv, const std::map<String, T> & m) const
 		{
 			if (!m.empty())
 			{
@@ -108,7 +108,7 @@ namespace ml
 			return ((it->second) = value_type { std::forward<Args>(args)... });
 		}
 
-		inline const_reference & setData(const Pair<String, String> & pair)
+		inline const_reference & setData(const std::pair<String, String> & pair)
 		{
 			return setData(pair.first, pair.second);
 		}

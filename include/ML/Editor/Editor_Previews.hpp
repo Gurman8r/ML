@@ -26,8 +26,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using PreviewMap = typename HashMap<void *, Texture const *>;
-		using TextureList = typename ArrayList<Texture *>;
+		using PreviewMap = typename std::unordered_map<void *, Texture const *>;
+		using TextureList = typename std::vector<Texture *>;
 
 		mutable PreviewMap	m_previewMap;
 		mutable TextureList m_textureList;

@@ -5,7 +5,7 @@
 
 namespace ml
 {
-	static const HashMap<String, int32_t> ColorTable = 
+	static const std::unordered_map<String, int32_t> ColorTable = 
 	{
 		{ "Text",					ImGuiCol_Text					},
 		{ "TextDisabled",			ImGuiCol_TextDisabled			},
@@ -165,7 +165,7 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 						if (tag == "ImGuiCol")
 						{
-							HashMap<String, int32_t>::const_iterator it;
+							std::unordered_map<String, int32_t>::const_iterator it;
 							if ((it = ColorTable.find(name)) != ColorTable.end())
 							{
 								ImGui::GetStyle().Colors[it->second] = readVec4(line);

@@ -33,9 +33,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline ArrayList<String> tokenize(String value, String const & delim)
+		static inline std::vector<String> tokenize(String value, String const & delim)
 		{
-			ArrayList<String> out;
+			std::vector<String> out;
 			size_t pos = 0;
 			while ((pos = value.find(delim)) != String::npos)
 			{
@@ -343,7 +343,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class S> static inline String format(String fmt, ArrayList<S> const & args)
+		template <class S> static inline String format(String fmt, std::vector<S> const & args)
 		{
 			for (size_t i = 0, imax = args.size(); i < imax; i++)
 			{

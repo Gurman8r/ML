@@ -113,13 +113,6 @@ namespace ml
 	ML_USING	C32_String	= typename char32_t const *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	ML_USING_Ts ArrayList	= typename _STD vector			<Ts...>;
-	ML_USING_Ts HashMap		= typename _STD unordered_map	<Ts...>;
-	ML_USING_Ts Pair		= typename _STD pair			<Ts...>;
-	ML_USING_Ts Tree		= typename _STD map				<Ts...>;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

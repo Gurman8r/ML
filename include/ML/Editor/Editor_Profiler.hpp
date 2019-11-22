@@ -43,7 +43,7 @@ namespace ml
 			void render();
 		};
 
-		ArrayList<GraphLines> m_graphs;
+		std::vector<GraphLines> m_graphs;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

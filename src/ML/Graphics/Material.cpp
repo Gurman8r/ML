@@ -40,12 +40,12 @@ namespace ml
 		return loadFromFile(filename, nullptr);
 	}
 
-	bool Material::loadFromFile(String const & filename, const Tree<String, Texture *> * textures)
+	bool Material::loadFromFile(String const & filename, std::map<String, Texture *> const * textures)
 	{
 		// Load uniforms from file
 		if (std::ifstream file { filename })
 		{
-			auto pop_front = ([](ArrayList<String> & toks) {
+			auto pop_front = ([](std::vector<String> & toks) {
 				// Erase begin and return front
 				if (toks.empty()) return String{};
 				const String temp{ toks.front() };
@@ -65,9 +65,9 @@ namespace ml
 
 				// Parse tokens from line
 				/* * * * * * * * * * * * * * * * * * * * */
-				ArrayList<String> tokens{ ([](String line)
+				std::vector<String> tokens{ ([](String line)
 				{
-					ArrayList<String> toks;
+					std::vector<String> toks;
 					if (!line) return toks;
 					line.trim()
 						.replace_all("\t", " ")
@@ -104,7 +104,7 @@ namespace ml
 
 					// Uniform Data
 					/* * * * * * * * * * * * * * * * * * * * */
-					SStream u_data{ ([](ArrayList<String> & toks)
+					SStream u_data{ ([](std::vector<String> & toks)
 					{
 						SStream out;
 						if ((toks.size() > 2 && toks.front() == "{" && toks.back() == "}"))

@@ -51,7 +51,7 @@ namespace ml
 			return (m_path + ML_PATH_DELIM + value);
 		}
 
-		inline ArrayList<String> const * get_list() const
+		inline std::vector<String> const * get_list() const
 		{
 			auto it { m_dir.find(m_type) };
 			return ((it != m_dir.end()) ? &it->second : nullptr);
@@ -59,7 +59,7 @@ namespace ml
 
 		inline String const * get_selected() const
 		{
-			ArrayList<String> const * list { get_list() };
+			std::vector<String> const * list { get_list() };
 			return ((list && (m_index < list->size())) ? (&(*list).at(m_index)) : nullptr);
 		}
 

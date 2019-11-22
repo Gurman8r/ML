@@ -66,9 +66,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniform(String const & name, const bool value) const;
-		bool setUniform(String const & name, const float_t value) const;
-		bool setUniform(String const & name, const int32_t value) const;
+		bool setUniform(String const & name, bool value) const;
+		bool setUniform(String const & name, float_t value) const;
+		bool setUniform(String const & name, int32_t value) const;
 		bool setUniform(String const & name, vec2 const & value) const;
 		bool setUniform(String const & name, vec3 const & value) const;
 		bool setUniform(String const & name, vec4 const & value) const;
@@ -83,23 +83,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformArray(String const & name, const int32_t count, float_t const * value) const;
-		bool setUniformArray(String const & name, const int32_t count, vec2 const * value) const;
-		bool setUniformArray(String const & name, const int32_t count, vec3 const * value) const;
-		bool setUniformArray(String const & name, const int32_t count, vec4 const * value) const;
-		bool setUniformArray(String const & name, const int32_t count, mat2 const * value) const;
-		bool setUniformArray(String const & name, const int32_t count, mat3 const * value) const;
-		bool setUniformArray(String const & name, const int32_t count, mat4 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, int32_t const * value) const;
+		bool setUniformArray(String const & name, int32_t count, float_t const * value) const;
+		bool setUniformArray(String const & name, int32_t count, vec2 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, vec3 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, vec4 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, mat2 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, mat3 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, mat4 const * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformList(String const & name, ArrayList<float_t> const & value) const;
-		bool setUniformList(String const & name, const ArrayList<vec2> & value) const;
-		bool setUniformList(String const & name, const ArrayList<vec3> & value) const;
-		bool setUniformList(String const & name, const ArrayList<vec4> & value) const;
-		bool setUniformList(String const & name, const ArrayList<mat2> & value) const;
-		bool setUniformList(String const & name, const ArrayList<mat3> & value) const;
-		bool setUniformList(String const & name, const ArrayList<mat4> & value) const;
+		bool setUniformArray(String const & name, std::vector<int32_t> const & value) const;
+		bool setUniformArray(String const & name, std::vector<float_t> const & value) const;
+		bool setUniformArray(String const & name, std::vector<vec2> const & value) const;
+		bool setUniformArray(String const & name, std::vector<vec3> const & value) const;
+		bool setUniformArray(String const & name, std::vector<vec4> const & value) const;
+		bool setUniformArray(String const & name, std::vector<mat2> const & value) const;
+		bool setUniformArray(String const & name, std::vector<mat3> const & value) const;
+		bool setUniformArray(String const & name, std::vector<mat4> const & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -113,9 +115,9 @@ namespace ml
 
 		struct UniformBinder;
 
-		using AttribTable	= Tree<String, int32_t>;
-		using TextureTable	= Tree<int32_t, Texture const *>;
-		using UniformTable	= Tree<String, int32_t>;
+		using AttribTable	= std::map<String, int32_t>;
+		using TextureTable	= std::map<int32_t, Texture const *>;
+		using UniformTable	= std::map<String, int32_t>;
 
 		mutable AttribTable		m_attribs;	// Attribute Cache
 		mutable TextureTable	m_textures; // Texture Cache

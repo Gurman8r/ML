@@ -14,7 +14,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename CommandDescriptor *;
-		using command_list		= typename ArrayList<value_type>;
+		using command_list		= typename std::vector<value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

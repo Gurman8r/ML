@@ -35,7 +35,7 @@ namespace ml
 
 		IndexBufferObject const & bufferData(uint32_t const * data, uint32_t count) const;
 
-		IndexBufferObject const & bufferData(ArrayList<uint32_t> const & data) const;
+		IndexBufferObject const & bufferData(std::vector<uint32_t> const & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

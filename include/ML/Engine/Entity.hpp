@@ -11,7 +11,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename Tree<hash_t, Trackable *>;
+		using base_type = typename std::map<hash_t, Trackable *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -35,110 +35,150 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline T * attach(T * value)
+		inline base_type::iterator find(hash_t code)
 		{
-			return ((m_data.find(typeof<T>::hash) == m_data.end())
-				? static_cast<T *>(this->addByCode(typeof<T>::hash, value))
-				: nullptr
-			);
+			return m_data.find(code);
 		}
 
-		template <class T, class ... Args> inline T * add(Args && ... args)
+		template <hash_t H> inline base_type::iterator find()
 		{
-			return this->attach<T>(new T { std::forward<Args>(args)... });
+			return this->find(H);
+		}
+
+		template <class T> inline base_type::iterator find()
+		{
+			return this->find<typeof<T>::hash>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline base_type::const_iterator find(hash_t code) const
+		{
+			return m_data.find(code);
+		}
+
+		template <hash_t H> inline base_type::const_iterator find() const
+		{
+			return this->find(H);
+		}
+
+		template <class T> inline base_type::const_iterator find() const
+		{
+			return this->find<typeof<T>::hash>();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline Trackable * get(hash_t value)
+		{
+			if (auto it{ this->find(value) }; it != this->end())
+			{
+				return it->second;
+			}
+			return nullptr;
+		}
+
+		template <hash_t H> inline Trackable * get()
+		{
+			return this->get(H);
+		}
+
 		template <class T> inline T * get()
 		{
-			return static_cast<T *>(getByCode(typeof<T>::hash));
+			return static_cast<T *>(this->get<typeof<T>::hash>());
+		}
+
+		inline Trackable * get(String const & type)
+		{
+			return this->get(type.hash());
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline Trackable const * get(hash_t value) const
+		{
+			if (auto it{ this->find(value) }; it != this->cend())
+			{
+				return it->second;
+			}
+			return nullptr;
+		}
+
+		template <hash_t H> inline Trackable const * get() const
+		{
+			return this->get(H);
 		}
 
 		template <class T> inline T const * get() const
 		{
-			return static_cast<T const *>(getByCode(typeof<T>::hash));
+			return static_cast<T const *>(this->get<typeof<T>::hash>());
 		}
 
-		template <class T> inline T const * cget() const
+		inline void const * get(String const & type) const
 		{
-			return return this->get<T>();
+			return this->get(type.hash());
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool remove(hash_t code)
 		{
-			auto it{ m_data.find(code) };
-			if (it != m_data.end())
+			if (auto it{ this->find(code) }; it != this->end())
 			{
-				auto & ptr{ it->second };
+				Trackable *& ptr{ it->second };
 				delete ptr;
-				ptr = nullptr;
 				m_data.erase(it);
 				return true;
 			}
 			return false;
 		}
 
-		inline bool remove(String const & name)
+		template <hash_t H> inline bool remove()
 		{
-			return remove(name.hash());
+			return this->remove(H);
 		}
 
-		template <hash_t H> inline bool remove() { return this->remove(H); }
+		template <class T> inline bool remove()
+		{
+			return this->remove<typeof<T>::hash>();
+		}
 
-		template <class T> inline bool remove() { return this->remove<typeof<T>::hash>(); }
+		inline bool remove(String const & type)
+		{
+			return this->remove(type.hash());
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * addByCode(hash_t code, void * value)
+		inline Trackable * add(hash_t code, Trackable * value)
 		{
-			return (m_data.find(code) == m_data.end())
+			return ((this->find(code) == this->end())
 				? m_data.insert({ code, static_cast<Trackable *>(value) }).first->second
-				: nullptr;
+				: nullptr
+			);
 		}
 
-		inline void * addByName(String const & name, void * value)
+		inline Trackable * add(String const & type)
 		{
-			return ((m_data.find(name.hash()) == m_data.end())
-				? addByCode(name.hash(), value)
+			return ((this->find(type.hash()) == this->end())
+				? this->add(type.hash(), ML_Registry.generate(type))
 				: nullptr
-				);
+			);
 		}
 
-		inline void * addByName(String const & name)
+		template <class T> inline T * add(T * value)
 		{
-			return ((m_data.find(name.hash()) == m_data.end())
-				? addByCode(name.hash(), ML_Registry.generate(name))
+			return ((this->find<T>() == this->end())
+				? static_cast<T *>(this->add(typeof<T>::hash, value))
 				: nullptr
-				);
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Trackable * getByCode(hash_t value)
+		template <class T, class ... Args> inline T * create(Args && ... args)
 		{
-			auto it{ m_data.find(value) };
-			return ((it != cend()) ? it->second : nullptr);
-		}
-
-		inline Trackable const * getByCode(hash_t value) const
-		{
-			auto it{ m_data.find(value) };
-			return ((it != cend()) ? it->second : nullptr);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline Trackable * getByName(String const & value)
-		{
-			return getByCode(value.hash());
-		}
-
-		inline Trackable const * getByName(String const & value) const
-		{
-			return getByCode(value.hash());
+			return this->add<T>(new T{ std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

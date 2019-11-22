@@ -128,16 +128,16 @@ namespace ml
 			content().create<Model>("obj/default/skybox")->loadFromMemory(
 				geo::skybox_static::vertices
 			);
-			content().insert<Uniform>("u_delta", new uni_float_clbk{ "u_delta", [&]() {
+			content().insert<Uniform>("u_delta", new uni_function<float_t>{ "u_delta", [&]() {
 				return time().deltaTime();
 			} });
-			content().insert<Uniform>("u_fps", new uni_float_clbk{ "u_fps", [&]() {
+			content().insert<Uniform>("u_fps", new uni_function<float_t>{ "u_fps", [&]() {
 				return time().frameRate();
 			} });
-			content().insert<Uniform>("u_frame", new uni_int_clbk{ "u_frame", [&]() {
+			content().insert<Uniform>("u_frame", new uni_function<int32_t>{ "u_frame", [&]() {
 				return (int32_t)time().frameCount();
 			} });
-			content().insert<Uniform>("u_mouse", new uni_vec4_clbk{ "u_mouse", [&]() {
+			content().insert<Uniform>("u_mouse", new uni_function<vec4>{ "u_mouse", [&]() {
 				return vec4 {
 					window().getCursorPos()[0],
 					window().getCursorPos()[1],
@@ -145,10 +145,10 @@ namespace ml
 					(float_t)window().getMouseButton(MouseButton::Button1)
 				};
 			} });
-			content().insert<Uniform>("u_time", new uni_float_clbk{ "u_time", [&]() {
+			content().insert<Uniform>("u_time", new uni_function<float_t>{ "u_time", [&]() {
 				return time().totalTime();
 			} });
-			content().insert<Uniform>("u_resolution", new uni_vec2_clbk{ "u_resolution", [&]() {
+			content().insert<Uniform>("u_resolution", new uni_function<vec2>{ "u_resolution", [&]() {
 				const auto c { Camera::mainCamera() };
 				return c ? (vec2)c->viewport().size() : vec2{ 0 };
 			} });

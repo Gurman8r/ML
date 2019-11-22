@@ -11,8 +11,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Page		= typename HashMap<uint32_t, Glyph>;
-		using PageTable = typename HashMap<uint32_t, Page>;
+		using Page		= typename std::unordered_map<uint32_t, Glyph>;
+		using PageTable = typename std::unordered_map<uint32_t, Page>;
 
 		struct Info final
 		{

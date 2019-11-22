@@ -68,7 +68,9 @@ namespace ml
 		
 		virtual hash_t getID() const = 0;
 
-		virtual typeof<> getInfo() const = 0;
+		virtual typeof<> getType() const = 0;
+
+		virtual hash_t getHash() const = 0;
 
 		virtual bool isModifiable() const = 0;
 
@@ -83,21 +85,6 @@ namespace ml
 		inline friend ML_SERIALIZE(std::ostream & out, Uniform const & value)
 		{
 			return out << Uniform::Type_names[value.getID()];
-		}
-
-		inline friend bool operator<(Uniform const & lhs, Uniform const & rhs)
-		{
-			return ((lhs.getID() < rhs.getID()) || (lhs.getName() < rhs.getName()));
-		}
-
-		inline friend bool operator==(Uniform const & lhs, Uniform const & rhs)
-		{
-			return !(lhs < rhs) && !(rhs < lhs);
-		}
-
-		inline friend bool operator!=(Uniform const & lhs, Uniform const & rhs)
-		{
-			return !(lhs == rhs);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -133,24 +120,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline self_type * clone() const override
-		{
-			return new self_type { getName(), getData() }; 
-		}
+		inline self_type * clone() const override { return new self_type { getName(), getData() };  }
 
 		inline hash_t getID() const override { return self_type::ID; }
 
-		inline typeof<> getInfo() const override { return typeof<value_type>{}; }
+		inline typeof<> getType() const override { return typeof<value_type>{}; }
+
+		inline hash_t getHash() const override { return getType().hash; }
 
 		inline bool isModifiable() const override
 		{
 			// uniform owns its value and is not a function
-			static const bool is_fun { 
-				getInfo().name.str().find("function") != String::npos
+			static const bool temp{
+				(std::is_same_v<value_type, detail::decay_t<value_type>> || 
+				std::is_same_v<value_type, Texture const *>)
+				&& (typeof<value_type>::name.str().find("function") == String::npos)
 			};
-			return (std::is_same_v<value_type, detail::decay_t<value_type>> 
-				|| std::is_same_v<value_type, Texture const *>)
-				&& !is_fun;
+			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -168,41 +154,45 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_bool			= typename UniformImpl<bool,	bool>;
-	using uni_int			= typename UniformImpl<int32_t, int32_t>;
-	using uni_float			= typename UniformImpl<float_t, float_t>;
-	using uni_vec2			= typename UniformImpl<vec2,	vec2>;
-	using uni_vec3			= typename UniformImpl<vec3,	vec3>;
-	using uni_vec4			= typename UniformImpl<vec4,	vec4>;
-	using uni_color			= typename UniformImpl<Color,	Color>;
-	using uni_mat2			= typename UniformImpl<mat2,	mat2>;
-	using uni_mat3			= typename UniformImpl<mat3,	mat3>;
-	using uni_mat4			= typename UniformImpl<mat4,	mat4>;
-	using uni_sampler		= typename UniformImpl<Texture, Texture const *>;
+	ML_USING_X	uni_value			= typename UniformImpl	<X, X>;
+	ML_USING_X	uni_pointer			= typename UniformImpl	<X, X const *>;
+	ML_USING_X	uni_function		= typename UniformImpl	<X, std::function<X()>>;
 
-	using uni_bool_ptr		= typename UniformImpl<bool,	bool const *>;
-	using uni_int_ptr		= typename UniformImpl<int32_t, int32_t const *>;
-	using uni_float_ptr		= typename UniformImpl<float_t, float_t const *>;
-	using uni_vec2_ptr		= typename UniformImpl<vec2,	vec2 const *>;
-	using uni_vec3_ptr		= typename UniformImpl<vec3,	vec3 const *>;
-	using uni_vec4_ptr		= typename UniformImpl<vec4,	vec4 const *>;
-	using uni_color_ptr		= typename UniformImpl<Color,	Color const *>;
-	using uni_mat2_ptr		= typename UniformImpl<mat2,	mat2 const *>;
-	using uni_mat3_ptr		= typename UniformImpl<mat3,	mat3 const *>;
-	using uni_mat4_ptr		= typename UniformImpl<mat4,	mat4 const *>;
-	using uni_sampler_ptr	= typename UniformImpl<Texture, Texture const * const *>;
+	ML_USING	uni_bool			= typename uni_value	<bool>;
+	ML_USING	uni_int				= typename uni_value	<int32_t>;
+	ML_USING	uni_float			= typename uni_value	<float_t>;
+	ML_USING	uni_vec2			= typename uni_value	<vec2>;
+	ML_USING	uni_vec3			= typename uni_value	<vec3>;
+	ML_USING	uni_vec4			= typename uni_value	<vec4>;
+	ML_USING	uni_color			= typename uni_value	<Color>;
+	ML_USING	uni_mat2			= typename uni_value	<mat2>;
+	ML_USING	uni_mat3			= typename uni_value	<mat3>;
+	ML_USING	uni_mat4			= typename uni_value	<mat4>;
+	ML_USING	uni_sampler			= typename uni_value	<Texture const *>;
 
-	using uni_bool_clbk		= typename UniformImpl<bool,	std::function<bool()>>;
-	using uni_int_clbk		= typename UniformImpl<int32_t, std::function<int32_t()>>;
-	using uni_float_clbk	= typename UniformImpl<float_t, std::function<float_t()>>;
-	using uni_vec2_clbk		= typename UniformImpl<vec2,	std::function<vec2()>>;
-	using uni_vec3_clbk		= typename UniformImpl<vec3,	std::function<vec3()>>;
-	using uni_vec4_clbk		= typename UniformImpl<vec4,	std::function<vec4()>>;
-	using uni_color_clbk	= typename UniformImpl<Color,	std::function<Color()>>;
-	using uni_mat2_clbk		= typename UniformImpl<mat2,	std::function<mat2()>>;
-	using uni_mat3_clbk		= typename UniformImpl<mat3,	std::function<mat3()>>;
-	using uni_mat4_clbk		= typename UniformImpl<mat4,	std::function<mat4()>>;
-	using uni_sampler_clbk	= typename UniformImpl<Texture, std::function<Texture const *()>>;
+	ML_USING	uni_bool_ptr		= typename uni_pointer	<bool>;
+	ML_USING	uni_int_ptr			= typename uni_pointer	<int32_t>;
+	ML_USING	uni_float_ptr		= typename uni_pointer	<float_t>;
+	ML_USING	uni_vec2_ptr		= typename uni_pointer	<vec2>;
+	ML_USING	uni_vec3_ptr		= typename uni_pointer	<vec3>;
+	ML_USING	uni_vec4_ptr		= typename uni_pointer	<vec4>;
+	ML_USING	uni_color_ptr		= typename uni_pointer	<Color>;
+	ML_USING	uni_mat2_ptr		= typename uni_pointer	<mat2>;
+	ML_USING	uni_mat3_ptr		= typename uni_pointer	<mat3>;
+	ML_USING	uni_mat4_ptr		= typename uni_pointer	<mat4>;
+	ML_USING	uni_sampler_ptr		= typename uni_pointer	<Texture const *>;
+
+	ML_USING	uni_bool_func		= typename uni_function	<bool>;
+	ML_USING	uni_int_func		= typename uni_function	<int32_t>;
+	ML_USING	uni_float_func		= typename uni_function	<float_t>;
+	ML_USING	uni_vec2_func		= typename uni_function	<vec2>;
+	ML_USING	uni_vec3_func		= typename uni_function	<vec3>;
+	ML_USING	uni_vec4_func		= typename uni_function	<vec4>;
+	ML_USING	uni_color_func		= typename uni_function	<Color>;
+	ML_USING	uni_mat2_func		= typename uni_function	<mat2>;
+	ML_USING	uni_mat3_func		= typename uni_function	<mat3>;
+	ML_USING	uni_mat4_func		= typename uni_function	<mat4>;
+	ML_USING	uni_sampler_func	= typename uni_function	<Texture const *>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -210,200 +200,29 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool const * as_bool(Uniform const * value)
+		template <class T> static inline T const * uni_cast(Uniform const * value)
 		{
-			static bool temp{ 0 };
 			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
+			static T temp{ 0 };
+			switch (value->getHash())
 			{
-			case typeof<bool>::hash:
-				return &(temp = static_cast<uni_bool const *>(value)->getData());
+			case typeof<T>::hash:
+				if (auto u{ static_cast<uni_value<T> const *>(value) })
+				{
+					return &(temp = u->getData());
+				}
 
-			case typeof<bool const *>::hash:
-				return &(temp = (*static_cast<uni_bool_ptr const *>(value)->getData()));
+			case typeof<T const *>::hash:
+				if (auto u{ static_cast<uni_pointer<T> const *>(value) }; u && u->getData())
+				{
+					return &(temp = (*u->getData()));
+				}
 
-			case typeof<std::function<bool()>>::hash:
-				return &(temp = static_cast<uni_bool_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline int32_t const * as_int(Uniform const * value)
-		{
-			static int32_t temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<int32_t>::hash:
-				return &(temp = static_cast<uni_int const *>(value)->getData());
-
-			case typeof<int32_t const *>::hash:
-				return &(temp = (*static_cast<uni_int_ptr const *>(value)->getData()));
-
-			case typeof<std::function<int32_t()>>::hash:
-				return &(temp = static_cast<uni_int_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline float_t const * as_float(Uniform const * value)
-		{
-			static float_t temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<float_t>::hash:
-				return &(temp = static_cast<uni_float const *>(value)->getData());
-
-			case typeof<float_t const *>::hash:
-				return &(temp = (*static_cast<uni_float_ptr const *>(value)->getData()));
-
-			case typeof<std::function<float_t()>>::hash:
-				return &(temp = static_cast<uni_float_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline vec2 const * as_vec2(Uniform const * value)
-		{
-			static vec2 temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<vec2>::hash:
-				return &(temp = static_cast<uni_vec2 const *>(value)->getData());
-
-			case typeof<vec2 const *>::hash:
-				return &(temp = (*static_cast<uni_vec2_ptr const *>(value)->getData()));
-
-			case typeof<std::function<vec2()>>::hash:
-				return &(temp = static_cast<uni_vec2_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline vec3 const * as_vec3(Uniform const * value)
-		{
-			static vec3 temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<vec3>::hash:
-				return &(temp = static_cast<uni_vec3 const *>(value)->getData());
-
-			case typeof<vec3 const *>::hash:
-				return &(temp = (*static_cast<uni_vec3_ptr const *>(value)->getData()));
-
-			case typeof<std::function<vec3()>>::hash:
-				return &(temp = static_cast<uni_vec3_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline vec4 const * as_vec4(Uniform const * value)
-		{
-			static vec4 temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<vec4>::hash:
-				return &(temp = static_cast<uni_vec4 const *>(value)->getData());
-
-			case typeof<vec4 const *>::hash:
-				return &(temp = (*static_cast<uni_vec4_ptr const *>(value)->getData()));
-
-			case typeof<std::function<vec4()>>::hash:
-				return &(temp = static_cast<uni_vec4_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline Color const * as_color(Uniform const * value)
-		{
-			static Color temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<Color>::hash:
-				return &(temp = static_cast<uni_color const *>(value)->getData());
-
-			case typeof<Color const *>::hash:
-				return &(temp = (*static_cast<uni_color_ptr const *>(value)->getData()));
-
-			case typeof<std::function<Color()>>::hash:
-				return &(temp = static_cast<uni_color_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline mat2 const * as_mat2(Uniform const * value)
-		{
-			static mat2 temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<mat2>::hash:
-				return &(temp = static_cast<uni_mat2 const *>(value)->getData());
-
-			case typeof<mat2 const *>::hash:
-				return &(temp = (*static_cast<uni_mat2_ptr const *>(value)->getData()));
-
-			case typeof<std::function<mat2()>>::hash:
-				return &(temp = static_cast<uni_mat2_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline mat3 const * as_mat3(Uniform const * value)
-		{
-			static mat3 temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<mat3>::hash:
-				return &(temp = static_cast<uni_mat3 const *>(value)->getData());
-
-			case typeof<mat3 const *>::hash:
-				return &(temp = (*static_cast<uni_mat3_ptr const *>(value)->getData()));
-
-			case typeof<std::function<mat3()>>::hash:
-				return &(temp = static_cast<uni_mat3_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline mat4 const * as_mat4(Uniform const * value)
-		{
-			static mat4 temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<mat4>::hash:
-				return &(temp = static_cast<uni_mat4 const *>(value)->getData());
-
-			case typeof<mat4 const *>::hash:
-				return &(temp = (*static_cast<uni_mat4_ptr const *>(value)->getData()));
-
-			case typeof<std::function<mat4()>>::hash:
-				return &(temp = static_cast<uni_mat4_clbk const *>(value)->getData()());
-			}
-			return nullptr;
-		}
-
-		static inline Texture const * const * as_sampler(Uniform const * value)
-		{
-			static Texture const * temp{ 0 };
-			if (!value) { return nullptr; }
-			switch (value->getInfo().hash)
-			{
-			case typeof<Texture const *>::hash:
-				return &(temp = static_cast<uni_sampler const *>(value)->getData());
-
-			case typeof<Texture const * const *>::hash:
-				return &(temp = (*static_cast<uni_sampler_ptr const *>(value)->getData()));
-
-			case typeof<std::function<Texture const *()>>::hash:
-				return &(temp = static_cast<uni_sampler_clbk const *>(value)->getData()());
+			case typeof<std::function<T()>>::hash:
+				if (auto u{ static_cast<uni_function<T> const *>(value) }; u && u->getData())
+				{
+					return &(temp = u->getData()());
+				}
 			}
 			return nullptr;
 		}

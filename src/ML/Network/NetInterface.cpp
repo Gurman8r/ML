@@ -81,6 +81,7 @@ namespace ml
 				settings.receiptNumber
 			);
 		}
+		return 0;
 	}
 
 	uint32_t NetInterface::send(Host const & host, String const & data, SendSettings const & settings)

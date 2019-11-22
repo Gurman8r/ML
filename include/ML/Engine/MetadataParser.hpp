@@ -13,7 +13,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataParser();
-		explicit MetadataParser(ArrayList<Metadata *> const & data);
+		explicit MetadataParser(std::vector<Metadata *> const & data);
 		~MetadataParser() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -24,21 +24,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static ArrayList<Metadata *> const & loadLists(ArrayList<Metadata *> & data, ArrayList<Tree<String, String>> const & value);
+		static std::vector<Metadata *> const & loadLists(std::vector<Metadata *> & data, std::vector<std::map<String, String>> const & value);
 		
-		static bool readFile(String const & filename, ArrayList<Metadata *> & list);
+		static bool readFile(String const & filename, std::vector<Metadata *> & list);
 		
-		static bool readLists(ArrayList<Metadata *> & list, std::istream & file, String & line);
+		static bool readLists(std::vector<Metadata *> & list, std::istream & file, String & line);
 		
 		static bool readMetadata(Metadata *& data, std::istream & file, String & line);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto lists() const -> ArrayList<Metadata *> const & { return m_lists; }
+		inline auto lists() const -> std::vector<Metadata *> const & { return m_lists; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: ArrayList<Metadata *> m_lists;
+	private: std::vector<Metadata *> m_lists;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

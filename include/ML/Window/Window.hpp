@@ -170,11 +170,11 @@ namespace ml
 
 		static VideoMode const & getDesktopMode();
 		
-		static ArrayList<VideoMode> const & getFullscreenModes();
+		static std::vector<VideoMode> const & getFullscreenModes();
 
 		static ProcFun getProcAddress(C_String value);
 		
-		static ArrayList<void *> const & getMonitors();
+		static std::vector<void *> const & getMonitors();
 
 		static float64_t getTime();
 

@@ -165,6 +165,10 @@ namespace ml
 		static void	uniform2i(int32_t location, int32_t x, int32_t y);
 		static void	uniform3i(int32_t location, int32_t x, int32_t y, int32_t z);
 		static void	uniform4i(int32_t location, int32_t x, int32_t y, int32_t z, int32_t w);
+		static void	uniform1iv(int32_t location, uint32_t count, int32_t const * value);
+		static void	uniform2iv(int32_t location, uint32_t count, int32_t const * value);
+		static void	uniform3iv(int32_t location, uint32_t count, int32_t const * value);
+		static void	uniform4iv(int32_t location, uint32_t count, int32_t const * value);
 		static void	uniform1f(int32_t location, float32_t value);
 		static void	uniform2f(int32_t location, float32_t x, float32_t y);
 		static void	uniform3f(int32_t location, float32_t x, float32_t y, float32_t z);

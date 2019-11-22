@@ -94,7 +94,7 @@ namespace ml
 		{
 			static constexpr C_String Names[] = { "Fragment", "Vertex", "Geometry" };
 
-			using Errors = typename ArrayList<ShaderError>;
+			using Errors = typename std::vector<ShaderError>;
 
 			size_t		type;
 			TextEditor	text;
@@ -115,7 +115,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pipeline = typename ArrayList<RenderTexture *>;
+		using Pipeline = typename std::vector<RenderTexture *>;
 
 		enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
@@ -343,9 +343,9 @@ namespace ml
 						{
 							if (ImGui::BeginTabBar("Editor##Noobs##MainTabBar", ImGuiTabBarFlags_Reorderable))
 							{
-								if (ImGui::BeginTabItem("Code")) { draw_code_tab(e); ImGui::EndTabItem(); }
-								if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms_tab(e); ImGui::EndTabItem(); }
-								if (ImGui::BeginTabItem("Settings")) { draw_settings_tab(e); ImGui::EndTabItem(); }
+								if (ImGui::BeginTabItem("Code")) { draw_code(e); ImGui::EndTabItem(); }
+								if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms(e); ImGui::EndTabItem(); }
+								if (ImGui::BeginTabItem("Settings")) { draw_settings(e); ImGui::EndTabItem(); }
 								ImGui::EndTabBar();
 							}
 						}
@@ -442,7 +442,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void draw_code_tab(Entity * e)
+		void draw_code(Entity * e)
 		{
 			ImGui::PushID("##CodeTab");
 			ImGui::BeginChild("##CodeTab##Content", { 0, 0 }, false, ImGuiWindowFlags_NoScrollbar);
@@ -611,7 +611,7 @@ namespace ml
 			ImGui::PopID();
 		}
 
-		void draw_uniforms_tab(Entity * e)
+		void draw_uniforms(Entity * e)
 		{
 			ImGui::PushID("##UniformsTab");
 			ImGui::BeginChildFrame(ImGui::GetID("##UniformsTab##Content"), { 0, 0 }, 0);
@@ -657,17 +657,17 @@ namespace ml
 								<< "{ ";
 							switch (u->getID())
 							{
-							case uni_bool::ID	: if (auto a { detail::as_bool(u) }) ss << (*a); break;
-							case uni_float::ID	: if (auto a { detail::as_float(u) }) ss << (*a); break;
-							case uni_int::ID	: if (auto a { detail::as_int(u) }) ss << (*a); break;
-							case uni_vec2::ID	: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
-							case uni_vec3::ID	: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
-							case uni_vec4::ID	: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
-							case uni_color::ID	: if (auto a { detail::as_color(u) }) ss << (*a); break;
-							case uni_mat2::ID	: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
-							case uni_mat3::ID	: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
-							case uni_mat4::ID	: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
-							case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Engine.content().get_name(*a); break;
+							case uni_bool::ID	: if (auto a { detail::uni_cast<bool>(u) }) ss << (*a); break;
+							case uni_float::ID	: if (auto a { detail::uni_cast<float_t>(u) }) ss << (*a); break;
+							case uni_int::ID	: if (auto a { detail::uni_cast<int32_t>(u) }) ss << (*a); break;
+							case uni_vec2::ID	: if (auto a { detail::uni_cast<vec2>(u) }) ss << (*a); break;
+							case uni_vec3::ID	: if (auto a { detail::uni_cast<vec3>(u) }) ss << (*a); break;
+							case uni_vec4::ID	: if (auto a { detail::uni_cast<vec4>(u) }) ss << (*a); break;
+							case uni_color::ID	: if (auto a { detail::uni_cast<Color>(u) }) ss << (*a); break;
+							case uni_mat2::ID	: if (auto a { detail::uni_cast<mat2>(u) }) ss << (*a); break;
+							case uni_mat3::ID	: if (auto a { detail::uni_cast<mat3>(u) }) ss << (*a); break;
+							case uni_mat4::ID	: if (auto a { detail::uni_cast<mat4>(u) }) ss << (*a); break;
+							case uni_sampler::ID: if (auto a { detail::uni_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*a); break;
 							}
 							if (ss.str().back() != ' ') ss << ' ';
 							ss << "}" << std::endl;
@@ -825,7 +825,7 @@ namespace ml
 			ImGui::PopID();
 		}
 
-		void draw_settings_tab(Entity * e)
+		void draw_settings(Entity * e)
 		{
 			ImGui::PushID("##SettingsTab");
 			ImGui::BeginChildFrame(ImGui::GetID("##SettingsTab##Content"), { 0, 0 }, 0);
@@ -867,12 +867,12 @@ namespace ml
 				if (auto c { Camera::mainCamera() })
 				{
 					// Get Video Modes
-					static ArrayList<VideoMode> const & mode_values { Window::getFullscreenModes() };
+					static std::vector<VideoMode> const & mode_values { Window::getFullscreenModes() };
 
 					// Get Video Names
-					static ArrayList<String> const & mode_names = [&]
+					static std::vector<String> const & mode_names = [&]
 					{
-						static ArrayList<String> temp { "Automatic", "Manual" };
+						static std::vector<String> temp { "Automatic", "Manual" };
 						for (const auto & elem : mode_values)
 							temp.push_back(util::to_string(elem.size));
 						return temp;

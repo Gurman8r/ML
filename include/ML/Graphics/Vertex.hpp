@@ -132,9 +132,9 @@ namespace ml
 
 	namespace alg
 	{
-		static inline ArrayList<float_t> const & contiguous(ArrayList<Vertex> const & vertices)
+		static inline std::vector<float_t> const & contiguous(std::vector<Vertex> const & vertices)
 		{
-			static ArrayList<float_t> temp;
+			static std::vector<float_t> temp;
 			if (const size_t imax{ vertices.size() * Vertex::Size })
 			{
 				temp.resize(imax);

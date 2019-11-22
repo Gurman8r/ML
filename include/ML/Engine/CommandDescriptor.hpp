@@ -25,7 +25,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual bool execute(ArrayList<String> const & args) const = 0;
+		virtual bool execute(std::vector<String> const & args) const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

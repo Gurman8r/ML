@@ -7,15 +7,15 @@
 
 #define ML_Registry ::ml::Registry<>::getInstance()
 
-#define ML_REGISTER_EX(T, INFO, FUNC)			\
-	static void * FUNC();						\
+#define ML_REGISTER_EX(T, info, func)			\
+	static Trackable * func();					\
 	bool Registry<T>::s_registered {			\
-		ML_Registry.registrate<T>(INFO, FUNC)	\
+		ML_Registry.registrate<T>(info, func)	\
 	};											\
-	void * FUNC()
+	Trackable * func()
 
-#define ML_REGISTER(T, INFO) \
-	ML_REGISTER_EX(T, INFO, ML_CONCAT(ML_FACTORY_, T))
+#define ML_REGISTER(T, info) \
+	ML_REGISTER_EX(T, info, ML_CONCAT(ML_FACTORY_, T))
 
 namespace ml
 {
@@ -40,37 +40,37 @@ namespace ml
 		using Code = typename hash_t;
 		using Name = typename String;
 		using Info = typename String;
-		using Func = typename std::function<void *()>;
+		using Func = typename std::function<Trackable *()>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto codes() const -> const HashMap<Name, Code> & { return m_codes; }
-		inline auto funcs() const -> const HashMap<Name, Func> & { return m_funcs; }
-		inline auto infos() const -> const HashMap<Name, Info> & { return m_infos; }
-		inline auto names() const -> const HashMap<Code, Name> & { return m_names; }
+		inline auto codes() const -> const std::unordered_map<Name, Code> & { return m_codes; }
+		inline auto funcs() const -> const std::unordered_map<Name, Func> & { return m_funcs; }
+		inline auto infos() const -> const std::unordered_map<Name, Info> & { return m_infos; }
+		inline auto names() const -> const std::unordered_map<Code, Name> & { return m_names; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * generate(Name const & name) const
+		inline Trackable * generate(Name const & name) const
 		{
-			const Func func { get_func(name) };
-			return (func ? func() : nullptr);
+			Func const * func { this->get_func(name) };
+			return func ? (*func)() : nullptr;
 		}
 
-		inline void * generate(Code code) const
+		inline Trackable * generate(Code const & code) const
 		{
-			const Func func { get_func(code) };
-			return (func ? func() : nullptr);
+			Func const * func { this->get_func(code) };
+			return func ? (*func)() : nullptr;
 		}
 
 		template <class T> inline T * generate() const
 		{
-			return static_cast<T *>(generate(typeof<T>::name));
+			return static_cast<T *>(this->generate(typeof<T>::name));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool registrate(Name const & name, Info const & info, Code code, Func func)
+		inline bool registrate(Name const & name, Info const & info, Code const & code, Func const & func)
 		{
 			if (m_funcs.find(name) == m_funcs.end())
 			{
@@ -85,7 +85,7 @@ namespace ml
 
 		template <class T, class F> inline bool registrate(Info const & info, F && func)
 		{
-			return registrate(typeof<T>::name, info, typeof<T>::hash, (Func)func);
+			return this->registrate(typeof<T>::name, info, typeof<T>::hash, (Func)func);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -96,19 +96,19 @@ namespace ml
 			return ((it != m_codes.end()) ? &it->second : nullptr);
 		}
 
-		inline const Func get_func(Name const & name) const
+		inline Func const * get_func(Name const & name) const
 		{
 			auto it { m_funcs.find(name) };
-			return ((it != m_funcs.end()) ? it->second : nullptr);
+			return ((it != m_funcs.end()) ? &it->second : nullptr);
 		}
 
-		inline const Func get_func(Code code) const
+		inline Func const * get_func(Code code) const
 		{
 			auto it { m_names.find(code) };
-			return ((it != m_names.end()) ? get_func(it->second) : nullptr);
+			return ((it != m_names.end()) ? this->get_func(it->second) : nullptr);
 		}
 
-		inline String const *	get_info(Name const & name) const
+		inline String const * get_info(Name const & name) const
 		{
 			auto it { m_infos.find(name) };
 			return ((it != m_infos.end()) ? &it->second : nullptr);
@@ -117,7 +117,7 @@ namespace ml
 		inline String const * get_info(Code code) const
 		{
 			auto it { m_names.find(code) };
-			return ((it != m_names.end()) ? get_info(it->second) : nullptr);
+			return ((it != m_names.end()) ? this->get_info(it->second) : nullptr);
 		}
 
 		inline String const * get_name(Code code) const
@@ -130,12 +130,18 @@ namespace ml
 
 	private:
 		friend Singleton<Registry<>>;
-		Registry() : m_codes(), m_funcs(), m_infos(), m_names() {}
+
+		Registry() 
+			: m_codes(), m_funcs(), m_infos(), m_names() 
+		{
+		}
+		
 		~Registry() {}
-		HashMap<String, Code>	m_codes; // 
-		HashMap<String, Func>	m_funcs; // 
-		HashMap<String, String> m_infos; // 
-		HashMap<Code,	String> m_names; // 
+		
+		std::unordered_map<String, Code>	m_codes; // 
+		std::unordered_map<String, Func>	m_funcs; // 
+		std::unordered_map<String, String> m_infos; // 
+		std::unordered_map<Code,	String> m_names; // 
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

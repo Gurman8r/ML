@@ -13,7 +13,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename ArrayList<Uniform *>;
+		using base_type = typename std::vector<Uniform *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 
 		bool dispose();
 		bool loadFromFile(String const & filename);
-		bool loadFromFile(String const & filename, const Tree<String, Texture *> * textures);
+		bool loadFromFile(String const & filename, std::map<String, Texture *> const * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

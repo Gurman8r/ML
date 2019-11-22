@@ -19,7 +19,7 @@ namespace ml
 	{
 	}
 
-	Mesh::Mesh(ArrayList<Vertex> const & vertices, ArrayList<uint32_t> const & indices, ArrayList<Texture const *> const & textures)
+	Mesh::Mesh(std::vector<Vertex> const & vertices, std::vector<uint32_t> const & indices, std::vector<Texture const *> const & textures)
 		: m_vertices{ vertices }
 		, m_indices	{ indices }
 		, m_textures{ textures }
@@ -99,19 +99,19 @@ namespace ml
 		return (*this);
 	}
 
-	Mesh & Mesh::setIndices(ArrayList<uint32_t> const & value)
+	Mesh & Mesh::setIndices(std::vector<uint32_t> const & value)
 	{
 		m_indices = value;
 		return (*this);
 	}
 
-	Mesh & Mesh::setTextures(ArrayList<Texture const *> const & value)
+	Mesh & Mesh::setTextures(std::vector<Texture const *> const & value)
 	{
 		m_textures = value;
 		return (*this);
 	}
 
-	Mesh & Mesh::setVertices(ArrayList<Vertex> const & value)
+	Mesh & Mesh::setVertices(std::vector<Vertex> const & value)
 	{
 		m_vertices = value;
 		return (*this);

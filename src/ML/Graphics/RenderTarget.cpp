@@ -32,12 +32,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget const & RenderTarget::draw(ArrayList<Vertex> const & verts, RenderBatch & batch) const
+	RenderTarget const & RenderTarget::draw(std::vector<Vertex> const & verts, RenderBatch & batch) const
 	{
 		return draw(alg::contiguous(verts), batch);
 	}
 
-	RenderTarget const & RenderTarget::draw(ArrayList<float_t> const & verts, RenderBatch & batch) const
+	RenderTarget const & RenderTarget::draw(std::vector<float_t> const & verts, RenderBatch & batch) const
 	{
 		return draw(verts.data(), verts.size(), batch);
 	}

@@ -24,12 +24,12 @@ namespace ml
 
 		static bool loadMetadata(Metadata const & value);
 
-		static int32_t loadMetadata(ArrayList<Metadata> const & value);
+		static int32_t loadMetadata(std::vector<Metadata> const & value);
 
 		template <class S>
-		static inline int32_t loadMetadata(ArrayList<Tree<S, S>> const & value)
+		static inline int32_t loadMetadata(std::vector<std::map<S, S>> const & value)
 		{
-			ArrayList<Metadata> md{};
+			std::vector<Metadata> md{};
 			md.reserve(value.size());
 			for (auto const & elem : value)
 			{

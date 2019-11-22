@@ -57,8 +57,8 @@ namespace ml
 		vec4		m_color;
 
 		mutable bool m_changed;
-		mutable ArrayList<Texture const *> m_textures;
-		mutable ArrayList<geo::rect_quad> m_vertices;
+		mutable std::vector<Texture const *> m_textures;
+		mutable std::vector<geo::rect_quad> m_vertices;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

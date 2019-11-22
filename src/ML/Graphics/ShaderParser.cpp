@@ -6,7 +6,65 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ShaderParser::parseShader(String const & src, SStream & v, SStream & g, SStream & f)
+	using IncludeCallback = typename String(*)(const String &);
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static String parseIncludes(String line, char lhs, char rhs, IncludeCallback callback)
+	{
+		if (line && lhs && rhs && callback)
+		{
+			if (line.trim() && line.front() == '#')
+			{
+				line.erase(line.begin());
+				static constexpr StringView inc{ "include" };
+				if (line.trim().substr(0, inc.size()) == inc.str())
+				{
+					if (const size_t a{ line.find_first_of(lhs) }; a != String::npos)
+					{
+						if (const size_t b{ line.find_last_of(rhs) }; b != String::npos)
+						{
+							if (a != b) { return callback(line.substr(a + 1, b - a - 1)); }
+						}
+					}
+				}
+			}
+		}
+		return String();
+	}
+
+	static String parseIncludes(String const & src)
+	{
+		auto clbk = ([](String const & name) {
+			if (String file{ ML_FS.getFileContents(ML_FS.pathTo(name)) })
+			{
+				return file;
+			}
+			return String();
+		});
+
+		SStream	out;
+		SStream	ss{ src };
+		String	line;
+		while (std::getline(ss, line))
+		{
+			String content;
+			if ((content = parseIncludes(line, '\"', '\"', clbk)) ||
+				(content = parseIncludes(line, '<', '>', clbk)))
+			{
+				out << parseIncludes(content);
+			}
+			else
+			{
+				out << line << std::endl;
+			}
+		}
+		return out.str();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool ShaderParser::parse(String const & src, SStream & v, SStream & g, SStream & f)
 	{
 		SStream * dst = nullptr;
 		size_t	count = 0;
@@ -42,7 +100,7 @@ namespace ml
 		return count;
 	}
 
-	String ShaderParser::parseShader(String const & src)
+	String ShaderParser::parse(String const & src)
 	{
 		if ((src.find("#shader") == String::npos) &&
 			(src.find("#include") == String::npos))
@@ -59,60 +117,6 @@ namespace ml
 			}
 		}
 		return out.str();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	String ShaderParser::parseIncludes(String const & src)
-	{
-		auto clbk = ([](String const & name) {
-			if (String file { ML_FS.getFileContents(ML_FS.pathTo(name)) })
-			{
-				return file;
-			}
-			return String();
-		});
-
-		SStream	out;
-		SStream	ss { src };
-		String	line;
-		while (std::getline(ss, line))
-		{
-			String content;
-			if ((content = parseIncludes(line, '\"', '\"', clbk)) ||
-				(content = parseIncludes(line, '<',  '>',  clbk)))
-			{
-				out << parseIncludes(content);
-			}
-			else
-			{
-				out << line << std::endl;
-			}
-		}
-		return out.str();
-	}
-
-	String ShaderParser::parseIncludes(String line, char lhs, char rhs, IncludeCallback callback)
-	{
-		if (line && lhs && rhs && callback)
-		{
-			if (line.trim() && line.front() == '#')
-			{
-				line.erase(line.begin());
-				static constexpr StringView inc { "include" };
-				if (line.trim().substr(0, inc.size()) == inc.str())
-				{
-					if (const size_t a{ line.find_first_of(lhs) }; a != String::npos)
-					{
-						if (const size_t b{ line.find_last_of(rhs) }; b != String::npos)
-						{
-							if (a != b) { return callback(line.substr(a + 1, b - a - 1)); }
-						}
-					}
-				}
-			}
-		}
-		return String();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

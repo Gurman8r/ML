@@ -32,9 +32,9 @@ namespace ml
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget const & draw(ArrayList<Vertex> const & verts, RenderBatch & batch) const;
+		RenderTarget const & draw(std::vector<Vertex> const & verts, RenderBatch & batch) const;
 		
-		RenderTarget const & draw(ArrayList<float_t> const & verts, RenderBatch & batch) const;
+		RenderTarget const & draw(std::vector<float_t> const & verts, RenderBatch & batch) const;
 		
 		RenderTarget const & draw(float_t const * verts, size_t count, RenderBatch & batch) const;
 		

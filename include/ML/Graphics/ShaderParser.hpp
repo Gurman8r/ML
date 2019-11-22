@@ -12,14 +12,13 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using IncludeCallback = typename String(*)(const String&);
+		ShaderParser() = delete;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static bool		parseShader(String const & src, SStream & v, SStream & g, SStream & f);
-		static String	parseShader(String const & src);
-		static String	parseIncludes(String const & src);
-		static String	parseIncludes(String line, char lhs, char rhs, IncludeCallback callback);
+		static bool parse(String const & src, SStream & v, SStream & g, SStream & f);
+		
+		static String parse(String const & src);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

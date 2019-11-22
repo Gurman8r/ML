@@ -18,7 +18,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Mesh();
-		Mesh(ArrayList<Vertex> const & vertices, ArrayList<uint32_t> const & indices, ArrayList<Texture const *> const & textures);
+		Mesh(std::vector<Vertex> const & vertices, std::vector<uint32_t> const & indices, std::vector<Texture const *> const & textures);
 		Mesh(Mesh const & copy);
 		~Mesh() { this->dispose(); }
 
@@ -28,9 +28,9 @@ namespace ml
 
 		Mesh & create();
 		Mesh & setLayout(BufferLayout const & value);
-		Mesh & setIndices(ArrayList<uint32_t> const & value);
-		Mesh & setTextures(ArrayList<Texture const *> const & value);
-		Mesh & setVertices(ArrayList<Vertex> const & value);
+		Mesh & setIndices(std::vector<uint32_t> const & value);
+		Mesh & setTextures(std::vector<Texture const *> const & value);
+		Mesh & setVertices(std::vector<Vertex> const & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -42,22 +42,22 @@ namespace ml
 		
 		inline auto ibo() const -> IBO const & { return m_ibo; }
 		
-		inline auto indices() const -> ArrayList<uint32_t> const & { return m_indices; }
+		inline auto indices() const -> std::vector<uint32_t> const & { return m_indices; }
 		
-		inline auto textures() const -> ArrayList<Texture const *> const &	{ return m_textures; }
+		inline auto textures() const -> std::vector<Texture const *> const &	{ return m_textures; }
 		
 		inline auto vao() const -> VAO const & { return m_vao; }
 		
 		inline auto vbo() const -> VBO const & { return m_vbo; }
 		
-		inline auto vertices() const -> ArrayList<Vertex> const & { return m_vertices; }
+		inline auto vertices() const -> std::vector<Vertex> const & { return m_vertices; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		ArrayList<Vertex>			m_vertices;
-		ArrayList<uint32_t>			m_indices;
-		ArrayList<Texture const *>	m_textures;
+		std::vector<Vertex> m_vertices;
+		std::vector<uint32_t> m_indices;
+		std::vector<Texture const *> m_textures;
 		
 		BufferLayout m_layout;
 		

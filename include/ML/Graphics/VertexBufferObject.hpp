@@ -34,13 +34,13 @@ namespace ml
 
 		VertexBufferObject const & bufferData(void * data, uint32_t size) const;
 		
-		VertexBufferObject const & bufferData(ArrayList<float_t> const & data) const;
+		VertexBufferObject const & bufferData(std::vector<float_t> const & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		VertexBufferObject const & bufferSubData(void * data, uint32_t size, uint32_t offset) const;
 		
-		VertexBufferObject const & bufferSubData(ArrayList<float_t> const & data, uint32_t offset) const;
+		VertexBufferObject const & bufferSubData(std::vector<float_t> const & data, uint32_t offset) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

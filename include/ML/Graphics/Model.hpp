@@ -22,8 +22,8 @@ namespace ml
 
 		bool dispose();
 		bool loadFromFile(String const & filename);
-		bool loadFromMemory(ArrayList<Vertex> const & vertices);
-		bool loadFromMemory(ArrayList<Vertex> const & vertices, ArrayList<uint32_t> const & indices);
+		bool loadFromMemory(std::vector<Vertex> const & vertices);
+		bool loadFromMemory(std::vector<Vertex> const & vertices, std::vector<uint32_t> const & indices);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -31,7 +31,7 @@ namespace ml
 			template <class, size_t> class A, class T, size_t N
 		> inline bool loadFromMemory(const A<T, N> & v)
 		{
-			return loadFromMemory(ArrayList<Vertex> { v.begin(), v.end() });
+			return loadFromMemory(std::vector<Vertex> { v.begin(), v.end() });
 		}
 
 		template <
@@ -39,8 +39,8 @@ namespace ml
 		> inline bool loadFromMemory(const A<Vertex, V> & v, const A<uint32_t, I> & i)
 		{
 			return loadFromMemory(
-				ArrayList<Vertex> { v.begin(), v.end() },
-				ArrayList<uint32_t> { i.begin(), i.end() }
+				std::vector<Vertex> { v.begin(), v.end() },
+				std::vector<uint32_t> { i.begin(), i.end() }
 			);
 		}
 
@@ -50,13 +50,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto meshes()		-> ArrayList<Mesh *> &		{ return m_meshes; }
-		inline auto meshes() const	-> const ArrayList<Mesh *> & { return m_meshes; }
+		inline auto meshes()		-> std::vector<Mesh *> &		{ return m_meshes; }
+		inline auto meshes() const	-> const std::vector<Mesh *> & { return m_meshes; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: 
-		ArrayList<Mesh *> m_meshes;
+		std::vector<Mesh *> m_meshes;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

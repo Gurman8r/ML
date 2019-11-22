@@ -40,7 +40,6 @@ namespace ml
 
 		inline auto getTitle()		const	-> C_String	{ return m_title; }
 		inline auto getHotkey()		const	-> C_String { return m_hotkey; }
-		inline auto getFlags()		const	-> int32_t	{ return m_flags; }
 		inline auto isOpen()		const	-> bool		{ return m_open; }
 		inline auto openPtr()				-> bool *	{ return &m_open; }
 		inline auto setOpen(bool value)		-> bool		{ return (m_open = value); }
@@ -53,7 +52,6 @@ namespace ml
 		bool		m_open;
 		C_String	m_title;
 		C_String	m_hotkey;
-		int32_t		m_flags;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

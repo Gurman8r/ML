@@ -40,7 +40,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto history() const -> ArrayList<char *> const & { return m_history; }
+		inline auto history() const -> std::vector<char *> const & { return m_history; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,11 +49,11 @@ namespace ml
 		std::streambuf *	m_coutBuf; // stream redirect buffer
 		SStream				m_coutStr; // stream redirect stream
 		Array<char, 256>	m_inputBuf;
-		ArrayList<String>		m_lines;
+		std::vector<String>		m_lines;
 		bool				m_scrollToBot;
-		ArrayList<char *>		m_history;
+		std::vector<char *>		m_history;
 		int32_t				m_historyPos;
-		ArrayList<C_String>		m_autoFill;
+		std::vector<C_String>		m_autoFill;
 		bool				m_paused;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

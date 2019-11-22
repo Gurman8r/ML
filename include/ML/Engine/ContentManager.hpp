@@ -15,8 +15,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Tree<String, Trackable *>;
-		using TypeMap	= typename Tree<hash_t, AssetMap>;
+		using AssetMap	= typename std::map<String, Trackable *>;
+		using TypeMap	= typename std::map<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -80,6 +80,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		template <class T> inline AssetMap::iterator find(String const & name)
+		{
+			return name ? this->data<T>().find(name) : this->end<T>();
+		}
+
+		template <class T> inline AssetMap::const_iterator find(String const & name) const
+		{
+			return name ? this->data<T>().find(name) : this->end<T>();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline Trackable * insert(hash_t code, String const & name, void * value)
 		{
 			return this->data(code).insert({ name, (Trackable *)value }).first->second;
@@ -121,10 +133,9 @@ namespace ml
 
 		inline bool destroy(hash_t code, String const & name)
 		{
-			auto it{ this->data(code).find(name) };
-			if (it != this->data(code).end())
+			if (auto it{ this->data(code).find(name) }; it != this->data(code).end())
 			{
-				Trackable * & ptr{ it->second };
+				Trackable *& ptr{ it->second };
 				delete ptr;
 				this->data(code).erase(it);
 				return true;
@@ -161,18 +172,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline AssetMap::iterator find(String const & name)
-		{
-			return name ? this->data<T>().find(name) : this->end<T>();
-		}
-
-		template <class T> inline AssetMap::const_iterator find(String const & name) const
-		{
-			return name ? this->data<T>().find(name) : this->end<T>();
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		template <class T> inline T * get(String const & name)
 		{
 			auto it { this->find<T>(name) };
@@ -187,9 +186,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline ArrayList<String> get_keys() const
+		template <class T> inline std::vector<String> get_keys() const
 		{
-			ArrayList<String> temp{};
+			std::vector<String> temp{};
 			temp.reserve(this->size<T>());
 			for (auto const & pair : this->data<T>())
 			{
@@ -201,12 +200,12 @@ namespace ml
 		template <class T> inline String get_name(T const * value) const
 		{
 			const int32_t i { this->get_index_of<T>(value) };
-			return (i >= 0) ? this->get_keys<T>()[(hash_t)i] : String();
+			return (i >= 0) ? this->get_keys<T>()[static_cast<hash_t>(i)] : String();
 		}
 
 		template <class T> inline AssetMap::const_iterator get_iter_at_index(int32_t index) const
 		{
-			if ((index >= 0) && ((hash_t)index < this->size<T>()))
+			if ((index >= 0) && (static_cast<hash_t>(index) < this->size<T>()))
 			{
 				auto it { this->begin<T>() };
 				for (int32_t i = 0; i < index; i++)
@@ -221,20 +220,17 @@ namespace ml
 		template <class T> inline T const * find_by_index(int32_t index) const
 		{
 			auto it { this->get_iter_at_index<T>(index) };
-			return ((it != this->end<T>()) ? (T const *)it->second : nullptr);
+			return ((it != this->end<T>()) ? static_cast<T const *>(it->second) : nullptr);
 		}
 
 		template <class T> inline int32_t get_index_of(T const * value) const
 		{
 			if (value)
 			{
-				int32_t index { 0 };
+				int32_t index{ 0 };
 				for (auto const & [ name, ptr ] : this->data<T>())
 				{
-					if (ptr == value)
-					{
-						return index;
-					}
+					if (ptr == value) { return index; }
 					index++;
 				}
 			}

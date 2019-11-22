@@ -14,7 +14,6 @@ namespace ml
 		, m_hotkey	{ hotkey }
 		, m_open	{ startOpen }
 		, m_good	{ false }
-		, m_flags	{ ImGuiWindowFlags_None }
 	{
 		ML_EventSystem.addListener<GuiEvent>(this);
 	}
@@ -41,7 +40,7 @@ namespace ml
 		ImGui::PushID((int32_t)typeof<>(*this).hash);
 		ImGui::PushID(ML_ADDRESSOF(this));
 		ImGui::PushID(getTitle());
-		return (m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags)));
+		return (m_good = ImGui::Begin(m_title, &m_open, flags));
 	}
 
 	bool Editor_Widget::endDraw()

@@ -81,7 +81,7 @@ namespace ml
 		return (*this);
 	}
 	
-	VertexBufferObject const & VertexBufferObject::bufferData(ArrayList<float_t> const & data) const
+	VertexBufferObject const & VertexBufferObject::bufferData(std::vector<float_t> const & data) const
 	{
 		return bufferData((void *)&data[0], (uint32_t)data.size());
 	}
@@ -103,7 +103,7 @@ namespace ml
 		return (*this);
 	}
 	
-	VertexBufferObject const & VertexBufferObject::bufferSubData(ArrayList<float_t> const & data, uint32_t offset) const
+	VertexBufferObject const & VertexBufferObject::bufferSubData(std::vector<float_t> const & data, uint32_t offset) const
 	{
 		return bufferSubData((void *)&data[0], (uint32_t)data.size(), offset);
 	}

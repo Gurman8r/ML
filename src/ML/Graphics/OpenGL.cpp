@@ -820,6 +820,26 @@ namespace ml
 		glCheck(glUniform4iARB(location, x, y, z, w));
 	}
 
+	void OpenGL::uniform1iv(int32_t location, uint32_t count, int32_t const * value)
+	{
+		glCheck(glUniform1ivARB(location, count, value));
+	}
+
+	void OpenGL::uniform2iv(int32_t location, uint32_t count, int32_t const * value)
+	{
+		glCheck(glUniform2ivARB(location, count, value));
+	}
+
+	void OpenGL::uniform3iv(int32_t location, uint32_t count, int32_t const * value)
+	{
+		glCheck(glUniform3ivARB(location, count, value));
+	}
+
+	void OpenGL::uniform4iv(int32_t location, uint32_t count, int32_t const * value)
+	{
+		glCheck(glUniform4ivARB(location, count, value));
+	}
+
 	void OpenGL::uniform1f(int32_t location, float32_t value)
 	{
 		glCheck(glUniform1fARB(location, value));

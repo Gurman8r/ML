@@ -27,9 +27,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto path()		const -> String const & { return m_path; }
-		inline auto files()		const -> ArrayList<String> const & { return m_files; }
-		inline auto libraries()	const -> ArrayList<SharedLibrary *> const &	{ return m_libraries; }
-		inline auto plugins()	const -> ArrayList<Plugin *> const & { return m_plugins; }
+		inline auto files()		const -> std::vector<String> const & { return m_files; }
+		inline auto libraries()	const -> std::vector<SharedLibrary *> const &	{ return m_libraries; }
+		inline auto plugins()	const -> std::vector<Plugin *> const & { return m_plugins; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -47,9 +47,9 @@ namespace ml
 		~PluginManager() { this->dispose(); }
 
 		String m_path;
-		ArrayList<String> m_files;
-		ArrayList<SharedLibrary *> m_libraries;
-		ArrayList<Plugin *> m_plugins;
+		std::vector<String> m_files;
+		std::vector<SharedLibrary *> m_libraries;
+		std::vector<Plugin *> m_plugins;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

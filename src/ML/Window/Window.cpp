@@ -37,7 +37,7 @@ namespace ml
 
 	static GLFWimage const & map_glfw_image(uint32_t w, uint32_t h, byte_t const * pixels)
 	{
-		static HashMap<byte_t const *, GLFWimage> cache {};
+		static std::unordered_map<byte_t const *, GLFWimage> cache {};
 		auto it { cache.find(pixels) };
 		if (it == cache.end())
 		{
@@ -610,9 +610,9 @@ namespace ml
 		return temp;
 	}
 
-	ArrayList<VideoMode> const & Window::getFullscreenModes()
+	std::vector<VideoMode> const & Window::getFullscreenModes()
 	{
-		static ArrayList<VideoMode> temp {};
+		static std::vector<VideoMode> temp {};
 		static bool once { true };
 		if (once && !(once = false))
 		{
@@ -640,9 +640,9 @@ namespace ml
 		return reinterpret_cast<Window::ProcFun>(glfwGetProcAddress(value));
 	}
 
-	ArrayList<void *> const & Window::getMonitors()
+	std::vector<void *> const & Window::getMonitors()
 	{
-		static ArrayList<void *> temp {};
+		static std::vector<void *> temp {};
 		if (temp.empty())
 		{
 			int32_t count { 0 };

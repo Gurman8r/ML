@@ -17,7 +17,7 @@ namespace ml
 
 	MetadataParser::MetadataParser() : m_lists() {}
 
-	MetadataParser::MetadataParser(ArrayList<Metadata *> const & data)
+	MetadataParser::MetadataParser(std::vector<Metadata *> const & data)
 		: m_lists(data)
 	{
 	}
@@ -38,7 +38,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ArrayList<Metadata *> const & MetadataParser::loadLists(ArrayList<Metadata *> & data, ArrayList<Tree<String, String>> const & value)
+	std::vector<Metadata *> const & MetadataParser::loadLists(std::vector<Metadata *> & data, std::vector<std::map<String, String>> const & value)
 	{
 		for (auto const & elem : value)
 		{
@@ -54,14 +54,14 @@ namespace ml
 		return data;
 	}
 
-	bool MetadataParser::readFile(String const & filename, ArrayList<Metadata *>& list)
+	bool MetadataParser::readFile(String const & filename, std::vector<Metadata *>& list)
 	{
 		SStream file;
 		String	line;
 		return ML_FS.getFileContents(filename, file) && readLists(list, file, line);
 	}
 
-	bool MetadataParser::readLists(ArrayList<Metadata *>& list, std::istream & file, String & line)
+	bool MetadataParser::readLists(std::vector<Metadata *>& list, std::istream & file, String & line)
 	{
 		while (std::getline(file, line))
 		{

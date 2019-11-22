@@ -29,9 +29,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ArrayList<Pair<
+		std::vector<std::pair<
 			String,
-			ArrayList<std::function<void()>>
+			std::vector<std::function<void()>>
 		>> m_menus;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

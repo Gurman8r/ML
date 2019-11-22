@@ -26,7 +26,7 @@ namespace ml
 		inline auto const & traces() const { return m_traces; }
 
 	private:
-		ArrayList<Pair<C_String, Duration>> m_traces;
+		std::vector<std::pair<C_String, Duration>> m_traces;
 		PerformanceTracker() : m_traces{} {}
 		~PerformanceTracker() {}
 	};

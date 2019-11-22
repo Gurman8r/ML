@@ -19,21 +19,21 @@ namespace ml
 
 		virtual ~CommandExecutor() {}
 
-		virtual bool onCommand(CommandDescriptor const & cmd, ArrayList<String> const & args) const = 0;
+		virtual bool onCommand(CommandDescriptor const & cmd, std::vector<String> const & args) const = 0;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API FunctionExecutor final : public CommandExecutor
 	{
-		using fun_type = typename std::function<bool(CommandDescriptor const &, ArrayList<String> const &)>;
+		using fun_type = typename std::function<bool(CommandDescriptor const &, std::vector<String> const &)>;
 
 		FunctionExecutor(fun_type const & fun)
 			: m_fun(fun)
 		{
 		}
 
-		inline bool onCommand(CommandDescriptor const & cmd, ArrayList<String> const & args) const override
+		inline bool onCommand(CommandDescriptor const & cmd, std::vector<String> const & args) const override
 		{
 			return m_fun ? m_fun(cmd, args) : false;
 		}

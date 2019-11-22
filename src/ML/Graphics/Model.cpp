@@ -65,7 +65,7 @@ namespace ml
 		// Meshes
 		for (aiMesh ** m = &scene->mMeshes[0]; m != &scene->mMeshes[scene->mNumMeshes]; m++)
 		{
-			ArrayList<Vertex> vertices;
+			std::vector<Vertex> vertices;
 			
 			// Faces
 			for (aiFace * f = &(*m)->mFaces[0]; f != &(*m)->mFaces[(*m)->mNumFaces]; f++)
@@ -91,7 +91,7 @@ namespace ml
 		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(ArrayList<Vertex> const & vertices)
+	bool Model::loadFromMemory(std::vector<Vertex> const & vertices)
 	{
 		if (dispose())
 		{
@@ -100,7 +100,7 @@ namespace ml
 		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(ArrayList<Vertex> const & vertices, ArrayList<uint32_t> const & indices)
+	bool Model::loadFromMemory(std::vector<Vertex> const & vertices, std::vector<uint32_t> const & indices)
 	{
 		if (dispose())
 		{

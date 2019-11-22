@@ -83,7 +83,7 @@ namespace ml
 		return (*this);
 	}
 
-	IndexBufferObject const & IndexBufferObject::bufferData(ArrayList<uint32_t> const & data) const
+	IndexBufferObject const & IndexBufferObject::bufferData(std::vector<uint32_t> const & data) const
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}

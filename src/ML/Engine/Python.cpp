@@ -176,13 +176,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_ecs {}; 
 		pybind11::class_<ml_py_ecs>(m, "ecs")
-			.def_static("add_component", [](str_t n, str_t t) {
-				auto e { ML_Engine.content().get<Entity>(n) }; 
-				return (e && e->addByName(t)); 
+			.def_static("add_component", [](str_t name, str_t type)
+			{
+				auto e { ML_Engine.content().get<Entity>(name) };
+				return (e && e->add(type));
 			})
-			.def_static("get_component", [](str_t n, str_t t) { 
-				auto e { ML_Engine.content().get<Entity>(n) }; 
-				return (e && e->getByName(t)); 
+			.def_static("get_component", [](str_t name, str_t type)
+			{
+				auto e { ML_Engine.content().get<Entity>(name) };
+				return (e && e->get(type)); 
 			})
 			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value) {
 				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) { return false; }

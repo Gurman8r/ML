@@ -33,7 +33,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static bool Combo(C_String label, int32_t * index, ArrayList<String> const & arr, int32_t max_height = -1);
+		static bool Combo(C_String label, int32_t * index, std::vector<String> const & arr, int32_t max_height = -1);
 
 		static bool Combo(C_String label, int32_t * index, C_String const * arr, int32_t max_height = -1);
 
@@ -57,7 +57,7 @@ namespace ml
 		{
 			static inline bool get_vector(void * value, int32_t i, C_String * out)
 			{
-				auto * vector{ static_cast<ArrayList<String> *>(value) };
+				auto * vector{ static_cast<std::vector<String> *>(value) };
 				if (vector && (i >= 0) && (i < static_cast<int32_t>(vector->size())))
 				{
 					(*out) = vector->at(i).c_str();
@@ -66,6 +66,12 @@ namespace ml
 				return false;
 			}
 		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static int32_t DragMat2(C_String label, mat2 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
+		static int32_t DragMat3(C_String label, mat3 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
+		static int32_t DragMat4(C_String label, mat4 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

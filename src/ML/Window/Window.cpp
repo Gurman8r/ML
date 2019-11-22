@@ -110,7 +110,7 @@ namespace ml
 		m_context	= context;
 		m_style		= style;
 
-		// Context Settings
+
 		glfwWindowHint(GLFW_CLIENT_API,				GLFW_OPENGL_API);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,	m_context.major);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,	m_context.minor);
@@ -118,7 +118,15 @@ namespace ml
 		glfwWindowHint(GLFW_STENCIL_BITS,			m_context.stencilBits);
 		glfwWindowHint(GLFW_SRGB_CAPABLE,			m_context.srgbCapable);
 
-		// Renderer Profile
+		glfwWindowHint(GLFW_RESIZABLE,				m_style.resizable());
+		glfwWindowHint(GLFW_VISIBLE,				m_style.visible());
+		glfwWindowHint(GLFW_DECORATED,				m_style.decorated());
+		glfwWindowHint(GLFW_FOCUSED,				m_style.focused());
+		glfwWindowHint(GLFW_AUTO_ICONIFY,			m_style.autoIconify());
+		glfwWindowHint(GLFW_FLOATING,				m_style.floating());
+		glfwWindowHint(GLFW_MAXIMIZED,				m_style.maximized());
+		glfwWindowHint(GLFW_DOUBLEBUFFER,			m_style.doubleBuffered());
+
 		glfwWindowHint(GLFW_OPENGL_PROFILE, 
 			(m_context.profile == 0
 				? GLFW_OPENGL_DEBUG_CONTEXT
@@ -129,15 +137,6 @@ namespace ml
 						: GLFW_OPENGL_ANY_PROFILE
 						))));
 		
-		// Window Style
-		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable());
-		glfwWindowHint(GLFW_VISIBLE,		m_style.visible());
-		glfwWindowHint(GLFW_DECORATED,		m_style.decorated());
-		glfwWindowHint(GLFW_FOCUSED,		m_style.focused());
-		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify());
-		glfwWindowHint(GLFW_FLOATING,		m_style.floating());
-		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized());
-
 		// Create Window
 		if (m_window = static_cast<GLFWwindow *>(glfwCreateWindow(
 			this->getWidth(),

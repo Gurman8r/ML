@@ -14,6 +14,7 @@
 #include <ML/Engine/Python.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Script.hpp>
+#include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -93,7 +94,8 @@ namespace ml
 				prefs().get_bool	("Window", "focused",		true),
 				prefs().get_bool	("Window", "auto_iconify",	true),
 				prefs().get_bool	("Window", "floating",		false),
-				prefs().get_bool	("Window", "maximized",		true) }, {
+				prefs().get_bool	("Window", "maximized",		true),
+				prefs().get_bool	("Window", "double_buffer",	true) }, {
 				prefs().get_uint	("Window", "major_version",	3),
 				prefs().get_uint	("Window", "minor_version",	3),
 				prefs().get_uint	("Window", "profile",		ContextSettings::Compat),
@@ -170,8 +172,6 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			time().beginStep();
-
 			window().pollEvents();
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -199,9 +199,14 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			window().swapBuffers();
-
-			time().endStep();
+			if (window().getStyle().doubleBuffered())
+			{
+				window().swapBuffers();
+			}
+			else
+			{
+				ML_GL.flush();
+			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;

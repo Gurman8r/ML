@@ -5,6 +5,7 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Preferences.hpp>
+#include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/Debug.hpp>
@@ -223,6 +224,7 @@ namespace ml
 				ImGui::RenderPlatformWindowsDefault();
 				Window::makeContextCurrent(backup_context);
 			}
+			ML_GL.flush();
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;

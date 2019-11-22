@@ -26,6 +26,7 @@ namespace ml
 			AutoIconify,
 			Floating,
 			Maximized,
+			DoubleBuffered,
 		};
 
 		static constexpr Flag Flag_values[] = {
@@ -35,7 +36,8 @@ namespace ml
 			Flag::Focused,
 			Flag::AutoIconify,
 			Flag::Floating,
-			Flag::Maximized
+			Flag::Maximized,
+			Flag::DoubleBuffered,
 		};
 
 		static constexpr C_String Flag_names[] = {
@@ -45,7 +47,8 @@ namespace ml
 			"Focused",
 			"AutoIconify",
 			"Floating",
-			"Maximized"
+			"Maximized",
+			"Double Buffered"
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -62,9 +65,10 @@ namespace ml
 			bool focused,
 			bool autoIconify,
 			bool floating,
-			bool maximized
+			bool maximized, 
+			bool doubleBuffer
 		) : self_type{ base_type { {
-			resizable, visible, decorated, focused, autoIconify, floating, maximized, false
+			resizable, visible, decorated, focused, autoIconify, floating, maximized, doubleBuffer
 		} } }
 		{
 		}
@@ -94,6 +98,7 @@ namespace ml
 		constexpr bool autoIconify()	const { return m_data[AutoIconify]; }
 		constexpr bool floating()		const { return m_data[Floating]; }
 		constexpr bool maximized()		const { return m_data[Maximized]; }
+		constexpr bool doubleBuffered()	const { return m_data[DoubleBuffered]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

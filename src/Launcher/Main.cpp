@@ -84,6 +84,8 @@ ml::int32_t main()
 	// Main Loop
 	while (ML_Engine.window().isOpen())
 	{
+		ML_Engine.time().beginStep();
+
 		{ ML_TRACE("Begin Step");	ML_EventSystem.fireEvent<BeginStepEvent>(); }
 		{ ML_TRACE("-Update");		ML_EventSystem.fireEvent<UpdateEvent>(); }
 		{ ML_TRACE("-Draw");		ML_EventSystem.fireEvent<DrawEvent>(); }
@@ -93,6 +95,8 @@ ml::int32_t main()
 		{ ML_TRACE("End Step");		ML_EventSystem.fireEvent<EndStepEvent>(); }
 
 		ML_PerformanceTracker.endFrame();
+
+		ML_Engine.time().endStep();
 	}
 
 	// Unload

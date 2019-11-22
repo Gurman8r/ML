@@ -67,6 +67,8 @@ namespace ml
 				if (ML_BIND_SCOPE(IBO, ibo))
 				{
 					ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
+
+					ML_GL.flush();
 				}
 			}
 		}
@@ -80,6 +82,8 @@ namespace ml
 			if (ML_BIND_SCOPE(VBO, vbo))
 			{
 				ML_GL.drawArrays(vao.mode(), 0, vbo.size());
+
+				ML_GL.flush();
 			}
 		}
 		return (*this);

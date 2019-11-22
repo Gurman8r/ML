@@ -44,11 +44,11 @@ namespace ml
 
 			m_graphs.push_back(GraphLines{});
 			m_graphs[0].m_min = 0.f;
-			m_graphs[0].m_max = 0.033f;
+			m_graphs[0].m_max = 0.05f;
 
 			m_graphs.push_back(GraphLines{});
 			m_graphs[1].m_min = 0.f;
-			m_graphs[1].m_max = 70.f;
+			m_graphs[1].m_max = 1000.f;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;

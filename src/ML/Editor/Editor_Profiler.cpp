@@ -109,11 +109,11 @@ namespace ml
 
 				// Benchmarks
 				/* * * * * * * * * * * * * * * * * * * * */
-				auto const & traces{ ML_PerformanceTracker.traces() };
-				if (!traces.empty() && ImGui::BeginTabItem("Benchmarks"))
+				auto const & lastFrame{ ML_PerformanceTracker.lastFrame() };
+				if (!lastFrame.empty() && ImGui::BeginTabItem("Benchmarks"))
 				{
 					ImGui::Columns(2);
-					for (auto it = traces.begin(); it != traces.end(); it++)
+					for (auto it = lastFrame.begin(); it != lastFrame.end(); it++)
 					{
 						ImGui::Text("%s", it->first);
 

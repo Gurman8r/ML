@@ -33,7 +33,6 @@ namespace ml
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<BeginStepEvent>(this);
 		ML_EventSystem.addListener<UpdateEvent>(this);
-		ML_EventSystem.addListener<EndDrawEvent>(this);
 		ML_EventSystem.addListener<EndStepEvent>(this);
 		ML_EventSystem.addListener<UnloadEvent>(this);
 		ML_EventSystem.addListener<ExitEvent>(this);
@@ -196,17 +195,11 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
-		case EndDrawEvent::ID: if (auto ev{ value.as<EndDrawEvent>() })
+		case EndStepEvent::ID: if (auto ev{ value.as<EndStepEvent>() })
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			window().swapBuffers();
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		} break;
-		case EndStepEvent::ID: if (auto ev{ value.as<EndStepEvent>() })
-		{
-			/* * * * * * * * * * * * * * * * * * * * */
 
 			time().endStep();
 

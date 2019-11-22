@@ -16,9 +16,7 @@ namespace ml
 		EV_Start,		// 
 		EV_BeginStep,	// 
 		EV_Update,		// 
-		EV_BeginDraw,	// 
 		EV_Draw,		// 
-		EV_EndDraw,		// 
 		EV_EndStep,		// 
 		EV_Unload,		// 
 		EV_Exit,		// 
@@ -76,19 +74,9 @@ namespace ml
 		constexpr UpdateEvent() {}
 	};
 
-	struct BeginDrawEvent final : public EngineEvent<EngineEventType::EV_BeginDraw>
-	{
-		constexpr BeginDrawEvent() {}
-	};
-
 	struct DrawEvent final : public EngineEvent<EngineEventType::EV_Draw>
 	{
 		constexpr DrawEvent() {}
-	};
-
-	struct EndDrawEvent final : public EngineEvent<EngineEventType::EV_EndDraw>
-	{
-		constexpr EndDrawEvent() {}
 	};
 
 	struct EndStepEvent final : public EngineEvent<EngineEventType::EV_EndStep>

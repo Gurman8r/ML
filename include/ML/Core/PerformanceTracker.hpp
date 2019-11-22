@@ -30,7 +30,7 @@ namespace ml
 		~PerformanceTracker() {}
 
 	public:
-		inline void swap_buffers()
+		inline void endFrame()
 		{
 			m_prev = m_curr;
 
@@ -42,7 +42,7 @@ namespace ml
 			m_curr.push_back({ name, duration });
 		}
 
-		inline auto const & traces() const
+		inline auto const & lastFrame() const
 		{
 			return m_prev;
 		}

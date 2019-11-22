@@ -10,7 +10,7 @@
 
 import MEMELIB as ml
 
-PATH = "../../../assets"
+PATH = ml.prefs.get("Engine", "asset_path", "../../../assets")
 
 ml.content.load_all([
 

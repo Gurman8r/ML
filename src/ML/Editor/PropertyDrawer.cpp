@@ -2418,7 +2418,17 @@ namespace ml
 			{
 				if (sampler_type == 0)
 				{
-					if (asset_path)
+					if (image[0])
+					{
+						if (value = ML_Engine.content().create<Texture>(name))
+						{
+							if (!value->loadFromImage(*image[0]))
+							{
+								Debug::logError("Failed loading texture from image: {0}", name);
+							}
+						}
+					}
+					else if (asset_path)
 					{
 						if (value = ML_Engine.content().create<Texture>(name))
 						{
@@ -2428,13 +2438,9 @@ namespace ml
 							}
 							else
 							{
-								Debug::logError("Failed loading image: {0}", asset_path);
+								Debug::logError("Failed loading texture from file: {0}", name);
 							}
 						}
-					}
-					else if (image[0] && (value = ML_Engine.content().create<Texture>(name, image[0]->getFormat(), true, false)))
-					{
-						value->loadFromImage(*image[0]);
 					}
 				}
 				else if (sampler_type == 1)

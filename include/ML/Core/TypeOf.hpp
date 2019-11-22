@@ -24,8 +24,7 @@ namespace ml
 
 	template <> struct typeof<> final
 	{
-		const StringView name;
-		const hash_t hash;
+		const StringView name; const hash_t hash;
 
 		constexpr typeof() noexcept
 			: name{ "" }, hash{ 0 }
@@ -33,7 +32,7 @@ namespace ml
 		}
 
 		template <class T> constexpr typeof(T const &) noexcept
-			: typeof { typeof<T>{} } 
+			: typeof { typeof<T>{} }
 		{
 		}
 
@@ -42,9 +41,14 @@ namespace ml
 		{
 		}
 
-		template <class T> constexpr typeof(const typeof<T> & copy) noexcept
+		template <class T> constexpr typeof(typeof<T> const & copy) noexcept
 			: name{ copy.name }, hash{ copy.hash }
 		{
+		}
+
+		constexpr operator bool() const
+		{
+			return name;
 		}
 	};
 	

@@ -28,7 +28,7 @@ namespace ml
 
 	template <class T> struct BasePropertyDrawer<T>
 	{
-		using value_type		= typename detail::decay_t<T>;
+		using value_type		= typename detail::root_t<T>;
 		using self_type			= typename PropertyDrawer<value_type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;

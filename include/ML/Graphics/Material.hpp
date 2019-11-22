@@ -33,7 +33,7 @@ namespace ml
 		{
 			return std::find_if(this->begin(), this->end(), [&](auto u)
 			{
-				return (u && u->getName() == name);
+				return (u && u->name() == name);
 			});
 		}
 
@@ -41,7 +41,7 @@ namespace ml
 		{
 			return std::find_if(this->cbegin(), this->cend(), [&](auto u)
 			{
-				return (u && u->getName() == name);
+				return (u && u->name() == name);
 			});
 		}
 
@@ -50,7 +50,7 @@ namespace ml
 		inline Uniform * insert(Uniform * value)
 		{
 			if (!value) { return nullptr; }
-			if (auto it{ this->find(value->getName()) }; it == this->end())
+			if (auto it{ this->find(value->name()) }; it == this->end())
 			{
 				m_uniforms.push_back(std::move(value));
 				return m_uniforms.back();
@@ -62,7 +62,7 @@ namespace ml
 		inline Uniform * insert(String const & name, T const & value)
 		{
 			if (!name) { return nullptr; }
-			if (auto it{ this->find(value->getName()) }; it == this->end())
+			if (auto it{ this->find(value->name()) }; it == this->end())
 			{
 				m_uniforms.push_back(new U { name, value });
 				return m_uniforms.back();
@@ -74,7 +74,7 @@ namespace ml
 
 		inline bool erase(Uniform * value)
 		{
-			return (value && value->getName()) && erase(value->getName());
+			return (value && value->name()) && erase(value->name());
 		}
 
 		inline bool erase(String const & name)
@@ -112,7 +112,7 @@ namespace ml
 		{
 			if (auto u { this->get<U>(name) })
 			{
-				u->setData(value);
+				u->update(value);
 				return true;
 			}
 			return false;
@@ -125,7 +125,7 @@ namespace ml
 			auto it{ this->find(from) };
 			if ((it != end()) && (to && (this->find(to) == this->end())))
 			{
-				(*it)->setName(to);
+				(*it)->rename(to);
 				return true;
 			}
 			return false;

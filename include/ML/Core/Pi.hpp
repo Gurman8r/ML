@@ -15,7 +15,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type = typename detail::decay_t<T>;
+		using type = typename detail::root_t<T>;
 
 		using self_type = typename pi<type>;
 

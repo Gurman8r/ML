@@ -101,7 +101,7 @@ namespace ml
 					{
 						if (auto u { (Uniform *)it->second })
 						{
-							no_delete = !u->isModifiable();
+							no_delete = !u->is_modifiable();
 						}
 					}
 					else if (std::is_same_v<T, RenderTexture>) no_delete = true;

@@ -159,7 +159,7 @@ namespace ml
 
 			// Sort
 			std::sort(this->begin(), this->end(), [&](auto a, auto b) {
-				return a->getName() < b->getName();
+				return a->name() < b->name();
 			});
 
 			file.close();

@@ -272,20 +272,20 @@ namespace ml
 
 	bool Shader::setUniform(Uniform const * value) const
 	{
-		if (!value || !value->getName()) { return false; }
-		switch (value->getID())
+		if (!value || !value->name()) { return false; }
+		switch (value->category())
 		{
-		case uni_bool	::ID: return setUniform(value->getName(), *detail::uni_cast<bool>(value));
-		case uni_float	::ID: return setUniform(value->getName(), *detail::uni_cast<float_t>(value));
-		case uni_int	::ID: return setUniform(value->getName(), *detail::uni_cast<int32_t>(value));
-		case uni_vec2	::ID: return setUniform(value->getName(), *detail::uni_cast<vec2>(value));
-		case uni_vec3	::ID: return setUniform(value->getName(), *detail::uni_cast<vec3>(value));
-		case uni_vec4	::ID: return setUniform(value->getName(), *detail::uni_cast<vec4>(value));
-		case uni_color	::ID: return setUniform(value->getName(), *detail::uni_cast<Color>(value));
-		case uni_mat2	::ID: return setUniform(value->getName(), *detail::uni_cast<mat2>(value));
-		case uni_mat3	::ID: return setUniform(value->getName(), *detail::uni_cast<mat3>(value));
-		case uni_mat4	::ID: return setUniform(value->getName(), *detail::uni_cast<mat4>(value));
-		case uni_sampler::ID: return setUniform(value->getName(), *detail::uni_cast<Texture const *>(value));
+		case uni_bool	::ID: if(auto v{ uniform_cast<bool>(value) }) return setUniform(value->name(), *v);
+		case uni_float	::ID: if(auto v{ uniform_cast<int32_t>(value) }) return setUniform(value->name(), *v);
+		case uni_int	::ID: if(auto v{ uniform_cast<float_t>(value) }) return setUniform(value->name(), *v);
+		case uni_vec2	::ID: if(auto v{ uniform_cast<vec2>(value) }) return setUniform(value->name(), *v);
+		case uni_vec3	::ID: if(auto v{ uniform_cast<vec3>(value) }) return setUniform(value->name(), *v);
+		case uni_vec4	::ID: if(auto v{ uniform_cast<vec4>(value) }) return setUniform(value->name(), *v);
+		case uni_color	::ID: if(auto v{ uniform_cast<Color>(value) }) return setUniform(value->name(), *v);
+		case uni_mat2	::ID: if(auto v{ uniform_cast<mat2>(value) }) return setUniform(value->name(), *v);
+		case uni_mat3	::ID: if(auto v{ uniform_cast<mat3>(value) }) return setUniform(value->name(), *v);
+		case uni_mat4	::ID: if(auto v{ uniform_cast<mat4>(value) }) return setUniform(value->name(), *v);
+		case uni_sampler::ID: if(auto v{ uniform_cast<Texture const *>(value) }) return setUniform(value->name(), *v);
 		}
 		return false;
 	}

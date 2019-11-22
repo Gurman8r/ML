@@ -18,7 +18,7 @@ namespace ml
 
 		enum : size_t { Size = sizeof(T) * 8 };
 
-		using value_type = typename detail::decay_t<T>;
+		using value_type = typename detail::root_t<T>;
 		using self_type = typename BitMask<value_type>;
 		using array_type = typename Array<bool, Size>;
 		using pointer = typename value_type *;

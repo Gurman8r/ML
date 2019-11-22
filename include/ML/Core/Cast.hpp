@@ -1,7 +1,7 @@
 #ifndef _ML_CAST_HPP_
 #define _ML_CAST_HPP_
 
-#include <ML/Core/Decay.hpp>
+#include <ML/Core/RootOf.hpp>
 
 namespace ml
 {
@@ -15,7 +15,7 @@ namespace ml
 
 	template <class T> struct cast<T> final
 	{
-		using type = typename detail::decay_t<T>;
+		using type = typename detail::root_t<T>;
 
 		constexpr cast() noexcept = default;
 

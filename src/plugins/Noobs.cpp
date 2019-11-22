@@ -670,7 +670,7 @@ namespace ml
 						if (to_add && !m->insert(to_add))
 						{
 							Debug::logError("A uniform with the name \'{0}\' already exists",
-								to_add->getName()
+								to_add->name()
 							);
 							delete to_add;
 						}
@@ -688,21 +688,21 @@ namespace ml
 							ss << std::left
 								<< "uniform "
 								<< std::setw(7) << util::to_string(*u) << " "
-								<< std::setw(15) << u->getName() << " "
+								<< std::setw(15) << u->name() << " "
 								<< "{ ";
-							switch (u->getID())
+							switch (u->category())
 							{
-							case uni_bool::ID	: if (auto a { detail::uni_cast<bool>(u) }) ss << (*a); break;
-							case uni_float::ID	: if (auto a { detail::uni_cast<float_t>(u) }) ss << (*a); break;
-							case uni_int::ID	: if (auto a { detail::uni_cast<int32_t>(u) }) ss << (*a); break;
-							case uni_vec2::ID	: if (auto a { detail::uni_cast<vec2>(u) }) ss << (*a); break;
-							case uni_vec3::ID	: if (auto a { detail::uni_cast<vec3>(u) }) ss << (*a); break;
-							case uni_vec4::ID	: if (auto a { detail::uni_cast<vec4>(u) }) ss << (*a); break;
-							case uni_color::ID	: if (auto a { detail::uni_cast<Color>(u) }) ss << (*a); break;
-							case uni_mat2::ID	: if (auto a { detail::uni_cast<mat2>(u) }) ss << (*a); break;
-							case uni_mat3::ID	: if (auto a { detail::uni_cast<mat3>(u) }) ss << (*a); break;
-							case uni_mat4::ID	: if (auto a { detail::uni_cast<mat4>(u) }) ss << (*a); break;
-							case uni_sampler::ID: if (auto a { detail::uni_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*a); break;
+							case uni_bool	::ID: if (auto a{ uniform_cast<bool>(u) }) ss << (*a); break;
+							case uni_float	::ID: if (auto a{ uniform_cast<float_t>(u) }) ss << (*a); break;
+							case uni_int	::ID: if (auto a{ uniform_cast<int32_t>(u) }) ss << (*a); break;
+							case uni_vec2	::ID: if (auto a{ uniform_cast<vec2>(u) }) ss << (*a); break;
+							case uni_vec3	::ID: if (auto a{ uniform_cast<vec3>(u) }) ss << (*a); break;
+							case uni_vec4	::ID: if (auto a{ uniform_cast<vec4>(u) }) ss << (*a); break;
+							case uni_color	::ID: if (auto a{ uniform_cast<Color>(u) }) ss << (*a); break;
+							case uni_mat2	::ID: if (auto a{ uniform_cast<mat2>(u) }) ss << (*a); break;
+							case uni_mat3	::ID: if (auto a{ uniform_cast<mat3>(u) }) ss << (*a); break;
+							case uni_mat4	::ID: if (auto a{ uniform_cast<mat4>(u) }) ss << (*a); break;
+							case uni_sampler::ID: if (auto a{ uniform_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*a); break;
 							}
 							if (ss.str().back() != ' ') ss << ' ';
 							ss << "}" << std::endl;
@@ -724,12 +724,12 @@ namespace ml
 						auto sort_type_ascending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->getID()) < (rhs->getID()); }); });
+							[](auto lhs, auto rhs) { return (lhs->category()) < (rhs->category()); }); });
 
 						auto sort_type_descending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->getID()) > (rhs->getID()); }); });
+							[](auto lhs, auto rhs) { return (lhs->category()) > (rhs->category()); }); });
 
 						static bool state { 0 };
 						if (state = !state) { sort_type_ascending(); }
@@ -742,12 +742,12 @@ namespace ml
 						auto sort_name_ascending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->getName()) < (rhs->getName()); }); });
+							[](auto lhs, auto rhs) { return (lhs->name()) < (rhs->name()); }); });
 
 						auto sort_name_descending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->getName()) > (rhs->getName()); }); });
+							[](auto lhs, auto rhs) { return (lhs->name()) > (rhs->name()); }); });
 
 						static bool state { 0 };
 						if (state = !state) { sort_name_ascending(); }
@@ -760,12 +760,12 @@ namespace ml
 						auto sort_value_ascending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->isModifiable()) < (rhs->isModifiable()); }); });
+							[](auto lhs, auto rhs) { return (lhs->is_modifiable()) < (rhs->is_modifiable()); }); });
 
 						auto sort_value_descending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->isModifiable()) > (rhs->isModifiable()); }); });
+							[](auto lhs, auto rhs) { return (lhs->is_modifiable()) > (rhs->is_modifiable()); }); });
 
 						static bool state { 0 };
 						if (state = !state) { sort_value_ascending(); }
@@ -784,8 +784,8 @@ namespace ml
 					{
 						if (!u) continue;
 						ImGui::Columns(3, "##Uni##Columns");
-						const String label { "##Uni##" + u->getName() };
-						const float_t color_ref{ (float_t)u->getID() / (float_t)Uniform::MAX_UNIFORM_TYPE };
+						const String label { "##Uni##" + u->name() };
+						const float_t color_ref{ (float_t)u->category() / (float_t)Uniform::MAX_UNIFORM_TYPE };
 
 						// Uniform Type
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -797,10 +797,10 @@ namespace ml
 						// Uniform Name
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
-						if (u->isModifiable())
+						if (u->is_modifiable())
 						{
 							static char name[32] = "";
-							std::strcpy(name, u->getName().c_str());
+							std::strcpy(name, u->name().c_str());
 							const bool input_submit{ ImGui::InputText(
 								(label + "##Name").c_str(),
 								name,
@@ -809,7 +809,7 @@ namespace ml
 							) };
 							if (input_submit)
 							{
-								if (!m->rename(u->getName(), name))
+								if (!m->rename(u->name(), name))
 								{
 									Debug::logError("A uniform with that name already exists"); 
 								}
@@ -817,7 +817,7 @@ namespace ml
 						}
 						else
 						{
-							ImGui::Text(u->getName().c_str());
+							ImGui::Text(u->name().c_str());
 						}
 						ImGui::PopItemWidth();
 						ImGui::NextColumn();
@@ -835,7 +835,7 @@ namespace ml
 							if (ImGuiExt::Confirm(
 								"Delete Uniform",
 								ImGui::Button("Delete"),
-								"Are you sure you want to delete uniform {0}?"_s.format(u->getName())
+								"Are you sure you want to delete uniform {0}?"_s.format(u->name())
 							) == ImGuiExt::Submitted)
 							{
 								to_remove = u;

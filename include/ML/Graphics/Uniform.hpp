@@ -39,7 +39,7 @@ namespace ml
 
 		template <class T> static constexpr hash_t category()
 		{
-			switch (typeof<detail::decay_t<T>>::hash)
+			switch (typeof<detail::root_t<T>>::hash)
 			{
 			case typeof<bool>	::hash:	return ID_Boolean;
 			case typeof<int32_t>::hash: return ID_Integer;
@@ -64,27 +64,39 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		virtual hash_t category() const = 0;
+		
 		virtual Uniform * clone() const = 0;
 		
-		virtual hash_t getID() const = 0;
-
-		virtual typeof<> getType() const = 0;
-
-		virtual hash_t getHash() const = 0;
-
-		virtual bool isModifiable() const = 0;
+		virtual bool is_modifiable() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getName() const -> String const & { return m_name; }
+		virtual typeof<> get_base_type() const = 0;
+		
+		virtual typeof<> get_data_type() const = 0;
 
-		inline auto setName(String const & value) -> String const & { return (m_name = value); }
+		virtual typeof<> get_root_type() const = 0;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline hash_t get_base_id() const { return this->get_base_type().hash; }
+		
+		inline hash_t get_data_id() const { return this->get_data_type().hash; }
+
+		inline hash_t get_root_id() const { return this->get_root_type().hash; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto name() const -> String const & { return m_name; }
+
+		inline auto rename(String const & value) -> String const & { return (m_name = value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline friend ML_SERIALIZE(std::ostream & out, Uniform const & value)
 		{
-			return out << Uniform::Type_names[value.getID()];
+			return out << Uniform::Type_names[value.category()];
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -97,15 +109,15 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Uniform Implementation
-	template <class Base, class Value> struct UniformImpl final : public Uniform
+	template <class Base, class Data> struct UniformImpl final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using base_type = typename Base;
 
-		using value_type = typename Value;
+		using data_type = typename Data;
 		
-		using self_type = typename UniformImpl<base_type, value_type>;
+		using self_type = typename UniformImpl<base_type, data_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -113,41 +125,44 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit UniformImpl(String const & name, value_type data)
+		explicit UniformImpl(String const & name, data_type data)
 			: Uniform { name }, m_data { data }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline self_type * clone() const override { return new self_type { getName(), getData() };  }
+		inline hash_t category() const override { return self_type::ID; }
 
-		inline hash_t getID() const override { return self_type::ID; }
+		inline self_type * clone() const override { return new self_type { name(), data() };  }
 
-		inline typeof<> getType() const override { return typeof<value_type>{}; }
-
-		inline hash_t getHash() const override { return getType().hash; }
-
-		inline bool isModifiable() const override
+		inline bool is_modifiable() const override
 		{
-			// uniform owns its value and is not a function
-			static const bool temp{
-				(std::is_same_v<value_type, detail::decay_t<value_type>> || 
-				std::is_same_v<value_type, Texture const *>)
-				&& (typeof<value_type>::name.str().find("function") == String::npos)
+			static const bool can_edit{ // uniform owns its value and is not a function
+				(std::is_same_v<data_type, detail::root_t<data_type>> ||
+				std::is_same_v<data_type, Texture const *>)
+				&& (get_data_type().name.str().find("function") == String::npos)
 			};
-			return temp;
+			return can_edit;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline value_type const & getData() const { return m_data; }
+		inline typeof<> get_base_type() const override { return typeof<base_type>{}; }
 
-		inline value_type const & setData(value_type value) { return (m_data = value); }
+		inline typeof<> get_data_type() const override { return typeof<data_type>{}; }
+
+		inline typeof<> get_root_type() const override { return typeof<detail::root_t<base_type>>{}; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: value_type m_data;
+		inline data_type const & data() const { return m_data; }
+
+		inline data_type const & update(data_type value) { return (m_data = value); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: data_type m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -196,38 +211,37 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace detail
+	template <class T> static inline T const * uniform_cast(Uniform const * value)
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> static inline T const * uni_cast(Uniform const * value)
+		if (!value) { return nullptr; }
+		static T temp{ 0 };
+		switch (value->get_data_id())
 		{
-			if (!value) { return nullptr; }
-			static T temp{ 0 };
-			switch (value->getHash())
+		case typeof<T>::hash:
+			if (const auto u{ static_cast<uni_value<T> const *>(value) })
 			{
-			case typeof<T>::hash:
-				if (auto u{ static_cast<uni_value<T> const *>(value) })
-				{
-					return &(temp = u->getData());
-				}
+				return &(temp = u->data());
+			}
 
-			case typeof<T const *>::hash:
-				if (auto u{ static_cast<uni_pointer<T> const *>(value) }; u && u->getData())
+		case typeof<T const *>::hash:
+			if (const auto u{ static_cast<uni_pointer<T> const *>(value) })
+			{
+				if (const auto ptr{ u->data() })
 				{
-					return &(temp = (*u->getData()));
-				}
-
-			case typeof<std::function<T()>>::hash:
-				if (auto u{ static_cast<uni_function<T> const *>(value) }; u && u->getData())
-				{
-					return &(temp = u->getData()());
+					return &(temp = (*ptr));
 				}
 			}
-			return nullptr;
-		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		case typeof<std::function<T()>>::hash:
+			if (const auto u{ static_cast<uni_function<T> const *>(value) })
+			{
+				if (const auto fun{ u->data() })
+				{
+					return &(temp = fun());
+				}
+			}
+		}
+		return nullptr;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

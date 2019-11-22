@@ -1,5 +1,5 @@
-#ifndef _ML_DECAY_HPP_
-#define _ML_DECAY_HPP_
+#ifndef _ML_ROOT_OF_HPP_
+#define _ML_ROOT_OF_HPP_
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -11,10 +11,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		// Used to get the absolute type of T
-		template <class T> struct decay final
+		template <class T> struct root final
 		{
-			decay() = delete;
+			root() = delete;
 
 			using type = typename 
 				std::remove_const_t<
@@ -27,7 +26,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ML_USING_X decay_t = typename decay<X>::type;
+		// remove all qualifiers pointers and references
+		ML_USING_X root_t = typename root<X>::type;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
@@ -35,4 +35,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_DECAY_HPP_
+#endif // !_ML_ROOT_OF_HPP_

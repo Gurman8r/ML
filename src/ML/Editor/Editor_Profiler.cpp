@@ -113,7 +113,6 @@ namespace ml
 				if (!traces.empty() && ImGui::BeginTabItem("Benchmarks"))
 				{
 					ImGui::Columns(2);
-
 					for (auto it = traces.begin(); it != traces.end(); it++)
 					{
 						ImGui::Text("%s", it->first);
@@ -124,7 +123,7 @@ namespace ml
 
 						ImGui::NextColumn();
 					}
-
+					ImGui::Columns(1);
 					ImGui::EndTabItem();
 				}
 

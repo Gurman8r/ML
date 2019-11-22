@@ -18,6 +18,7 @@
 
 # Screenshots
 
+![alt_text](https://i.imgur.com/nSQoKSj.png)
 ![alt_text](https://i.imgur.com/HyNtmAz.png)
 ![alt_text](https://i.imgur.com/Uqvf4jS.png)
 ![alt_text](https://i.imgur.com/2wsHoQC.png)

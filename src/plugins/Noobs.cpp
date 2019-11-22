@@ -256,8 +256,10 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				auto it{ m_pipeline.begin() };
+
 				// Render Main Scene
-				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(0)))
+				if (ML_BIND_SCOPE(RenderTexture, *it))
 				{
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
@@ -287,9 +289,11 @@ namespace ml
 						}
 					}
 				}
+				
+				/* Next Layer */ if ((it + 1) != m_pipeline.end()) { it++; }
 
 				// Render Post Processing
-				if (ML_BIND_SCOPE(RenderTexture, m_pipeline.at(1)))
+				if (ML_BIND_SCOPE(RenderTexture, *it))
 				{
 					// Apply Camera
 					if (auto c{ Camera::mainCamera() }; c && c->enabled())
@@ -306,7 +310,7 @@ namespace ml
 					}();
 
 					// Draw Previous
-					ML_Engine.window().draw(m_pipeline.at(0));
+					ML_Engine.window().draw(*(it - 1));
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -714,63 +718,77 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					static bool setup_uni_columns { false };
-
 					// Uniform Column Headers
-					ImGui::Columns(3, "##Uni##Columns");
-					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.1f); }
+					static bool setup_uni_columns { false };
+					ImGui::Columns(4, "##Uni##Columns");
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.1f); } // 10
 					if (ImGui::Selectable("Type"))
 					{
-						auto sort_type_ascending = ([&]() { std::sort(
-							m->begin(),
-							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->category()) < (rhs->category()); }); });
-
-						auto sort_type_descending = ([&]() { std::sort(
-							m->begin(),
-							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->category()) > (rhs->category()); }); });
-
-						static bool state { 0 };
-						if (state = !state) { sort_type_ascending(); }
-						else { sort_type_descending(); }
+						static bool state{ 0 };
+						if (state = !state)
+						{
+							std::sort(
+								m->begin(),
+								m->end(),
+								[](auto lhs, auto rhs) { return lhs->category() < rhs->category(); }
+							);
+						}
+						else
+						{
+							std::sort(
+								m->begin(),
+								m->end(),
+								[](auto lhs, auto rhs) { return lhs->category() > rhs->category(); }
+							);
+						}
 					}
 					ImGui::NextColumn();
-					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.15f); }
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.15f); } // 25
 					if (ImGui::Selectable("Name"))
 					{
-						auto sort_name_ascending = ([&]() { std::sort(
-							m->begin(),
-							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->name()) < (rhs->name()); }); });
-
-						auto sort_name_descending = ([&]() { std::sort(
-							m->begin(),
-							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->name()) > (rhs->name()); }); });
-
-						static bool state { 0 };
-						if (state = !state) { sort_name_ascending(); }
-						else { sort_name_descending(); }
+						static bool state{ 0 };
+						if (state = !state)
+						{
+							std::sort(
+								m->begin(),
+								m->end(),
+								[](auto lhs, auto rhs) { return lhs->name() < rhs->name(); }
+							);
+						}
+						else
+						{
+							std::sort(
+								m->begin(),
+								m->end(),
+								[](auto lhs, auto rhs) { return lhs->name() > rhs->name(); }
+							);
+						}
 					}
 					ImGui::NextColumn();
-					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.75f); }
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.65f); } // 90
 					if (ImGui::Selectable("Value"))
 					{
-						auto sort_value_ascending = ([&]() { std::sort(
-							m->begin(),
-							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->is_modifiable()) < (rhs->is_modifiable()); }); });
-
-						auto sort_value_descending = ([&]() { std::sort(
-							m->begin(),
-							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->is_modifiable()) > (rhs->is_modifiable()); }); });
-
 						static bool state { 0 };
-						if (state = !state) { sort_value_ascending(); }
-						else { sort_value_descending(); }
+						if (state = !state) 
+						{
+							std::sort(
+								m->begin(),
+								m->end(),
+								[](auto lhs, auto rhs) { return lhs->is_modifiable() < rhs->is_modifiable(); }
+							);
+						}
+						else
+						{
+							std::sort(
+								m->begin(),
+								m->end(),
+								[](auto lhs, auto rhs) { return lhs->is_modifiable() > rhs->is_modifiable(); }
+							);
+						}
 					}
+					ImGui::NextColumn();
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.1f); } // 100
+					ImGuiExt::HelpMarker("Available Actions");
 					ImGui::NextColumn();
 					ImGui::Separator();
 					ImGui::Columns(1);
@@ -783,9 +801,10 @@ namespace ml
 					for (auto & u : (*m))
 					{
 						if (!u) continue;
-						ImGui::Columns(3, "##Uni##Columns");
+						ImGui::Columns(4, "##Uni##Columns");
 						const String label { "##Uni##" + u->name() };
 						const float_t color_ref{ (float_t)u->category() / (float_t)Uniform::MAX_UNIFORM_TYPE };
+						const bool can_edit{ u->is_modifiable() };
 
 						// Uniform Type
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -797,22 +816,18 @@ namespace ml
 						// Uniform Name
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
-						if (u->is_modifiable())
+						if (can_edit)
 						{
 							static char name[32] = "";
 							std::strcpy(name, u->name().c_str());
-							const bool input_submit{ ImGui::InputText(
+							if (ImGui::InputText(
 								(label + "##Name").c_str(),
 								name,
 								ML_ARRAYSIZE(name),
 								ImGuiInputTextFlags_EnterReturnsTrue
-							) };
-							if (input_submit)
+							) && !m->rename(u->name(), name))
 							{
-								if (!m->rename(u->name(), name))
-								{
-									Debug::logError("A uniform with that name already exists"); 
-								}
+								Debug::logError("A uniform with that name already exists");
 							}
 						}
 						else
@@ -825,12 +840,15 @@ namespace ml
 						// Uniform Value
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::PushID(label.c_str());
-						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() * 0.9f);
-						const bool canEdit{ PropertyDrawer<Uniform>()(label, (Uniform &)(*u)) };
+						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
+						PropertyDrawer<Uniform>()(label, (Uniform &)(*u));
 						ImGui::PopItemWidth();
-						ImGui::SameLine();
-						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() * 0.1f);
-						if (canEdit)
+						ImGui::NextColumn();
+
+						// Uniform Flags
+						/* * * * * * * * * * * * * * * * * * * * */
+						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
+						if (can_edit)
 						{
 							if (ImGuiExt::Confirm(
 								"Delete Uniform",
@@ -847,9 +865,11 @@ namespace ml
 							ImGuiExt::HelpMarker("This uniform cannot be modified.");
 						}
 						ImGui::PopItemWidth();
-						ImGui::PopID();
 						ImGui::NextColumn();
+
 						ImGui::Columns(1);
+						ImGui::PopID();
+
 						ImGui::Separator();
 					}
 					if (to_remove) { m->erase(to_remove); }

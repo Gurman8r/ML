@@ -45,11 +45,6 @@ namespace ml
 			: name{ copy.name }, hash{ copy.hash }
 		{
 		}
-
-		constexpr operator bool() const
-		{
-			return name;
-		}
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

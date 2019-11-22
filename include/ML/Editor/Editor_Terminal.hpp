@@ -45,16 +45,16 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		std::ostream const *m_coutPtr; // stream redirect reference
-		std::streambuf *	m_coutBuf; // stream redirect buffer
-		SStream				m_coutStr; // stream redirect stream
-		Array<char, 256>	m_inputBuf;
+		std::ostream const *	m_coutPtr; // stream redirect reference
+		std::streambuf *		m_coutBuf; // stream redirect buffer
+		SStream					m_coutStr; // stream redirect stream
+		Array<char, 256>		m_inputBuf;
 		std::vector<String>		m_lines;
-		bool				m_scrollToBot;
+		bool					m_scrollToBot;
 		std::vector<char *>		m_history;
-		int32_t				m_historyPos;
-		std::vector<C_String>		m_autoFill;
-		bool				m_paused;
+		int32_t					m_historyPos;
+		std::vector<C_String>	m_autoFill;
+		bool					m_paused;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

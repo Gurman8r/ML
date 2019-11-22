@@ -64,33 +64,43 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual hash_t category() const = 0;
-		
-		virtual Uniform * clone() const = 0;
-		
-		virtual bool is_modifiable() const = 0;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		virtual typeof<> get_base_type() const = 0;
-		
+
 		virtual typeof<> get_data_type() const = 0;
 
 		virtual typeof<> get_root_type() const = 0;
 
+		virtual typeof<> get_self_type() const = 0;
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline hash_t get_base_id() const { return this->get_base_type().hash; }
-		
+
 		inline hash_t get_data_id() const { return this->get_data_type().hash; }
 
 		inline hash_t get_root_id() const { return this->get_root_type().hash; }
 
+		inline hash_t get_self_id() const { return this->get_self_type().hash; }
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto name() const -> String const & { return m_name; }
+		virtual hash_t category() const = 0;
+		
+		virtual Uniform * clone() const = 0;
 
-		inline auto rename(String const & value) -> String const & { return (m_name = value); }
+		virtual bool is_modifiable() const = 0;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline String const & name() const
+		{
+			return m_name;
+		}
+
+		inline Uniform & rename(String const & value)
+		{
+			m_name = value; return (*this);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -117,6 +127,8 @@ namespace ml
 
 		using data_type = typename Data;
 		
+		using root_type = typename detail::root_t<base_type>;
+
 		using self_type = typename UniformImpl<base_type, data_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -125,40 +137,73 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit UniformImpl(String const & name, data_type data)
+		explicit UniformImpl(String const & name, data_type const & data)
 			: Uniform { name }, m_data { data }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline hash_t category() const override { return self_type::ID; }
-
-		inline self_type * clone() const override { return new self_type { name(), data() };  }
-
-		inline bool is_modifiable() const override
+		inline hash_t category() const override
 		{
-			static const bool can_edit{ // uniform owns its value and is not a function
-				(std::is_same_v<data_type, detail::root_t<data_type>> ||
-				std::is_same_v<data_type, Texture const *>)
-				&& (get_data_type().name.str().find("function") == String::npos)
-			};
-			return can_edit;
+			return self_type::ID;
+		}
+
+		inline self_type * clone() const override
+		{
+			return new self_type{ this->name(), this->get() };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline typeof<> get_base_type() const override { return typeof<base_type>{}; }
+		inline typeof<> get_base_type() const override
+		{
+			static constexpr auto temp{ typeof<base_type>{} };
+			return temp;
+		}
 
-		inline typeof<> get_data_type() const override { return typeof<data_type>{}; }
+		inline typeof<> get_data_type() const override
+		{
+			static constexpr auto temp{ typeof<data_type>{} };
+			return temp;
+		}
 
-		inline typeof<> get_root_type() const override { return typeof<detail::root_t<base_type>>{}; }
+		inline typeof<> get_root_type() const override
+		{
+			static constexpr auto temp{ typeof<root_type>{} };
+			return temp;
+		}
+
+		inline typeof<> get_self_type() const override
+		{
+			static constexpr auto temp{ typeof<self_type>{} };
+			return temp;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline data_type const & data() const { return m_data; }
+		inline bool is_modifiable() const override
+		{
+			static const bool temp{ (
+				(std::is_same_v<data_type, root_type>) ||
+				(std::is_same_v<data_type, Texture const *>)) &&
+				(get_data_type().name.str().find("function") == String::npos)
+			};
+			return temp;
+		}
 
-		inline data_type const & update(data_type value) { return (m_data = value); }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline data_type const & get() const
+		{
+			return m_data;
+		}
+
+		inline self_type & set(data_type const & value)
+		{
+			m_data = value;
+			return (*this);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -218,28 +263,20 @@ namespace ml
 		switch (value->get_data_id())
 		{
 		case typeof<T>::hash:
-			if (const auto u{ static_cast<uni_value<T> const *>(value) })
-			{
-				return &(temp = u->data());
-			}
-
+		{
+			const auto u{ static_cast<uni_value<T> const *>(value) };
+			return &(temp = u->get());
+		}
 		case typeof<T const *>::hash:
-			if (const auto u{ static_cast<uni_pointer<T> const *>(value) })
-			{
-				if (const auto ptr{ u->data() })
-				{
-					return &(temp = (*ptr));
-				}
-			}
-
+		{
+			const auto u{ static_cast<uni_pointer<T> const *>(value) };
+			if (const auto ptr{ u->get() }) return &(temp = (*ptr));
+		}
 		case typeof<std::function<T()>>::hash:
-			if (const auto u{ static_cast<uni_function<T> const *>(value) })
-			{
-				if (const auto fun{ u->data() })
-				{
-					return &(temp = fun());
-				}
-			}
+		{
+			const auto u{ static_cast<uni_function<T> const *>(value) };
+			if (const auto fun{ u->get() }) return &(temp = fun());
+		}
 		}
 		return nullptr;
 	}

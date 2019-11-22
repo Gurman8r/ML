@@ -2,10 +2,13 @@
 #define _ML_EDITOR_PREVIEWS_HPP_
 
 #include <ML/Editor/Editor_Widget.hpp>
-#include <ML/Graphics/Texture.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct Texture;
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Editor_Previews final : public Editor_Widget

@@ -141,7 +141,7 @@ namespace ml
 		}
 	}
 
-	int32_t ImGuiExt::DragMat2(C_String label, mat2 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
+	bool ImGuiExt::DragMat2(C_String label, mat2 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
 	{
 		ImGui::PushID(ML_ADDRESSOF(&v));
 		ImGui::PushID(label);
@@ -160,7 +160,7 @@ namespace ml
 		return (row1 ? 1 : row2 ? 2 : 0);
 	}
 
-	int32_t ImGuiExt::DragMat3(C_String label, mat3 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
+	bool ImGuiExt::DragMat3(C_String label, mat3 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
 	{
 		ImGui::PushID(ML_ADDRESSOF(&v));
 		ImGui::PushID(label);
@@ -183,7 +183,7 @@ namespace ml
 		return (row1 ? 1 : row2 ? 2 : row3 ? 3 : 0);
 	}
 
-	int32_t ImGuiExt::DragMat4(C_String label, mat4 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
+	bool ImGuiExt::DragMat4(C_String label, mat4 & v, float_t v_speed, float_t v_min, float_t v_max, C_String format)
 	{
 		ImGui::PushID(ML_ADDRESSOF(&v));
 		ImGui::PushID(label);

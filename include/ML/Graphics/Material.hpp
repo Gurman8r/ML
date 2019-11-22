@@ -74,14 +74,15 @@ namespace ml
 
 		inline bool erase(Uniform * value)
 		{
-			return (value && value->name()) && erase(value->name());
+			return (value && value->name()) && this->erase(value->name());
 		}
 
 		inline bool erase(String const & name)
 		{
 			if (auto it{ this->find(name) }; it != this->end())
 			{
-				if (*it) { delete (*it); }
+				Uniform *& ptr{ *it };
+				if (ptr) delete ptr;
 				m_uniforms.erase(it);
 				return true;
 			}
@@ -90,45 +91,82 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class U = typename Uniform
-		> inline U * get(String const & name)
+		inline Uniform * get(String const & name)
 		{
-			auto it { this->find(name) };
-			return (it != this->end()) ? dynamic_cast<U *>(*it) : nullptr;
+			if (auto it{ this->find(name) }; it != this->end())
+			{
+				return (*it);
+			}
+			return nullptr;
 		}
 
-		template <
-			class U = typename Uniform
-		> inline U const * get(String const & name) const
+		template <hash_t H> inline Uniform * get(String const & name)
 		{
-			auto it { this->find(name) };
-			return (it != this->cend()) ? dynamic_cast<U const *>(*it) : nullptr;
+			if (auto u{ this->get(name) }; u && (u->get_self_id() == H))
+			{
+				return u;
+			}
+			return nullptr;
+		}
+
+		template <class U> inline U * get(String const & name)
+		{
+			if (auto u{ this->get<typeof<U>::hash>(name) })
+			{
+				return static_cast<U *>(u);
+			}
+			return nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class U, class T> inline bool set(String const & name, T const & value)
+		inline Uniform const * get(String const & name) const
 		{
-			if (auto u { this->get<U>(name) })
+			if (auto it{ this->find(name) }; it != this->cend())
 			{
-				u->update(value);
-				return true;
+				return (*it);
 			}
-			return false;
+			return nullptr;
+		}
+
+		template<hash_t H> inline Uniform const * get(String const & name) const
+		{
+			if (auto u{ this->get(name) }; u && (u->get_self_id() == H))
+			{
+				return u;
+			}
+			return nullptr;
+		}
+
+		template <class U> inline U const * get(String const & name) const
+		{
+			if (auto u{ this->get<typeof<U>::hash>(name) })
+			{
+				return static_cast<U const *>(u);
+			}
+			return nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool rename(String const & from, String const & to)
+		template <class U, class T> inline U * set(String const & name, T const & value)
 		{
-			auto it{ this->find(from) };
-			if ((it != end()) && (to && (this->find(to) == this->end())))
+			if (auto u{ this->get<U>(name) })
 			{
-				(*it)->rename(to);
-				return true;
+				return &(u->set(value));
 			}
-			return false;
+			return nullptr;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline Uniform const * rename(String const & from, String const & to)
+		{
+			if (auto u{ this->get(from) }; u && !this->get(to))
+			{
+				return &(u->rename(to));
+			}
+			return nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

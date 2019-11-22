@@ -2748,7 +2748,7 @@ namespace ml
 			const bool changed{ ImGui::Checkbox(name.c_str(), &copy) };
 			if (auto u{ dynamic_cast<uni_bool *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2759,7 +2759,7 @@ namespace ml
 			const bool changed{ ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_float *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2773,7 +2773,7 @@ namespace ml
 			};
 			if (auto u{ dynamic_cast<uni_int *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2784,7 +2784,7 @@ namespace ml
 			const bool changed{ ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_vec2 *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2795,7 +2795,7 @@ namespace ml
 			const bool changed{ ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_vec3 *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2806,7 +2806,7 @@ namespace ml
 			const bool changed{ ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_vec4 *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2817,7 +2817,7 @@ namespace ml
 			const bool changed{ ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float) };
 			if (auto u{ dynamic_cast<uni_color *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2825,10 +2825,10 @@ namespace ml
 		{
 			auto copy { *data };
 			const String name{ "##" + label + "##Mat2##Uni##" + value.name() };
-			const bool changed{ (bool)ImGuiExt::DragMat2(name.c_str(), copy, spd, 0, 0, fmt) };
+			const bool changed{ ImGuiExt::DragMat2(name.c_str(), copy, spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_mat2 *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2836,10 +2836,10 @@ namespace ml
 		{
 			auto copy { *data };
 			const String name{ "##" + label + "##Mat3##Uni##" + value.name() };
-			const bool changed{ (bool)ImGuiExt::DragMat3(name.c_str(), copy, spd, 0, 0, fmt) };
+			const bool changed{ ImGuiExt::DragMat3(name.c_str(), copy, spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_mat3 *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2847,10 +2847,10 @@ namespace ml
 		{
 			auto copy { *data };
 			const String name{ "##" + label + "##Mat4##Uni##" + value.name() };
-			const bool changed{ (bool)ImGuiExt::DragMat4(name.c_str(), copy, spd, 0, 0, fmt) };
+			const bool changed{ ImGuiExt::DragMat4(name.c_str(), copy, spd, 0, 0, fmt) };
 			if (auto u{ dynamic_cast<uni_mat4 *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
@@ -2861,7 +2861,7 @@ namespace ml
 			const bool changed{ PropertyDrawer<Texture>()(name, copy) };
 			if (auto u{ dynamic_cast<uni_sampler *>(&value) })
 			{
-				u->update(copy);
+				u->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;

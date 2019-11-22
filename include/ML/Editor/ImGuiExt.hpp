@@ -69,9 +69,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static int32_t DragMat2(C_String label, mat2 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
-		static int32_t DragMat3(C_String label, mat3 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
-		static int32_t DragMat4(C_String label, mat4 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
+		static bool DragMat2(C_String label, mat2 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
+		static bool DragMat3(C_String label, mat3 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
+		static bool DragMat4(C_String label, mat4 & v, float_t v_speed = 1.f, float_t v_min = 0.f, float_t v_max = 0.f, C_String format = "%.3f");
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

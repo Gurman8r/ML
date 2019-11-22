@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Dockspace::Editor_Dockspace()
-		: Editor_Widget { "Dockspace", "", ML_Engine.prefs().get_bool("Editor", "show_dockspace", false) }
+		: Editor_Widget { "Dockspace", "", true }
 		, m_border		{ 0.0f }
 		, m_padding		{ 0.f, 0.f }
 		, m_rounding	{ 0.0f }

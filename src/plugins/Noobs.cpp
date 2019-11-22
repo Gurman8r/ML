@@ -383,6 +383,13 @@ namespace ml
 
 				ImGui::PopID();
 
+				// First Time Setup
+				static bool once{ false };
+				if (!once && (once = true))
+				{
+					ImGui::SetWindowFocus("Code##Noobs");
+				}
+
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 			case ShaderErrorEvent::ID: if (auto ev{ value.as<ShaderErrorEvent>() })

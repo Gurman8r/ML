@@ -82,7 +82,7 @@ ml::int32_t main()
 	ML_EventSystem.fireEvent<StartEvent>();
 
 	// Main Loop
-	while (ML_Engine.window().isOpen())
+	do
 	{
 		ML_Engine.time().beginStep();
 
@@ -97,7 +97,8 @@ ml::int32_t main()
 		ML_PerformanceTracker.endFrame();
 		
 		ML_Engine.time().endStep();
-	}
+	
+	} while (ML_Engine.window().isOpen());
 
 	// Unload
 	ML_EventSystem.fireEvent<UnloadEvent>();

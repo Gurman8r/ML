@@ -1549,29 +1549,33 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		ImGui::NewLine();
-		ImGui::Text("Texture Settings (Read Only)");
 
 		/* * * * * * * * * * * * * * * * * * * * */
+
+		Texture & texture{ value.texture() };
 
 		bool smooth{ value.texture().smooth() };
 		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
 		{
+			texture.setSmooth(smooth); changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool repeated{ value.texture().repeated() };
+		bool repeated{ texture.repeated() };
 		if (ImGui::Checkbox(("Repeated##" + label).c_str(), &repeated))
 		{
+			texture.setRepeated(repeated); changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool mipmapped{ value.texture().mipmapped() };
+		bool mipmapped{ texture.mipmapped() };
 		if (ImGui::Button(((mipmapped
 			? "Invalidate Mipmap##" : "Generate Mipmap##") + label).c_str()
 		))
 		{
+			texture.setMipmapped(!mipmapped); changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

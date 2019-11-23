@@ -29,8 +29,7 @@ namespace ml
 
 		template <
 			class ... Args
-		> explicit ScopedBinder(T const * value, Args && ... args)
-			: m_value{ value }
+		> explicit ScopedBinder(T const * value, Args && ... args) : m_value{ value }
 		{
 			if (m_value) { m_value->bind(std::forward<Args>(args)...); }
 		}

@@ -708,17 +708,13 @@ namespace ml
 						static bool state{ 0 };
 						if (state = !state)
 						{
-							std::sort(
-								m->begin(),
-								m->end(),
+							std::sort(m->begin(), m->end(),
 								[](auto lhs, auto rhs) { return lhs->category() < rhs->category(); }
 							);
 						}
 						else
 						{
-							std::sort(
-								m->begin(),
-								m->end(),
+							std::sort(m->begin(), m->end(),
 								[](auto lhs, auto rhs) { return lhs->category() > rhs->category(); }
 							);
 						}
@@ -730,17 +726,13 @@ namespace ml
 						static bool state{ 0 };
 						if (state = !state)
 						{
-							std::sort(
-								m->begin(),
-								m->end(),
+							std::sort(m->begin(), m->end(),
 								[](auto lhs, auto rhs) { return lhs->name() < rhs->name(); }
 							);
 						}
 						else
 						{
-							std::sort(
-								m->begin(),
-								m->end(),
+							std::sort(m->begin(), m->end(),
 								[](auto lhs, auto rhs) { return lhs->name() > rhs->name(); }
 							);
 						}
@@ -752,17 +744,13 @@ namespace ml
 						static bool state { 0 };
 						if (state = !state) 
 						{
-							std::sort(
-								m->begin(),
-								m->end(),
+							std::sort(m->begin(), m->end(),
 								[](auto lhs, auto rhs) { return lhs->is_modifiable() < rhs->is_modifiable(); }
 							);
 						}
 						else
 						{
-							std::sort(
-								m->begin(),
-								m->end(),
+							std::sort(m->begin(), m->end(),
 								[](auto lhs, auto rhs) { return lhs->is_modifiable() > rhs->is_modifiable(); }
 							);
 						}
@@ -832,9 +820,13 @@ namespace ml
 						if (can_edit)
 						{
 							if (ImGuiExt::Confirm(
-								"Delete Uniform",
 								ImGui::Button("Delete"),
-								"Are you sure you want to delete uniform {0}?"_s.format(u->name())
+								"Delete Uniform",
+								nullptr,
+								"Are you sure you want to delete uniform {0}?"_s.format(u->name()).c_str(),
+								"Yes",
+								"No",
+								ImGuiWindowFlags_AlwaysAutoResize
 							) == ImGuiExt::Submitted)
 							{
 								to_remove = u;
@@ -930,8 +922,8 @@ namespace ml
 						vec2 v { (vec2)c->viewport().size() };
 						if (ImGui::DragFloat2("##Resolution", &v[0]))
 						{
-							if (v[0] <= 0.f) v[0] = FLT_MIN;
-							if (v[1] <= 0.f) v[1] = FLT_MIN;
+							if (v[0] <= 0.f) v[0] = limits<float_t>::min;
+							if (v[1] <= 0.f) v[1] = limits<float_t>::min;
 							c->setViewport((vec2i)v);
 						}
 						ImGui::Unindent();

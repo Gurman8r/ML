@@ -41,6 +41,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static int32_t Confirm(bool trigger, C_String label, bool * p_open, C_String message, C_String msgYes, C_String msgNo, int32_t flags);
+
 		static int32_t Confirm(bool trigger, C_String label, bool * p_open, C_String message, int32_t popup_flags);
 
 		static int32_t Confirm(String const & label, bool trigger, String const & message);

@@ -1138,23 +1138,12 @@ namespace ml
 				ImGui::PopStyleColor();
 				if (u)
 				{
-					float_t height = 1;
-					if (u->get_root_id() == typeof<mat3f>::hash) { height = 3; }
-					else if (u->get_root_id() == typeof<mat4f>::hash) { height = 4; }
-
 					ImGui::PushID(name.c_str());
-					ImGui::BeginChild(
-						("UniformChild##" + name).c_str(),
-						{ -1, (35 * height) + 8 },
-						true,
-						ImGuiWindowFlags_NoScrollbar |
-						ImGuiWindowFlags_NoScrollWithMouse
-					);
 					const bool canEdit{ PropertyDrawer<Uniform>()(name, (Uniform &)(*u)) };
 					ImGui::SameLine();
 					if (canEdit)
 					{
-						if (ImGui::Button(("Remove##" + name).c_str()))
+						if (ImGui::Button(("Delete##" + name).c_str()))
 						{ 
 							to_remove = u;
 						}
@@ -1163,7 +1152,6 @@ namespace ml
 					{
 						ImGuiExt::HelpMarker("This uniform cannot be modified.");
 					}
-					ImGui::EndChild();
 					ImGui::PopID();
 				}
 

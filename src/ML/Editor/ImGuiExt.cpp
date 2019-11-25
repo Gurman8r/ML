@@ -45,7 +45,7 @@ namespace ml
 		return retval;
 	}
 
-	int32_t ImGuiExt::Confirm(bool trigger, C_String label, bool * p_open, C_String message, int32_t flags)
+	int32_t ImGuiExt::Confirm(bool trigger, C_String label, bool * p_open, C_String message, C_String msgYes, C_String msgNo, int32_t flags)
 	{
 		int32_t retval{ 0 };
 		ImGui::PushID(label);
@@ -57,11 +57,11 @@ namespace ml
 		{
 			if (message) { ImGui::Text(message); }
 
-			const bool submit{ ImGui::Button("Submit") };
+			const bool submit{ ImGui::Button(msgYes) };
 
 			ImGui::SameLine();
 
-			const bool cancel{ ImGui::Button("Cancel") };
+			const bool cancel{ ImGui::Button(msgNo) };
 
 			if (submit || cancel) { ImGui::CloseCurrentPopup(); }
 
@@ -71,6 +71,19 @@ namespace ml
 		}
 		ImGui::PopID();
 		return retval;
+	}
+
+	int32_t ImGuiExt::Confirm(bool trigger, C_String label, bool * p_open, C_String message, int32_t flags)
+	{
+		return Confirm(
+			trigger,
+			label,
+			p_open,
+			message,
+			"Submit",
+			"Cancel",
+			flags
+		);
 	}
 
 	int32_t ImGuiExt::Confirm(String const & label, bool trigger, String const & message)

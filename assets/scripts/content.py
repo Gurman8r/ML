@@ -269,7 +269,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/sphere32x24")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "alpha",    "func",         "GL_GREATER")
-        ml.ecs.renderer_attr(name,  "alpha",    "coeff",        "0.01")
+        ml.ecs.renderer_attr(name,  "alpha",    "coeff",        "0.001")
         ml.ecs.renderer_attr(name,  "blend",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "blend",    "sfactorRGB",   "GL_SRC_ALPHA")
         ml.ecs.renderer_attr(name,  "blend",    "sfactorAlpha", "GL_ONE_MINUS_SRC_ALPHA")

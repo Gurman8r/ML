@@ -79,13 +79,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual typeof<> get_base_type() const = 0;
+		virtual typeof<> const & get_base_type() const = 0;
 
-		virtual typeof<> get_data_type() const = 0;
+		virtual typeof<> const & get_data_type() const = 0;
 
-		virtual typeof<> get_root_type() const = 0;
+		virtual typeof<> const & get_root_type() const = 0;
 
-		virtual typeof<> get_self_type() const = 0;
+		virtual typeof<> const & get_self_type() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -159,34 +159,34 @@ namespace ml
 		inline bool is_modifiable() const override
 		{
 			static constexpr bool temp{ (
-				(std::is_same_v<base_type, root_type>) ||
-				(std::is_same_v<base_type, Texture const *>)) &&
-				(!std::is_same_v<data_type, std::function<base_type()>>)
+				std::is_same_v<base_type, root_type> ||
+				std::is_same_v<base_type, Texture const *>) &&
+				!std::is_same_v<data_type, std::function<base_type()>>
 			};
 			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline typeof<> get_base_type() const override
+		inline typeof<> const & get_base_type() const override
 		{
 			static constexpr auto temp{ typeof<base_type>{} };
 			return temp;
 		}
 
-		inline typeof<> get_data_type() const override
+		inline typeof<> const & get_data_type() const override
 		{
 			static constexpr auto temp{ typeof<data_type>{} };
 			return temp;
 		}
 
-		inline typeof<> get_root_type() const override
+		inline typeof<> const & get_root_type() const override
 		{
 			static constexpr auto temp{ typeof<root_type>{} };
 			return temp;
 		}
 
-		inline typeof<> get_self_type() const override
+		inline typeof<> const & get_self_type() const override
 		{
 			static constexpr auto temp{ typeof<self_type>{} };
 			return temp;

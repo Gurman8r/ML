@@ -25,7 +25,7 @@ namespace ml
 				<< FG::Cyan << std::setw(sizeof(size_t) * 2) << "Size"
 				<< FG::Yellow << std::setw(sizeof(size_t) * 3) << "Address"
 				<< FG::Normal << std::setw(10) << "Type"
-				<< FMT() << std::endl;
+				<< FMT() << '\n';
 
 			for (auto const & [ ptr, rec ] : m_records)
 			{
@@ -35,7 +35,7 @@ namespace ml
 					<< FG::Cyan << std::setw(sizeof(size_t) * 2) << rec->size
 					<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->value
 					<< FG::Normal << std::setw(10) << rec->get_rtti().name()
-					<< FMT() << std::endl;
+					<< FMT() << '\n';
 			}
 
 			Debug::pause(EXIT_FAILURE);

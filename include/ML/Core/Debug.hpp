@@ -151,7 +151,7 @@ namespace ml
 			out << FMT()
 				<< FG::White << "[" << color << prefix << FG::White << "] "
 				<< FMT() << message
-				<< std::endl;
+				<< '\n';
 			return exitCode;
 		}
 

@@ -122,7 +122,7 @@ namespace ml
 			.def_static("pause", []() { Debug::pause(0); })
 			.def_static("print", [](str_t s) { std::cout << s; })
 			.def_static("printf", [](str_t s, list_t const & l) { std::cout << util::format(s, l); })
-			.def_static("printl", [](str_t s) { std::cout << s << std::endl; })
+			.def_static("printl", [](str_t s) { std::cout << s << '\n'; })
 			.def_static("log", [](str_t s) { Debug::logInfo(s); })
 			.def_static("warning", [](str_t s) { Debug::logWarning(s); })
 			.def_static("error", [](str_t s) { Debug::logError(s); })

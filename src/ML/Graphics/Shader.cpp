@@ -705,7 +705,7 @@ namespace ml
 				log = ML_GL.getProgramInfoLog(*this);
 				ML_GL.deleteShader(*this);
 				Debug::logError("Failed linking shader");
-				std::cout << log << std::endl;
+				std::cout << log << '\n';
 				ML_GL.flush();
 				return EXIT_FAILURE * 6;
 			}

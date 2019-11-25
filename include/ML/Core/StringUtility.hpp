@@ -50,8 +50,8 @@ namespace ml
 			class Arg0, class ... Args
 		> inline SStream sink(Arg0 const & arg0, Args && ... args)
 		{
-			SStream ss {}; ss << arg0 << std::endl;
-			int32_t i[] = { 0, ((void)(ss << args << std::endl), 0)... }; (void)i;
+			SStream ss {}; ss << arg0 << '\n';
+			int32_t i[] = { 0, ((void)(ss << args << '\n'), 0)... }; (void)i;
 			return ss;
 		}
 

@@ -159,9 +159,9 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type & format(Arg0 const & arg0, Args && ... args)
 		{
-			sstream_type ss {}; ss << arg0 << std::endl;
+			sstream_type ss {}; ss << arg0 << '\n';
 			
-			int32_t sink[] = { 0, ((void)(ss << args << std::endl), 0)... }; (void)sink;
+			int32_t sink[] = { 0, ((void)(ss << args << '\n'), 0)... }; (void)sink;
 			
 			return this->format(ss);
 		}

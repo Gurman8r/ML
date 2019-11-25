@@ -56,7 +56,7 @@ namespace ml
 			}
 			else
 			{
-				out << line << std::endl;
+				out << line << '\n';
 			}
 		}
 		return out.str();
@@ -93,7 +93,7 @@ namespace ml
 			}
 			else if (dst)
 			{
-				(*dst) << line << std::endl;
+				(*dst) << line << '\n';
 				count++;
 			}
 		}
@@ -113,7 +113,7 @@ namespace ml
 		{
 			if (line.find("#shader") == String::npos)
 			{
-				out << line << std::endl;
+				out << line << '\n';
 			}
 		}
 		return out.str();

@@ -690,7 +690,7 @@ namespace ml
 							case typeof<Texture>::hash	: if (auto * v{ uniform_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*v); break;
 							}
 							if (ss.str().back() != ' ') ss << ' ';
-							ss << "}" << std::endl;
+							ss << "}" << '\n';
 						}
 						ML_Engine.window().setClipboardString(ss.str());
 					}

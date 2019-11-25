@@ -65,7 +65,7 @@ namespace ml
 					<< FG::Yellow	<< "\nDescription:"
 					<< FG::White	<< "\n\t" << GL::name_of((GL::Err)ev.code)
 					<< FG::White	<< "\n\t" << GL::desc_of((GL::Err)ev.code)
-					<< FMT()		<< std::endl;
+					<< FMT()		<< '\n';
 			} break;
 		}
 	}

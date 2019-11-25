@@ -71,7 +71,7 @@ namespace ml
 							String temp;
 							if (ML_FS.getFileContents(args[1], temp))
 							{
-								std::cout << temp << std::endl;
+								std::cout << temp << '\n';
 								return true;
 							}
 						}
@@ -120,7 +120,7 @@ namespace ml
 					"cwd",
 					new FunctionExecutor([](CommandDescriptor const & cmd, std::vector<String> const & args)
 					{
-						std::cout << ML_FS.getPath() << std::endl;
+						std::cout << ML_FS.getPath() << '\n';
 						return true;
 					})
 				});
@@ -149,11 +149,11 @@ namespace ml
 						switch (args.size())
 						{
 						case 1:	for (const auto & cmd : ML_Engine.commands())
-							std::cout << cmd->getName() << std::endl;
+							std::cout << cmd->getName() << '\n';
 							return true;
 
 						case 2: if (auto cmd = ML_Engine.commands().find_by_name(args[1]))
-							std::cout << (*cmd) << std::endl;
+							std::cout << (*cmd) << '\n';
 							return true;
 						}
 						return false;
@@ -170,7 +170,7 @@ namespace ml
 					{
 						for (C_String h : ML_Editor.terminal().history())
 						{
-							std::cout << h << std::endl;
+							std::cout << h << '\n';
 						}
 						return true;
 					})
@@ -222,7 +222,7 @@ namespace ml
 								String line;
 								while (std::getline(dir, line))
 								{
-									std::cout << line << std::endl;
+									std::cout << line << '\n';
 								}
 								return true;
 							}

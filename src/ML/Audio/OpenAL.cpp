@@ -64,7 +64,7 @@ namespace ml
 				<< FG::Yellow	<< "\nDescription:"
 				<< FG::White	<< "\n\t" << AL::name_of(code)
 				<< FG::White	<< "\n\t" << AL::desc_of(code)
-				<< FMT()		<< std::endl;
+				<< FMT()		<< '\n';
 		}
 		return out;
 	}

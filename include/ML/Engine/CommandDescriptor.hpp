@@ -61,7 +61,7 @@ namespace ml
 	inline ML_SERIALIZE(std::ostream & out, CommandDescriptor const & value)
 	{
 		return out
-			<< value.getName() << ": " << value.getUsage() << std::endl
+			<< value.getName() << ": " << value.getUsage() << '\n'
 			<< value.getDesc();
 	}
 

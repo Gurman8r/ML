@@ -963,7 +963,6 @@ namespace ml
 
 					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##AlphaState");
-					ImGui::NewLine();
 					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */

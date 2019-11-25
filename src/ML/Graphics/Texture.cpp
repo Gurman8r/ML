@@ -252,8 +252,9 @@ namespace ml
 					ML_GL.getValidTextureSize(m_size[1])
 				};
 
-				if (static const uint32_t max_size{ ML_GL.getMaxTextureSize() }; 
-					(m_realSize[0] > max_size) || (m_realSize[1] > max_size))
+				static const uint32_t max_size{ ML_GL.getMaxTextureSize() };
+
+				if ((m_realSize[0] > max_size) || (m_realSize[1] > max_size))
 				{
 					return Debug::logError(
 						"Failed creating texture, size is too large {0} max is {1}",

@@ -957,20 +957,20 @@ namespace ml
 
 				// Alpha State
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](AlphaState * alpha) 
-				{	if (!alpha) { return; }
+				([](AlphaState * value) 
+				{	if (!value) { return; }
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID(ML_ADDRESSOF(alpha));
+					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##AlphaState");
 					ImGui::NewLine();
 					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(alpha->enabled
+					ImGui::Checkbox(value->enabled
 						? "glEnable" : "glDisable",
-						&alpha->enabled
+						&value->enabled
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -998,31 +998,31 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t func = GL::index_of(alpha->func);
+					int32_t func = GL::index_of(value->func);
 					if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 					{
-						alpha->func = GL::value_at<GL::Predicate>(func);
+						value->func = GL::value_at<GL::Predicate>(func);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'func\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(alpha->func),
-						util::to_hex<uint32_t>(alpha->func),
-						GL::desc_of(alpha->func)
+						GL::raw_name_of(value->func),
+						util::to_hex<uint32_t>(value->func),
+						GL::desc_of(value->func)
 					));
 					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::DragFloat("##Ref", &alpha->coeff);
+					ImGui::DragFloat("##Ref", &value->coeff);
 					ImGuiExt::Tooltip(String(
 						"Param: \'ref\'\n\n"
 						"Value: {0}\n\n"
 						"Brief: {1}\n"
 					).format(
-						alpha->coeff,
+						value->coeff,
 						"Specifies the reference value that incoming alpha values are compared to"
 					));
 					ImGui::SameLine(); ImGui::Text(");");
@@ -1038,20 +1038,20 @@ namespace ml
 
 				// Blend State
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](BlendState * blend) 
-				{	if (!blend) { return; }
+				([](BlendState * value) 
+				{	if (!value) { return; }
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID(ML_ADDRESSOF(blend));
+					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##BlendState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(200);
+					ImGui::PushItemWidth(288);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(blend->enabled
+					ImGui::Checkbox(value->enabled
 						? "glEnable" : "glDisable",
-						&blend->enabled
+						&value->enabled
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -1082,72 +1082,72 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t sfactorRGB = GL::index_of(blend->sfactorRGB);
+					int32_t sfactorRGB = GL::index_of(value->sfactorRGB);
 					if (ImGuiExt::Combo("##sfactorRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 					{
-						blend->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
+						value->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'sfactorRGB\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(blend->sfactorRGB),
-						util::to_hex<uint32_t>(blend->sfactorRGB),
+						GL::raw_name_of(value->sfactorRGB),
+						util::to_hex<uint32_t>(value->sfactorRGB),
 						"Specifies how the red, green, and blue blending factors are computed"
 					));
 					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t dfactorRGB = GL::index_of(blend->dfactorRGB);
+					int32_t dfactorRGB = GL::index_of(value->dfactorRGB);
 					if (ImGuiExt::Combo("##dfactorRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 					{
-						blend->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
+						value->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'dfactorRGB\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(blend->dfactorRGB),
-						util::to_hex<uint32_t>(blend->dfactorRGB),
+						GL::raw_name_of(value->dfactorRGB),
+						util::to_hex<uint32_t>(value->dfactorRGB),
 						"Specifies how the red, green, and blue destination blending factors are computed"
 					));
 					ImGui::SameLine(); ImGui::Text(","); //ImGui::SameLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t sfactorAlpha = GL::index_of(blend->sfactorAlpha);
+					int32_t sfactorAlpha = GL::index_of(value->sfactorAlpha);
 					if (ImGuiExt::Combo("##sfactorAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 					{
-						blend->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
+						value->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'sfactorAlpha\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(blend->sfactorAlpha),
-						util::to_hex<uint32_t>(blend->sfactorAlpha),
+						GL::raw_name_of(value->sfactorAlpha),
+						util::to_hex<uint32_t>(value->sfactorAlpha),
 						"Specifies how the alpha source blending factor is computed"
 					));
 					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t dfactorAlpha = GL::index_of(blend->dfactorAlpha);
+					int32_t dfactorAlpha = GL::index_of(value->dfactorAlpha);
 					if (ImGuiExt::Combo("##dfactorAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 					{
-						blend->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
+						value->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'dfactorAlpha\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(blend->dfactorAlpha),
-						util::to_hex<uint32_t>(blend->dfactorAlpha),
+						GL::raw_name_of(value->dfactorAlpha),
+						util::to_hex<uint32_t>(value->dfactorAlpha),
 						"Specifies how the alpha destination blending factor is computed"
 					));
 					ImGui::Unindent();
@@ -1164,20 +1164,20 @@ namespace ml
 
 				// Cull State
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](CullState * cull)
-				{	if (!cull) { return; }
+				([](CullState * value)
+				{	if (!value) { return; }
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID(ML_ADDRESSOF(cull));
+					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##CullState");
 					ImGui::NewLine();
 					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(cull->enabled
+					ImGui::Checkbox(value->enabled
 						? "glEnable" : "glDisable",
-						&cull->enabled
+						&value->enabled
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -1205,19 +1205,19 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t mode = GL::index_of(cull->mode);
+					int32_t mode = GL::index_of(value->mode);
 					if (ImGuiExt::Combo("##Mode", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
 					{
-						cull->mode = GL::value_at<GL::Face>(mode);
+						value->mode = GL::value_at<GL::Face>(mode);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'mode\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(cull->mode),
-						util::to_hex<uint32_t>(cull->mode),
-						GL::desc_of(cull->mode)
+						GL::raw_name_of(value->mode),
+						util::to_hex<uint32_t>(value->mode),
+						GL::desc_of(value->mode)
 					));
 					ImGui::SameLine(); ImGui::Text(");");
 
@@ -1232,20 +1232,20 @@ namespace ml
 
 				// Depth State
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](DepthState * depth)
-				{	if (!depth) { return; }
+				([](DepthState * value)
+				{	if (!value) { return; }
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID(ML_ADDRESSOF(depth));
+					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##DepthState");
 					ImGui::NewLine();
 					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(depth->enabled
+					ImGui::Checkbox(value->enabled
 						? "glEnable" : "glDisable",
-						&depth->enabled
+						&value->enabled
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -1264,10 +1264,10 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox("glDepthMask", &depth->mask); 
+					ImGui::Checkbox("glDepthMask", &value->mask); 
 					ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(depth->mask ? "true" : "false");
+					ImGui::Text(value->mask ? "true" : "false");
 					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
@@ -1284,19 +1284,19 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t func = GL::index_of(depth->func);
+					int32_t func = GL::index_of(value->func);
 					if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 					{
-						depth->func = GL::value_at<GL::Predicate>(func);
+						value->func = GL::value_at<GL::Predicate>(func);
 					}
 					ImGuiExt::Tooltip(String(
 						"Param: \'func\'\n\n"
 						"Value: {0} (0x{1})\n\n"
 						"Brief: {2}\n"
 					).format(
-						GL::raw_name_of(depth->func),
-						util::to_hex<uint32_t>(depth->func),
-						GL::desc_of(depth->func)
+						GL::raw_name_of(value->func),
+						util::to_hex<uint32_t>(value->func),
+						GL::desc_of(value->func)
 					));
 					ImGui::SameLine(); ImGui::Text(");");
 

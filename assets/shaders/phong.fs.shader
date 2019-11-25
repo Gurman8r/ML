@@ -1,7 +1,7 @@
 #shader fragment
 #version 460 core
 
-in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
+in Vertex { vec3 position; vec3 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
@@ -30,7 +30,7 @@ void main()
     vec4 ambient = (u_ambient * u_diffuse);
 
     // Diffuse
-    vec3  diff_nml = normalize(V.normal.xyz);
+    vec3  diff_nml = normalize(V.normal);
     vec3  diff_dir = normalize(u_lightPos - V.position);
     float diff_amt = max(dot(diff_nml, diff_dir), 0.0);
     vec4  diffuse = u_diffuse * diff_amt * texture(u_texture0, V.texcoord);

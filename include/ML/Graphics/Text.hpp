@@ -65,4 +65,5 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
+
 #endif // !_ML_TEXT_HPP_

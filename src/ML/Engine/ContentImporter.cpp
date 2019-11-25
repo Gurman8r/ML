@@ -18,23 +18,31 @@ namespace ml
 
 	bool ContentImporter<>::loadMetadata(Metadata const & value)
 	{
-		if (!([&]() {
+#if (ML_DEBUG)
+		if (!([&]()
+		{
+			Debug::logInfo("Loading [{0}]: {1}",
+				value.getData("type").asString(),
+				value.getData("name").asString()
+			);
+#endif
 			switch (value.getData("type").asString().hash())
 			{
-			case Hash("Manifest")		: return true;
-			case typeof<Entity>::hash	: return (bool)ContentImporter<Entity>()(value);
-			case typeof<Font>::hash		: return (bool)ContentImporter<Font>()(value);
-			case typeof<Image>::hash	: return (bool)ContentImporter<Image>()(value);
-			case typeof<Material>::hash	: return (bool)ContentImporter<Material>()(value);
-			case typeof<Model>::hash	: return (bool)ContentImporter<Model>()(value);
-			case typeof<Script>::hash	: return (bool)ContentImporter<Script>()(value);
-			case typeof<Shader>::hash	: return (bool)ContentImporter<Shader>()(value);
-			case typeof<Sound>::hash	: return (bool)ContentImporter<Sound>()(value);
-			case typeof<Sprite>::hash	: return (bool)ContentImporter<Sprite>()(value);
-			case typeof<RenderTexture>::hash	: return (bool)ContentImporter<RenderTexture>()(value);
-			case typeof<Texture>::hash	: return (bool)ContentImporter<Texture>()(value);
+			case Hash("Manifest")			: return true;
+			case typeof<Entity>::hash		: return (bool)ContentImporter<Entity>()(value);
+			case typeof<Font>::hash			: return (bool)ContentImporter<Font>()(value);
+			case typeof<Image>::hash		: return (bool)ContentImporter<Image>()(value);
+			case typeof<Material>::hash		: return (bool)ContentImporter<Material>()(value);
+			case typeof<Model>::hash		: return (bool)ContentImporter<Model>()(value);
+			case typeof<Script>::hash		: return (bool)ContentImporter<Script>()(value);
+			case typeof<Shader>::hash		: return (bool)ContentImporter<Shader>()(value);
+			case typeof<Sound>::hash		: return (bool)ContentImporter<Sound>()(value);
+			case typeof<Sprite>::hash		: return (bool)ContentImporter<Sprite>()(value);
+			case typeof<RenderTexture>::hash: return (bool)ContentImporter<RenderTexture>()(value);
+			case typeof<Texture>::hash		: return (bool)ContentImporter<Texture>()(value);
 			} 
 			return false;
+#if (ML_DEBUG)
 		})())
 		{
 			return Debug::logError("Failed Loading [{0}]: {1}",
@@ -42,12 +50,6 @@ namespace ml
 				value.getData("name").asString()
 			);
 		}
-#if (ML_DEBUG)
-		return Debug::logInfo("Loaded [{0}]: {1}",
-			value.getData("type").asString(),
-			value.getData("name").asString()
-		);
-#else
 		return true;
 #endif
 	}
@@ -56,6 +58,7 @@ namespace ml
 	{
 #if (ML_DEBUG)
 		Debug::logInfo("Preparing {0} items...", value.size());
+		Timer t{ true };
 #endif
 		int32_t count{ 0 };
 		for (auto const & elem : value)
@@ -63,7 +66,8 @@ namespace ml
 			count += loadMetadata(elem);
 		}
 #if (ML_DEBUG)
-		Debug::logInfo("Done.\n");
+		t.stop();
+		Debug::logInfo("Done. Operation completed in {0}s.\n", t.elapsed().count());
 #endif
 		return count;
 	}

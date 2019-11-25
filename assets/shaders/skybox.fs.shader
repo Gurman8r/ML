@@ -1,7 +1,7 @@
 #shader fragment
 #version 460 core
 
-in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
+in Vertex { vec3 position; vec3 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 

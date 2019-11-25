@@ -12,7 +12,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum { Size = vec3::size() + vec4::size() + vec2::size() };
+		enum { Size = vec3::size() + vec3::size() + vec2::size() };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -29,37 +29,22 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr Vertex()
-			: self_type{ vec3::zero(), vec4::one(), vec2::zero() }
+			: self_type{ vec3::zero(), vec3::one(), vec2::zero() }
 		{
 		}
 
-		constexpr explicit Vertex(vec2 const & texcoord)
-			: self_type{ vec3::zero(), vec4::one(), texcoord }
-		{
-		}
-
-		constexpr explicit Vertex(vec3 const & position)
-			: self_type{ position, vec4::one(), vec2::zero() }
-		{
-		}
-
-		constexpr explicit Vertex(vec4 const & normal)
-			: self_type{ vec3::zero(), normal, vec2::zero() }
-		{
-		}
-
-		constexpr explicit Vertex(vec3 const & position, vec4 const & normal)
+		constexpr explicit Vertex(vec3 const & position, vec3 const & normal)
 			: self_type{ position, normal, vec2::zero() }
 		{
 		}
 
 		constexpr explicit Vertex(vec3 const & position, vec2 const & texcoord)
-			: self_type{ position, vec4::one(), texcoord }
+			: self_type{ position, vec3::one(), texcoord }
 		{
 		}
 
-		constexpr explicit Vertex(vec3 const & p, vec4 const & n, vec2 const & t)
-			: self_type{ { p[0], p[1], p[2], n[0], n[1], n[2], n[3], t[0], t[1] } }
+		constexpr explicit Vertex(vec3 const & p, vec3 const & n, vec2 const & t)
+			: self_type{ { p[0], p[1], p[2], n[0], n[1], n[2], t[0], t[1] } }
 		{
 		}
 
@@ -77,9 +62,9 @@ namespace ml
 
 		constexpr vec3 position() const { return { at(0), at(1), at(2) }; }
 
-		constexpr vec4 normal() const { return { at(3), at(4), at(5), at(6) }; }
+		constexpr vec3 normal() const { return { at(3), at(4), at(5) }; }
 
-		constexpr vec2 texcoord() const { return { at(7), at(8) }; }
+		constexpr vec2 texcoord() const { return { at(6), at(7) }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

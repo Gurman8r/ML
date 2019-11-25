@@ -199,13 +199,11 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			ML_GL.flush();
+
 			if (window().getStyle().doubleBuffered())
 			{
 				window().swapBuffers();
-			}
-			else
-			{
-				ML_GL.flush();
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */

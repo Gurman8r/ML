@@ -30,10 +30,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto origin()	const -> vec2 const &		{ return m_origin; }
-		inline auto position()	const -> vec2 const &		{ return m_position; }
-		inline auto rotation()	const -> float_t const &	{ return m_rotation; }
-		inline auto scale()		const -> vec2 const &		{ return m_scale; }
+		inline auto origin()	const -> vec2 const & { return m_origin; }
+		inline auto position()	const -> vec2 const & { return m_position; }
+		inline auto rotation()	const -> float_t const & { return m_rotation; }
+		inline auto scale()		const -> vec2 const & { return m_scale; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

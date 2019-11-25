@@ -19,7 +19,10 @@ namespace ml
 	{
 		for (auto const & u : copy)
 		{
-			this->insert(u->clone());
+			if (u && (this->find(u->name()) != this->end()))
+			{
+				this->insert(u->clone());
+			}
 		}
 	}
 

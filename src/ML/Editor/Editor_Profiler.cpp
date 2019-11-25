@@ -5,6 +5,7 @@
 #include <ML/Core/PerformanceTracker.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/StringUtility.hpp>
 
@@ -43,12 +44,14 @@ namespace ml
 				});
 
 			m_graphs.push_back(GraphLines{});
-			m_graphs[0].m_min = 0.f;
-			m_graphs[0].m_max = 0.05f;
+			m_graphs.back().m_values.resize(256);
+			m_graphs.back().m_min = 0.f;
+			m_graphs.back().m_max = 0.02f;
 
 			m_graphs.push_back(GraphLines{});
-			m_graphs[1].m_min = 0.f;
-			m_graphs[1].m_max = 1000.f;
+			m_graphs.back().m_values.resize(256);
+			m_graphs.back().m_min = 0.f;
+			m_graphs.back().m_max = 1.f;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -56,8 +59,8 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			const auto dt{ ML_Engine.time().deltaTime() };
-			const auto fr{ ML_Engine.time().frameRate() };
+			const float_t dt{ ML_Engine.time().deltaTime() };
+			const float_t fr{ ML_Engine.time().frameRate() };
 
 			m_graphs[0].update("Delta Time", dt, util::to_string(dt).c_str());
 			m_graphs[1].update("Frame Rate", fr, util::to_string(fr).c_str());
@@ -173,12 +176,19 @@ namespace ml
 
 	void Editor_Profiler::GraphLines::update(C_String label, float_t sample, C_String text)
 	{
+		if (m_flags.read(1)) { return; }
+
+		const float_t dt{ ML_Engine.time().deltaTime() };
+		const float_t tt{ ML_Engine.time().totalTime() };
+
 		m_label = label;
+		
 		m_text = text;
 
-		const auto dt{ ML_Engine.time().deltaTime() };
-
-		const auto tt{ ML_Engine.time().totalTime() };
+		if (m_max < sample)
+		{
+			m_max += sample * dt;
+		}
 
 		if (m_refresh == 0.0f)
 		{
@@ -197,20 +207,57 @@ namespace ml
 
 	void Editor_Profiler::GraphLines::render()
 	{
-		m_size[0] =
-			(ImGui::GetContentRegionAvail().x -
-			(4 * ImGui::GetStyle().ItemSpacing.x)) * (m_label ? 0.75f : 1.0f);
+		ImGui::PushID(ML_ADDRESSOF(this));
+		const vec2 max_size{ ImGuiExt::GetContentRegionAvail() };
+		/* * * * * * * * * * * * * * * * * * * * */
+		ImGui::Columns(2);
+		if (!m_flags.read<0>())
+		{
+			ImGui::SetColumnWidth(-1, max_size[0] * 0.7f);
+		}
+		/* * * * * * * * * * * * * * * * * * * * */
+		{
+			m_size[0] = ImGui::GetContentRegionAvailWidth();
 
-		ImGui::PlotLines(
-			m_label.c_str(),
-			m_values.data(),
-			(int32_t)m_values.size(),
-			m_offset,
-			m_text.c_str(),
-			m_min,
-			m_max,
-			{ m_size[0], m_size[1] }
-		);
+			ImGui::PlotLines(
+				("##" + m_label).c_str(),
+				m_values.data(),
+				static_cast<int32_t>(m_values.size()),
+				m_offset,
+				m_text.c_str(),
+				m_min,
+				m_max,
+				{ m_size[0], m_size[1] }
+			);
+		}
+		/* * * * * * * * * * * * * * * * * * * * */
+		ImGui::NextColumn();
+		if (!m_flags.read<0>())
+		{
+			ImGui::SetColumnWidth(-1, max_size[0] * 0.3f);
+		}
+		/* * * * * * * * * * * * * * * * * * * * */
+		{
+			ImGui::Text(m_label.c_str());
+
+			bool paused{ m_flags.read<1>() };
+			if (ImGui::Checkbox("Paused", &paused))
+			{
+				m_flags.write<1>(paused);
+			}
+
+			ImGui::DragFloat("Max", &m_max, 1.0f, 0.0f, 1000.0f);
+		}
+		/* * * * * * * * * * * * * * * * * * * * */
+		ImGui::NextColumn();
+		ImGui::Separator();
+		ImGui::Columns(1);
+		ImGui::PopID();
+		if (!m_flags.read<0>())
+		{
+			m_flags.set<0>();
+		}
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

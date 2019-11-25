@@ -220,13 +220,30 @@ namespace ml
 		m_sources.vs = (vs ? ShaderParser::parse(vs) : String());
 		m_sources.gs = (gs ? ShaderParser::parse(gs) : String());
 		m_sources.fs = (fs ? ShaderParser::parse(fs) : String());
-		return
-			((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str())) ||
-			((vs && fs) && compile(vs.c_str(), nullptr, fs.c_str())) ||
-			(vs && compile(vs.c_str(), nullptr, nullptr)) ||
-			(fs && compile(nullptr, nullptr, fs.c_str())) ||
-			(gs && compile(nullptr, gs.c_str(), nullptr))
-			;
+		if (vs && fs && gs)
+		{
+			return (compile(vs.c_str(), gs.c_str(), fs.c_str()) == ML_SUCCESS);
+		}
+		else if (vs && fs)
+		{
+			return (compile(vs.c_str(), nullptr, fs.c_str()) == ML_SUCCESS);
+		}
+		else if (vs)
+		{
+			return (compile(vs.c_str(), nullptr, nullptr) == ML_SUCCESS);
+		}
+		else if (fs)
+		{
+			return (compile(nullptr, nullptr, fs.c_str()) == ML_SUCCESS);
+		}
+		else if (gs)
+		{
+			return (compile(nullptr, gs.c_str(), nullptr) == ML_SUCCESS);
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -568,29 +585,39 @@ namespace ml
 
 	int32_t Shader::getAttributeLocation(String const & name) const
 	{
-		if (auto it{ m_attribs.find(name) }; it != m_attribs.end())
+		if (const auto it{ m_attribs.find(name) }; it != m_attribs.end())
 		{
 			return it->second;
 		}
-		return m_attribs.insert({ 
-			name, ML_GL.getAttribLocation((*this), name.c_str())
-		}).first->second;
+		else if(const int32_t loc{ ML_GL.getAttribLocation((*this), name.c_str()) }; loc >= 0)
+		{
+			return m_attribs.insert({ name, loc }).first->second;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 	int32_t Shader::getUniformLocation(String const & name) const
 	{
-		if (auto it{ m_uniforms.find(name) }; it != m_uniforms.end())
+		if (const auto it{ m_uniforms.find(name) }; it != m_uniforms.end())
 		{
 			return it->second;
 		}
-		return m_uniforms.insert({
-			name, ML_GL.getUniformLocation((*this), name.c_str())
-		}).first->second;
+		else if(const int32_t loc{ ML_GL.getUniformLocation((*this), name.c_str()) }; loc >= 0)
+		{
+			return m_uniforms.insert({ name, loc }).first->second;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::compile(C_String v_src, C_String g_src, C_String f_src)
+	int32_t Shader::compile(C_String v_src, C_String g_src, C_String f_src)
 	{
 		if (!ML_GL.shadersAvailable())
 		{
@@ -619,7 +646,7 @@ namespace ml
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::VertexShader, log);
 				ML_GL.deleteShader(*this);
-				return false;
+				return 1;
 			}
 
 			// Compile Geometry
@@ -634,7 +661,7 @@ namespace ml
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::GeometryShader, log);
 				ML_GL.deleteShader(*this); 
-				return false;
+				return 2;
 			}
 
 			// Compile Fragment
@@ -649,7 +676,7 @@ namespace ml
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::FragmentShader, log);
 				ML_GL.deleteShader(*this); 
-				return false;
+				return 3;
 			}
 
 			// Link the program
@@ -661,17 +688,18 @@ namespace ml
 				Debug::logError("Failed linking shader");
 				std::cout << log << std::endl;
 				ML_GL.flush();
-				return false;
+				return 4;
 			}
 
 			// Good
 			ML_GL.flush();
-			return true;
+			return ML_SUCCESS;
 		}
 		else
 		{
 			ML_GL.flush();
-			return Debug::logError("Failed creating program object");
+			Debug::logError("Failed creating program object");
+			return 4;
 		}
 	}
 

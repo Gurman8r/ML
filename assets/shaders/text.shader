@@ -4,10 +4,10 @@
 #version 460 core
 
 layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec4 a_normal;
+layout(location = 1) in vec3 a_normal;
 layout(location = 2) in vec2 a_texcoord;
 
-out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
+out Vertex { vec3 position; vec3 normal; vec2 texcoord; } V;
 
 mat4 orthographic(float left, float right, float bottom, float top)
 {
@@ -42,7 +42,7 @@ void main()
 
 #version 460 core
 
-in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
+in Vertex { vec3 position; vec3 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 

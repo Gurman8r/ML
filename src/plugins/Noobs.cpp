@@ -972,7 +972,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(alpha));
 					ImGui::PushID("##AlphaState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1053,7 +1053,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(blend));
 					ImGui::PushID("##BlendState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1122,7 +1122,7 @@ namespace ml
 						util::to_hex<uint32_t>(blend->dfactorRGB),
 						"Specifies how the red, green, and blue destination blending factors are computed"
 					));
-					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+					ImGui::SameLine(); ImGui::Text(","); //ImGui::SameLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1179,7 +1179,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(cull));
 					ImGui::PushID("##CullState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1247,7 +1247,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(depth));
 					ImGui::PushID("##DepthState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+					ImGui::PushItemWidth(200);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 

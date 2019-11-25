@@ -85,6 +85,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		template <size_t I> constexpr bool read() const { return this->read(I); }
+
+		template <size_t I> constexpr self_type & clear() { return this->clear(I); }
+
+		template <size_t I> constexpr self_type & set() { return this->set(I); }
+
+		template <size_t I> constexpr self_type & write(bool value) { return this->write(I, value); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			class In, class U, size_t N
 		> static constexpr value_type from_bits(In const & value)

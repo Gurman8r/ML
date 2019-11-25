@@ -107,22 +107,21 @@ namespace ml
 
 		int32_t	getAttributeLocation(String const & value) const;
 		int32_t	getUniformLocation(String const & value) const;
+		int32_t compile(C_String vs, C_String gs, C_String fs);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		bool compile(C_String vs, C_String gs, C_String fs);
-
 		struct UniformBinder;
 
-		using AttribTable	= std::map<String, int32_t>;
-		using TextureTable	= std::map<int32_t, Texture const *>;
-		using UniformTable	= std::map<String, int32_t>;
+		using AttribCache	= std::map<String, int32_t>;
+		using TextureCache	= std::map<int32_t, Texture const *>;
+		using UniformCache	= std::map<String, int32_t>;
 
-		mutable AttribTable		m_attribs;	// Attribute Cache
-		mutable TextureTable	m_textures; // Texture Cache
-		mutable UniformTable	m_uniforms; // Uniform Cache
-		mutable Source			m_sources;	// Sources Cache
+		mutable AttribCache		m_attribs;
+		mutable TextureCache	m_textures;
+		mutable UniformCache	m_uniforms;
+		mutable Source			m_sources;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

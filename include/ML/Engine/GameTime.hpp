@@ -3,6 +3,7 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/Timer.hpp>
+#include <ML/Core/Array.hpp>
 
 namespace ml
 {
@@ -33,10 +34,10 @@ namespace ml
 			m_elapsed = m_step.stop().elapsed();
 			m_frame.accum += deltaTime() - m_frame.buf[m_frame.index];
 			m_frame.buf[m_frame.index] = deltaTime();
-			m_frame.index = (m_frame.index + 1) % ML_ARRAYSIZE(m_frame.buf);
+			m_frame.index = (m_frame.index + 1) % m_frame.buf.size();
 			m_frame.rate = ((m_frame.accum > 0.0f)
-				? (1.0f / (m_frame.accum / (float_t)ML_ARRAYSIZE(m_frame.buf)))
-				: limits<float_t>::max
+				? (1.0f / (m_frame.accum / (float_t)m_frame.buf.size()))
+				: limits<float_t>::min
 			);
 			m_frame.count++;
 			return (*this);
@@ -58,12 +59,15 @@ namespace ml
 
 		struct FrameTracker final
 		{
+			using Samples = Array<float_t, 90>;
+
+			size_t		index	{ 0 };
+			float_t		rate	{ 0 };
+			float_t		accum	{ 0 };
+			uint64_t	count	{ 0 };
+			Samples		buf		{ 0 };
+
 			FrameTracker() = default;
-			size_t		index		{ 0 };
-			float_t		rate		{ 0 };
-			float_t		accum		{ 0 };
-			float_t		buf[90]		{ 0 };
-			uint64_t	count		{ 0 };
 		} m_frame;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

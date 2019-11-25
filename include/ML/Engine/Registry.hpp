@@ -92,37 +92,37 @@ namespace ml
 
 		inline Code const * get_code(Name const & name) const
 		{
-			auto it { m_codes.find(name) };
+			auto const it { m_codes.find(name) };
 			return ((it != m_codes.end()) ? &it->second : nullptr);
 		}
 
 		inline Func const * get_func(Name const & name) const
 		{
-			auto it { m_funcs.find(name) };
+			auto const it { m_funcs.find(name) };
 			return ((it != m_funcs.end()) ? &it->second : nullptr);
 		}
 
 		inline Func const * get_func(Code code) const
 		{
-			auto it { m_names.find(code) };
+			auto const it { m_names.find(code) };
 			return ((it != m_names.end()) ? this->get_func(it->second) : nullptr);
 		}
 
 		inline String const * get_info(Name const & name) const
 		{
-			auto it { m_infos.find(name) };
+			auto const it { m_infos.find(name) };
 			return ((it != m_infos.end()) ? &it->second : nullptr);
 		}
 
 		inline String const * get_info(Code code) const
 		{
-			auto it { m_names.find(code) };
+			auto const it { m_names.find(code) };
 			return ((it != m_names.end()) ? this->get_info(it->second) : nullptr);
 		}
 
 		inline String const * get_name(Code code) const
 		{
-			auto it { m_names.find(code) };
+			auto const it { m_names.find(code) };
 			return ((it != m_names.end()) ? &it->second : nullptr);
 		}
 

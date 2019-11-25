@@ -64,6 +64,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		virtual hash_t category() const = 0;
+
+		virtual Uniform * clone() const = 0;
+
+		virtual bool is_modifiable() const = 0;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		virtual typeof<> get_base_type() const = 0;
 
 		virtual typeof<> get_data_type() const = 0;
@@ -84,23 +92,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual hash_t category() const = 0;
-		
-		virtual Uniform * clone() const = 0;
+		inline String const & name() const { return m_name; }
 
-		virtual bool is_modifiable() const = 0;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline String const & name() const
-		{
-			return m_name;
-		}
-
-		inline Uniform & rename(String const & value)
-		{
-			m_name = value; return (*this);
-		}
+		inline Uniform & rename(String const & value) { m_name = value; return (*this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -21,7 +21,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Handle(const_reference value)
+		explicit Handle(const_reference value)
 			: m_handle(value)
 		{
 		}

@@ -2,6 +2,7 @@
 #define _ML_EDITOR_PROFILER_HPP_
 
 #include <ML/Editor/Editor_Widget.hpp>
+#include <ML/Core/BitMask.hpp>
 
 namespace ml
 {
@@ -28,7 +29,7 @@ namespace ml
 	private:
 		struct GraphLines
 		{
-			using Samples = typename Array<float_t, 256>;
+			using Samples = typename std::vector<float_t>;
 
 			Samples		m_values	{ 0 };
 			int32_t		m_offset	{ 0 };
@@ -39,8 +40,13 @@ namespace ml
 			String		m_label		{ "" };
 			String		m_text		{ "" };
 
+			GraphLines() = default;
+			GraphLines(GraphLines const &) = default;
+
 			void update(C_String label, float_t sample, C_String text);
 			void render();
+
+		private: mask8_t m_flags{ 0 };
 		};
 
 		std::vector<GraphLines> m_graphs;

@@ -38,7 +38,9 @@ namespace ml
 		{
 		}
 
-		~Timer() {}
+		~Timer()
+		{
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,7 +51,7 @@ namespace ml
 
 		inline Duration const & elapsed() const
 		{
-			return (m_paused ? (m_elapsed) : (m_elapsed = (Clock::now() - m_prev)));
+			return (m_paused ? m_elapsed : (m_elapsed = (Clock::now() - m_prev)));
 		}
 
 		inline Timer & pause(bool value)
@@ -83,8 +85,7 @@ namespace ml
 		inline Timer & stop()
 		{
 			m_next = Clock::now();
-			m_elapsed = (m_next - m_prev);
-			return (*this);
+			return this->pause(true);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

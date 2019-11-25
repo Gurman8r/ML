@@ -49,8 +49,8 @@ namespace ml
 
 		static constexpr const Element Default[] = {
 			Element { 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
-			Element { 1, 4, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
-			Element { 2, 2, GL::Float, false, Vertex::Size, 7, sizeof(float_t) },
+			Element { 1, 3, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
+			Element { 2, 2, GL::Float, false, Vertex::Size, 6, sizeof(float_t) },
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

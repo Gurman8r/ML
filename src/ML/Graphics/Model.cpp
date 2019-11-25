@@ -78,9 +78,9 @@ namespace ml
 					aiVector3D const * uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
 
 					vertices.push_back(Vertex {
-						vp ? vec3 { vp->x, vp->y, vp->z }		: vec3::zero(),
-						vn ? vec4 { vn->x, vn->y, vn->z, 1.0f } : vec4::one(),
-						uv ? vec2 { uv->x, uv->y }				: vec2::one()
+						vp ? vec3 { vp->x, vp->y, vp->z }	: vec3::zero(),
+						vn ? vec3 { vn->x, vn->y, vn->z }	: vec3::one(),
+						uv ? vec2 { uv->x, uv->y }			: vec2::one()
 					});
 				}
 			}

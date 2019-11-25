@@ -16,7 +16,7 @@
 
 namespace ml
 {
-	//			Type			Category			Factory Function
+	//			Type			Info			Function
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	ML_REGISTER(Entity,			{ "Asset" })		{ return new Entity {}; }

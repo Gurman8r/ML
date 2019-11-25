@@ -19,7 +19,7 @@ namespace ml
 	{
 		for (auto const & u : copy)
 		{
-			if (u && (this->find(u->name()) != this->end()))
+			if (u && (this->find(u->name()) == this->end()))
 			{
 				this->insert(u->clone());
 			}
@@ -49,7 +49,7 @@ namespace ml
 		if (std::ifstream file { filename })
 		{
 			auto pop_front = ([](std::vector<String> & toks) {
-				// Erase begin and return front
+				// Erase and return front
 				if (toks.empty()) return String{};
 				const String temp{ toks.front() };
 				toks.erase(toks.begin());
@@ -92,13 +92,18 @@ namespace ml
 				{
 					// Uniform Type
 					/* * * * * * * * * * * * * * * * * * * * */
-					const int32_t u_type{ ([](C_String type)
+					const hash_t u_type{ ([](C_String type)
 					{
-						if (!type) return -1;
-						for (size_t i = 0; i < ML_ARRAYSIZE(Uniform::Type_names); i++)
+						const hash_t imax{ (hash_t)Uniform::Type::ID_MAX };
+						if (!type) { return imax; }
+						for (hash_t i = 0; i < imax; i++)
+						{
 							if (std::strcmp(type, Uniform::Type_names[i]) == 0)
-								return (int32_t)i;
-						return -1;
+							{
+								return i;
+							}
+						}
+						return imax;
 					})(pop_front(tokens).c_str()) };
 
 					// Uniform Name
@@ -125,27 +130,47 @@ namespace ml
 
 					// Generate Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Uniform * u{ ([](int32_t type, String const & name, SStream & ss, auto t)
+					if (Uniform * u{ ([](hash_t type, String const & name, SStream & ss, auto const * textures)
 					{
 						Uniform * u{ nullptr };
 						if ((type == -1) || name.empty() || ss.str().empty()) { return u; }
 						switch (type)
 						{
-						case uni_bool::ID	: return u = new uni_bool{	name, input<bool>()(ss) };
-						case uni_int::ID	: return u = new uni_int{	name, input<int32_t>()(ss) };
-						case uni_float::ID	: return u = new uni_float{ name, input<float_t>()(ss) };
-						case uni_vec2::ID	: return u = new uni_vec2{	name, input<vec2>()(ss) };
-						case uni_vec3::ID	: return u = new uni_vec3{	name, input<vec3>()(ss) };
-						case uni_vec4::ID	: return u = new uni_vec4{	name, input<vec4>()(ss) };
-						case uni_color::ID	: return u = new uni_color{ name, input<vec4>()(ss) };
-						case uni_mat2::ID	: return u = new uni_mat2{	name, input<mat2>()(ss) };
-						case uni_mat3::ID	: return u = new uni_mat3{	name, input<mat3>()(ss) };
-						case uni_mat4::ID	: return u = new uni_mat4{	name, input<mat4>()(ss) };
-						case uni_sampler::ID:
-							if (t)
+						case Uniform::category_of<bool>():
+							return u = new uni_bool{ name, input<bool>()(ss) };
+
+						case Uniform::category_of<int32_t>():
+							return u = new uni_int{ name, input<int32_t>()(ss) };
+
+						case Uniform::category_of<float_t>():
+							return u = new uni_float{ name, input<float_t>()(ss) };
+
+						case Uniform::category_of<vec2f>():
+							return u = new uni_vec2{ name, input<vec2>()(ss) };
+
+						case Uniform::category_of<vec3f>():
+							return u = new uni_vec3{ name, input<vec3>()(ss) };
+
+						case Uniform::category_of<vec4f>():
+							return u = new uni_vec4{ name, input<vec4>()(ss) };
+
+						case Uniform::category_of<Color>():
+							return u = new uni_color{ name, input<vec4>()(ss) };
+
+						case Uniform::category_of<mat2f>():
+							return u = new uni_mat2{ name, input<mat2>()(ss) };
+
+						case Uniform::category_of<mat3f>():
+							return u = new uni_mat3{ name, input<mat3>()(ss) };
+
+						case Uniform::category_of<mat4f>():
+							return u = new uni_mat4{ name, input<mat4>()(ss) };
+
+						case Uniform::category_of<Texture>():
+							if (textures)
 							{
-								auto it{ t->find(String{ ss.str() }.trim()) };
-								return ((it != t->end())
+								auto it{ textures->find(String{ ss.str() }.trim()) };
+								return ((it != textures->end())
 									? u = new uni_sampler{ name, it->second }
 									: u = new uni_sampler{ name, nullptr }
 								);

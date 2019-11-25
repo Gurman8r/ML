@@ -49,7 +49,7 @@ namespace ml
 
 		inline Uniform * insert(Uniform * value)
 		{
-			if (!value) { return nullptr; }
+			if (!value || !value->name()) { return nullptr; }
 			if (auto it{ this->find(value->name()) }; it == this->end())
 			{
 				m_uniforms.push_back(std::move(value));

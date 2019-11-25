@@ -20,16 +20,16 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum : hash_t
+		enum class Type : hash_t
 		{
-			ID_Boolean, ID_Integer, ID_Float,
-			ID_Vector2, ID_Vector3, ID_Vector4, ID_Color,
-			ID_Matrix2, ID_Matrix3, ID_Matrix4,
-			ID_Sampler,
-			MAX_UNIFORM_TYPE
+			ID_bool, ID_int, ID_float,
+			ID_vec2, ID_vec3, ID_vec4, ID_color,
+			ID_mat2, ID_mat3, ID_mat4,
+			ID_sampler,
+			ID_MAX
 		};
 
-		static constexpr C_String Type_names[MAX_UNIFORM_TYPE] = 
+		static constexpr C_String Type_names[(size_t)Type::ID_MAX] =
 		{
 			"bool", "int", "float",
 			"vec2", "vec3", "vec4", "color",
@@ -37,28 +37,35 @@ namespace ml
 			"sampler"
 		};
 
-		template <class T> static constexpr hash_t category()
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr hash_t category_of(hash_t code)
 		{
-			switch (typeof<detail::root_t<T>>::hash)
+			switch (code)
 			{
-			case typeof<bool>	::hash:	return ID_Boolean;
-			case typeof<int32_t>::hash: return ID_Integer;
-			case typeof<float_t>::hash: return ID_Float;
-			case typeof<vec2>	::hash:	return ID_Vector2;
-			case typeof<vec3>	::hash:	return ID_Vector3;
-			case typeof<vec4>	::hash:	return ID_Vector4;
-			case typeof<Color>	::hash:	return ID_Color;
-			case typeof<mat2>	::hash:	return ID_Matrix2;
-			case typeof<mat3>	::hash:	return ID_Matrix3;
-			case typeof<mat4>	::hash:	return ID_Matrix4;
-			case typeof<Texture>::hash: return ID_Sampler;
+			case typeof<bool>	::hash:	return (hash_t)Type::ID_bool;
+			case typeof<int32_t>::hash: return (hash_t)Type::ID_int;
+			case typeof<float_t>::hash: return (hash_t)Type::ID_float;
+			case typeof<vec2>	::hash:	return (hash_t)Type::ID_vec2;
+			case typeof<vec3>	::hash:	return (hash_t)Type::ID_vec3;
+			case typeof<vec4>	::hash:	return (hash_t)Type::ID_vec4;
+			case typeof<Color>	::hash:	return (hash_t)Type::ID_color;
+			case typeof<mat2>	::hash:	return (hash_t)Type::ID_mat2;
+			case typeof<mat3>	::hash:	return (hash_t)Type::ID_mat3;
+			case typeof<mat4>	::hash:	return (hash_t)Type::ID_mat4;
+			case typeof<Texture>::hash: return (hash_t)Type::ID_sampler;
 			}
-			return MAX_UNIFORM_TYPE;
+			return (hash_t)Type::ID_MAX;
+		}
+
+		template <class T> static constexpr hash_t category_of()
+		{
+			return Uniform::category_of(typeof<detail::root_t<T>>::hash);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit Uniform(String const & name) : m_name { name } {}
+		explicit Uniform(String const & name) : m_name{ name } {}
 
 		virtual ~Uniform() {}
 
@@ -92,9 +99,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline String const & name() const { return m_name; }
+		inline String const & name() const
+		{
+			return m_name;
+		}
 
-		inline Uniform & rename(String const & value) { m_name = value; return (*this); }
+		inline Uniform & rename(String const & value)
+		{
+			m_name = value;
+			return (*this);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -118,16 +132,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using base_type = typename Base;
-
 		using data_type = typename Data;
-		
 		using root_type = typename detail::root_t<base_type>;
-
 		using self_type = typename UniformImpl<base_type, data_type>;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr hash_t ID{ Uniform::category<base_type>() };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -140,12 +147,23 @@ namespace ml
 
 		inline hash_t category() const override
 		{
-			return self_type::ID;
+			static constexpr auto temp{ Uniform::category_of<base_type>() };
+			return temp;
 		}
 
 		inline self_type * clone() const override
 		{
 			return new self_type{ this->name(), this->get() };
+		}
+
+		inline bool is_modifiable() const override
+		{
+			static constexpr bool temp{ (
+				(std::is_same_v<base_type, root_type>) ||
+				(std::is_same_v<base_type, Texture const *>)) &&
+				(!std::is_same_v<data_type, std::function<base_type()>>)
+			};
+			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -176,18 +194,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool is_modifiable() const override
-		{
-			static const bool temp{ (
-				(std::is_same_v<data_type, root_type>) ||
-				(std::is_same_v<data_type, Texture const *>)) &&
-				(get_data_type().name.str().find("function") == String::npos)
-			};
-			return temp;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline data_type const & get() const
 		{
 			return m_data;
@@ -195,8 +201,7 @@ namespace ml
 
 		inline self_type & set(data_type const & value)
 		{
-			m_data = value;
-			return (*this);
+			m_data = value; return (*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -215,37 +220,37 @@ namespace ml
 	ML_USING	uni_bool			= typename uni_value	<bool>;
 	ML_USING	uni_int				= typename uni_value	<int32_t>;
 	ML_USING	uni_float			= typename uni_value	<float_t>;
-	ML_USING	uni_vec2			= typename uni_value	<vec2>;
-	ML_USING	uni_vec3			= typename uni_value	<vec3>;
-	ML_USING	uni_vec4			= typename uni_value	<vec4>;
+	ML_USING	uni_vec2			= typename uni_value	<vec2f>;
+	ML_USING	uni_vec3			= typename uni_value	<vec3f>;
+	ML_USING	uni_vec4			= typename uni_value	<vec4f>;
 	ML_USING	uni_color			= typename uni_value	<Color>;
-	ML_USING	uni_mat2			= typename uni_value	<mat2>;
-	ML_USING	uni_mat3			= typename uni_value	<mat3>;
-	ML_USING	uni_mat4			= typename uni_value	<mat4>;
+	ML_USING	uni_mat2			= typename uni_value	<mat2f>;
+	ML_USING	uni_mat3			= typename uni_value	<mat3f>;
+	ML_USING	uni_mat4			= typename uni_value	<mat4f>;
 	ML_USING	uni_sampler			= typename uni_value	<Texture const *>;
 
 	ML_USING	uni_bool_ptr		= typename uni_pointer	<bool>;
 	ML_USING	uni_int_ptr			= typename uni_pointer	<int32_t>;
 	ML_USING	uni_float_ptr		= typename uni_pointer	<float_t>;
-	ML_USING	uni_vec2_ptr		= typename uni_pointer	<vec2>;
-	ML_USING	uni_vec3_ptr		= typename uni_pointer	<vec3>;
-	ML_USING	uni_vec4_ptr		= typename uni_pointer	<vec4>;
+	ML_USING	uni_vec2_ptr		= typename uni_pointer	<vec2f>;
+	ML_USING	uni_vec3_ptr		= typename uni_pointer	<vec3f>;
+	ML_USING	uni_vec4_ptr		= typename uni_pointer	<vec4f>;
 	ML_USING	uni_color_ptr		= typename uni_pointer	<Color>;
-	ML_USING	uni_mat2_ptr		= typename uni_pointer	<mat2>;
-	ML_USING	uni_mat3_ptr		= typename uni_pointer	<mat3>;
-	ML_USING	uni_mat4_ptr		= typename uni_pointer	<mat4>;
+	ML_USING	uni_mat2_ptr		= typename uni_pointer	<mat2f>;
+	ML_USING	uni_mat3_ptr		= typename uni_pointer	<mat3f>;
+	ML_USING	uni_mat4_ptr		= typename uni_pointer	<mat4f>;
 	ML_USING	uni_sampler_ptr		= typename uni_pointer	<Texture const *>;
 
 	ML_USING	uni_bool_func		= typename uni_function	<bool>;
 	ML_USING	uni_int_func		= typename uni_function	<int32_t>;
 	ML_USING	uni_float_func		= typename uni_function	<float_t>;
-	ML_USING	uni_vec2_func		= typename uni_function	<vec2>;
-	ML_USING	uni_vec3_func		= typename uni_function	<vec3>;
-	ML_USING	uni_vec4_func		= typename uni_function	<vec4>;
+	ML_USING	uni_vec2_func		= typename uni_function	<vec2f>;
+	ML_USING	uni_vec3_func		= typename uni_function	<vec3f>;
+	ML_USING	uni_vec4_func		= typename uni_function	<vec4f>;
 	ML_USING	uni_color_func		= typename uni_function	<Color>;
-	ML_USING	uni_mat2_func		= typename uni_function	<mat2>;
-	ML_USING	uni_mat3_func		= typename uni_function	<mat3>;
-	ML_USING	uni_mat4_func		= typename uni_function	<mat4>;
+	ML_USING	uni_mat2_func		= typename uni_function	<mat2f>;
+	ML_USING	uni_mat3_func		= typename uni_function	<mat3f>;
+	ML_USING	uni_mat4_func		= typename uni_function	<mat4f>;
 	ML_USING	uni_sampler_func	= typename uni_function	<Texture const *>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -258,18 +263,21 @@ namespace ml
 		{
 		case typeof<T>::hash:
 		{
-			const auto u{ static_cast<uni_value<T> const *>(value) };
-			return &(temp = u->get());
+			return &(temp = static_cast<uni_value<T> const *>(value)->get());
 		}
 		case typeof<T const *>::hash:
 		{
-			const auto u{ static_cast<uni_pointer<T> const *>(value) };
-			if (const auto ptr{ u->get() }) return &(temp = (*ptr));
+			if (auto const & ptr{ static_cast<uni_pointer<T> const *>(value)->get() })
+			{
+				return &(temp = (*ptr));
+			}
 		}
 		case typeof<std::function<T()>>::hash:
 		{
-			const auto u{ static_cast<uni_function<T> const *>(value) };
-			if (const auto fun{ u->get() }) return &(temp = fun());
+			if (auto const & fun{ static_cast<uni_function<T> const *>(value)->get() })
+			{
+				return &(temp = fun());
+			}
 		}
 		}
 		return nullptr;

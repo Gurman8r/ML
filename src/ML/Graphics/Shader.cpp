@@ -114,7 +114,8 @@ namespace ml
 		if (*this)
 		{
 			ML_GL.deleteShader(*this);
-			set_handle(NULL);
+			
+			this->set_handle(NULL);
 		}
 		return !(*this);
 	}
@@ -124,7 +125,7 @@ namespace ml
 		static File file;
 		if (file.loadFromFile(filename))
 		{
-			return loadFromMemory(file.str());
+			return this->loadFromMemory(file.str());
 		}
 		return Debug::logError("Failed opening shader source file \"{0}\"", filename);
 	}
@@ -146,7 +147,7 @@ namespace ml
 		}
 
 		// Compile the shader program
-		return loadFromMemory(vert.str(), frag.str());
+		return this->loadFromMemory(vert.str(), frag.str());
 	}
 
 	bool Shader::loadFromFile(String const & vs, String const & gs, String const & fs)
@@ -173,46 +174,40 @@ namespace ml
 		}
 
 		// Compile the shader program
-		return loadFromMemory(vert.str(), geom.str(), frag.str());
+		return this->loadFromMemory(vert.str(), geom.str(), frag.str());
 	}
 
 	bool Shader::loadFromMemory(Source const & value)
 	{
-		return value.gs
-			? loadFromMemory(value.vs, value.gs, value.fs)
-			: loadFromMemory(value.vs, value.fs);
+		return (value.gs
+			? this->loadFromMemory(value.vs, value.gs, value.fs)
+			: this->loadFromMemory(value.vs, value.fs)
+		);
 	}
 
 	bool Shader::loadFromMemory(String const & value)
 	{
 		SStream v, g, f;
-		return 
+		return (
 			ShaderParser::parse(value, v, g, f) &&
-			loadFromMemory(v.str(), g.str(), f.str())
-			;
+			this->loadFromMemory(v.str(), g.str(), f.str())
+		);
 	}
 
 	bool Shader::loadFromMemory(String const & source, GL::ShaderType type)
 	{
 		switch (type)
 		{
-		case GL::FragmentShader: 
-			return loadFromMemory({}, {}, ShaderParser::parse(source));
-		
-		case GL::VertexShader: 
-			return loadFromMemory(ShaderParser::parse(source), {}, {});
-		
-		case GL::GeometryShader: 
-			return loadFromMemory({}, ShaderParser::parse(source), {});
+		case GL::FragmentShader	: return this->loadFromMemory({}, {}, ShaderParser::parse(source));
+		case GL::VertexShader	: return this->loadFromMemory(ShaderParser::parse(source), {}, {});
+		case GL::GeometryShader	: return this->loadFromMemory({}, ShaderParser::parse(source), {});
 		}
 		return false;
 	}
 
 	bool Shader::loadFromMemory(String const & vs, String const & fs)
 	{
-		return loadFromMemory(
-			ShaderParser::parse(vs), {}, ShaderParser::parse(fs)
-		);
+		return this->loadFromMemory(ShaderParser::parse(vs), {}, ShaderParser::parse(fs));
 	}
 
 	bool Shader::loadFromMemory(String const & vs, String const & gs, String const & fs)
@@ -222,23 +217,23 @@ namespace ml
 		m_sources.fs = (fs ? ShaderParser::parse(fs) : String());
 		if (vs && fs && gs)
 		{
-			return (compile(vs.c_str(), gs.c_str(), fs.c_str()) == ML_SUCCESS);
+			return (this->compile(vs.c_str(), gs.c_str(), fs.c_str()) == EXIT_SUCCESS);
 		}
 		else if (vs && fs)
 		{
-			return (compile(vs.c_str(), nullptr, fs.c_str()) == ML_SUCCESS);
+			return (this->compile(vs.c_str(), nullptr, fs.c_str()) == EXIT_SUCCESS);
 		}
 		else if (vs)
 		{
-			return (compile(vs.c_str(), nullptr, nullptr) == ML_SUCCESS);
+			return (this->compile(vs.c_str(), nullptr, nullptr) == EXIT_SUCCESS);
 		}
 		else if (fs)
 		{
-			return (compile(nullptr, nullptr, fs.c_str()) == ML_SUCCESS);
+			return (this->compile(nullptr, nullptr, fs.c_str()) == EXIT_SUCCESS);
 		}
 		else if (gs)
 		{
-			return (compile(nullptr, gs.c_str(), nullptr) == ML_SUCCESS);
+			return (this->compile(nullptr, gs.c_str(), nullptr) == EXIT_SUCCESS);
 		}
 		else
 		{
@@ -290,19 +285,51 @@ namespace ml
 	bool Shader::setUniform(Uniform const * value) const
 	{
 		if (!value || !value->name()) { return false; }
-		switch (value->category())
+		switch (value->get_root_id())
 		{
-		case uni_bool	::ID: if(auto v{ uniform_cast<bool>(value) }) return setUniform(value->name(), *v);
-		case uni_float	::ID: if(auto v{ uniform_cast<int32_t>(value) }) return setUniform(value->name(), *v);
-		case uni_int	::ID: if(auto v{ uniform_cast<float_t>(value) }) return setUniform(value->name(), *v);
-		case uni_vec2	::ID: if(auto v{ uniform_cast<vec2>(value) }) return setUniform(value->name(), *v);
-		case uni_vec3	::ID: if(auto v{ uniform_cast<vec3>(value) }) return setUniform(value->name(), *v);
-		case uni_vec4	::ID: if(auto v{ uniform_cast<vec4>(value) }) return setUniform(value->name(), *v);
-		case uni_color	::ID: if(auto v{ uniform_cast<Color>(value) }) return setUniform(value->name(), *v);
-		case uni_mat2	::ID: if(auto v{ uniform_cast<mat2>(value) }) return setUniform(value->name(), *v);
-		case uni_mat3	::ID: if(auto v{ uniform_cast<mat3>(value) }) return setUniform(value->name(), *v);
-		case uni_mat4	::ID: if(auto v{ uniform_cast<mat4>(value) }) return setUniform(value->name(), *v);
-		case uni_sampler::ID: if(auto v{ uniform_cast<Texture const *>(value) }) return setUniform(value->name(), *v);
+		case typeof<bool>::hash:
+			if (auto const * v{ uniform_cast<bool>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<int32_t>::hash:
+			if (auto const * v{ uniform_cast<int32_t>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<float_t>::hash:
+			if (auto const * v{ uniform_cast<float_t>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<vec2f>::hash:
+			if (auto const * v{ uniform_cast<vec2f>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<vec3f>::hash:
+			if (auto const * v{ uniform_cast<vec3f>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<vec4f>::hash:
+			if (auto const * v{ uniform_cast<vec4f>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<Color>::hash:
+			if (auto const * v{ uniform_cast<Color>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<mat2f>::hash:
+			if (auto const * v{ uniform_cast<mat2f>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<mat3f>::hash:
+			if (auto const * v{ uniform_cast<mat3f>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<mat4f>::hash:
+			if (auto const * v{ uniform_cast<mat4f>(value) })
+				return this->setUniform(value->name(), *v);
+
+		case typeof<Texture>::hash:
+			if (auto const * v{ uniform_cast<Texture const *>(value) })
+				return this->setUniform(value->name(), *v);
 		}
 		return false;
 	}
@@ -311,7 +338,7 @@ namespace ml
 
 	bool Shader::setUniform(String const & name, bool value) const
 	{
-		return setUniform(name, (int32_t)value);
+		return this->setUniform(name, (int32_t)value);
 	}
 
 	bool Shader::setUniform(String const & name, float_t value) const
@@ -334,7 +361,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(String const & name, vec2 const & value) const
+	bool Shader::setUniform(String const & name, vec2f const & value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -344,7 +371,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(String const & name, vec3 const & value) const
+	bool Shader::setUniform(String const & name, vec3f const & value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -354,7 +381,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(String const & name, vec4 const & value) const
+	bool Shader::setUniform(String const & name, vec4f const & value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -394,7 +421,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(String const & name, mat2 const & value) const
+	bool Shader::setUniform(String const & name, mat2f const & value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -404,7 +431,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(String const & name, mat3 const & value) const
+	bool Shader::setUniform(String const & name, mat3f const & value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -414,7 +441,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(String const & name, mat4 const & value) const
+	bool Shader::setUniform(String const & name, mat4f const & value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -454,7 +481,7 @@ namespace ml
 
 	bool Shader::setUniform(String const & name, Texture const * value) const
 	{
-		return value ? setUniform(name, (*value)) : false;
+		return value ? this->setUniform(name, (*value)) : false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -479,7 +506,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(String const & name, int32_t count, vec2 const * value) const
+	bool Shader::setUniformArray(String const & name, int32_t count, vec2f const * value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -489,7 +516,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(String const & name, int32_t count, vec3 const * value) const
+	bool Shader::setUniformArray(String const & name, int32_t count, vec3f const * value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -499,7 +526,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(String const & name, int32_t count, vec4 const * value) const
+	bool Shader::setUniformArray(String const & name, int32_t count, vec4f const * value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -509,7 +536,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(String const & name, int32_t count, mat2 const * value) const
+	bool Shader::setUniformArray(String const & name, int32_t count, mat2f const * value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -519,7 +546,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(String const & name, int32_t count, mat3 const * value) const
+	bool Shader::setUniformArray(String const & name, int32_t count, mat3f const * value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -529,7 +556,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(String const & name, int32_t count, mat4 const * value) const
+	bool Shader::setUniformArray(String const & name, int32_t count, mat4f const * value) const
 	{
 		UniformBinder u{ this, name };
 		if (u)
@@ -551,32 +578,32 @@ namespace ml
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
 
-	bool Shader::setUniformArray(String const & name, std::vector<vec2> const & value) const
+	bool Shader::setUniformArray(String const & name, std::vector<vec2f> const & value) const
 	{
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
 
-	bool Shader::setUniformArray(String const & name, std::vector<vec3> const & value) const
+	bool Shader::setUniformArray(String const & name, std::vector<vec3f> const & value) const
 	{
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
 
-	bool Shader::setUniformArray(String const & name, std::vector<vec4> const & value) const
+	bool Shader::setUniformArray(String const & name, std::vector<vec4f> const & value) const
 	{
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
 
-	bool Shader::setUniformArray(String const & name, std::vector<mat2> const & value) const
+	bool Shader::setUniformArray(String const & name, std::vector<mat2f> const & value) const
 	{
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
 
-	bool Shader::setUniformArray(String const & name, std::vector<mat3> const & value) const
+	bool Shader::setUniformArray(String const & name, std::vector<mat3f> const & value) const
 	{
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
 
-	bool Shader::setUniformArray(String const & name, std::vector<mat4> const & value) const
+	bool Shader::setUniformArray(String const & name, std::vector<mat4f> const & value) const
 	{
 		return setUniformArray(name, static_cast<int32_t>(value.size()), value.data());
 	}
@@ -585,34 +612,24 @@ namespace ml
 
 	int32_t Shader::getAttributeLocation(String const & name) const
 	{
-		if (const auto it{ m_attribs.find(name) }; it != m_attribs.end())
+		if (auto it{ m_attribs.find(name) }; it != m_attribs.end())
 		{
 			return it->second;
 		}
-		else if(const int32_t loc{ ML_GL.getAttribLocation((*this), name.c_str()) }; loc >= 0)
-		{
-			return m_attribs.insert({ name, loc }).first->second;
-		}
-		else
-		{
-			return -1;
-		}
+		return m_uniforms.insert({
+			name, ML_GL.getAttribLocation((*this), name.c_str())
+		}).first->second;
 	}
 
 	int32_t Shader::getUniformLocation(String const & name) const
 	{
-		if (const auto it{ m_uniforms.find(name) }; it != m_uniforms.end())
+		if (auto it{ m_uniforms.find(name) }; it != m_uniforms.end())
 		{
 			return it->second;
 		}
-		else if(const int32_t loc{ ML_GL.getUniformLocation((*this), name.c_str()) }; loc >= 0)
-		{
-			return m_uniforms.insert({ name, loc }).first->second;
-		}
-		else
-		{
-			return -1;
-		}
+		return m_uniforms.insert({
+			name, ML_GL.getUniformLocation((*this), name.c_str())
+		}).first->second;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -621,12 +638,14 @@ namespace ml
 	{
 		if (!ML_GL.shadersAvailable())
 		{
-			return ml::Debug::logError("Shaders are not available on your system.");
+			ml::Debug::logError("Shaders are not available on your system.");
+			return EXIT_FAILURE * 1;
 		}
 
 		if (g_src && !ML_GL.geometryShadersAvailable())
 		{
-			return Debug::logError("Geometry shaders are not available on your system.");
+			Debug::logError("Geometry shaders are not available on your system.");
+			return EXIT_FAILURE * 2;
 		}
 
 		// Create Program
@@ -646,7 +665,7 @@ namespace ml
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::VertexShader, log);
 				ML_GL.deleteShader(*this);
-				return 1;
+				return EXIT_FAILURE * 3;
 			}
 
 			// Compile Geometry
@@ -660,8 +679,8 @@ namespace ml
 				break;
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::GeometryShader, log);
-				ML_GL.deleteShader(*this); 
-				return 2;
+				ML_GL.deleteShader(*this);
+				return EXIT_FAILURE * 4;
 			}
 
 			// Compile Fragment
@@ -675,8 +694,8 @@ namespace ml
 				break;
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::FragmentShader, log);
-				ML_GL.deleteShader(*this); 
-				return 3;
+				ML_GL.deleteShader(*this);
+				return EXIT_FAILURE * 5;
 			}
 
 			// Link the program
@@ -688,18 +707,18 @@ namespace ml
 				Debug::logError("Failed linking shader");
 				std::cout << log << std::endl;
 				ML_GL.flush();
-				return 4;
+				return EXIT_FAILURE * 6;
 			}
 
 			// Good
 			ML_GL.flush();
-			return ML_SUCCESS;
+			return EXIT_SUCCESS;
 		}
 		else
 		{
 			ML_GL.flush();
 			Debug::logError("Failed creating program object");
-			return 4;
+			return EXIT_FAILURE * 7;
 		}
 	}
 

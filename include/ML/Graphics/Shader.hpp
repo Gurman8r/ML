@@ -64,44 +64,44 @@ namespace ml
 
 		bool setUniform(Uniform const * value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniform(String const & name, bool value) const;
 		bool setUniform(String const & name, float_t value) const;
 		bool setUniform(String const & name, int32_t value) const;
-		bool setUniform(String const & name, vec2 const & value) const;
-		bool setUniform(String const & name, vec3 const & value) const;
-		bool setUniform(String const & name, vec4 const & value) const;
+		bool setUniform(String const & name, vec2f const & value) const;
+		bool setUniform(String const & name, vec3f const & value) const;
+		bool setUniform(String const & name, vec4f const & value) const;
 		bool setUniform(String const & name, vec2i const & value) const;
 		bool setUniform(String const & name, vec3i const & value) const;
 		bool setUniform(String const & name, vec4i const & value) const;
-		bool setUniform(String const & name, mat2 const & value) const;
-		bool setUniform(String const & name, mat3 const & value) const;
-		bool setUniform(String const & name, mat4 const & value) const;
+		bool setUniform(String const & name, mat2f const & value) const;
+		bool setUniform(String const & name, mat3f const & value) const;
+		bool setUniform(String const & name, mat4f const & value) const;
 		bool setUniform(String const & name, Texture const & value) const;
 		bool setUniform(String const & name, Texture const * value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniformArray(String const & name, int32_t count, int32_t const * value) const;
 		bool setUniformArray(String const & name, int32_t count, float_t const * value) const;
-		bool setUniformArray(String const & name, int32_t count, vec2 const * value) const;
-		bool setUniformArray(String const & name, int32_t count, vec3 const * value) const;
-		bool setUniformArray(String const & name, int32_t count, vec4 const * value) const;
-		bool setUniformArray(String const & name, int32_t count, mat2 const * value) const;
-		bool setUniformArray(String const & name, int32_t count, mat3 const * value) const;
-		bool setUniformArray(String const & name, int32_t count, mat4 const * value) const;
+		bool setUniformArray(String const & name, int32_t count, vec2f const * value) const;
+		bool setUniformArray(String const & name, int32_t count, vec3f const * value) const;
+		bool setUniformArray(String const & name, int32_t count, vec4f const * value) const;
+		bool setUniformArray(String const & name, int32_t count, mat2f const * value) const;
+		bool setUniformArray(String const & name, int32_t count, mat3f const * value) const;
+		bool setUniformArray(String const & name, int32_t count, mat4f const * value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniformArray(String const & name, std::vector<int32_t> const & value) const;
 		bool setUniformArray(String const & name, std::vector<float_t> const & value) const;
-		bool setUniformArray(String const & name, std::vector<vec2> const & value) const;
-		bool setUniformArray(String const & name, std::vector<vec3> const & value) const;
-		bool setUniformArray(String const & name, std::vector<vec4> const & value) const;
-		bool setUniformArray(String const & name, std::vector<mat2> const & value) const;
-		bool setUniformArray(String const & name, std::vector<mat3> const & value) const;
-		bool setUniformArray(String const & name, std::vector<mat4> const & value) const;
+		bool setUniformArray(String const & name, std::vector<vec2f> const & value) const;
+		bool setUniformArray(String const & name, std::vector<vec3f> const & value) const;
+		bool setUniformArray(String const & name, std::vector<vec4f> const & value) const;
+		bool setUniformArray(String const & name, std::vector<mat2f> const & value) const;
+		bool setUniformArray(String const & name, std::vector<mat3f> const & value) const;
+		bool setUniformArray(String const & name, std::vector<mat4f> const & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

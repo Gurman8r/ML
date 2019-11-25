@@ -675,19 +675,19 @@ namespace ml
 								<< std::setw(7) << util::to_string(*u) << " "
 								<< std::setw(15) << u->name() << " "
 								<< "{ ";
-							switch (u->category())
+							switch (u->get_root_id())
 							{
-							case uni_bool	::ID: if (auto a{ uniform_cast<bool>(u) }) ss << (*a); break;
-							case uni_float	::ID: if (auto a{ uniform_cast<float_t>(u) }) ss << (*a); break;
-							case uni_int	::ID: if (auto a{ uniform_cast<int32_t>(u) }) ss << (*a); break;
-							case uni_vec2	::ID: if (auto a{ uniform_cast<vec2>(u) }) ss << (*a); break;
-							case uni_vec3	::ID: if (auto a{ uniform_cast<vec3>(u) }) ss << (*a); break;
-							case uni_vec4	::ID: if (auto a{ uniform_cast<vec4>(u) }) ss << (*a); break;
-							case uni_color	::ID: if (auto a{ uniform_cast<Color>(u) }) ss << (*a); break;
-							case uni_mat2	::ID: if (auto a{ uniform_cast<mat2>(u) }) ss << (*a); break;
-							case uni_mat3	::ID: if (auto a{ uniform_cast<mat3>(u) }) ss << (*a); break;
-							case uni_mat4	::ID: if (auto a{ uniform_cast<mat4>(u) }) ss << (*a); break;
-							case uni_sampler::ID: if (auto a{ uniform_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*a); break;
+							case typeof<bool>::hash		: if (auto * v{ uniform_cast<bool>(u) }) ss << (*v); break;
+							case typeof<float_t>::hash	: if (auto * v{ uniform_cast<float_t>(u) }) ss << (*v); break;
+							case typeof<int32_t>::hash	: if (auto * v{ uniform_cast<int32_t>(u) }) ss << (*v); break;
+							case typeof<vec2>::hash		: if (auto * v{ uniform_cast<vec2>(u) }) ss << (*v); break;
+							case typeof<vec3>::hash		: if (auto * v{ uniform_cast<vec3>(u) }) ss << (*v); break;
+							case typeof<vec4>::hash		: if (auto * v{ uniform_cast<vec4>(u) }) ss << (*v); break;
+							case typeof<Color>::hash	: if (auto * v{ uniform_cast<Color>(u) }) ss << (*v); break;
+							case typeof<mat2>::hash		: if (auto * v{ uniform_cast<mat2>(u) }) ss << (*v); break;
+							case typeof<mat3>::hash		: if (auto * v{ uniform_cast<mat3>(u) }) ss << (*v); break;
+							case typeof<mat4>::hash		: if (auto * v{ uniform_cast<mat4>(u) }) ss << (*v); break;
+							case typeof<Texture>::hash	: if (auto * v{ uniform_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*v); break;
 							}
 							if (ss.str().back() != ' ') ss << ' ';
 							ss << "}" << std::endl;
@@ -784,7 +784,7 @@ namespace ml
 						if (!u) continue;
 						ImGui::Columns(4, "##Uni##Columns");
 						const String label { "##Uni##" + u->name() };
-						const float_t color_ref{ (float_t)u->category() / (float_t)Uniform::MAX_UNIFORM_TYPE };
+						const float_t color_ref{ (float_t)(u->category()) / (float_t)Uniform::Type::ID_MAX };
 						const bool can_edit{ u->is_modifiable() };
 
 						// Uniform Type

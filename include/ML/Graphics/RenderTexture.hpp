@@ -54,7 +54,6 @@ namespace ml
 		inline auto size()		const	-> const vec2i  &	{ return m_size; }
 		inline auto storage()	const	-> GL::Format		{ return m_storage; }
 		inline auto texture()	const	-> Texture const &	{ return m_texture; }
-		inline auto texture()			-> Texture &		{ return m_texture; }
 		inline auto width()		const	-> int32_t			{ return m_size[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

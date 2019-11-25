@@ -11,9 +11,9 @@ out Vertex { vec3 position; vec3 normal; vec2 texcoord; } V;
 
 void main()
 {
-    V.position    = a_position;
+    V.position  = a_position;
     V.normal    = a_normal;
-    V.texcoord    = a_texcoord;
+    V.texcoord  = a_texcoord;
     gl_Position = vec4(V.position, 1.0);
 }
 
@@ -32,26 +32,26 @@ uniform sampler2D   u_texture0;
 uniform int         u_effect;
 uniform mat3        u_kernel;
 
-#define MODE_DEFAULT    0
-#define MODE_GRAYSCALE    1
-#define MODE_BLUR        2
-#define MODE_KERNEL        3
-#define MODE_INVERTED    4
+#define MODE_DEFAULT   0
+#define MODE_GRAYSCALE 1
+#define MODE_BLUR      2
+#define MODE_KERNEL    3
+#define MODE_INVERTED  4
 
 vec4 drawKernel(in mat3 kernel)
 {
     const float offset = 1.0 / 300.0;
 
     vec2 offsets[9] = vec2[](
-        vec2(-offset, offset),  // top-left
-        vec2(0.0f, offset),     // top-center
-        vec2(offset, offset),   // top-right
-        vec2(-offset, 0.0f),    // center-left
-        vec2(0.0f, 0.0f),       // center-center
-        vec2(offset, 0.0f),     // center-right
-        vec2(-offset, -offset), // bottom-left
-        vec2(0.0f, -offset),    // bottom-center
-        vec2(offset, -offset)   // bottom-right    
+        vec2(-offset, offset),  // top    left
+        vec2(0.0f,    offset),  // top    center
+        vec2(offset,  offset),  // top    right
+        vec2(-offset, 0.0f),    // center left
+        vec2(0.0f,    0.0f),    // center center
+        vec2(offset,  0.0f),    // center right
+        vec2(-offset, -offset), // bottom left
+        vec2(0.0f,    -offset), // bottom center
+        vec2(offset,  -offset)  // bottom right    
     );
 
     vec3 samples[9];

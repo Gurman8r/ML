@@ -21,7 +21,7 @@ namespace ml
 		, m_model	{ model }
 		, m_material{ material }
 		, m_shader	{ shader }
-		, m_states	{ }
+		, m_states	{}
 	{
 	}
 

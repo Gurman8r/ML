@@ -17,24 +17,24 @@ namespace ml
 		float_t coeff;
 
 		explicit constexpr AlphaState(bool enabled, GL::Predicate func, float_t coeff)
-			: enabled(enabled)
-			, func(func)
-			, coeff(coeff)
+			: enabled{ enabled }
+			, func{ func }
+			, coeff{ coeff }
 		{
 		}
 
 		constexpr AlphaState(AlphaState const & copy)
-			: AlphaState(copy.enabled, copy.func, copy.coeff)
+			: AlphaState{ copy.enabled, copy.func, copy.coeff }
 		{
 		}
 
 		constexpr AlphaState(bool enabled)
-			: AlphaState(enabled, GL::Greater, 0.01f)
+			: AlphaState{ enabled, GL::Greater, 0.001f }
 		{
 		}
 
 		constexpr AlphaState()
-			: AlphaState(true)
+			: AlphaState{ true }
 		{
 		}
 
@@ -52,31 +52,31 @@ namespace ml
 		GL::Factor dfactorAlpha;
 
 		constexpr explicit BlendState(bool enabled, GL::Factor sfactorRGB, GL::Factor sfactorAlpha, GL::Factor dfactorRGB, GL::Factor dfactorAlpha)
-			: enabled	(enabled)
-			, sfactorRGB	(sfactorRGB)
-			, sfactorAlpha	(sfactorAlpha)
-			, dfactorRGB	(dfactorRGB)
-			, dfactorAlpha	(dfactorAlpha)
+			: enabled{ enabled }
+			, sfactorRGB{ sfactorRGB }
+			, sfactorAlpha{ sfactorAlpha }
+			, dfactorRGB{ dfactorRGB }
+			, dfactorAlpha{ dfactorAlpha }
 		{
 		}
 
 		constexpr BlendState(BlendState const & copy)
-			: BlendState(copy.enabled, copy.sfactorRGB, copy.sfactorAlpha, copy.dfactorRGB, copy.dfactorAlpha)
+			: BlendState{ copy.enabled, copy.sfactorRGB, copy.sfactorAlpha, copy.dfactorRGB, copy.dfactorAlpha }
 		{
 		}
 
 		constexpr BlendState(bool enabled, GL::Factor rgb, GL::Factor alpha)
-			: BlendState(enabled, rgb, alpha, rgb, alpha)
+			: BlendState{ enabled, rgb, alpha, rgb, alpha }
 		{
 		}
 
 		constexpr BlendState(bool enabled)
-			: BlendState(enabled, GL::SrcAlpha, GL::OneMinusSrcAlpha)
+			: BlendState{ enabled, GL::SrcAlpha, GL::OneMinusSrcAlpha }
 		{
 		}
 
 		constexpr BlendState()
-			: BlendState(true)
+			: BlendState{ true }
 		{
 		}
 
@@ -91,23 +91,23 @@ namespace ml
 		GL::Face mode;
 
 		constexpr explicit CullState(bool enabled, GL::Face mode)
-			: enabled(enabled)
-			, mode(mode)
+			: enabled{ enabled }
+			, mode{ mode }
 		{
 		}
 
 		constexpr CullState(CullState const & copy)
-			: CullState(copy.enabled, copy.mode)
+			: CullState{ copy.enabled, copy.mode }
 		{
 		}
 
 		constexpr CullState(bool enabled)
-			: CullState(enabled, GL::Back)
+			: CullState{ enabled, GL::Back }
 		{
 		}
 
 		constexpr CullState()
-			: CullState(true)
+			: CullState{ true }
 		{
 		}
 
@@ -123,29 +123,29 @@ namespace ml
 		bool mask;
 
 		constexpr explicit DepthState(bool enabled, GL::Predicate func, bool mask)
-			: enabled(enabled)
-			, func(func)
-			, mask(mask)
+			: enabled{ enabled }
+			, func{ func }
+			, mask{ mask }
 		{
 		}
 
 		constexpr DepthState(bool enabled, bool mask)
-			: DepthState(enabled, GL::Less, mask)
+			: DepthState{ enabled, GL::Less, mask }
 		{
 		}
 
 		constexpr DepthState(DepthState const & copy)
-			: DepthState(copy.enabled, copy.func, copy.mask)
+			: DepthState{ copy.enabled, copy.func, copy.mask }
 		{
 		}
 
 		constexpr DepthState(bool enabled)
-			: DepthState(enabled, GL::Less, true)
+			: DepthState{ enabled, GL::Less, true }
 		{
 		}
 
 		constexpr DepthState()
-			: DepthState(true)
+			: DepthState{ true }
 		{
 		}
 
@@ -164,11 +164,7 @@ namespace ml
 			BlendState const & blend,
 			CullState const & cull,
 			DepthState const & depth
-		)	: m_enabled { enabled }
-			, m_alpha	{ alpha }
-			, m_blend	{ blend }
-			, m_cull	{ cull  }
-			, m_depth	{ depth }
+		) : m_enabled{ enabled }, m_alpha{ alpha }, m_blend{ blend }, m_cull{ cull }, m_depth{ depth }
 		{
 		}
 
@@ -177,25 +173,22 @@ namespace ml
 			BlendState const & blend, 
 			CullState const & cull,
 			DepthState const & depth
-		)	: RenderStates { true, alpha, blend, cull, depth }
+		) : RenderStates { true, alpha, blend, cull, depth }
 		{
 		}
 
-		constexpr RenderStates(RenderStates const & copy) : RenderStates { 
-			copy.m_enabled, copy.m_alpha, copy.m_blend, copy.m_cull, copy.m_depth 
-		}
+		constexpr RenderStates(RenderStates const & copy)
+			: RenderStates { copy.m_enabled, copy.m_alpha, copy.m_blend, copy.m_cull, copy.m_depth }
 		{
 		}
 
-		constexpr RenderStates(bool enabled) : RenderStates { 
-			enabled, {}, {}, {}, {} 
-		}
+		constexpr RenderStates(bool enabled)
+			: RenderStates { enabled, {}, {}, {}, {} }
 		{
 		}
 
-		constexpr RenderStates() : RenderStates { 
-			true
-		}
+		constexpr RenderStates()
+			: RenderStates { true }
 		{
 		}
 
@@ -205,11 +198,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto alpha() -> AlphaState & { return m_alpha; }
-		inline auto blend() -> BlendState & { return m_blend; }
-		inline auto cull()	-> CullState  & { return m_cull;  }
-		inline auto depth() -> DepthState & { return m_depth; }
+		constexpr auto alpha()			-> AlphaState & { return m_alpha; }
+		constexpr auto alpha()	const	-> AlphaState const & { return m_alpha; }
 
+		constexpr auto blend()			-> BlendState & { return m_blend; }
+		constexpr auto blend()	const	-> BlendState const & { return m_blend; }
+		
+		constexpr auto cull()			-> CullState & { return m_cull; }
+		constexpr auto cull()	const	-> CullState const & { return m_cull; }
+		
+		constexpr auto depth()			-> DepthState & { return m_depth; }
+		constexpr auto depth()	const	-> DepthState const & { return m_depth; }
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:

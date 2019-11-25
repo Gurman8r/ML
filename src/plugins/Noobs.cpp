@@ -299,7 +299,7 @@ namespace ml
 
 					// Apply States
 					RenderStates{
-						AlphaState	{ true, GL::Greater, 0.01f },
+						AlphaState	{ true, GL::Greater, 0.001f },
 						BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
 						CullState	{ false },
 						DepthState	{ false },
@@ -964,7 +964,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##AlphaState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(200);
+					ImGui::PushItemWidth(288);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -974,7 +974,9 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(GL::raw_name_of(GL::AlphaTest)); 
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
+					ImGui::Text(GL::raw_name_of(GL::AlphaTest));
+					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
 						"Param: \'cap\'\n\n"
 						"Value: {0} (0x{1})\n\n"
@@ -1055,7 +1057,9 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::Blend));
+					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
 						"Param: \'cap\'\n\n"
 						"Value: {0} (0x{1})\n\n"
@@ -1171,7 +1175,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##CullState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(200);
+					ImGui::PushItemWidth(288);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1181,7 +1185,9 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::CullFace));
+					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
 						"Param: \'cap\'\n\n"
 						"Value: {0} (0x{1})\n\n"
@@ -1239,7 +1245,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(value));
 					ImGui::PushID("##DepthState");
 					ImGui::NewLine();
-					ImGui::PushItemWidth(200);
+					ImGui::PushItemWidth(288);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1249,7 +1255,9 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::DepthTest));
+					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
 						"Param: \'cap\'\n\n"
 						"Value: {0} (0x{1})\n\n"
@@ -1267,7 +1275,12 @@ namespace ml
 					ImGui::Checkbox("glDepthMask", &value->mask); 
 					ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::PushStyleColor(ImGuiCol_Text, value->mask 
+						? ImVec4{ 0.1f, 0.4f, 0.8f, 1.0f } 
+						: ImVec4{ 0.8f, 0.4f, 0.1f, 1.0f }
+					);
 					ImGui::Text(value->mask ? "true" : "false");
+					ImGui::PopStyleColor();
 					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 

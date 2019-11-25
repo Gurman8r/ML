@@ -86,13 +86,13 @@ ml::int32_t main()
 	{
 		ML_Engine.time().beginStep();
 
-		{ ML_TRACE("Begin Step");	ML_EventSystem.fireEvent<BeginStepEvent>(); }
-		{ ML_TRACE("-Update");		ML_EventSystem.fireEvent<UpdateEvent>();	}
-		{ ML_TRACE("-Draw");		ML_EventSystem.fireEvent<DrawEvent>();		}
-		{ ML_TRACE("-Begin Gui");	ML_EventSystem.fireEvent<BeginGuiEvent>();	}
-		{ ML_TRACE("--Gui");		ML_EventSystem.fireEvent<GuiEvent>();		}
-		{ ML_TRACE("-End Gui");		ML_EventSystem.fireEvent<EndGuiEvent>();	}
-		{ ML_TRACE("End Step");		ML_EventSystem.fireEvent<EndStepEvent>();	}
+		{ ML_BENCH("Begin Step");	ML_EventSystem.fireEvent<BeginStepEvent>(); }
+		{ ML_BENCH("-Update");		ML_EventSystem.fireEvent<UpdateEvent>();	}
+		{ ML_BENCH("-Draw");		ML_EventSystem.fireEvent<DrawEvent>();		}
+		{ ML_BENCH("-Begin Gui");	ML_EventSystem.fireEvent<BeginGuiEvent>();	}
+		{ ML_BENCH("--Gui");		ML_EventSystem.fireEvent<GuiEvent>();		}
+		{ ML_BENCH("-End Gui");		ML_EventSystem.fireEvent<EndGuiEvent>();	}
+		{ ML_BENCH("End Step");		ML_EventSystem.fireEvent<EndStepEvent>();	}
 		
 		ML_PerformanceTracker.endFrame();
 		

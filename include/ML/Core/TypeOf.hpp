@@ -13,11 +13,11 @@ namespace ml
 
 	template <class T> struct typeof<T> final
 	{
-		constexpr typeof() noexcept = default;
-
 		static constexpr StringView name { nameof<>::filter(nameof<T>::value) };
 		
 		static constexpr hash_t hash { name.hash() };
+
+		constexpr typeof() noexcept = default;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

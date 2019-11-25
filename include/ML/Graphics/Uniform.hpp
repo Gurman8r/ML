@@ -170,25 +170,25 @@ namespace ml
 
 		inline typeof<> const & get_base_type() const override
 		{
-			static constexpr auto temp{ typeof<base_type>{} };
+			static constexpr typeof<> temp{ typeof<base_type>{} };
 			return temp;
 		}
 
 		inline typeof<> const & get_data_type() const override
 		{
-			static constexpr auto temp{ typeof<data_type>{} };
+			static constexpr typeof<> temp{ typeof<data_type>{} };
 			return temp;
 		}
 
 		inline typeof<> const & get_root_type() const override
 		{
-			static constexpr auto temp{ typeof<root_type>{} };
+			static constexpr typeof<> temp{ typeof<root_type>{} };
 			return temp;
 		}
 
 		inline typeof<> const & get_self_type() const override
 		{
-			static constexpr auto temp{ typeof<self_type>{} };
+			static constexpr typeof<> temp{ typeof<self_type>{} };
 			return temp;
 		}
 

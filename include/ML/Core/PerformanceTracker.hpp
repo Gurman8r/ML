@@ -8,9 +8,9 @@
 #define ML_PerformanceTracker ::ml::PerformanceTracker::getInstance()
 
 #ifndef ML_DISABLE_BENCHMARKS
-#	define ML_TRACE(...) ML_ANON_T(ScopeTimer, ##__VA_ARGS__)
+#	define ML_BENCH(...) ML_ANON_T(ScopeTimer, ##__VA_ARGS__)
 #else
-#	define ML_TRACE(...)
+#	define ML_BENCH(...)
 #endif
 
 namespace ml

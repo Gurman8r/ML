@@ -15,9 +15,9 @@ namespace ml
 	{
 		constexpr typeof() noexcept = default;
 
-		static constexpr auto name() noexcept -> StringView { return m_name; }
+		static constexpr auto name() noexcept -> StringView const & { return m_name; }
 		
-		static constexpr auto hash() noexcept -> hash_t { return m_hash; }
+		static constexpr auto hash() noexcept -> hash_t const & { return m_hash; }
 
 	private:
 		static constexpr StringView m_name{ nameof<>::filter(nameof<T>::value) };
@@ -49,9 +49,9 @@ namespace ml
 		{
 		}
 
-		constexpr auto name() const noexcept -> StringView { return m_name; }
+		constexpr auto name() const noexcept -> StringView const & { return m_name; }
 
-		constexpr auto hash() const noexcept -> hash_t { return m_hash; }
+		constexpr auto hash() const noexcept -> hash_t const & { return m_hash; }
 
 	private: StringView m_name; hash_t m_hash;
 	};

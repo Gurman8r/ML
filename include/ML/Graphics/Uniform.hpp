@@ -38,7 +38,7 @@ namespace ml
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		//(typeof<[a-zA-Z0-9:_.]+>[\s]+)(::hash)
+		
 		static constexpr hash_t category_of(hash_t code)
 		{
 			switch (code)

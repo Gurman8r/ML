@@ -972,7 +972,7 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.85f, 0.20f, 0.85f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::AlphaTest));
 					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
@@ -1055,7 +1055,7 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.85f, 0.20f, 0.85f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::Blend));
 					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
@@ -1183,7 +1183,7 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.85f, 0.20f, 0.85f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::CullFace));
 					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(
@@ -1253,7 +1253,7 @@ namespace ml
 					);
 					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::PushStyleColor(ImGuiCol_Text, { 0.65f, 0.65f, 0.25f, 1.0f });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.85f, 0.20f, 0.85f, 1.0f });
 					ImGui::Text(GL::raw_name_of(GL::DepthTest));
 					ImGui::PopStyleColor();
 					ImGuiExt::Tooltip(String(

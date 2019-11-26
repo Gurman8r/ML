@@ -115,13 +115,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pipeline = typename std::vector<RenderTexture *>;
-
 		enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
-
-		using FileArray = typename Array<ShaderFile, MAX_DEMO_FILE>;
-
 		enum DisplayMode : int32_t { Automatic, Manual, Fixed };
+
+		using Pipeline = typename std::vector<RenderTexture *>;
+		using FileArray = typename Array<ShaderFile, MAX_DEMO_FILE>;
 
 		bool m_display_open	{ true };
 		bool m_code_open	{ true };

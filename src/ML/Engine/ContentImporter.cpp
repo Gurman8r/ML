@@ -153,9 +153,7 @@ namespace ml
 				if (!ML_Engine.content().get<Material>(name))
 				{
 					// New Material
-					auto temp = new Material {
-						//ML_Engine.content().get<Shader>(md.getData("shader")) // Shader
-					};
+					auto temp = new Material {};
 
 					// Default Uniforms
 					if (md.getData("defaults", true))
@@ -225,7 +223,7 @@ namespace ml
 						ML_Engine.content().get<Model>(md.getData("model")),
 						ML_Engine.content().get<Material>(md.getData("material")),
 						ML_Engine.content().get<Shader>(md.getData("shader"))
-						);
+					);
 				}
 			}
 		}
@@ -431,26 +429,26 @@ namespace ml
 						if (const String file { md.getData("file") })
 						{
 							auto temp = new Texture {
-							sampler, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
-							if (temp->loadFromFile(ML_FS.pathTo(file)))
+							if (!temp->loadFromFile(ML_FS.pathTo(file)))
 							{
-								return ML_Engine.content().insert<Texture>(name, temp);
+								/* error */
 							}
-							delete temp;
+							return ML_Engine.content().insert<Texture>(name, temp);
 						}
 						else if (const String file = md.getData("image"))
 						{
 							if (Image const * img = ML_Engine.content().get<Image>(file))
 							{
 								auto temp = new Texture {
-								sampler, format, smooth, repeat, mipmap, level, pixfmt
+									sampler, format, smooth, repeat, mipmap, level, pixfmt
 								};
-								if (temp->loadFromImage(*img))
+								if (!temp->loadFromImage(*img))
 								{
-									return ML_Engine.content().insert(name, temp);
+									/* error */
 								}
-								delete temp;
+								return ML_Engine.content().insert(name, temp);
 							}
 						}
 					}
@@ -481,9 +479,9 @@ namespace ml
 						case Hash("files"):
 						{
 							auto temp = new Texture {
-							sampler, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
-							if (temp->loadFromFaces({
+							if (!temp->loadFromFaces({
 								&Image{ names[0] },
 								&Image{ names[1] },
 								&Image{ names[2] },
@@ -492,18 +490,18 @@ namespace ml
 								&Image{ names[5] },
 							}))
 							{
-								return ML_Engine.content().insert(name, temp);
+								/* error */
 							}
-							delete temp;
+							return ML_Engine.content().insert(name, temp);
 						}
 						break;
 						/* * * * * * * * * * * * * * * * * * * * */
 						case Hash("images"):
 						{
 							auto temp = new Texture {
-							sampler, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
-							if (temp->loadFromFaces({
+							if (!temp->loadFromFaces({
 								ML_Engine.content().get<Image>(names[0]),
 								ML_Engine.content().get<Image>(names[1]),
 								ML_Engine.content().get<Image>(names[2]),
@@ -512,9 +510,9 @@ namespace ml
 								ML_Engine.content().get<Image>(names[5]),
 							}))
 							{
-								return ML_Engine.content().insert(name, temp);
+								/* error */
 							}
-							delete temp;
+							return ML_Engine.content().insert(name, temp);
 						}
 						break;
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -534,13 +532,13 @@ namespace ml
 								img[i] = (tex[i] ? tex[i]->copyToImage() : Image::Default);
 							}
 							auto temp = new Texture {
-							sampler, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
-							if (temp->loadFromFaces(img))
+							if (!temp->loadFromFaces(img))
 							{
-								return ML_Engine.content().insert(name, temp);
+								/* error */
 							}
-							delete temp;
+							return ML_Engine.content().insert(name, temp);
 						}
 						break;
 						}

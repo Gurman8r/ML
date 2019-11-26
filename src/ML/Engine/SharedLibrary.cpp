@@ -2,17 +2,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 
-# ifdef ML_SYSTEM_WINDOWS
-#	include <Windows.h>
-#	define ML_FREE_LIBRARY(inst)		FreeLibrary(static_cast<HINSTANCE>(inst))
-#	define ML_LOAD_LIBRARY(file)		LoadLibraryA(file)
-#	define ML_LOAD_FUNCTION(inst, name) GetProcAddress(static_cast<HINSTANCE>(inst), name)
-#else
-#	define ML_LOAD_LIBRARY(file)		((void)0)
-#	define ML_FREE_LIBRARY(inst)		((void)0)
-#	define ML_LOAD_FUNCTION(inst, name) ((void)0)
-#endif
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -42,16 +31,25 @@ namespace ml
 
 	bool SharedLibrary::dispose()
 	{
-		return ML_FREE_LIBRARY(m_instance);
+#ifdef ML_SYSTEM_WINDOWS
+		return FreeLibrary(static_cast<HINSTANCE>(m_instance));
+#else
+		// do the thing
+#endif
 	}
 
 	bool SharedLibrary::loadFromFile(String const & filename)
 	{
-		return 
-			(m_filename = filename) &&
-			(ML_FS.fileExists(filename)) &&
-			(m_instance = ML_LOAD_LIBRARY(m_filename.c_str()))
-			;
+		if (!ML_FS.fileExists(m_filename = filename))
+		{
+			return false;
+		}
+
+#ifdef ML_SYSTEM_WINDOWS
+			return (m_instance = LoadLibraryA(m_filename.c_str()));
+#else
+			// do the thing
+#endif
 	}
 
 	void * SharedLibrary::loadFunction(String const & name)
@@ -62,12 +60,17 @@ namespace ml
 		}
 		else if (m_instance)
 		{
-			void * location { ML_LOAD_FUNCTION(m_instance, name.c_str()) };
+			void * location { 
+#ifdef ML_SYSTEM_WINDOWS
+				GetProcAddress(static_cast<HINSTANCE>(m_instance), name.c_str())
+#else
+				// do the thing
+#endif
+			};
 			if (!location)
 			{
 				Debug::logWarning("Function, \'{0}\', not found in \'{1}\'.", 
-					name, 
-					filename()
+					name, this->filename()
 				);
 			}
 			return m_functions.insert({ name, location }).first->second;

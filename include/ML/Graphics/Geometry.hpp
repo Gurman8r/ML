@@ -87,13 +87,13 @@ namespace ml
 
 		struct triangle_static final : public impl::static_mesh<3, 3>
 		{
-			static constexpr vertices_t vertices
+			static constexpr const vertices_t vertices
 			{
 				Vertex { {  0.0f,  0.5f, 0.0f }, vec3::one(), { 0.5f, 1.0f } },
 				Vertex { {  0.5f, -0.5f, 0.0f }, vec3::one(), { 1.0f, 0.0f } },
 				Vertex { { -0.5f, -0.5f, 0.0f }, vec3::one(), { 0.0f, 0.0f } },
 			};
-			static constexpr indices_t indices
+			static constexpr const indices_t indices
 			{
 				0, 1, 2
 			};
@@ -103,14 +103,14 @@ namespace ml
 
 		struct quad_static final : public impl::static_mesh<4, 6>
 		{
-			static constexpr vertices_t vertices
+			static constexpr const vertices_t vertices
 			{
 				Vertex { { +1.0f, +1.0f, 0.0f }, vec3::one(), { 1.0f, 1.0f } },
 				Vertex { { +1.0f, -1.0f, 0.0f }, vec3::one(), { 1.0f, 0.0f } },
 				Vertex { { -1.0f, -1.0f, 0.0f }, vec3::one(), { 0.0f, 0.0f } },
 				Vertex { { -1.0f, +1.0f, 0.0f }, vec3::one(), { 0.0f, 1.0f } },
 			};
-			static constexpr indices_t indices
+			static constexpr const indices_t indices
 			{
 				0, 1, 3,
 				1, 2, 3
@@ -121,7 +121,7 @@ namespace ml
 
 		struct cube_static final : public impl::static_mesh<24, 36>
 		{
-			static constexpr vertices_t vertices
+			static constexpr const vertices_t vertices
 			{
 				Vertex { { +0.5f, +0.5f, -0.5f }, vec3::one(), { 1.0f, 1.0f } },
 				Vertex { { +0.5f, -0.5f, -0.5f }, vec3::one(), { 1.0f, 0.0f } },
@@ -148,7 +148,7 @@ namespace ml
 				Vertex { { +0.5f, -0.5f, -0.5f }, vec3::one(), { 0.0f, 0.0f } },
 				Vertex { { -0.5f, -0.5f, -0.5f }, vec3::one(), { 0.0f, 1.0f } },
 			};
-			static constexpr indices_t indices
+			static constexpr const indices_t indices
 			{
 				0, 1, 3,
 				1, 2, 3,
@@ -169,7 +169,7 @@ namespace ml
 
 		struct skybox_static final : public impl::static_mesh<36, 0>
 		{
-			static constexpr vertices_t vertices
+			static constexpr const vertices_t vertices
 			{
 				Vertex { { -1.0f,  1.0f, -1.0f }, vec3::one(), vec2::zero() },
 				Vertex { { -1.0f, -1.0f, -1.0f }, vec3::one(), vec2::zero() },
@@ -208,7 +208,7 @@ namespace ml
 				Vertex { { -1.0f, -1.0f,  1.0f }, vec3::one(), vec2::zero() },
 				Vertex { {  1.0f, -1.0f,  1.0f }, vec3::one(), vec2::zero() },
 			};
-			static constexpr indices_t indices {};
+			static constexpr const indices_t indices {};
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

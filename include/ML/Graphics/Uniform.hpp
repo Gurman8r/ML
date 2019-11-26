@@ -79,23 +79,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual typeof<> const & get_base_type() const = 0;
-
-		virtual typeof<> const & get_data_type() const = 0;
-
-		virtual typeof<> const & get_root_type() const = 0;
-
-		virtual typeof<> const & get_self_type() const = 0;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline hash_t get_base_id() const { return this->get_base_type().hash; }
-
-		inline hash_t get_data_id() const { return this->get_data_type().hash; }
-
-		inline hash_t get_root_id() const { return this->get_root_type().hash; }
-
-		inline hash_t get_self_id() const { return this->get_self_type().hash; }
+		virtual hash_t get_base_id() const = 0;
+		
+		virtual hash_t get_data_id() const = 0;
+		
+		virtual hash_t get_root_id() const = 0;
+		
+		virtual hash_t get_self_id() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -147,7 +137,7 @@ namespace ml
 
 		inline hash_t category() const override
 		{
-			static constexpr auto temp{ Uniform::category_of<base_type>() };
+			static constexpr hash_t temp{ Uniform::category_of<base_type>() };
 			return temp;
 		}
 
@@ -168,28 +158,28 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline typeof<> const & get_base_type() const override
+		inline hash_t get_base_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<base_type>{} };
-			return temp;
+			return temp.hash;
 		}
 
-		inline typeof<> const & get_data_type() const override
+		inline hash_t get_data_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<data_type>{} };
-			return temp;
+			return temp.hash;
 		}
 
-		inline typeof<> const & get_root_type() const override
+		inline hash_t get_root_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<root_type>{} };
-			return temp;
+			return temp.hash;
 		}
 
-		inline typeof<> const & get_self_type() const override
+		inline hash_t get_self_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<self_type>{} };
-			return temp;
+			return temp.hash;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -261,24 +251,26 @@ namespace ml
 		static T temp{ 0 };
 		switch (value->get_data_id())
 		{
-		case typeof<T>::hash:
-		{
+			// Value
+		case typeof<T>::hash: {
 			return &(temp = static_cast<uni_value<T> const *>(value)->get());
-		}
-		case typeof<T const *>::hash:
-		{
+		} break;
+
+			// Pointer
+		case typeof<T const *>::hash: {
 			if (auto const & ptr{ static_cast<uni_pointer<T> const *>(value)->get() })
 			{
 				return &(temp = (*ptr));
 			}
-		}
-		case typeof<std::function<T()>>::hash:
-		{
+		} break;
+
+			// Function
+		case typeof<std::function<T()>>::hash: {
 			if (auto const & fun{ static_cast<uni_function<T> const *>(value)->get() })
 			{
 				return &(temp = fun());
 			}
-		}
+		} break;
 		}
 		return nullptr;
 	}

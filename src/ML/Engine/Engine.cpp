@@ -151,7 +151,7 @@ namespace ml
 			} });
 			content().insert<Uniform>("u_resolution", new uni_function<vec2>{ "u_resolution", [&]() {
 				const auto c { Camera::mainCamera() };
-				return c ? (vec2)c->viewport().size() : vec2{ 0 };
+				return c ? (vec2)c->viewport().size() : vec2::one();
 			} });
 
 			// Run Load Script

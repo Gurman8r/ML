@@ -22,6 +22,8 @@ namespace ml
 		&& sizeof(mat4f) == (sizeof(float) * 16)
 		&& sizeof(mat4d) == (sizeof(double) * 16)
 
+		&& typeof<>{ typeof<int>{} }.name() == "int"
+
 		&& typeof<bool>::name()				== "bool"
 		&& typeof<char>::name()				== "char"
 		&& typeof<wchar_t>::name()			== "wchar_t"

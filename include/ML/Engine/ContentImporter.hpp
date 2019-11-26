@@ -50,8 +50,8 @@ namespace ml
 
 		struct Info final
 		{
-			static constexpr auto hash	{ typeof<value_type>::hash };
-			static constexpr auto name	{ typeof<value_type>::name };
+			static constexpr auto hash	{ typeof<value_type>::hash() };
+			static constexpr auto name	{ typeof<value_type>::name() };
 			static constexpr auto brief	{ nameof<>::filter_namespace(name) };
 		} info;
 	};

@@ -232,9 +232,9 @@ namespace ml
 					// Update Camera Uniforms
 					if (m_apply_camera)
 					{
-						for (auto & [ key, value ] : ML_Engine.content().data<Material>())
+						for (auto & pair : ML_Engine.content().data<Material>())
 						{
-							if (auto m{ (Material *)value })
+							if (auto m{ (Material *)pair.second })
 							{
 								// FIXME: slow
 								m->set<uni_vec3>("u_camera.pos", c->position());
@@ -264,9 +264,9 @@ namespace ml
 					}
 
 					// Draw Renderers
-					for (auto & [ key, value ] : ML_Engine.content().data<Entity>())
+					for (auto & pair : ML_Engine.content().data<Entity>())
 					{
-						if (auto e{ (Entity *)value })
+						if (auto e{ (Entity *)pair.second })
 						{
 							if (auto r{ e->get<Renderer>() }; r && r->enabled())
 							{
@@ -675,17 +675,17 @@ namespace ml
 								<< "{ ";
 							switch (u->get_root_id())
 							{
-							case typeof<bool>::hash		: if (auto * v{ uniform_cast<bool>(u) }) ss << (*v); break;
-							case typeof<float_t>::hash	: if (auto * v{ uniform_cast<float_t>(u) }) ss << (*v); break;
-							case typeof<int32_t>::hash	: if (auto * v{ uniform_cast<int32_t>(u) }) ss << (*v); break;
-							case typeof<vec2>::hash		: if (auto * v{ uniform_cast<vec2>(u) }) ss << (*v); break;
-							case typeof<vec3>::hash		: if (auto * v{ uniform_cast<vec3>(u) }) ss << (*v); break;
-							case typeof<vec4>::hash		: if (auto * v{ uniform_cast<vec4>(u) }) ss << (*v); break;
-							case typeof<Color>::hash	: if (auto * v{ uniform_cast<Color>(u) }) ss << (*v); break;
-							case typeof<mat2>::hash		: if (auto * v{ uniform_cast<mat2>(u) }) ss << (*v); break;
-							case typeof<mat3>::hash		: if (auto * v{ uniform_cast<mat3>(u) }) ss << (*v); break;
-							case typeof<mat4>::hash		: if (auto * v{ uniform_cast<mat4>(u) }) ss << (*v); break;
-							case typeof<Texture>::hash	: if (auto * v{ uniform_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*v); break;
+							case typeof<bool>	::hash() : if (auto * v{ uniform_cast<bool>(u) }) ss << (*v); break;
+							case typeof<float_t>::hash() : if (auto * v{ uniform_cast<float_t>(u) }) ss << (*v); break;
+							case typeof<int32_t>::hash() : if (auto * v{ uniform_cast<int32_t>(u) }) ss << (*v); break;
+							case typeof<vec2>	::hash() : if (auto * v{ uniform_cast<vec2>(u) }) ss << (*v); break;
+							case typeof<vec3>	::hash() : if (auto * v{ uniform_cast<vec3>(u) }) ss << (*v); break;
+							case typeof<vec4>	::hash() : if (auto * v{ uniform_cast<vec4>(u) }) ss << (*v); break;
+							case typeof<Color>	::hash() : if (auto * v{ uniform_cast<Color>(u) }) ss << (*v); break;
+							case typeof<mat2>	::hash() : if (auto * v{ uniform_cast<mat2>(u) }) ss << (*v); break;
+							case typeof<mat3>	::hash() : if (auto * v{ uniform_cast<mat3>(u) }) ss << (*v); break;
+							case typeof<mat4>	::hash() : if (auto * v{ uniform_cast<mat4>(u) }) ss << (*v); break;
+							case typeof<Texture>::hash() : if (auto * v{ uniform_cast<Texture const *>(u) }) ss << ML_Engine.content().get_name(*v); break;
 							}
 							if (ss.str().back() != ' ') ss << ' ';
 							ss << "}" << '\n';

@@ -47,7 +47,7 @@ namespace ml
 
 		template <class T> inline base_type::iterator find()
 		{
-			return this->find<typeof<T>::hash>();
+			return this->find<typeof<T>::hash()>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -64,7 +64,7 @@ namespace ml
 
 		template <class T> inline base_type::const_iterator find() const
 		{
-			return this->find<typeof<T>::hash>();
+			return this->find<typeof<T>::hash()>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -85,7 +85,7 @@ namespace ml
 
 		template <class T> inline T * get()
 		{
-			return static_cast<T *>(this->get<typeof<T>::hash>());
+			return static_cast<T *>(this->get<typeof<T>::hash()>());
 		}
 
 		inline Trackable * get(String const & type)
@@ -111,7 +111,7 @@ namespace ml
 
 		template <class T> inline T const * get() const
 		{
-			return static_cast<T const *>(this->get<typeof<T>::hash>());
+			return static_cast<T const *>(this->get<typeof<T>::hash()>());
 		}
 
 		inline void const * get(String const & type) const
@@ -140,7 +140,7 @@ namespace ml
 
 		template <class T> inline bool remove()
 		{
-			return this->remove<typeof<T>::hash>();
+			return this->remove<typeof<T>::hash()>();
 		}
 
 		inline bool remove(String const & type)
@@ -169,7 +169,7 @@ namespace ml
 		template <class T> inline T * add(T * value)
 		{
 			return ((this->find<T>() == this->end())
-				? static_cast<T *>(this->add(typeof<T>::hash, value))
+				? static_cast<T *>(this->add(typeof<T>::hash(), value))
 				: nullptr
 			);
 		}

@@ -53,7 +53,7 @@ namespace ml
 
 		static constexpr size_t size() { return self_type::Size; }
 
-		inline reference operator[](size_t i) { return at(i); }
+		constexpr reference operator[](size_t i) { return at(i); }
 		
 		constexpr const_reference operator[](size_t i) const { return at(i); }
 

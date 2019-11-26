@@ -287,47 +287,47 @@ namespace ml
 		if (!value || !value->name()) { return false; }
 		switch (value->get_root_id())
 		{
-		case typeof<bool>::hash:
+		case typeof<bool>::hash():
 			if (auto const * v{ uniform_cast<bool>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<int32_t>::hash:
+		case typeof<int32_t>::hash():
 			if (auto const * v{ uniform_cast<int32_t>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<float_t>::hash:
+		case typeof<float_t>::hash():
 			if (auto const * v{ uniform_cast<float_t>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<vec2f>::hash:
+		case typeof<vec2f>::hash():
 			if (auto const * v{ uniform_cast<vec2f>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<vec3f>::hash:
+		case typeof<vec3f>::hash():
 			if (auto const * v{ uniform_cast<vec3f>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<vec4f>::hash:
+		case typeof<vec4f>::hash():
 			if (auto const * v{ uniform_cast<vec4f>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<Color>::hash:
+		case typeof<Color>::hash():
 			if (auto const * v{ uniform_cast<Color>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<mat2f>::hash:
+		case typeof<mat2f>::hash():
 			if (auto const * v{ uniform_cast<mat2f>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<mat3f>::hash:
+		case typeof<mat3f>::hash():
 			if (auto const * v{ uniform_cast<mat3f>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<mat4f>::hash:
+		case typeof<mat4f>::hash():
 			if (auto const * v{ uniform_cast<mat4f>(value) })
 				return this->setUniform(value->name(), *v);
 
-		case typeof<Texture>::hash:
+		case typeof<Texture>::hash():
 			if (auto const * v{ uniform_cast<Texture const *>(value) })
 				return this->setUniform(value->name(), *v);
 		}

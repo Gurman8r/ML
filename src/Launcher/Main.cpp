@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static_assert("Unit Tests"
+	static constexpr bool unit_tests{ "Unit Tests"
 
 		&& sizeof(String) == sizeof(std::string)
 
@@ -22,43 +22,43 @@ namespace ml
 		&& sizeof(mat4f) == (sizeof(float) * 16)
 		&& sizeof(mat4d) == (sizeof(double) * 16)
 
-		&& typeof<bool>::name			== "bool"
-		&& typeof<char>::name			== "char"
-		&& typeof<wchar_t>::name		== "wchar_t"
-		&& typeof<char16_t>::name		== "char16_t"
-		&& typeof<char32_t>::name		== "char32_t"
-		&& typeof<C_String>::name		== "const char*"
-		&& typeof<int8_t>::name			== "signed char"
-		&& typeof<int16_t>::name		== "short"
-		&& typeof<int32_t>::name		== "int"
+		&& typeof<bool>::name()				== "bool"
+		&& typeof<char>::name()				== "char"
+		&& typeof<wchar_t>::name()			== "wchar_t"
+		&& typeof<char16_t>::name()			== "char16_t"
+		&& typeof<char32_t>::name()			== "char32_t"
+		&& typeof<C_String>::name()			== "const char*"
+		&& typeof<int8_t>::name()			== "signed char"
+		&& typeof<int16_t>::name()			== "short"
+		&& typeof<int32_t>::name()			== "int"
 #ifdef ML_CC_MSC
-		&& typeof<int64_t>::name		== "__int64"
+		&& typeof<int64_t>::name()			== "__int64"
 #else
-		&& typeof<int64_t>::name		== "long long"
+		&& typeof<int64_t>::name()			== "long long"
 #endif
-		&& typeof<uint8_t>::name		== "unsigned char"
-		&& typeof<uint16_t>::name		== "unsigned short"
-		&& typeof<uint32_t>::name		== "unsigned int"
+		&& typeof<uint8_t>::name()			== "unsigned char"
+		&& typeof<uint16_t>::name()			== "unsigned short"
+		&& typeof<uint32_t>::name()			== "unsigned int"
 #ifdef ML_CC_MSC
-		&& typeof<uint64_t>::name		== "unsigned __int64"
+		&& typeof<uint64_t>::name()			== "unsigned __int64"
 #else
-		&& typeof<uint64_t>::name		== "unsigned long long"
+		&& typeof<uint64_t>::name()			== "unsigned long long"
 #endif
-		&& typeof<float32_t>::name		== "float"
-		&& typeof<float64_t>::name		== "double"
-		&& typeof<float80_t>::name		== "long double"
+		&& typeof<float32_t>::name()		== "float"
+		&& typeof<float64_t>::name()		== "double"
+		&& typeof<float80_t>::name()		== "long double"
 #ifdef ML_HAS_CONSTEXPR_17
-		&& typeof<std::string>::name	== "std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >"
-		&& typeof<std::wstring>::name	== "std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >"
-		&& typeof<std::u16string>::name	== "std::basic_string<char16_t,struct std::char_traits<char16_t>,class std::allocator<char16_t> >"
-		&& typeof<std::u32string>::name	== "std::basic_string<char32_t,struct std::char_traits<char32_t>,class std::allocator<char32_t> >"
+		&& typeof<std::string>::name()		== "std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >"
+		&& typeof<std::wstring>::name()		== "std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >"
+		&& typeof<std::u16string>::name()	== "std::basic_string<char16_t,struct std::char_traits<char16_t>,class std::allocator<char16_t> >"
+		&& typeof<std::u32string>::name()	== "std::basic_string<char32_t,struct std::char_traits<char32_t>,class std::allocator<char32_t> >"
 #else
-		&& typeof<std::string>::name	== "std::string"
-		&& typeof<std::wstring>::name	== "std::wstring"
-		&& typeof<std::u16string>::name	== "std::u16string"
-		&& typeof<std::u32string>::name	== "std::u32string"
+		&& typeof<std::string>::name()		== "std::string"
+		&& typeof<std::wstring>::name()		== "std::wstring"
+		&& typeof<std::u16string>::name()	== "std::u16string"
+		&& typeof<std::u32string>::name()	== "std::u32string"
 #endif
-	);
+	};
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
@@ -68,6 +68,7 @@ namespace ml
 ml::int32_t main()
 {
 	using namespace ml;
+	static_assert(unit_tests);
 
 	// Init Systems
 	ML_EventSystem; ML_Engine; ML_Editor;

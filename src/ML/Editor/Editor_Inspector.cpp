@@ -30,11 +30,11 @@ namespace ml
 		inline static void draw_item(void * ptr, String const & name)
 		{
 			if (!ptr) return;
-			ImGui::PushID(typeof<T>::name.data());
+			ImGui::PushID(typeof<T>::name().data());
 			ImGui::PushID(ML_ADDRESSOF(&ML_Engine.content().data<T>()));
 			ImGui::PushID(ptr);
 			PropertyDrawer<T>()(
-				(typeof<T>::name.str() + "##" + name + " ##Inspector"),
+				(typeof<T>::name().str() + "##" + name + " ##Inspector"),
 				(T &)(*((T *)ptr))
 			);
 			ImGui::PopID();
@@ -136,18 +136,18 @@ namespace ml
 			}
 			switch (Hash(c.type_name().data(), c.type_name().size()))
 			{
-			case typeof<Entity>::hash:	Layout::draw_item<Entity>(c.selected(), c.item_name()); break;
-			case typeof<Font>::hash:	Layout::draw_item<Font>(c.selected(), c.item_name()); break;
-			case typeof<Image>::hash:	Layout::draw_item<Image>(c.selected(), c.item_name()); break;
-			case typeof<Material>::hash:Layout::draw_item<Material>(c.selected(), c.item_name()); break;
-			case typeof<Model>::hash:	Layout::draw_item<Model>(c.selected(), c.item_name()); break;
-			case typeof<Script>::hash:	Layout::draw_item<Script>(c.selected(), c.item_name()); break;
-			case typeof<Shader>::hash:	Layout::draw_item<Shader>(c.selected(), c.item_name()); break;
-			case typeof<Sound>::hash:	Layout::draw_item<Sound>(c.selected(), c.item_name()); break;
-			case typeof<Sprite>::hash:	Layout::draw_item<Sprite>(c.selected(), c.item_name()); break;
-			case typeof<RenderTexture>::hash:	Layout::draw_item<RenderTexture>(c.selected(), c.item_name()); break;
-			case typeof<Texture>::hash:	Layout::draw_item<Texture>(c.selected(), c.item_name()); break;
-			case typeof<Uniform>::hash:	Layout::draw_item<Uniform>(c.selected(), c.item_name()); break;
+			case typeof<Entity>::hash():	Layout::draw_item<Entity>(c.selected(), c.item_name()); break;
+			case typeof<Font>::hash():	Layout::draw_item<Font>(c.selected(), c.item_name()); break;
+			case typeof<Image>::hash():	Layout::draw_item<Image>(c.selected(), c.item_name()); break;
+			case typeof<Material>::hash():Layout::draw_item<Material>(c.selected(), c.item_name()); break;
+			case typeof<Model>::hash():	Layout::draw_item<Model>(c.selected(), c.item_name()); break;
+			case typeof<Script>::hash():	Layout::draw_item<Script>(c.selected(), c.item_name()); break;
+			case typeof<Shader>::hash():	Layout::draw_item<Shader>(c.selected(), c.item_name()); break;
+			case typeof<Sound>::hash():	Layout::draw_item<Sound>(c.selected(), c.item_name()); break;
+			case typeof<Sprite>::hash():	Layout::draw_item<Sprite>(c.selected(), c.item_name()); break;
+			case typeof<RenderTexture>::hash():	Layout::draw_item<RenderTexture>(c.selected(), c.item_name()); break;
+			case typeof<Texture>::hash():	Layout::draw_item<Texture>(c.selected(), c.item_name()); break;
+			case typeof<Uniform>::hash():	Layout::draw_item<Uniform>(c.selected(), c.item_name()); break;
 			}
 			ImGui::EndChild();
 

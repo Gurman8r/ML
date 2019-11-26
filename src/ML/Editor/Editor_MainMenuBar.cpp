@@ -38,7 +38,7 @@ namespace ml
 	{
 		if (m_good = m_open)
 		{
-			ImGui::PushID((int32_t)typeof<>(*this).hash);
+			ImGui::PushID((int32_t)typeof<>(*this).hash());
 			ImGui::PushID(ML_ADDRESSOF(this));
 			ImGui::PushID(getTitle());
 			m_good = ImGui::BeginMainMenuBar();

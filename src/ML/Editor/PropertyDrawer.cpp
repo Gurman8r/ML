@@ -38,7 +38,7 @@ namespace ml
 				ImGui::PushID(ML_ADDRESSOF(prop));
 				ImGui::PushID((int32_t)prop->info.hash);
 				ImGui::PushID(label.c_str());
-				ImGui::PushID((int32_t)typeof<Value>::hash);
+				ImGui::PushID((int32_t)typeof<Value>::hash());
 			}
 		}
 
@@ -67,17 +67,17 @@ namespace ml
 		template <class T>
 		static inline bool inspect_button(String const & label, T const * value)
 		{
-			ImGui::PushID((int32_t)typeof<T>::hash);
+			ImGui::PushID((int32_t)typeof<T>::hash());
 			ImGui::PushID(label.c_str());
 			ImGui::PushID(value);
 			const bool out { ImGui::Button(("Inspect##{0}##{1}"_s.format(
-				label, typeof<T>::name
+				label, typeof<T>::name()
 			)).c_str()) };
 			if (out)
 			{
 				ML_Editor.inspector().setFocused(true);
 				ML_Editor.content().select_item(
-					typeof<T>::name, ML_Engine.content().get_name(value), (void *)value
+					typeof<T>::name(), ML_Engine.content().get_name(value), (void *)value
 				);
 			}
 			ImGui::PopID();
@@ -1106,7 +1106,7 @@ namespace ml
 		if (PropertyDrawer<Uniform>()(
 			("New Uniform##Material##" + label).c_str(),
 			(Uniform *&)u
-			))
+		))
 		{
 			if (u && !value.insert(u))
 			{
@@ -2751,18 +2751,18 @@ namespace ml
 		
 		switch (value.get_root_id())
 		{
-		case typeof<bool>::hash: if (auto const * v{ uniform_cast<bool>(&value) })
+		case typeof<bool>::hash(): if (auto const * v{ uniform_cast<bool>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Bool##Uni##" + value.name() };
 			const bool changed{ ImGui::Checkbox(name.c_str(), &copy) };
-			if (value.get_self_id() == typeof<uni_bool>::hash)
+			if (value.get_self_id() == typeof<uni_bool>::hash())
 			{
 				static_cast<uni_bool *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<int32_t>::hash: if (auto const * v{ uniform_cast<int32_t>(&value) })
+		case typeof<int32_t>::hash(): if (auto const * v{ uniform_cast<int32_t>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Int##Uni##" + value.name() };
@@ -2770,106 +2770,106 @@ namespace ml
 				? ImGui::DragInt(name.c_str(), &copy)
 				: ImGui::InputInt(name.c_str(), &copy)
 			};
-			if (value.get_self_id() == typeof<uni_int>::hash)
+			if (value.get_self_id() == typeof<uni_int>::hash())
 			{
 				static_cast<uni_int *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<float_t>::hash: if (auto const * v{ uniform_cast<float_t>(&value) })
+		case typeof<float_t>::hash(): if (auto const * v{ uniform_cast<float_t>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Float##Uni##" + value.name() };
 			const bool changed{ ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_float>::hash)
+			if (value.get_self_id() == typeof<uni_float>::hash())
 			{
 				static_cast<uni_float *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<vec2>::hash: if (auto const * v{ uniform_cast<vec2>(&value) })
+		case typeof<vec2>::hash(): if (auto const * v{ uniform_cast<vec2>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Vec2##Uni##" + value.name() };
 			const bool changed{ ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_vec2>::hash)
+			if (value.get_self_id() == typeof<uni_vec2>::hash())
 			{
 				static_cast<uni_vec2 *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<vec3>::hash: if (auto const * v{ uniform_cast<vec3>(&value) })
+		case typeof<vec3>::hash(): if (auto const * v{ uniform_cast<vec3>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Vec3##Uni##" + value.name() };
 			const bool changed{ ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_vec3>::hash)
+			if (value.get_self_id() == typeof<uni_vec3>::hash())
 			{
 				static_cast<uni_vec3 *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<vec4>::hash: if (auto const * v{ uniform_cast<vec4>(&value) })
+		case typeof<vec4>::hash(): if (auto const * v{ uniform_cast<vec4>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Vec4##Uni##" + value.name() };
 			const bool changed{ ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_vec4>::hash)
+			if (value.get_self_id() == typeof<uni_vec4>::hash())
 			{
 				static_cast<uni_vec4 *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<Color>::hash: if (auto const * v{ uniform_cast<Color>(&value) })
+		case typeof<Color>::hash(): if (auto const * v{ uniform_cast<Color>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Color##Uni##" + value.name() };
 			const bool changed{ ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float) };
-			if (value.get_self_id() == typeof<uni_color>::hash)
+			if (value.get_self_id() == typeof<uni_color>::hash())
 			{
 				static_cast<uni_color *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<mat2>::hash: if (auto const * v{ uniform_cast<mat2>(&value) })
+		case typeof<mat2>::hash(): if (auto const * v{ uniform_cast<mat2>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Mat2##Uni##" + value.name() };
 			const bool changed{ ImGuiExt::DragMat2(name.c_str(), copy, spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_mat2>::hash)
+			if (value.get_self_id() == typeof<uni_mat2>::hash())
 			{
 				static_cast<uni_mat2 *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<mat3>::hash: if (auto const * v{ uniform_cast<mat3>(&value) })
+		case typeof<mat3>::hash(): if (auto const * v{ uniform_cast<mat3>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Mat3##Uni##" + value.name() };
 			const bool changed{ ImGuiExt::DragMat3(name.c_str(), copy, spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_mat3>::hash)
+			if (value.get_self_id() == typeof<uni_mat3>::hash())
 			{
 				static_cast<uni_mat3 *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<mat4>::hash: if (auto const * v{ uniform_cast<mat4>(&value) })
+		case typeof<mat4>::hash(): if (auto const * v{ uniform_cast<mat4>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Mat4##Uni##" + value.name() };
 			const bool changed{ ImGuiExt::DragMat4(name.c_str(), copy, spd, 0, 0, fmt) };
-			if (value.get_self_id() == typeof<uni_mat4>::hash)
+			if (value.get_self_id() == typeof<uni_mat4>::hash())
 			{
 				static_cast<uni_mat4 *>(&value)->set(copy);
 				return Layout::end_prop(this, true);
 			}
 		} break;
-		case typeof<Texture>::hash: if (auto const * v{ uniform_cast<Texture const *>(&value) })
+		case typeof<Texture>::hash(): if (auto const * v{ uniform_cast<Texture const *>(&value) })
 		{
 			auto copy{ *v };
 			const String name{ "##" + label + "##Sampler##Uni##" + value.name() };
 			const bool changed{ PropertyDrawer<Texture>()(name, copy) };
-			if (value.get_self_id() == typeof<uni_sampler>::hash)
+			if (value.get_self_id() == typeof<uni_sampler>::hash())
 			{
 				static_cast<uni_sampler *>(&value)->set(copy);
 				return Layout::end_prop(this, true);

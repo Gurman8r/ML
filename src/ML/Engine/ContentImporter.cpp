@@ -29,17 +29,17 @@ namespace ml
 			switch (value.getData("type").asString().hash())
 			{
 			case Hash("Manifest")			: return true;
-			case typeof<Entity>::hash		: return (bool)ContentImporter<Entity>()(value);
-			case typeof<Font>::hash			: return (bool)ContentImporter<Font>()(value);
-			case typeof<Image>::hash		: return (bool)ContentImporter<Image>()(value);
-			case typeof<Material>::hash		: return (bool)ContentImporter<Material>()(value);
-			case typeof<Model>::hash		: return (bool)ContentImporter<Model>()(value);
-			case typeof<Script>::hash		: return (bool)ContentImporter<Script>()(value);
-			case typeof<Shader>::hash		: return (bool)ContentImporter<Shader>()(value);
-			case typeof<Sound>::hash		: return (bool)ContentImporter<Sound>()(value);
-			case typeof<Sprite>::hash		: return (bool)ContentImporter<Sprite>()(value);
-			case typeof<RenderTexture>::hash: return (bool)ContentImporter<RenderTexture>()(value);
-			case typeof<Texture>::hash		: return (bool)ContentImporter<Texture>()(value);
+			case typeof<Entity>::hash()		: return (bool)ContentImporter<Entity>()(value);
+			case typeof<Font>::hash()			: return (bool)ContentImporter<Font>()(value);
+			case typeof<Image>::hash()		: return (bool)ContentImporter<Image>()(value);
+			case typeof<Material>::hash()		: return (bool)ContentImporter<Material>()(value);
+			case typeof<Model>::hash()		: return (bool)ContentImporter<Model>()(value);
+			case typeof<Script>::hash()		: return (bool)ContentImporter<Script>()(value);
+			case typeof<Shader>::hash()		: return (bool)ContentImporter<Shader>()(value);
+			case typeof<Sound>::hash()		: return (bool)ContentImporter<Sound>()(value);
+			case typeof<Sprite>::hash()		: return (bool)ContentImporter<Sprite>()(value);
+			case typeof<RenderTexture>::hash(): return (bool)ContentImporter<RenderTexture>()(value);
+			case typeof<Texture>::hash()		: return (bool)ContentImporter<Texture>()(value);
 			} 
 			return false;
 #if (ML_DEBUG)

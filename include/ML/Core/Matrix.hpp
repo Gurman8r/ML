@@ -40,6 +40,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr size_t cols()		{ return self_type::Cols; }
+		static constexpr size_t height()	{ return rows(); }
+		static constexpr size_t rows()		{ return self_type::Rows; }
+		static constexpr size_t size()		{ return self_type::Size; }
+		static constexpr size_t width()		{ return cols(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		constexpr auto at(size_t i)			-> reference		{ return m_data.at(i); }
 		constexpr auto at(size_t i) const	-> const_reference	{ return m_data.at(i); }
 		constexpr auto back()				-> reference		{ return m_data.back(); }
@@ -55,14 +63,6 @@ namespace ml
 		constexpr auto front()				-> reference		{ return m_data.front(); }
 		constexpr auto front()		const	-> const_reference	{ return m_data.front(); }
 		constexpr auto hash()		const	-> hash_t			{ return m_data.hash(); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr size_t cols()		{ return self_type::Cols; }
-		static constexpr size_t height()	{ return rows(); }
-		static constexpr size_t rows()		{ return self_type::Rows; }
-		static constexpr size_t size()		{ return self_type::Size; }
-		static constexpr size_t width()		{ return cols(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

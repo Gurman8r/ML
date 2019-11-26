@@ -45,7 +45,7 @@ namespace ml
 				case 'y': return String(name.substr(0, name.size() - 1) + "ies");
 				default	: return String(name + "s");
 				}
-			})(typeof<T>::name) };
+			})(typeof<T>::name()) };
 
 			// Tab Item
 			const bool tab_visible { ImGui::BeginTabItem(plural.c_str()) };
@@ -57,7 +57,7 @@ namespace ml
 				if (!std::is_same_v<T, RenderTexture> && !std::is_same_v<T, Uniform>)
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(
-						nameof<>::filter_namespace(typeof<T>::name)
+						nameof<>::filter_namespace(typeof<T>::name())
 					), (T * &)temp))
 					{
 						ImGui::CloseCurrentPopup();
@@ -109,9 +109,9 @@ namespace ml
 					// Delete
 					if (!no_delete &&
 						ImGuiExt::Confirm(
-						String("Delete {0}?").format(typeof<T>::name),
+						String("Delete {0}?").format(typeof<T>::name()),
 						ImGui::Button("Delete"),
-						String("Are you sure you want to delete {0}: \'{1}\'?").format(typeof<T>::name, it->first)
+						String("Are you sure you want to delete {0}: \'{1}\'?").format(typeof<T>::name(), it->first)
 					) == 1)
 					{
 						to_remove = it;
@@ -130,7 +130,7 @@ namespace ml
 			if (to_select != db.end())
 			{
 				ML_Editor.inspector().setFocused(true);
-				ML_Editor.content().select_item(typeof<T>::name, to_select->first, to_select->second);
+				ML_Editor.content().select_item(typeof<T>::name(), to_select->first, to_select->second);
 			}
 			ImGui::PopID();
 			ImGui::EndTabItem();

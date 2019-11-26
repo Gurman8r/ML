@@ -64,29 +64,29 @@ namespace ml
 		if (!value) { return nullptr; }
 		auto it{ m_previewMap.find(value) };
 		if (it != m_previewMap.end()) { return it->second; }
-		switch (type.hash)
+		switch (type.hash())
 		{
-		case typeof<Glyph>::hash:
+		case typeof<Glyph>::hash():
 			if (auto temp{ static_cast<Glyph const *>(value) })
 			{
 				return getPreview(temp->texture);
 			}
 			break;
 
-		case typeof<Image>::hash:
+		case typeof<Image>::hash():
 			if (auto temp{ static_cast<Image const *>(value) })
 			{
 				return insertPreview(value, loadTemp(*temp));
 			}
 			break;
 
-		case typeof<RenderTexture>::hash:
+		case typeof<RenderTexture>::hash():
 			if (auto temp{ static_cast<RenderTexture const *>(value) })
 			{
 				return getPreview(temp->texture());
 			}
 
-		case typeof<Texture>::hash:
+		case typeof<Texture>::hash():
 			if (auto temp{ static_cast<Texture const *>(value) })
 			{
 				switch (temp->sampler())
@@ -103,7 +103,7 @@ namespace ml
 
 	void Editor_Previews::drawPreview(const typeof<> & type, void * value, vec2 const & size, Clbk clbk) const
 	{
-		ImGui::PushID((int32_t)type.hash);
+		ImGui::PushID((int32_t)type.hash());
 		ImGui::PushID(ML_ADDRESSOF(value));
 		ImGui::PushID(value);
 		if (auto preview{ getPreview(type, value) })
@@ -120,7 +120,7 @@ namespace ml
 
 			if (clbk) { clbk(); }
 
-			ImGui::BeginChild(("##Editor_Previews##" + type.name.str() + "##").c_str(), { 0, 0 }, 0);
+			ImGui::BeginChild(("##Editor_Previews##" + type.name().str() + "##").c_str(), { 0, 0 }, 0);
 
 			ImGui::SetCursorPos({ pos[0], pos[1] });
 

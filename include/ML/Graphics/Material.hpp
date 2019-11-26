@@ -111,7 +111,7 @@ namespace ml
 
 		template <class U> inline U * get(String const & name)
 		{
-			if (auto u{ this->get<typeof<U>::hash>(name) })
+			if (auto u{ this->get<typeof<U>::hash()>(name) })
 			{
 				return static_cast<U *>(u);
 			}
@@ -140,7 +140,7 @@ namespace ml
 
 		template <class U> inline U const * get(String const & name) const
 		{
-			if (auto u{ this->get<typeof<U>::hash>(name) })
+			if (auto u{ this->get<typeof<U>::hash()>(name) })
 			{
 				return static_cast<U const *>(u);
 			}

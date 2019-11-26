@@ -15,8 +15,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename std::map<String, Trackable *>;
-		using TypeMap	= typename std::map<hash_t, AssetMap>;
+		using AssetTable = typename std::map<String, Trackable *>;
+
+		using Catagories = typename std::map<hash_t, AssetTable>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,58 +37,46 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline AssetMap & data(hash_t code)
+		inline AssetTable & data(hash_t code)
 		{
-			auto it{ m_data.find(code) };
-			return ((it != m_data.end())
-				? it->second
-				: m_data.insert({ code, {} }).first->second
-			);
+			if (auto it{ m_data.find(code) }; it != m_data.end())
+			{
+				return it->second;
+			}
+			return m_data.insert({ code, AssetTable{} }).first->second;
 		}
 
-		template <hash_t H> inline AssetMap & data()
+		template <hash_t H> inline AssetTable & data()
 		{
 			static auto & temp { this->data(H) };
 			return temp;
 		}
 
-		template <class T> inline AssetMap & data()
+		template <class T> inline AssetTable & data()
 		{
-			return this->data<typeof<T>::hash>();
+			return this->data<typeof<T>::hash()>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline AssetMap const & data(hash_t code) const
+		inline AssetTable const & data(hash_t code) const
 		{
-			auto it{ m_data.find(code) };
-			return ((it != m_data.end())
-				? it->second
-				: m_data.insert({ code, {} }).first->second
-			);
+			if (auto it{ m_data.find(code) }; it != m_data.cend())
+			{
+				return it->second;
+			}
+			return m_data.insert({ code, AssetTable{} }).first->second;
 		}
 
-		template <hash_t H> inline AssetMap const & data() const
+		template <hash_t H> inline AssetTable const & data() const
 		{
 			static auto const & temp { this->data(H) };
 			return temp;
 		}
 
-		template <class T> inline AssetMap const & data() const
+		template <class T> inline AssetTable const & data() const
 		{
-			return this->data<typeof<T>::hash>();
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> inline AssetMap::iterator find(String const & name)
-		{
-			return name ? this->data<T>().find(name) : this->end<T>();
-		}
-
-		template <class T> inline AssetMap::const_iterator find(String const & name) const
-		{
-			return name ? this->data<T>().find(name) : this->end<T>();
+			return this->data<typeof<T>::hash()>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -104,7 +93,7 @@ namespace ml
 
 		template <class T> inline T * insert(String const & name, T * value)
 		{
-			return (T *)this->insert<typeof<T>::hash>(name, value);
+			return (T *)this->insert<typeof<T>::hash()>(name, value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -150,7 +139,7 @@ namespace ml
 
 		template <class T> inline bool destroy(String const & name)
 		{
-			return this->destroy<typeof<T>::hash>(name);
+			return this->destroy<typeof<T>::hash()>(name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -167,21 +156,27 @@ namespace ml
 
 		template <class T> inline bool exists(String const & name) const
 		{
-			return this->exists<typeof<T>::hash>(name);
+			return this->exists<typeof<T>::hash()>(name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline T * get(String const & name)
 		{
-			auto it { this->find<T>(name) };
-			return ((it != this->end<T>()) ? (T *)it->second : nullptr);
+			if (auto it{ this->data<T>().find(name) }; it != this->end<T>())
+			{
+				return static_cast<T *>(it->second);
+			}
+			return nullptr;
 		}
 
 		template <class T> inline T const * get(String const & name) const
 		{
-			auto it { this->find<T>(name) };
-			return ((it != this->end<T>()) ? (T const *)it->second : nullptr);
+			if (auto it{ this->data<T>().find(name) }; it != this->cend<T>())
+			{
+				return static_cast<T const *>(it->second);
+			}
+			return nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -192,7 +187,7 @@ namespace ml
 			temp.reserve(this->size<T>());
 			for (auto const & pair : this->data<T>())
 			{
-				temp.push_back(pair.first);
+				temp.emplace_back(pair.first);
 			}
 			return temp;
 		}
@@ -203,24 +198,27 @@ namespace ml
 			return (i >= 0) ? this->get_keys<T>()[static_cast<hash_t>(i)] : String();
 		}
 
-		template <class T> inline AssetMap::const_iterator get_iter_at_index(int32_t index) const
+		template <class T> inline AssetTable::const_iterator get_iter_at_index(int32_t index) const
 		{
 			if ((index >= 0) && (static_cast<hash_t>(index) < this->size<T>()))
 			{
-				auto it { this->begin<T>() };
+				auto it { this->cbegin<T>() };
 				for (int32_t i = 0; i < index; i++)
 				{
-					if ((++it) == this->end<T>()) { break; }
+					if ((++it) == this->cend<T>()) { break; }
 				}
 				return it;
 			}
-			return this->end<T>();
+			return this->cend<T>();
 		}
 
 		template <class T> inline T const * find_by_index(int32_t index) const
 		{
-			auto it { this->get_iter_at_index<T>(index) };
-			return ((it != this->end<T>()) ? static_cast<T const *>(it->second) : nullptr);
+			if (auto it{ this->get_iter_at_index<T>(index) }; it != this->cend<T>())
+			{
+				return static_cast<T const *>(it->second);
+			}
+			return nullptr;
 		}
 
 		template <class T> inline int32_t get_index_of(T const * value) const
@@ -228,9 +226,9 @@ namespace ml
 			if (value)
 			{
 				int32_t index{ 0 };
-				for (auto const & [ name, ptr ] : this->data<T>())
+				for (auto const & pair : this->data<T>())
 				{
-					if (ptr == value) { return index; }
+					if (pair.second == value) { return index; }
 					index++;
 				}
 			}
@@ -239,16 +237,24 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T>	inline auto begin()			{ return this->begin<typeof<T>::hash>(); }
-		template <class T>	inline auto begin()	const	{ return this->begin<typeof<T>::hash>(); }
-		template <hash_t H> inline auto begin()			{ return this->data(H).begin(); }
-		template <hash_t H> inline auto begin()	const	{ return this->data(H).begin(); }
-		template <class T>	inline auto end()			{ return this->end<typeof<T>::hash>(); }
-		template <class T>	inline auto end()	const	{ return this->end<typeof<T>::hash>(); }
-		template <hash_t H> inline auto end()			{ return this->data(H).end(); }
-		template <hash_t H> inline auto end()	const	{ return this->data(H).end(); }
-		template <class T>	inline auto size()	const	{ return this->size<typeof<T>::hash>(); }
-		template <hash_t H> inline auto size()	const	{ return this->data(H).size(); }
+		template <hash_t H> inline auto begin()				{ return this->data<H>().begin(); }
+		template <hash_t H> inline auto begin()		const	{ return this->data<H>().begin(); }
+		template <class T>	inline auto begin()				{ return this->begin<typeof<T>::hash()>(); }
+		template <class T>	inline auto begin()		const	{ return this->begin<typeof<T>::hash()>(); }
+		
+		template <hash_t H> inline auto end()				{ return this->data<H>().end(); }
+		template <hash_t H> inline auto end()		const	{ return this->data<H>().end(); }
+		template <class T>	inline auto end()				{ return this->end<typeof<T>::hash()>(); }
+		template <class T>	inline auto end()		const	{ return this->end<typeof<T>::hash()>(); }
+		
+		template <hash_t H> inline auto cbegin()	const	{ return this->data<H>().cbegin(); }
+		template <class T>	inline auto cbegin()	const	{ return this->cbegin<typeof<T>::hash()>(); }
+		
+		template <hash_t H> inline auto cend()		const	{ return this->data<H>().cend(); }
+		template <class T>	inline auto cend()		const	{ return this->cend<typeof<T>::hash()>(); }
+		
+		template <hash_t H> inline auto size()		const	{ return this->data<H>().size(); }
+		template <class T>	inline auto size()		const	{ return this->size<typeof<T>::hash()>(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -259,7 +265,7 @@ namespace ml
 
 		~ContentManager() { this->dispose(); }
 
-		mutable TypeMap m_data;
+		mutable Catagories m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

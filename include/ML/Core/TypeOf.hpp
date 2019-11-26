@@ -13,21 +13,24 @@ namespace ml
 
 	template <class T> struct typeof<T> final
 	{
-		static constexpr StringView name { nameof<>::filter(nameof<T>::value) };
-		
-		static constexpr hash_t hash { name.hash() };
-
 		constexpr typeof() noexcept = default;
+
+		static constexpr auto name() noexcept -> StringView { return m_name; }
+		
+		static constexpr auto hash() noexcept -> hash_t { return m_hash; }
+
+	private:
+		static constexpr StringView m_name{ nameof<>::filter(nameof<T>::value) };
+
+		static constexpr hash_t m_hash{ m_name.hash() };
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct typeof<> final
 	{
-		const StringView name; const hash_t hash;
-
 		constexpr typeof() noexcept
-			: name{ "" }, hash{ 0 }
+			: m_name{ "" }, m_hash{ 0 }
 		{
 		}
 
@@ -42,9 +45,15 @@ namespace ml
 		}
 
 		template <class T> constexpr typeof(typeof<T> const & copy) noexcept
-			: name{ copy.name }, hash{ copy.hash }
+			: m_name{ copy.name() }, m_hash{ copy.hash() }
 		{
 		}
+
+		constexpr auto name() const noexcept -> StringView { return m_name; }
+
+		constexpr auto hash() const noexcept -> hash_t { return m_hash; }
+
+	private: StringView m_name; hash_t m_hash;
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -53,7 +62,7 @@ namespace ml
 		class ... T
 	> inline ML_SERIALIZE(std::ostream & out, typeof<T...> const & value)
 	{
-		return out << value.name;
+		return out << value.name();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -76,7 +85,7 @@ namespace ml
 		class ... T
 	> constexpr bool operator<(typeof<> const & lhs, typeof<T...> const & rhs) noexcept
 	{
-		return (lhs.hash < rhs.hash);
+		return (lhs.hash() < rhs.hash());
 	}
 
 	template <
@@ -120,7 +129,7 @@ namespace ml
 		class X, class ... Y
 	> constexpr bool operator<(typeof<X> const & lhs, typeof<Y...> const & rhs) noexcept
 	{
-		return (lhs.hash < rhs.hash);
+		return (lhs.hash() < rhs.hash());
 	}
 
 	template <

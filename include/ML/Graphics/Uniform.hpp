@@ -38,29 +38,29 @@ namespace ml
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+		//(typeof<[a-zA-Z0-9:_.]+>[\s]+)(::hash)
 		static constexpr hash_t category_of(hash_t code)
 		{
 			switch (code)
 			{
-			case typeof<bool>	::hash:	return (hash_t)Type::ID_bool;
-			case typeof<int32_t>::hash: return (hash_t)Type::ID_int;
-			case typeof<float_t>::hash: return (hash_t)Type::ID_float;
-			case typeof<vec2>	::hash:	return (hash_t)Type::ID_vec2;
-			case typeof<vec3>	::hash:	return (hash_t)Type::ID_vec3;
-			case typeof<vec4>	::hash:	return (hash_t)Type::ID_vec4;
-			case typeof<Color>	::hash:	return (hash_t)Type::ID_color;
-			case typeof<mat2>	::hash:	return (hash_t)Type::ID_mat2;
-			case typeof<mat3>	::hash:	return (hash_t)Type::ID_mat3;
-			case typeof<mat4>	::hash:	return (hash_t)Type::ID_mat4;
-			case typeof<Texture>::hash: return (hash_t)Type::ID_sampler;
+			case typeof<bool>	::hash(): return (hash_t)Type::ID_bool;
+			case typeof<int32_t>::hash(): return (hash_t)Type::ID_int;
+			case typeof<float_t>::hash(): return (hash_t)Type::ID_float;
+			case typeof<vec2>	::hash(): return (hash_t)Type::ID_vec2;
+			case typeof<vec3>	::hash(): return (hash_t)Type::ID_vec3;
+			case typeof<vec4>	::hash(): return (hash_t)Type::ID_vec4;
+			case typeof<Color>	::hash(): return (hash_t)Type::ID_color;
+			case typeof<mat2>	::hash(): return (hash_t)Type::ID_mat2;
+			case typeof<mat3>	::hash(): return (hash_t)Type::ID_mat3;
+			case typeof<mat4>	::hash(): return (hash_t)Type::ID_mat4;
+			case typeof<Texture>::hash(): return (hash_t)Type::ID_sampler;
 			}
 			return (hash_t)Type::ID_MAX;
 		}
 
 		template <class T> static constexpr hash_t category_of()
 		{
-			return Uniform::category_of(typeof<detail::root_t<T>>::hash);
+			return Uniform::category_of(typeof<detail::root_t<T>>::hash());
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -161,25 +161,25 @@ namespace ml
 		inline hash_t get_base_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<base_type>{} };
-			return temp.hash;
+			return temp.hash();
 		}
 
 		inline hash_t get_data_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<data_type>{} };
-			return temp.hash;
+			return temp.hash();
 		}
 
 		inline hash_t get_root_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<root_type>{} };
-			return temp.hash;
+			return temp.hash();
 		}
 
 		inline hash_t get_self_id() const override
 		{
 			static constexpr typeof<> temp{ typeof<self_type>{} };
-			return temp.hash;
+			return temp.hash();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -252,12 +252,12 @@ namespace ml
 		switch (value->get_data_id())
 		{
 			// Value
-		case typeof<T>::hash: {
+		case typeof<T>::hash(): {
 			return &(temp = static_cast<uni_value<T> const *>(value)->get());
 		} break;
 
 			// Pointer
-		case typeof<T const *>::hash: {
+		case typeof<T const *>::hash(): {
 			if (auto const & ptr{ static_cast<uni_pointer<T> const *>(value)->get() })
 			{
 				return &(temp = (*ptr));
@@ -265,7 +265,7 @@ namespace ml
 		} break;
 
 			// Function
-		case typeof<std::function<T()>>::hash: {
+		case typeof<std::function<T()>>::hash(): {
 			if (auto const & fun{ static_cast<uni_function<T> const *>(value)->get() })
 			{
 				return &(temp = fun());

@@ -1275,7 +1275,7 @@ namespace ml
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::PushStyleColor(ImGuiCol_Text, value->mask 
 						? ImVec4{ 0.1f, 0.4f, 0.8f, 1.0f } 
-						: ImVec4{ 0.8f, 0.4f, 0.1f, 1.0f }
+						: ImVec4{ 0.8f, 0.1f, 0.1f, 1.0f }
 					);
 					ImGui::Text(value->mask ? "true" : "false");
 					ImGui::PopStyleColor();

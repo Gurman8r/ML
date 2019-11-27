@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static constexpr bool unit_tests{ "Unit Tests"
+	static_assert("Unit Tests"
 
 		&& sizeof(String) == sizeof(std::string)
 
@@ -60,7 +60,7 @@ namespace ml
 		&& typeof<std::u16string>::name()	== "std::u16string"
 		&& typeof<std::u32string>::name()	== "std::u32string"
 #endif
-	};
+	);
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
@@ -70,7 +70,6 @@ namespace ml
 ml::int32_t main()
 {
 	using namespace ml;
-	static_assert(unit_tests);
 
 	// Init Systems
 	ML_EventSystem; ML_Engine; ML_Editor;
